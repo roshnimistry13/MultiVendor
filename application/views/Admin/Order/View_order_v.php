@@ -1,4 +1,4 @@
-<div class="contents">
+<div class="contents view-order-page">
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-12">
@@ -76,6 +76,11 @@
                                                                     </div>
                                                                     <div class="card-body bg-white">
                                                                         <div class="total">
+                                                                            <div class="shipping">
+                                                                                Status:
+                                                                                <span
+                                                                                    class="badge badge-round badge-success badge-lg">Shipped</span>
+                                                                            </div>
                                                                             <div class="subtotalTotal">
                                                                                 Subtotal:
                                                                                 <span>₹1,690.26</span>
@@ -121,23 +126,79 @@
                                                                                 <span>roshnimistry@gmail.com</span>
                                                                             </div>
                                                                         </div>
-                                                                    </div>																
+                                                                    </div>
                                                                     <div class="card-body bg-white mt-2">
-                                                                        <h6>Address </h6>
-																		<div class="mt-3">
-																			<span>Phase 3 GIDC, Vapi, Gujarat 396191</span>
-																		</div>
+                                                                        <h6>Shipping Address </h6>
+                                                                        <div class="mt-3">
+                                                                            <span>Phase 3 GIDC, Vapi, Gujarat
+                                                                                396191</span>
+                                                                        </div>
                                                                     </div>
                                                                 </div><!-- ends: card -->
-																
+
                                                             </div>
                                                         </div>
-                                                    </div>                                                  
+                                                    </div>
 
                                                 </div>
                                                 <div class="tab-pane fade" id="tab-content-product" role="tabpanel"
                                                     aria-labelledby="tab-2">
-                                                    <p>Content of Tab Pane 2</p>
+                                                    <div class="row">
+                                                        <div class="col-12 mt-30">
+                                                            <div class="card border-0">
+                                                                <div class="card-header">
+                                                                    <h6>Products Detail</h6>
+                                                                </div>
+                                                                <div class="card-body p-0">
+                                                                    <div class="landing-pages-table table-responsive">
+                                                                        <table
+                                                                            class="table table--default product-detail">
+                                                                            <thead>
+                                                                                <tr>
+                                                                                    <th>Product</th>
+                                                                                    <th>Qty</th>
+                                                                                    <th>MRP(rs)</th>
+                                                                                    <th>Discount</th>
+                                                                                    <th>GST</th>
+                                                                                    <th>Amount</th>
+                                                                                </tr>
+                                                                            </thead>
+                                                                            <tbody>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <a href="">Product-1</a>
+                                                                                    </td>
+                                                                                    <td>1</td>
+                                                                                    <td>₹200</td>
+                                                                                    <td>₹100</td>
+                                                                                    <td>₹25</td>
+                                                                                    <td>₹250</td>
+                                                                                </tr>
+                                                                                <tr>
+                                                                                    <td>
+                                                                                        <a href="">Product-2</a>
+                                                                                    </td>
+                                                                                    <td>1</td>
+                                                                                    <td>₹200</td>
+                                                                                    <td>₹100</td>
+                                                                                    <td>₹25</td>
+                                                                                    <td>₹250</td>
+                                                                                </tr>
+                                                                            </tbody>
+                                                                            <tfoot>
+                                                                                <tr>
+                                                                                    <th colspan="5" class="text-right">
+                                                                                        Total Amount</th>
+                                                                                    <th class="text-right pr-3">₹1000</th>
+                                                                                </tr>
+                                                                            </tfoot>
+                                                                        </table>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
                                                 </div>
                                                 <div class="tab-pane fade" id="tab-content-payment" role="tabpanel"
                                                     aria-labelledby="tab-3">

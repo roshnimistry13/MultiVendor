@@ -16,7 +16,7 @@ class Submenu extends CI_Controller
 	{
 		$headdata['title'] 		= "Submenu | ".ADMIN_THEME;
 		$headdata['page'] 		= "submenu";
-		$jsdata['pagejs'] 		= array('application/submenu.js');
+		$jsdata['pagejs'] 		= array('application/Submenu.js');
 		$this->load->view('Admin/Common/Header',$headdata);
 		$this->load->view('Admin/Common/Topbar');
 		$this->load->view('Admin/Common/Sidebar');

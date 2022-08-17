@@ -14,8 +14,8 @@ class Attributes extends CI_Controller
 
 	public function index()
 	{
-		$headdata['title'] = "Attributes | ".ADMIN_THEME;
-		$headdata['page'] 		= "add-attributes";
+		$headdata['title'] 		= "Attributes | ".ADMIN_THEME;
+		$headdata['page'] 		= "attributes";
 		$jsdata['pagejs'] = array('application/Attributes.js');
 		$this->load->view('Admin/Common/Header',$headdata);
 		$this->load->view('Admin/Common/Topbar');
@@ -114,9 +114,9 @@ class Attributes extends CI_Controller
 	//add Product Group form
 	public function addAttributes()
 	{
-		$headdata['title'] = 'Add Attributes | '.ADMIN_THEME;
-		$headdata['page'] 		= "attributes";
-		$data['pagejs'] = array('application/Attributes.js');
+		$headdata['title'] 		= 'Add Attributes | '.ADMIN_THEME;		
+		$headdata['page'] 		= "add-attributes";
+		$data['pagejs'] 		= array('application/Attributes.js');
 		
 		$this->load->view('Admin/Common/Header',$headdata);
 		$this->load->view('Admin/Common/Topbar');
@@ -132,7 +132,7 @@ class Attributes extends CI_Controller
 		$data['result'] 		= $this->Master_m->where('attributes',$id);
 		
 		$headdata['title'] 		= 'Edit Attributes | '.ADMIN_THEME;
-		$headdata['page'] 		= "attributes";
+		$headdata['page'] 		= "add-attributes";
 		$data['pagejs'] = array('application/Attributes.js');
 		
 		$this->load->view('Admin/Common/Header',$headdata);

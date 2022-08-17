@@ -6,8 +6,7 @@
 					<h4 class="text-capitalize breadcrumb-title">
 						Order List
 					</h4>
-					<div class="breadcrumb-action justify-content-center flex-wrap">
-						
+					<div class="breadcrumb-action justify-content-center flex-wrap">						
 						<!-- <div class="action-btn">
 							<a href="<?php echo base_url().'add-order' ?>" class="btn btn-sm btn-primary btn-add">
 								<i class="la la-plus">

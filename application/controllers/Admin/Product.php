@@ -243,17 +243,15 @@ class Product extends CI_Controller
 	//Submit add and edit form
 	public function submitProduct()
 	{
-		$user_id = $this->session->userdata[ADMIN_SESSION]['user_id'];
+		$user_id 		= $this->session->userdata[ADMIN_SESSION]['user_id'];		
+		$product_name 	= trim($this->input->post('text_product_name'));
 		
-		$product_name = trim($this->input->post('text_product_name'));
-		
-		$short_code = strtolower($product_name);
-		$rep_char =  array(" ",",","/","[","]","(",")","--","---");
-		$short_code = str_replace($rep_char,"-",$short_code);
-		$rep_char1 =  array("--","---","----","----");
-		$short_code = str_replace($rep_char1,"-",$short_code);
-		
-		$last_char = substr($short_code, -1);
+		$short_code 	= strtolower($product_name);
+		$rep_char 		=  array(" ",",","/","[","]","(",")","--","---");
+		$short_code 	= str_replace($rep_char,"-",$short_code);
+		$rep_char1 		=  array("--","---","----","----");
+		$short_code 	= str_replace($rep_char1,"-",$short_code);		
+		$last_char 		= substr($short_code, -1);
 		if($last_char == '-'){
 			$short_code = rtrim($short_code, "-");;
 		}else{
@@ -261,13 +259,8 @@ class Product extends CI_Controller
 		}
 		
 		$category_id		 = $this->input->post('text_category_id');
-		$subcategory_id 	 = $this->input->post('text_subcategory_id');
-		
-		// if(empty($subcategory_id)){
-		// 	$category_id = $subcategory_id;
-		// }
-		
-		$element_ids = $this->input->post('txt_element_id');
+		$subcategory_id 	 = $this->input->post('text_subcategory_id');	
+		$element_ids 		 = $this->input->post('txt_element_id');
 		
 		$element_arr = array();
 		foreach($element_ids as $e_id)
@@ -281,7 +274,22 @@ class Product extends CI_Controller
 				}
 			}
 		}
+		$mrp_price 			= $this->input->post('text_mrp_price');
+		$discount 			= $this->input->post('text_discount');
+		$discount_amt		= 0;
+		$gst_amt			= 0;
+		if($discount > 0 && $discount != ''){
+			$discount_amt		= (floatval($mrp_price) * floatval($discount))/100;
+		}
 		
+		$net_price 			= $this->input->post('text_net_price');
+		$gst 				= $this->input->post('text_tax');
+		if($gst > 0){
+
+			$gst_amt 			= (floatval($net_price) * floatval($gst))/100;
+		}
+		
+
 		if(!empty($this->input->post('text_product_id')))
 		{
 			
@@ -296,35 +304,37 @@ class Product extends CI_Controller
 			$updatedata['brand_id'] 				= $this->input->post('text_brand_id');
 			$updatedata['category_id'] 				= $this->input->post('text_category_id');
 			$updatedata['child_category'] 			= $subcategory_id;
-			$updatedata['vendor_id'] 						= $this->input->post('text_vendor_id');
+			$updatedata['vendor_id'] 				= $this->input->post('text_vendor_id');
 			$updatedata['mrp_price'] 				= $this->input->post('text_mrp_price');
 			$updatedata['discount'] 				= $this->input->post('text_discount');
 			$updatedata['net_price'] 				= $this->input->post('text_net_price');
 			$updatedata['tax'] 						= $this->input->post('text_tax');
 			$updatedata['qty'] 						= $this->input->post('txt_qty');
+			$updatedata['gst_amt'] 					= $gst_amt;
+			$updatedata['discount_amt'] 			= $discount_amt;
 			
 			if($this->input->post('text_is_new') == 1){
-				$insertdata['is_new_product'] = 1;
+				$insertdata['is_new_product'] 	= 1;
 			}
 			else
 			{
-				$insertdata['is_new_product'] = 0;
+				$insertdata['is_new_product'] 	= 0;
 			}
 			
 			if($this->input->post('text_popular_product') == 1){
-				$insertdata['is_popular_product'] = 1;
+				$insertdata['is_popular_product'] 	= 1;
 			}
 			else
 			{
-				$insertdata['is_popular_product'] = 0;
+				$insertdata['is_popular_product'] 	= 0;
 			}
 			
 			if($this->input->post('text_is_feature_product') == 1){
-				$insertdata['is_feature_product'] = 1;
+				$insertdata['is_feature_product'] 	= 1;
 			}
 			else
 			{
-				$insertdata['is_feature_product'] = 0;
+				$insertdata['is_feature_product'] 	= 0;
 			}
 
 			$updatedata['meta_title'] 				= $this->input->post('text_meta_title');
@@ -388,6 +398,9 @@ class Product extends CI_Controller
 		$insertdata['net_price'] 						= $this->input->post('text_net_price');
 		$insertdata['tax'] 								= $this->input->post('text_tax');
 		$insertdata['qty'] 								= $this->input->post('txt_qty');
+		$insertdata['gst_amt'] 							= $gst_amt;
+		$insertdata['discount_amt'] 					= $discount_amt;
+		
 		if($this->input->post('text_is_new') == 1){
 			$insertdata['is_new_product'] = 1;
 		}
@@ -412,13 +425,13 @@ class Product extends CI_Controller
 			$insertdata['is_feature_product'] = 0;
 		}
 		
-		$insertdata['meta_title'] = $this->input->post('text_meta_title');
-		$insertdata['meta_description'] = $this->input->post('text_meta_description');
-		$insertdata['meta_keyword'] = $this->input->post('text_meta_keyword');
-		$insertdata['created_by'] = $user_id;
-		$insertdata['created'] = date('Y-m-d H:i:s');
+		$insertdata['meta_title'] 				= $this->input->post('text_meta_title');
+		$insertdata['meta_description'] 		= $this->input->post('text_meta_description');
+		$insertdata['meta_keyword'] 			= $this->input->post('text_meta_keyword');
+		$insertdata['created_by'] 				= $user_id;
+		$insertdata['created'] 					= date('Y-m-d H:i:s');
 		
-		$insert_result = insert('product_details',$insertdata,'');
+		$insert_result 							= insert('product_details',$insertdata,'');
 		logThis($insert_result->query, date('Y-m-d'),'Products');
 		
 		if($insert_result->status == "success")
@@ -433,24 +446,25 @@ class Product extends CI_Controller
 				$product_stock = 0;
 			}
 			else{
+
 				$product_stock = $stock;
 			}
-			$stockdata['product_id'] = $product_id;
-			$stockdata['onhand_quantity'] = $product_stock;
-			$stockdata['created_by'] = $user_id;
-			$stockdata['created'] = date('Y-m-d H:i:s');
+			$stockdata['product_id'] 				= $product_id;
+			$stockdata['onhand_quantity'] 			= $product_stock;
+			$stockdata['created_by'] 				= $user_id;
+			$stockdata['created'] 					= date('Y-m-d H:i:s');
 			
-			$stock_id = $this->Master_m->insert('stock',$stockdata);
-			$query = $this->db->last_query();
+			$stock_id 								= $this->Master_m->insert('stock',$stockdata);
+			$query 									= $this->db->last_query();
 			logThis($query, date('Y-m-d'),'Stock');
 			
-			$stockdetail['stock_id'] = $stock_id;
-			$stockdetail['status'] = 1;
-			$stockdetail['quantity'] = $product_stock;
-			$stockdetail['created'] = date('Y-m-d H:i:s');
+			$stockdetail['stock_id'] 			= $stock_id;
+			$stockdetail['status'] 				= 1;
+			$stockdetail['quantity'] 			= $product_stock;
+			$stockdetail['created'] 			= date('Y-m-d H:i:s');
 			
-			$stock_id = $this->Master_m->insert('stock_details',$stockdetail);
-			$query = $this->db->last_query();
+			$stock_id 							= $this->Master_m->insert('stock_details',$stockdetail);
+			$query 								= $this->db->last_query();
 			logThis($query, date('Y-m-d'),'Stock');
 			
 			//Insert product elements attributes details
@@ -462,12 +476,12 @@ class Product extends CI_Controller
 					{
 						$att_id = implode(',',$e_value);
 						
-						$insertAttribute['product_id'] = $product_id;
-						$insertAttribute['element_id'] = $e_key;
-						$insertAttribute['attributes_id'] = $att_id;
-						$insertAttribute['created'] = date('Y-m-d H:i:s');
+						$insertAttribute['product_id'] 			= $product_id;
+						$insertAttribute['element_id'] 			= $e_key;
+						$insertAttribute['attributes_id'] 		= $att_id;
+						$insertAttribute['created'] 			= date('Y-m-d H:i:s');
 						
-						$attr_result = insert('product_elements_attributes',$insertAttribute,'');
+						$attr_result 							= insert('product_elements_attributes',$insertAttribute,'');
 						logThis($attr_result->query, date('Y-m-d'),'Product Elements Attributes');
 					}
 				}

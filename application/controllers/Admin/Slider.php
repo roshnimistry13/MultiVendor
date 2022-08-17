@@ -28,7 +28,7 @@ class Slider extends CI_Controller
 	{
 		try
 		{
-			$table         = "Slider";
+			$table         = "slider";
 			$select_column = array("slider_id","slider_image","slider_title","is_active");
 			$join_column = "";
 			$order_column= array(NULL,"slider_image","is_active",NULL);

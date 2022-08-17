@@ -150,10 +150,11 @@ class Element extends CI_Controller
 		$id['element_id'] 		= $this->uri->segment(2);
 		$data['result'] 		= $this->Master_m->where('product_elements',$id);
 		
-		$headdata['title'] = 'Edit Element | Nutreasy';
-		$data['pagejs'] = array('application/Element.js');
-		$where['is_active'] 	= 1;
-		$data['attributes'] 	= $this->Master_m->where('attributes',$where);
+		$headdata['title'] 			= 'Edit Element | Nutreasy';
+		$headdata['page'] 			= "add-elements";
+		$data['pagejs'] 			= array('application/Element.js');
+		$where['is_active'] 		= 1;
+		$data['attributes'] 		= $this->Master_m->where('attributes',$where);
 		
 		$this->load->view('Admin/Common/Header',$headdata);
 		$this->load->view('Admin/Common/Topbar');

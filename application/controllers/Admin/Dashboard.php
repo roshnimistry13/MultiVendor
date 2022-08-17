@@ -116,7 +116,10 @@ class Dashboard extends CI_Controller
 			die("Connection failed: " . $conn->connect_error);
 		}	
 		
-		$a =  mysqli_query($conn,"ALTER TABLE `customer_cart` ADD `total_amt` FLOAT NULL DEFAULT '0' AFTER `net_price`;");
+		$a =  mysqli_query($conn,"ALTER TABLE `product_details` ADD `gst_amt` FLOAT NULL DEFAULT '0' AFTER `tax`;");
+		$a =  mysqli_query($conn,"ALTER TABLE `product_details` CHANGE `discount` `discount` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT 'in %';");
+		$a =  mysqli_query($conn,"ALTER TABLE `product_details` CHANGE `tax` `tax` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT 'gst in %';");
+		$a =  mysqli_query($conn,"ALTER TABLE `product_details` ADD `discount_amt` FLOAT NULL DEFAULT '0' COMMENT 'in Rs' AFTER `discount`;");
 		if($conn -> error){
 			echo("<h5>Error :</h5>" . $conn	 -> error);
 		}

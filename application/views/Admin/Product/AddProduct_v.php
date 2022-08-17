@@ -244,7 +244,7 @@ if(!empty($result)){
                                                 </div>
                                             </div>
                                             <div class="row">
-                                                <div class="col-md-4 mb-10">
+                                                <div class="col-md-8 mb-10">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">
@@ -365,7 +365,7 @@ if(!empty($result)){
                                                             id="text_discount" name="text_discount" placeholder="in %"
                                                             value="<?php echo $discount; ?>">
                                                     </div>
-                                                </div>
+                                                </div>                                                
                                                 <div class="col-md-4 mb-10">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"

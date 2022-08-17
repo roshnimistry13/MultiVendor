@@ -159,7 +159,7 @@ class Category extends CI_Controller
 		$data['result'] 		= $this->Master_m->where('category',$id);
 		
 		$headdata['title'] 		= 'Edit Category | '.ADMIN_THEME;
-		//$headdata['page'] 		= "add-category";
+		$headdata['page'] 		= "add-category";
 		$data['pagejs'] 		= array('application/Category.js');
 		
 		$where['is_active'] 	= "1";

@@ -329,28 +329,46 @@ $('#text_subcategory_id').on('change', function(){
 });
 // }).change();
 
-
-
 /*** calculate discount price */
-$('.cal-discount').on('change', function(){
+
+function calculateDiscount(){
 	var mrp_price	 	= $('#text_mrp_price').val();
 	var discount 		= $('#text_discount').val();
-	console.log(discount);
-	
+	var final_price 	= mrp_price;
 	if(discount != "" && discount != NaN && discount != undefined){
 		if(discount > 0){
-			var discount_rs = (parseFloat(mrp_price) * parseFloat(discount)) / 100; console.log(discount);
-			var final_price = parseFloat(mrp_price) - discount_rs;
+			var discount_rs = (parseFloat(mrp_price) * parseFloat(discount)) / 100;			
+			final_price = parseFloat(mrp_price) - discount_rs;		
+		}
+	}
+	return final_price;
+}
+
+$('.cal-discount').on('change', function(){
+	$('#text_net_price').val('');
+	var final_net_price = calculateDiscount();
+	$('#text_net_price').val(final_net_price);
+});
+
+/** calculate Gst on  */
+$('#text_tax,#text_net_price').on('change', function(){
+	var net_price	 	= calculateDiscount();
+	var gst 			= $('#text_tax').val();
+	$('#text_net_price').val('');
+	if(gst != "" && gst != NaN && gst != undefined){
+		if(gst > 0){
+			var gst_rs = (parseFloat(net_price) * parseFloat(gst)) / 100;			
+			var final_price = parseFloat(net_price) + gst_rs;
 			$('#text_net_price').val(final_price);
 		}else{
-			$('#text_net_price').val(mrp_price);
-			Swal.fire("warning", "Discount not to be 0!!", "warning");
+			$('#text_net_price').val(net_price);
+			//Swal.fire("warning", "Select GST !!", "warning");
 		}		
 	}
 	else{
-		$('#text_net_price').val(mrp_price);
+		$('#text_net_price').val(net_price);
 	}
-});
+}).change();;
 
 
 /*** hide /show Quantity input */

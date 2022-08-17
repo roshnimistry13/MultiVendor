@@ -536,7 +536,5 @@ class Master_m extends CI_Model{
 	}
 
 	/*** ordercheckout*/
-
-	
 	
 }	
