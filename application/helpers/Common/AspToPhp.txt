@@ -1,0 +1,54 @@
+
+// File Owner and Creator :  Er. Jagdish Patel;
+
+// Add ; at end of line
+find :  ([^\{\}\>\n])$
+
+replace : \1;
+
+// format if 
+
+find : if (.*) \= (.*) Then;
+
+replace : if \($1\=\=$2\)\{
+
+// add } before else and elseif
+
+find    : else
+
+replace : }\n                else
+
+// add { after only else
+
+find    : else;
+
+replace : {
+
+// add } to end if
+
+find    : end if
+
+replace : }
+
+// to convert Session
+
+find    : SESSION.item\((.*)\)
+
+replace :$_SESSION\[$1\]
+
+// To correct the missedmatched ) ]
+
+find  :  SESSION(.*)\)(.*)\]
+
+replace : SESSION\1\]$2\)
+
+// asp: button
+
+find   : asp:Button(.*)Text
+replace  : input type="button" \1 value
+
+/// asp:textbox
+
+find : asp:TextBox(.*)runat\=\"server\" (.*)></asp:textbox>
+
+replaece : input type="text" \1 \2 />

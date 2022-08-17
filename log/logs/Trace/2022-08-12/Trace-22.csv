@@ -1,0 +1,1 @@
+"2022-08-12 22:18:48pm "," update "," UPDATE customer_cart SET `quantity` = '2' WHERE 1=1  and product_id = '1' and customer_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/api/MultivendorApi/updateProductQty "," R: "

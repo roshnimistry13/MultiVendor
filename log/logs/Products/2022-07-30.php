@@ -1,0 +1,27 @@
+<?php
+			if ( ! defined('dainik')) exit('No direct script access allowed');
+
+
+#Begin*****************************************************************************************************
+#Time : 30-07-2022 05:00:58 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/MultiVendor/edit-product/1 #ReferrerEnd
+#Current URL: http://localhost/MultiVendor/submit-product #CurrentURLEnd
+#Request : {"text_product_id":"1","group_unit_id":"1","text_product_name":"product-1","text_product_code":"2807197673632","text_short_description":"Lorem ipsum dolor sit amet","text_description":"<p><span style='color: rgb(0, 0, 0); font-family: \"Open Sans\", Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris convallis tortor ligula, nec iaculis nulla fringilla eu. Sed id ultricies magna, sed lobortis neque. Nam gravida ultricies dui, feugiat ornare nisl consectetur at.<\/span><\/p>","text_vendor_id":"1","text_category_id":"7","text_brand_id":"1","text_group":"1","text_group_unit":"1","text_mrp_price":"1000","text_discount":"","text_net_price":"1000","text_tax":"0","text_stock":"100","old_image":"04.png","text_is_new":"1","text_is_bestseller":"1","text_meta_title":"Lorem ipsum dolor sit amet,","text_meta_description":"Lorem ipsum dolor sit amet,","text_meta_keyword":"Lorem ipsum dolor sit amet,dfdfdtrr","text_is_active":"1"} #Requestend
+#Operation : UPDATE #Operationend
+#Message: 
+UPDATE product_details SET `product_name` = 'product-1', `product_code` = '2807197673632', `short_code` = 'product-1', `short_description` = 'Lorem ipsum dolor sit amet', `description` = '<p><span style='color: rgb(0, 0, 0); font-family: "Open Sans", Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris convallis tortor ligula, nec iaculis nulla fringilla eu. Sed id ultricies magna, sed lobortis neque. Nam gravida ultricies dui, feugiat ornare nisl consectetur at.</span></p>', `brand_id` = '1', `category_id` = '7', `group_id` = '1', `group_unit_id` = '1', `reach_in` = NULL, `mrp_price` = '1000', `discount` = '', `net_price` = '1000', `tax` = '0', `is_new` = 1, `is_best_seller` = 1, `meta_title` = 'Lorem ipsum dolor sit amet,', `meta_keyword` = 'Lorem ipsum dolor sit amet,dfdfdtrr', `meta_description` = 'Lorem ipsum dolor sit amet,', `modified_by` = '1', `modified` = '2022-07-30 01:30:58', `is_active` = 1 WHERE 1=1  and product_id = '1';
+#End*******************************************************************************************************
+
+
+#Begin*****************************************************************************************************
+#Time : 30-07-2022 05:00:58 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/MultiVendor/edit-product/1 #ReferrerEnd
+#Current URL: http://localhost/MultiVendor/submit-product #CurrentURLEnd
+#Request : {"text_product_id":"1","group_unit_id":"1","text_product_name":"product-1","text_product_code":"2807197673632","text_short_description":"Lorem ipsum dolor sit amet","text_description":"<p><span style='color: rgb(0, 0, 0); font-family: \"Open Sans\", Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris convallis tortor ligula, nec iaculis nulla fringilla eu. Sed id ultricies magna, sed lobortis neque. Nam gravida ultricies dui, feugiat ornare nisl consectetur at.<\/span><\/p>","text_vendor_id":"1","text_category_id":"7","text_brand_id":"1","text_group":"1","text_group_unit":"1","text_mrp_price":"1000","text_discount":"","text_net_price":"1000","text_tax":"0","text_stock":"100","old_image":"04.png","text_is_new":"1","text_is_bestseller":"1","text_meta_title":"Lorem ipsum dolor sit amet,","text_meta_description":"Lorem ipsum dolor sit amet,","text_meta_keyword":"Lorem ipsum dolor sit amet,dfdfdtrr","text_is_active":"1"} #Requestend
+#Operation : UPDATE #Operationend
+#Message: 
+UPDATE product_details SET `image` = '04.png' WHERE 1=1  and product_id = '1';
+#End*******************************************************************************************************
+

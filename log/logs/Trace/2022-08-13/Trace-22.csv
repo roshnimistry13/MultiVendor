@@ -1,0 +1,4 @@
+"2022-08-13 22:18:54pm "," update "," UPDATE customer_cart SET `quantity` = '1' WHERE 1=1  and product_id = '3' and customer_id = '2' "," ::1 "," URL: http://localhost/MultiVendor/api/MultivendorApi/updateProductQty "," R: "
+"2022-08-13 22:21:33pm "," insert "," INSERT INTO customer_cart(`customer_id`, `product_id`, `product_name`, `quantity`, `net_price`) VALUES('2', '3', 'NIRVANA DOUBLE COMFORTER - 2807197679146', '1', '300') "," ::1 "," URL: http://localhost/MultiVendor/api/MultivendorApi/addToCart "," R: "
+"2022-08-13 22:30:40pm "," update "," UPDATE user SET `last_login` = '2022-08-13 19:00:40' WHERE 1=1  and user_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/login-check "," R: http://localhost/MultiVendor/admin"
+"2022-08-13 22:31:49pm "," update "," UPDATE vendor SET `last_login` = '2022-08-13 19:01:49' WHERE 1=1  and vendor_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/login-check "," R: http://localhost/MultiVendor/admin"

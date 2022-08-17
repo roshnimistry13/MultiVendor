@@ -1,0 +1,1 @@
+"2022-08-03 09:58:33am "," update "," UPDATE user SET `last_login` = '2022-08-03 06:28:33' WHERE 1=1  and user_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/login-check "," R: http://localhost/MultiVendor/admin"

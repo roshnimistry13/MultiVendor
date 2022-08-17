@@ -1,0 +1,2 @@
+"2022-07-24 14:17:00pm "," update "," UPDATE user SET `last_login` = '2022-07-24 10:47:00' WHERE 1=1  and user_id = '1' "," ::1 "," URL: http://localhost/Admin/login-check "," R: http://localhost/Admin/admin"
+"2022-07-24 14:22:45pm "," update "," UPDATE user SET `last_login` = '2022-07-24 10:52:45' WHERE 1=1  and user_id = '1' "," ::1 "," URL: http://localhost/Admin/login-check "," R: http://localhost/Admin/admin"

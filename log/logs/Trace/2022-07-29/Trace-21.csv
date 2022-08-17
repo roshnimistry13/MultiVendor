@@ -1,0 +1,3 @@
+"2022-07-29 21:31:47pm "," update "," UPDATE user SET `last_login` = '2022-07-29 18:01:47' WHERE 1=1  and user_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/login-check "," R: http://localhost/MultiVendor/admin"
+"2022-07-29 21:54:02pm "," insert "," INSERT INTO slider(`slider_title`, `is_active`, `position`) VALUES('Lorem ipsum dolor sit amet,', 1, '1') "," ::1 "," URL: http://localhost/MultiVendor/submit-slider "," R: http://localhost/MultiVendor/add-slider"
+"2022-07-29 21:54:02pm "," update "," UPDATE slider SET `slider_image` = 'slider-1.jpg' WHERE 1=1  and slider_id  = '1' "," ::1 "," URL: http://localhost/MultiVendor/submit-slider "," R: http://localhost/MultiVendor/add-slider"
