@@ -308,35 +308,32 @@ function trace($operation,$msg,$fileName,$dir = "Trace"){
 	fclose($sw);
 }
 
-function encrypt( $q, $cryptKey = 'qJB0rGtIn5UB1xG03efyCp'){
+function encrypt($q){
 
-	/*$qEncoded = base64_encode( mcrypt_encrypt( MCRYPT_RIJNDAEL_256, md5( $cryptKey ), $q, MCRYPT_MODE_CBC, md5( md5( $cryptKey ) ) ) );
-	return( $qEncoded );*/
-	$plaintext      = $q;
-	$ivlen          = openssl_cipher_iv_length($cipher         = "AES-128-CBC");
-	$iv             = openssl_random_pseudo_bytes($ivlen);
-	$ciphertext_raw = openssl_encrypt($plaintext, $cipher, $key, $options        = OPENSSL_RAW_DATA, $iv);
-	$hmac           = hash_hmac('sha256', $ciphertext_raw, $key, $as_binary      = true);
-	$ciphertext = base64_encode( $iv.$hmac.$ciphertext_raw );
-	return $ciphertext;
+	$plaintext 			= $q;
+	$ivlen 				= openssl_cipher_iv_length($cipher="AES-128-CBC");
+	$iv 				= openssl_random_pseudo_bytes($ivlen);
+	$ciphertext_raw 	= openssl_encrypt($plaintext, $cipher, ENCRYPTKEY1, $options=OPENSSL_RAW_DATA, $iv);
+	$hmac 				= hash_hmac('sha256', $ciphertext_raw, ENCRYPTKEY1, $as_binary=true);
+	$ciphertext 		= base64_encode( $iv.$hmac.$ciphertext_raw );
+	return $ciphertext;		 
 }
 
-function decrypt( $q, $cryptKey = 'qJB0rGtIn5UB1xG03efyCp'){
-	//$cryptKey = 'qJB0rGtIn5UB1xG03efyCp';
-	/*$qDecoded = rtrim( mcrypt_decrypt( MCRYPT_RIJNDAEL_256, md5( $cryptKey ), base64_decode( $q ), MCRYPT_MODE_CBC, md5( md5( $cryptKey ) ) ), "\0");
-	return( $qDecoded );*/
-	$ciphertext         = $q;
-	$c                  = base64_decode($ciphertext);
-	$ivlen              = openssl_cipher_iv_length($cipher             = "AES-128-CBC");
-	$iv                 = substr($c, 0, $ivlen);
-	$hmac               = substr($c, $ivlen, $sha2len            = 32);
-	$ciphertext_raw     = substr($c, $ivlen + $sha2len);
-	$original_plaintext = openssl_decrypt($ciphertext_raw, $cipher, $key, $options            = OPENSSL_RAW_DATA, $iv);
-	$calcmac            = hash_hmac('sha256', $ciphertext_raw, $key, $as_binary          = true);
-	if(hash_equals($hmac, $calcmac))//PHP 5.6 + timing attack safe comparison
+function decrypt($q){
+
+	$c 						= base64_decode($q);
+	$ivlen 					= openssl_cipher_iv_length($cipher="AES-128-CBC");
+	$iv 					= substr($c, 0, $ivlen);
+	$hmac 					= substr($c, $ivlen, $sha2len=32);
+	$ciphertext_raw 		= substr($c, $ivlen+$sha2len);
+	$original_plaintext 	= openssl_decrypt($ciphertext_raw, $cipher, ENCRYPTKEY1, $options=OPENSSL_RAW_DATA, $iv);
+	$calcmac 				= hash_hmac('sha256', $ciphertext_raw, ENCRYPTKEY1, $as_binary=true);
+	if (hash_equals($hmac, $calcmac))// timing attack safe comparison
 	{
 		return $original_plaintext;
 	}
+	return false;
+	
 }
 
 /**
@@ -1011,8 +1008,8 @@ function send_email($mailData)
 		'smtp_host'=>  'ssl://smtp.googlemail.com',
 		//'smtp_host'=>  'ssl://smtp.gmail.com',
 		'smtp_port'   => 465,
-		'smtp_user'=> 'dainik.tandel@proactii.com',
-		'smtp_pass'   => '8866123853',
+		'smtp_user'=> 'devloperproactii@gmail.com',
+		'smtp_pass'   => 'nsaldarixoujyzbh',
     	//'smtp_crypto' => 'ssl', 
 		'mailtype'=> 'html',
 		'smtp_timeout'=> '10',
@@ -1024,10 +1021,10 @@ function send_email($mailData)
 
 	$from      		= $mailData['fromID'];
 	$to        		= $mailData['toID'];
-	$from_name 		= $mailData['from_name'];
+	//$from_name 	= $mailData['from_name'];
 	$bcc_email 		= 'devloperproactii@gmail.com';
 	$ci->email->set_newline("\r\n");
-	$ci->email->from($from, $from_name);
+	$ci->email->from($from);
 	$ci->email->to($to);
 	$ci->email->bcc($bcc_email);
 	$ci->email->subject($mailData['subject']);

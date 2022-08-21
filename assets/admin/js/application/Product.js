@@ -339,6 +339,7 @@ function calculateDiscount(){
 		if(discount > 0){
 			var discount_rs = (parseFloat(mrp_price) * parseFloat(discount)) / 100;			
 			final_price = parseFloat(mrp_price) - discount_rs;		
+			final_price = parseInt(final_price);		
 		}
 	}
 	return final_price;
@@ -368,7 +369,7 @@ $('#text_tax,#text_net_price').on('change', function(){
 	else{
 		$('#text_net_price').val(net_price);
 	}
-}).change();;
+});
 
 
 /*** hide /show Quantity input */

@@ -82,44 +82,44 @@
                                             <input type="hidden" id="text_menu_id" name="text_menu_id"
                                                 value="<?php echo $menu_id; ?>">
                                             <div class="row">
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-3 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">Name</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15 text-capitalize"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15 text-capitalize"
                                                             id="text_menu_name" name="text_menu_name"
                                                             placeholder="Menu Name" required=""
                                                             value="<?php echo $menu_name; ?>">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-3 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">Link</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15 text-capitalize"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15 text-capitalize"
                                                             id="text_menu_link" name="text_menu_link"
                                                             placeholder="Menu Link" required=""
                                                             value="<?php echo $menu_link; ?>">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-3 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">Icon</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_menu_icon" name="text_menu_icon"
                                                             placeholder="Menu Icon" value='<?php echo $menu_icon; ?>'>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-3 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">Position</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_menu_position" name="text_menu_position"
                                                             placeholder="Menu Position"
                                                             value="<?php echo $position; ?>">

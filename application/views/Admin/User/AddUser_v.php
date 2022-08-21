@@ -78,57 +78,57 @@
                                             <input type="hidden" id="text_user_id" name="text_user_id"
                                                 value="<?php echo $user_id; ?>">
                                             <div class="row">
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-4 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">
                                                             Name</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15 text-capitalize"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15 text-capitalize"
                                                             id="text_name" name="text_name" placeholder="Name"
                                                             required="" value="<?php echo $name; ?>">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-4 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">
                                                             Email</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_email" name="text_email" placeholder="Email ID"
                                                             value="<?php echo $email; ?>" required>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-4 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">
                                                             User Name</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_user_name" name="text_user_name"
                                                             placeholder="User Name" value="<?php echo $username; ?>">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-4 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">
                                                             Password</label>
                                                         <input type="password"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_password" name="text_password"
                                                             placeholder="Password" value="">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-4 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">
                                                             Role</label>
                                                         <select id="text_role_id" name="text_role_id"
-                                                            class="form-control select2" required="">
+                                                            class="form-control ih-small" required="">
                                                             <option value="">Select Role</option>
                                                             <?php
                                                                 if(!empty($role)){

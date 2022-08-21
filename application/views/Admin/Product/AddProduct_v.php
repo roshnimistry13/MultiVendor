@@ -349,7 +349,7 @@ if(!empty($result)){
                                                             class="color-dark fs-14 fw-500 align-center">
                                                             MRP Price (₹)
                                                         </label>
-                                                        <input type="text" class="form-control cal-discount"
+                                                        <input type="text" class="form-control ih-small cal-discount"
                                                             id="text_mrp_price" name="text_mrp_price"
                                                             placeholder="MRP Price (₹)"
                                                             value="<?php echo $mrp_price; ?>">
@@ -361,7 +361,7 @@ if(!empty($result)){
                                                             class="color-dark fs-14 fw-500 align-center">
                                                             Discount(in %)
                                                         </label>
-                                                        <input type="text" class="form-control cal-discount"
+                                                        <input type="text" class="form-control ih-small cal-discount"
                                                             id="text_discount" name="text_discount" placeholder="in %"
                                                             value="<?php echo $discount; ?>">
                                                     </div>
@@ -372,7 +372,7 @@ if(!empty($result)){
                                                             class="color-dark fs-14 fw-500 align-center">
                                                             Net Price
                                                         </label>
-                                                        <input type="text" class="form-control" id="text_net_price"
+                                                        <input type="text" class="form-control ih-small" id="text_net_price"
                                                             name="text_net_price" placeholder="Net Price"
                                                             value="<?php echo $net_price; ?>" readonly>
                                                     </div>
@@ -405,7 +405,7 @@ if(!empty($result)){
                                                             class="color-dark fs-14 fw-500 align-center">
                                                             Stock
                                                         </label>
-                                                        <input type="text" class="form-control" id="text_stock"
+                                                        <input type="text" class="form-control ih-small" id="text_stock"
                                                             name="text_stock" placeholder="Stock"
                                                             value="<?php echo $stock; ?>" <?php echo $disabled; ?>>
                                                     </div>
@@ -484,7 +484,7 @@ if(!empty($result)){
                                                             class="color-dark fs-14 fw-500 align-left">
                                                             Meta Title
                                                         </label>
-                                                        <input type="text" class="form-control" id="text_meta_title"
+                                                        <input type="text" class="form-control ih-small" id="text_meta_title"
                                                             name="text_meta_title" placeholder="Meta title"
                                                             value="<?php echo $meta_title; ?>">
                                                     </div>

@@ -1,13 +1,13 @@
 $(document).ready(function() {
   
-	$(".datepickerclick").datepicker({
-		  format: "dd-M-yyyy",
-		  endDate: "today",
-		  autoclose: true,
-		  todayBtn: true,
-		  //startDate: "2013-02-14 10:00",
-		 // minuteStep: 10
-	  });
+	$(".datepicker").datepicker({
+		dateFormat:"d MM yy",
+		duration:"medium",
+		changeMonth:true,
+		changeYear:true,
+		// /yearRange: '2010:c+10',
+		inline : true,
+	});
 	  setmenu();
   });
 
@@ -88,6 +88,12 @@ jQuery.validator.addMethod("validate_pan", function(value, element) {
 		return false;
 	}
 }, "Please Enter Valid Pan Number");
+
+/*** valdate date  */
+jQuery.validator.addMethod("greater_date", function(value, element, startDate) {
+	//var startDate = $('#from_date').val();
+	return Date.parse($(startDate).val()) < Date.parse(value) || value == "";
+}, "End date must be after start date");
 
 var stack_topleft = {"dir1": "down", "dir2": "right", "push": "bottom"};
 var stack_topright = {"dir1": "down", "dir2": "left", "push": "bottom"};

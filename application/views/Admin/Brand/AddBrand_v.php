@@ -80,7 +80,7 @@
                                                             class="color-dark fs-14 fw-500 align-center">Brand
                                                             Name</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             name="text_brand_name" placeholder="Brand Name" required=""
                                                             value="<?php echo $brand_name; ?>">
                                                     </div>
@@ -92,7 +92,7 @@
                                                                 class="color-dark fs-14 fw-500 align-center">Brand
                                                                 logo</label>
                                                             <input type="file" name="brand_logo" id="brand_logo"
-                                                                class="form-control">
+                                                                class="form-control ih-medium">
                                                             <input type="hidden" id="old_brand_logo"
                                                                 name="old_brand_logo"
                                                                 value="<?php echo $brand_logo; ?>">

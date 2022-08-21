@@ -63,12 +63,17 @@
 											</span> Settings
 										</a>
 									</li>
+									<?php 
+										$role_id = $this->session->userdata[ADMIN_SESSION]['role_id'];
+										if($role_id == 2){
+									?>
 									<li>
-										<a href="">
+										<a href="<?php echo base_url('export-database');?>">
 											<span data-feather="key">
-											</span> Billing
+											</span> Export DataBase
 										</a>
-									</li>									
+									</li>
+									<?php } ?>									
 								</ul>
 								<a href="<?php echo base_url('admin-logout')?>" class="nav-author__signout">
 									<span data-feather="log-out">

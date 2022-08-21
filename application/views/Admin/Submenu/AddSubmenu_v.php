@@ -74,31 +74,31 @@
 									<form method="post" class="form-horizontal" action="<?php echo base_url().'submit-submenu' ?>"  id="submenu-form" name="submenu-form"enctype="multipart/form-data">
 							<input type="hidden" id="text_submenu_id" name="text_submenu_id" value="<?php echo $submenu_id; ?>">
                                             <div class="row">
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-4 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">Submenu Name</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_submenu_name" name="text_submenu_name" placeholder="Submenu Name" required="" value="<?php echo $submenu_name; ?>">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-4 mb-25">
                                                     <div class="form-group">                                                        
 														<label for="formGroupExampleInput"
 															class="color-dark fs-14 fw-500 align-center">Submenu Link
 															</label>
-															<input type="text" class="form-control ih-medium ip-gray radius-xs b-light px-15"
+															<input type="text" class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_submenu_link" name="text_submenu_link" placeholder="Submenu Link" required="" value="<?php echo $submenu_link; ?>">
 														                   
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-4 mb-25">
                                                     <div class="form-group">                                                        
 														<label for="formGroupExampleInput"
 															class="color-dark fs-14 fw-500 align-center">Submenu Position
 															</label>
-															<input type="text" class="form-control ih-medium ip-gray radius-xs b-light px-15"
+															<input type="text" class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_submenu_position" name="text_submenu_position" placeholder="Submenu Position" value="<?php echo $submenu_position; ?>">
 														                   
                                                     </div>

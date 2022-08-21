@@ -94,121 +94,121 @@
                                             <input type="hidden" id="text_vendor_id" name="text_vendor_id"
                                                 value="<?php echo $vendor_id; ?>">
                                             <div class="row">
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-3 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">Vendor
                                                             Name</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_name" name="text_name" placeholder="Name"
                                                             required="" value="<?php echo $name; ?>">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-3 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">Email</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_email" name="text_email" placeholder="Email ID"
                                                             value="<?php echo $email; ?>" required>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-3 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">Password</label>
                                                         <input type="password"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_password" name="text_password" placeholder="Password"
                                                             value="" <?php echo $required; ?>>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-3 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center"> Contact
                                                             No</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_contact_no" name="text_contact_no"
                                                             placeholder="Contact No" required=""
                                                             value="<?php echo $phone; ?>">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-3 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">Company</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_company" name="text_company" placeholder="Company"
                                                             value="<?php echo $company; ?>" required>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-3 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">GSTIN
                                                             No</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_gstin_no" name="text_gstin_no" placeholder="GSTIN"
                                                             required="" value="<?php echo $gst; ?>">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-3 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">PAN No</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_pan_no" name="text_pan_no" placeholder="PAN"
                                                             value="<?php echo $pan; ?>" required>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-3 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">Address</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_street" name="text_street" placeholder="Street"
                                                             required="" value="<?php echo $street; ?>">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-3 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">City</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_city" name="text_city" placeholder="City"
                                                             value="<?php echo $city; ?>" required>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-3 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">State</label>
                                                         <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_state" name="text_state" placeholder="State"
                                                             required="" value="<?php echo $state; ?>">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-3 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">Pincode</label>
-                                                        <input type="text"
-                                                            class="form-control ih-medium ip-gray radius-xs b-light px-15"
+                                                        <input type="number"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             id="text_pincode" name="text_pincode" placeholder="Pincode"
                                                             value="<?php echo $pincode; ?>" required>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-3 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">Country</label>

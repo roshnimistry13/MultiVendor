@@ -14,18 +14,14 @@ class Dashboard extends CI_Controller
 	}
 	public function index()
 	{
-		$headdata['title'] = 'Dashboard | '.ADMIN_THEME;
-		
-		$jsdata['pagejs'] = array('application/Dashboard.js');
+ 		$headdata['title'] 		= 'Dashboard | '.ADMIN_THEME;		
+		$jsdata['pagejs']	 	= array('application/Dashboard.js');
 		$this->load->view('Admin/Common/Header',$headdata);
 		$this->load->view('Admin/Common/Topbar');
 		$this->load->view('Admin/Common/Sidebar');
 		$this->load->view('Admin/Dashboard/Dashboard_v');
 		$this->load->view('Admin/Common/Footer',$jsdata);
 	}
-
-	//logout
-	
 
 	function databaseBackUp()
 	{
@@ -104,26 +100,61 @@ class Dashboard extends CI_Controller
 		echo $content; exit;
 	}
 
+	public function AddSql(){
+		$role_id 	= $this->session->userdata[ADMIN_SESSION]['role_id'];
+		if($role_id == 2){
+			$headdata['title'] 		= 'SQL | '.ADMIN_THEME;		
+			$headdata['page'] 		= "sql-operation";
+			$jsdata['pagejs']	 	= array('');
+			$this->load->view('Admin/Common/Header',$headdata);
+			$this->load->view('Admin/Common/Topbar');
+			$this->load->view('Admin/Common/Sidebar');
+			$this->load->view('Admin/Sql/AlterSql_v');
+			$this->load->view('Admin/Common/Footer',$jsdata);
+		}else{
+			redirect('error-page');
+		}
+		
+	}
 	public function alterDBTableFiled(){
 		
 		$mysqlUserName = DBUSER;
 		$mysqlPassword = DBPASS;
 		$mysqlHostName = DBHOST;
 		$DbName        = DBNAME;
-
-		$conn      = new mysqli($mysqlHostName,$mysqlUserName,$mysqlPassword,$DbName);
+		$conn      		= new mysqli($mysqlHostName,$mysqlUserName,$mysqlPassword,$DbName);
 		if ($conn->connect_error) {
 			die("Connection failed: " . $conn->connect_error);
 		}	
 		
-		$a =  mysqli_query($conn,"ALTER TABLE `product_details` ADD `gst_amt` FLOAT NULL DEFAULT '0' AFTER `tax`;");
-		$a =  mysqli_query($conn,"ALTER TABLE `product_details` CHANGE `discount` `discount` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT 'in %';");
-		$a =  mysqli_query($conn,"ALTER TABLE `product_details` CHANGE `tax` `tax` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NULL DEFAULT NULL COMMENT 'gst in %';");
-		$a =  mysqli_query($conn,"ALTER TABLE `product_details` ADD `discount_amt` FLOAT NULL DEFAULT '0' COMMENT 'in Rs' AFTER `discount`;");
-		if($conn -> error){
-			echo("<h5>Error :</h5>" . $conn	 -> error);
-		}
-		
-		
+		$sql 				= $this->input->post('text_sql');
+		$sql_error_arr 		= array();
+		$i = 1;
+		if(!empty($sql) && $sql !="" && $sql != null){
+			
+			$query_obj = explode('||',$sql);
+			
+			if(!empty($query_obj)){
+				foreach($query_obj as $query){
+					$alter = mysqli_query($conn,$query);
+					logThis($query, date('Y-m-d'),'SQL Oeration');
+					if($conn -> error){
+						$sql_error_arr[$i]['error'] = $conn -> error;
+						$sql_error_arr[$i]['query'] = $query;
+						logThis($conn -> error, date('Y-m-d'),'SQL Oeration');
+					}
+					$i++;	
+				}
+			}
+			if(empty($sql_error_arr)){
+				$this->session->set_flashdata('success', 'Alter Sql Succesfully');
+				redirect('sql-operation');
+			}
+			else{
+				echo '<pre>'; print_r($sql_error_arr); echo '</pre>';
+				echo '<a href="'.base_url('sql-operation').'">Back To Page</a>';
+				$this->session->set_flashdata('error', 'Try Again');
+			}			
+		}			
 	}
 }

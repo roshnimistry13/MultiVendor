@@ -597,6 +597,12 @@ footer .vd_bottom {
 
 
 /*Mulivendor new*/
+.form-control.ih-small {
+  height: 32px;
+}
+.select2-container--default .select2-selection--multiple, .select2-container--default .select2-selection--single {
+  height: 32px;
+}
 .error {
     color: #ff4d4f!important;
     font-size: 14px;
@@ -628,3 +634,4 @@ a.disabled {
 .view-order-page .product-detail>tbody>tr>td {
   padding: 8px 15px !important;
 }
+

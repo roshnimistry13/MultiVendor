@@ -1847,6 +1847,11 @@ class MultivendorApi extends REST_Controller
 			$result   				= $this->Master_m->where('product_details',$where);
 			$product_name   		= $result[0]['product_name'];
 			$net_price   			= $result[0]['net_price'];
+			$mrp_price   			= $result[0]['mrp_price'];
+			$discount    			= $result[0]['discount'];
+			$discount_amt    		= $result[0]['discount_amt'];
+			$gst   					= $result[0]['tax'];
+			$gst_amt   				= $result[0]['gst_amt'];
 			if($quantity == NULL || $quantity == "")
 			{
 				$quantity = 1;
@@ -1881,6 +1886,11 @@ class MultivendorApi extends REST_Controller
 				$insertdata['quantity'] 		= $quantity;
 				$insertdata['net_price'] 		= $net_price;
 				$insertdata['total_amt'] 		= $final_amount;
+				$insertdata['mrp'] 				= $mrp_price;
+				$insertdata['discount'] 		= $discount;
+				$insertdata['discount_amt'] 	= $discount_amt;
+				$insertdata['gst'] 				= $gst;
+				$insertdata['gst_amt'] 			= $gst_amt;
 
 				$insert_result = insert('customer_cart',$insertdata,'');
 				logThis($insert_result->query, date('Y-m-d'),'Customer Cart');

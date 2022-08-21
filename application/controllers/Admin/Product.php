@@ -40,14 +40,12 @@ class Product extends CI_Controller
 
 			$table         				= "product_details p";
 			$select_column 				= array("p.product_id","p.product_name","p.product_code","c.category_name","p.is_active","b.brand_name","s.onhand_quantity");
-			//$join_column = "";
 			$join_column['table'] 		= array("category c","brand b","stock s");
 			$join_column['join_on'] 	= array("c.category_id = p.category_id","b.brand_id = p.brand_id","s.product_id = p.product_id");
 			$order_column				= array(NULL,"p.product_name","b.brand_name","c.category_name","s.onhand_quantity","p.is_active",NULL);
 			$search_column 				= array("p.product_name","p.product_code","b.brand_name","c.category_name","s.onhand_quantity");
 			$group_by 					= "";
 			$order_by 					= "p.product_id  DESC";
-			// $where    = array("p.is_active != 2");
 			$fetch_data 				= $this->Common_m->makeDataTables($table, $select_column, $order_column, $join_column, $where, $search_column, $order_by, $group_by);
 			
 			$data       = array();

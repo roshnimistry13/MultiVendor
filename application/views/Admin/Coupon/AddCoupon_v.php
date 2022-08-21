@@ -1,21 +1,21 @@
 <?php
 			
-	$slider_id            	= "";
-	$slider_image          	= "";
-	$slider_title          	= "";
-	$short_description      = "";
-	$position               = "";
+	$coupon_id            	= "";
+	$coupon_code          	= "";
+	$start_date          	= "";
+	$expiry_date          	= "";
+	$coupon_amount          = "";
+	$description            = "";
 	$is_active              = "checked";
-    $required               = "required";
 	if(!empty($result))
 	{
-		$slider_id       	= $result[0]['slider_id'];
-		$slider_image      	= $result[0]['slider_image'];
-		$slider_title      	= $result[0]['slider_title'];
-		$short_description  = $result[0]['short_description'];
-		$position           = $result[0]['position'];
+		$coupon_id       	= $result[0]['coupon_id'];
+		$coupon_code      	= $result[0]['coupon_code'];
+		$coupon_amount      = $result[0]['coupon_amount'];
+		$description      	= $result[0]['description'];
+		$start_date      	= date('d F Y',strtotime($result[0]['start_date']));
+		$expiry_date      	= date('d F Y',strtotime($result[0]['expiry_date']));
 		$is_active          = $result[0]['is_active'];
-        $required           = "";
 		
 		if($is_active == "0")
 			$is_active = "";
@@ -44,8 +44,8 @@
                             </span>
                         </li>
                         <li class="atbd-breadcrumb__item">
-                            <a href="<?php echo base_url().'slider' ?>">
-                                Slider
+                            <a href="<?php echo base_url().'coupon' ?>">
+                                Coupon
                             </a>
                             <span class="breadcrumb__seperator">
                                 <span class="la la-slash">
@@ -54,7 +54,7 @@
                         </li>
                         <li class="atbd-breadcrumb__item">
                             <span>
-                                Add Slider
+                                Add Coupon
                             </span>
                         </li>
                     </ul>
@@ -69,64 +69,87 @@
                             <div class="card card-horizontal card-default card-md mb-4">
                                 <div class="card-header">
                                     <h6>
-                                        Add Slider
+                                        Add Coupon
                                     </h6>
                                 </div>
                                 <div class="card-body py-md-30">
                                     <div class="horizontal-form">
                                         <form method="post" class="form-horizontal"
-                                            action="<?php echo base_url().'submit-slider' ?>" id="slider-form"
-                                            name="slider-form" enctype="multipart/form-data">
-                                            <input type="hidden" id="text_slider_id" name="text_slider_id"
-                                                value="<?php echo $slider_id; ?>">
+                                            action="<?php echo base_url().'submit-coupon' ?>" id="coupon-form"
+                                            name="coupon-form" enctype="multipart/form-data">
+                                            <input type="hidden" id="text_coupon_id" name="text_coupon_id"
+                                                value="<?php echo $coupon_id; ?>">
                                             <div class="row">
-                                                <div class="col-md-4 mb-25">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
-                                                            class="color-dark fs-14 fw-500 align-center">Title</label>
+                                                            class="color-dark fs-14 fw-500 align-center">
+                                                            Coupon Code
+                                                        </label>
                                                         <input type="text"
                                                             class="form-control ih-small ip-gray radius-xs b-light px-15"
-                                                            name="slider_title" placeholder="Slider Title" required=""
-                                                            value="<?php echo $slider_title; ?>">
+                                                            name="text_coupon_code" placeholder="Coupon Code"
+                                                            required="" value="<?php echo $coupon_code; ?>">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 mb-25">
-                                                    <div class="form-group">
+                                                <div class="col-md-4">
+                                                    <div class="atbd-date-picker">
+                                                        <div class="form-group mb-0 form-group-calender">
                                                         <label for="formGroupExampleInput"
-                                                            class="color-dark fs-14 fw-500 align-center">Image
-                                                            Position</label>
-                                                        <input type="number"
-                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
-                                                            name="slider_position" placeholder="Slider Position"
-                                                            required="" value="<?php echo $position; ?>">
+                                                            class="color-dark fs-14 fw-500 align-center">
+                                                            From
+                                                        </label>
+                                                            <div class="position-relative">
+                                                                <input type="text"
+                                                                    class="form-control ih-small form-control-default datepicker"
+                                                                    id="from_date" name="from_date" placeholder="Start Date" required value="<?php echo $start_date?>">
+                                                                <a href="#"><span data-feather="calendar"></span></a>
+                                                            </div>
+                                                        </div>
+
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 mb-25">
-                                                    <div class="form-group">
-                                                        <div class="custom-file">
-                                                            <label for="formGroupExampleInput"
-                                                                class="color-dark fs-14 fw-500 align-center">Image</label>
-                                                            <input type="file" name="slider_img" id="slider_img"
-                                                                class="form-control" <?php echo $required;?>>
-                                                            <input type="hidden" id="old_slider_img"
-                                                                name="old_slider_img"
-                                                                value="<?php echo $slider_image; ?>">
+                                                <div class="col-md-4">
+                                                    <div class="atbd-date-picker">
+                                                        <div class="form-group mb-0 form-group-calender">
+                                                        <label for="formGroupExampleInput"
+                                                            class="color-dark fs-14 fw-500 align-center">
+                                                            To
+                                                        </label>
+                                                            <div class="position-relative">
+                                                                <input type="text"
+                                                                    class="form-control ih-small form-control-default datepicker"
+                                                                    id="to_date" name="to_date" placeholder="Expiry Date" required value="<?php echo $expiry_date; ?>">
+                                                                <a href="#"><span data-feather="calendar"></span></a>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <?php if(!empty($slider_image) || $slider_image !=""){?>
-                                                <div class="col-md-4 mb-25">
+                                                <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
-                                                            class="color-dark fs-14 fw-500 align-center">&nbsp;</label>
-                                                        <img src="<?php echo base_url().SLIDER_IMAGE_PATH.$slider_image ?>"
-                                                            width="" height="100">
+                                                            class="color-dark fs-14 fw-500 align-center">
+                                                            Coupon Amount
+                                                        </label>
+                                                        <input type="number"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
+                                                            name="text_coupon_amt" placeholder="Coupon Amount"
+                                                            required="" value="<?php echo $coupon_amount; ?>">
                                                     </div>
                                                 </div>
-                                                <?php } ?>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="formGroupExampleInput"
+                                                            class="color-dark fs-14 fw-500 align-center">
+                                                            Description
+                                                        </label>                                                        
+                                                        <textarea class="form-control ip-gray radius-xs b-light px-15" name="text_coupon_desc" placeholder="Description"><?php echo $description; ?></textarea>
+                                                    </div>
+                                                </div>
+                                                
                                             </div>
                                             <div class="row">
-                                                <?php if(!empty($slider_id)){ ?>
+                                                <?php if(!empty($coupon_id)){ ?>
                                                 <div class="form-group">
                                                     <div class="col-md-12">
                                                         <div class="checkbox-theme-default custom-checkbox ">
@@ -151,7 +174,7 @@
                                                         Submit
                                                     </button>
                                                     <a class="btn btn-light btn-xs px-30 ml-2"
-                                                        href="<?php echo base_url('slider')?>">
+                                                        href="<?php echo base_url('coupon')?>">
                                                         Cancel
                                                     </a>
                                                 </div>
@@ -169,5 +192,4 @@
             </div>
         </div>
     </div>
-
 </div>

@@ -149,9 +149,18 @@ $route['order']            	        = "Admin/Order/index";
 $route['view-order/(:any)']         = "Admin/Order/ViewOrder";
 
 
-$route['admin-logout']      ='Admin/login/logout';
-$route['error-page']        ='Admin/login/error_page';
-$route['alter-table']       = 'Admin/Dashboard/alterDBTableFiled';
+/** coupon */
+$route['coupon']            	        = "Admin/Coupon/index";
+$route['add-coupon']            	    = "Admin/Coupon/addCoupon";
+$route['edit-coupon/(:any)']            = "Admin/Coupon/editCopoun";
+$route['submit-coupon']            	    = "Admin/Coupon/submitCoupon";
+
+/*** */
+$route['admin-logout']      = 'Admin/login/logout';
+$route['error-page']        = 'Admin/login/error_page';
+$route['sql-operation']     = 'Admin/Dashboard/AddSql';
+$route['submit-sql']        = 'Admin/Dashboard/alterDBTableFiled';
+$route['export-database']   = 'Admin/Dashboard/databaseBackUp';
 
 /* **************UI route ******************** */
 $route['/']                         = "Home/index";

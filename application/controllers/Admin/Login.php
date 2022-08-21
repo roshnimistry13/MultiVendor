@@ -171,7 +171,7 @@ class Login extends CI_Controller
 	*/
 	public function forgetPassword()
 	{
-		$this->load->view('admin/Login/ForgetPassword_v');
+		$this->load->view('Admin/Login/ForgetPassword_v');
 	}
 
 	/**
@@ -238,7 +238,7 @@ class Login extends CI_Controller
 	{
 		$mailData['subject'] 			= "Forgot Password - MultiVendor";
 		$mailData['attachFile'] 		= "";
-		$mailData['fromID'] 			= 'dainik.tandel@proactii.com';
+		$mailData['fromID'] 			= 'devloperproactii@gmail.com';
 		$mailData['toID'] 				=  $result[0]['email'];
 		
 		$msgData['name'] = $result[0]['name'];
@@ -246,7 +246,7 @@ class Login extends CI_Controller
 		$message = resetPassword($msgData); 	
 
 		$mailData['message'] = $message;
-
+		
 		$send = send_email($mailData);
 		
 		return $send;
@@ -259,7 +259,7 @@ class Login extends CI_Controller
 	}
 
 	public function error_page(){
-		$headdata['title'] = "Brand | ".ADMIN_THEME;
+		$headdata['title'] = "Error | ".ADMIN_THEME;
 		$this->load->view('Admin/Common/Header',$headdata);
 		$this->load->view('errors/error_page_v');
 	}

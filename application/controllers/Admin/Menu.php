@@ -164,7 +164,12 @@ class Menu extends CI_Controller
 	public function submitMenu()
 	{
 		$user_id = $this->session->userdata[ADMIN_SESSION]['user_id'];
-		$submenu = implode(',',$this->input->post('submenu'));
+		$s_menu = $this->input->post('submenu');
+		$submenu = "";
+		if(!empty($s_menu)){
+			$submenu = implode(',',$this->input->post('submenu'));
+		}
+		
 		
 		if(!empty($this->input->post('text_menu_id')))
 		{
