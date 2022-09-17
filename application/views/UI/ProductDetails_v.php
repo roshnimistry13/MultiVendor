@@ -1,26 +1,31 @@
-<div id="nt_content">
+<?php 
+    if(!empty($product_detail)){
+        $product_id             = $product_detail['product_id'];
+        $product_name           = $product_detail['product_name'];
+        $net_price              = $product_detail['net_price'];
+        $mrp_price              = $product_detail['mrp_price'];
+        $discount               = $product_detail['discount'];
+        $discount_amt           = $product_detail['discount_amt'];
+        $image                  = explode('|',$product_detail['image']);
+        $short_description      = $product_detail['short_description'];
+        $description            = $product_detail['description'];
+        $brand_name             = $product_detail['brand_name'];
+        $category_name          = $product_detail['category_name'];
+        $vendor_name            = $product_detail['vendor_name'];
+        $quantity               = $product_detail['qty'];
+    }
+?>
+<div id="nt_content" class="product_detail_page" data-pid="<?php echo $product_id;?>">
     <div class="sp-single sp-single-1 des_pr_layout_1 mb__60">
         <div class="bgbl pt__20 pb__20 lh__1">
             <div class="container">
                 <div class="row al_center">
                     <div class="col">
                         <nav class="sp-breadcrumb">
-                            <a href="index.html">Home</a><i class="facl facl-angle-right"></i><a
-                                href="shop-filter-sidebar.html">New Arrival</a><i
-                                class="facl facl-angle-right"></i>Blush Beanie
+                            <?php if(!empty($breadcrumbs)){?>
+                            <?php echo $breadcrumbs; ?>
+                            <?php }?>
                         </nav>
-                    </div>
-                    <div class="col-auto flex al_center">
-                        <a href="product-detail-layout-01.html"
-                            class="pl__5 pr__5 fs__18 cd chp ttip_nt tooltip_bottom_left"><i
-                                class="las la-angle-left"></i><span class="tt_txt">Ridley High Waist</span></a>
-                        <a href="product-detail-layout-01.html"
-                            class="pl__5 pr__5 fs__20 cd chp ttip_nt tooltip_bottom_left"><i
-                                class="fwb iccl iccl-grid fs__15"></i><span class="tt_txt">Back to New
-                                Arrival</span></a>
-                        <a href="product-detail-layout-01.html"
-                            class="pl__5 pr__5 fs__18 cd chp ttip_nt tooltip_bottom_left"><i
-                                class="las la-angle-right"></i><span class="tt_txt">Cluse La Boheme Rose Gold</span></a>
                     </div>
                 </div>
             </div>
@@ -36,48 +41,15 @@
                                 <div class="col-12 col-lg col_thumb">
                                     <div class="p-thumb p-thumb_ppr images sp-pr-gallery equal_nt nt_contain ratio_imgtrue position_8 nt_slider pr_carousel"
                                         data-flickity='{"initialIndex": ".media_id_001","fade":true,"draggable":">1","cellAlign": "center","wrapAround": true,"autoPlay": false,"prevNextButtons":true,"adaptiveHeight": true,"imagesLoaded": false, "lazyLoad": 0,"dragThreshold" : 6,"pageDots": false,"rightToLeft": false }'>
+                                        <?php if(!empty($image)){
+                                            foreach($image as $img) { ?>
                                         <div class="img_ptw p_ptw p-item sp-pr-gallery__img w__100 nt_bg_lz lazyload padding-top__127_66 media_id_001"
-                                            data-mdid="001" data-height="1440" data-width="1128"
+                                            data-mdid="001" data-height="1200" data-width="1128"
                                             data-ratio="0.7833333333333333" data-mdtype="image"
-                                            
-                                            data-bgset="<?php echo UI_ASSETS ?>images/single-product/thumb-01.jpg"
-                                            data-cap="Blush Beanie - color pink , size S"></div>
-                                        <div class="img_ptw p_ptw p-item sp-pr-gallery__img w__100 nt_bg_lz lazyload padding-top__127_66 media_id_002"
-                                            data-mdid="002" data-height="1440" data-width="1128"
-                                            data-ratio="0.7833333333333333" data-mdtype="image"
-                                            
-                                            data-bgset="<?php echo UI_ASSETS ?>images/single-product/des-03.jpg"
-                                            data-cap="Blush Beanie - color grey , size M"></div>
-                                        <div class="img_ptw p_ptw p-item sp-pr-gallery__img w__100 nt_bg_lz lazyload padding-top__127_66 media_id_003"
-                                            data-mdid="003" data-height="1440" data-width="1128"
-                                            data-ratio="0.7833333333333333" data-mdtype="image"
-                                            
-                                            data-bgset="<?php echo UI_ASSETS ?>images/single-product/des-02.jpg"
-                                            data-cap="Blush Beanie - color pink , size L"></div>
-                                        <div class="img_ptw p_ptw p-item sp-pr-gallery__img w__100 nt_bg_lz lazyload padding-top__127_66 media_id_004"
-                                            data-mdid="004" data-height="1440" data-width="1128"
-                                            data-ratio="0.7833333333333333" data-mdtype="image"
-                                            
-                                            data-bgset="<?php echo UI_ASSETS ?>images/single-product/des-03.jpg"
-                                            data-cap="Blush Beanie - color pink , size M"></div>
-                                        <div class="img_ptw p_ptw p-item sp-pr-gallery__img w__100 nt_bg_lz lazyload padding-top__127_66 media_id_005"
-                                            data-mdid="005" data-height="1440" data-width="1128"
-                                            data-ratio="0.7833333333333333" data-mdtype="image"
-                                            
-                                            data-bgset="<?php echo UI_ASSETS ?>images/single-product/thumb-01.jpg"
-                                            data-cap="Blush Beanie - color pink , size S"></div>
-                                        <div class="img_ptw p_ptw p-item sp-pr-gallery__img w__100 nt_bg_lz lazyload padding-top__127_66 media_id_006"
-                                            data-mdid="006" data-height="1440" data-width="1128"
-                                            data-ratio="0.7833333333333333" data-mdtype="image"
-                                            
-                                            data-bgset="<?php echo UI_ASSETS ?>images/single-product/des-03.jpg"
-                                            data-cap="Blush Beanie - color black , size S"></div>
-                                        <div class="img_ptw p_ptw p-item sp-pr-gallery__img w__100 nt_bg_lz lazyload padding-top__127_66 media_id_007"
-                                            data-mdid="007" data-height="1440" data-width="1128"
-                                            data-ratio="0.7833333333333333" data-mdtype="image"
-                                            
-                                            data-bgset="<?php echo UI_ASSETS ?>images/single-product/thumb-01.jpg"
-                                            data-cap="Blush Beanie - color black , size M"></div>
+                                            data-bgset="<?php echo base_url().PRODUCT_IMAGE_PATH.$product_id.'/'.$img ?>"
+                                            data-cap="">
+                                        </div>
+                                        <?php } } ?>
                                     </div>
                                     <div class="p_group_btns pa flex">
                                         <button
@@ -106,9 +78,18 @@
                         <div class="col-md-6 col-12 product-infors pr_sticky_su">
                             <div class="theiaStickySidebar">
                                 <div class="kalles-section-pr_summary kalles-section summary entry-summary mt__30">
-                                    <h1 class="product_title entry-title fs__16">Blush Beanie</h1>
+                                    <h1 class="product_title entry-title fs__16"><?php echo ucwords($product_name); ?>
+                                    </h1>
                                     <div class="flex wrap fl_between al_center price-review">
-                                        <p class="price_range" id="price_ppr">$15.00</p>
+                                        <p class="price_range" id="price_ppr">
+                                            <span class="price dib mb__5">
+                                            <i class="fa fa-inr cr fs__14"></i><ins><?php echo moneyFormatIndia_ui($net_price); ?></ins> &nbsp;
+                                            <?php if($discount !="" && $discount != null && !empty($discount)) {?>
+                                            <i class="fa fa-inr fs__14"></i> <small><del><?php echo moneyFormatIndia_ui($mrp_price); ?></del></small>
+                                                <small>(<?php echo $discount;?>% Off)</small>
+                                                <?php } ?>
+                                            </span>
+                                        </p>
                                         <a href="#tab_reviews_product" class="rating_sp_kl dib">
                                             <div class="kalles-rating-result">
                                                 <span class="kalles-rating-result__pipe">
@@ -117,9 +98,9 @@
                                                     <span
                                                         class="kalles-rating-result__start kalles-rating-result__start--big"></span>
                                                     <span
-                                                        class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                    <span
                                                         class="kalles-rating-result__start kalles-rating-result__start--big active"></span>
+                                                    <span
+                                                        class="kalles-rating-result__start kalles-rating-result__start--big "></span>
                                                     <span
                                                         class="kalles-rating-result__start kalles-rating-result__start--big"></span>
                                                 </span>
@@ -128,60 +109,40 @@
                                         </a>
                                     </div>
                                     <div class="pr_short_des">
-                                        <p class="mg__0">Go kalles this summer with this vintage navy and white striped
-                                            v-neck t-shirt from the Nike. Perfect for pairing with denim and white kicks
-                                            for a stylish kalles vibe.</p>
+                                        <p class="mg__0"><?php echo $short_description; ?></p>
                                     </div>
                                     <div class="btn-atc atc-slide btn_des_1 btn_txt_3">
                                         <div id="callBackVariant_ppr">
-                                            <div
-                                                class="variations mb__40 style__circle size_medium style_color des_color_1">
-                                                <div class="swatch is-color kalles_swatch_js">
-                                                    <h4 class="swatch__title">Color:
-                                                        <span class="nt_name_current user_choose_js">Pink</span>
-                                                    </h4>
-                                                    <ul class="swatches-select swatch__list_pr d-flex">
-                                                        <li class="ttip_nt tooltip_top_right nt-swatch swatch_pr_item"
-                                                            data-escape="Grey">
-                                                            <span class="tt_txt">Grey</span><span
-                                                                class="swatch__value_pr pr bg_color_grey lazyload"></span>
-                                                        </li>
-                                                        <li class="ttip_nt tooltip_top nt-swatch swatch_pr_item is-selected"
-                                                            data-escape="Pink">
-                                                            <span class="tt_txt">Pink</span><span
-                                                                class="swatch__value_pr pr bg_color_pink lazyload"></span>
-                                                        </li>
-                                                        <li class="ttip_nt tooltip_top nt-swatch swatch_pr_item"
-                                                            data-escape="Black">
-                                                            <span class="tt_txt">Black</span><span
-                                                                class="swatch__value_pr pr bg_color_black lazyload"></span>
-                                                        </li>
-                                                    </ul>
-                                                </div>
+                                            <div class="variations mb__40 style__circle size_medium style_color des_color_1">
+                                                <?php if(!empty($product_element)){
+                                                    foreach($product_element as $key => $val){
+                                                        $attributes = explode(',',$val);?>
                                                 <div class="swatch is-label kalles_swatch_js">
-                                                    <h4 class="swatch__title">Size:
-                                                        <span class="nt_name_current user_choose_js">M</span>
+                                                    <h4 class="swatch__title"><?php echo $key?>:
+                                                        <span class="nt_name_current user_choose_js"></span>
                                                     </h4>
                                                     <ul class="swatches-select swatch__list_pr d-flex">
-                                                        <li class="nt-swatch swatch_pr_item pr" data-escape="S">
-                                                            <span class="swatch__value_pr">S</span>
+                                                        <?php 
+                                                        $i = 0;
+                                                        
+                                                        foreach($attributes as $attr){ 
+                                                            $is_selected = "";
+                                                            if($i == 0 ) { $is_selected = 'is-selected' ; }
+                                                           ?>
+                                                        <li class="nt-swatch swatch_pr_item pr <?php echo $is_selected; ?>" data-escape="<?php echo $attr;?>">
+                                                            <span class="swatch__value_pr"><?php echo $attr;?></span>
                                                         </li>
-                                                        <li class="nt-swatch swatch_pr_item pr is-selected"
-                                                            data-escape="M">
-                                                            <span class="swatch__value_pr">M</span>
-                                                        </li>
-                                                        <li class="nt-swatch swatch_pr_item pr " data-escape="L">
-                                                            <span class="swatch__value_pr">L</span>
-                                                        </li>
+                                                        <?php $i++; } ?>                                    
                                                     </ul>
                                                 </div>
+                                                <?php } }?>
                                             </div>
                                             <div class="nt_cart_form variations_form variations_form_ppr">
                                                 <div class="variations_button in_flex column w__100 buy_qv_false">
                                                     <div class="flex wrap">
                                                         <div class="quantity pr mr__10 order-1 qty__true d-inline-block"
                                                             id="sp_qty_ppr">
-                                                            <input type="number"
+                                                            <input type="number" id="txt_quantity"
                                                                 class="input-text qty text tc qty_pr_js qty_cart_js"
                                                                 name="quantity" value="1">
                                                             <div class="qty tc fs__14">
@@ -193,7 +154,7 @@
                                                                     <i class="facl facl-minus"></i></button>
                                                             </div>
                                                         </div>
-                                                        <div class="nt_add_w ts__03 pa order-3">
+                                                        <div class="nt_add_w ts__03 pa order-3 <?php echo $wish_list_class;?>">
                                                             <a href="#"
                                                                 class="wishlistadd cb chp ttip_nt tooltip_top_left">
                                                                 <span class="tt_txt">Add to Wishlist</span><i
@@ -201,44 +162,20 @@
                                                             </a>
                                                         </div>
                                                         <button type="submit" data-time="6000" data-ani="shake"
-                                                            class="single_add_to_cart_button button truncate w__100 mt__20 order-4 d-inline-block animated">
+                                                            class="single_add_to_cart_button button truncate w__100 mt__20 order-4 d-inline-block animated btnAddToCart">
                                                             <span class="txt_add ">Add to cart</span></button>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div id="trust_seal_ppr" class="pr_trust_seal tl_md tc">
-                                        <img class="img_tr_s1 lazyload w__100 max-width__330px"
-                                            src="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%202244%20285%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3C%2Fsvg%3E"
-                                            alt="" data-srcset="<?php echo UI_ASSETS ?>images/single-product/trust_img2.png" />
-                                    </div>
                                     <div class="extra-link mt__35 fwsb">
-                                        <a class="ajax_pp_js cd chp mr__20" href="#" data-id="#popup-size-guide">Size
-                                            Guide</a>
-                                        <a class="ajax_pp_js cd chp mr__20" href="#"
-                                            data-id="#popup-delivery-and-return">Delivery &amp; Return</a>
-                                        <a class="ajax_pp_js cd chp" href="#" data-id="#popup-ask-a-question">Ask a
-                                            Question</a>
+                                        <a class="ajax_pp_js cd chp mr__20" href="javascript:void(0)">
+                                            Product Detail
+                                        </a>
                                     </div>
                                     <div class="product_meta">
-                                        <span class="sku_wrapper"><span class="cb">SKU:</span> <span
-                                                class="sku value cg d-inline-block">P15-2</span></span>
-                                        <span class="posted_in"><span class="cb">Categories:</span> <a
-                                                href="shop-filter-options.html" class="cg">All</a>, <a
-                                                href="shop-filter-options.html" class="cg">Best seller</a>, <a
-                                                href="shop-filter-options.html" class="cg">Bottom</a>, <a
-                                                href="shop-filter-options.html" class="cg">Dress</a>, <a
-                                                href="shop-filter-options.html" class="cg">New Arrival</a>, <a
-                                                href="shop-filter-options.html" class="cg">Women</a></span>
-                                        <span class="tagged_as"><span class="cb">Tags:</span> <a
-                                                href="shop-filter-options.html" class="cg">Color Black</a>, <a
-                                                href="shop-filter-options.html" class="cg">Color Grey</a>, <a
-                                                href="shop-filter-options.html" class="cg">Color Pink</a>, <a
-                                                href="shop-filter-options.html" class="cg">Price $7-$50</a>, <a
-                                                href="shop-filter-options.html" class="cg">Size L</a>, <a
-                                                href="shop-filter-options.html" class="cg">Size M</a>, <a
-                                                href="shop-filter-options.html" class="cg">Size S</a></span>
+                                        <?php echo $description; ?>
                                     </div>
                                     <div class="social-share tc">
                                         <div
@@ -312,7 +249,7 @@
                 </div>
             </div>
         </div>
-       
+
         <div class="clearfix"></div>
 
         <div class="kalles-section tp_se_cdt">
@@ -569,6 +506,6 @@
                     </div>
                 </div>
             </div>
-        </div>        
+        </div>
     </div>
 </div>

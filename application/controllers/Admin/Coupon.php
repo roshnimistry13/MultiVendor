@@ -107,7 +107,7 @@ class Coupon extends CI_Controller
 					$status = $deactive_status;
 				}
 				// print_r(date('d-M-Y'));
-				$date1 = strtotime(date('d-M-Y'));
+				$date1 = strtotime(date('d-M-Y')); // today;
 				$date2 = strtotime(date('d-M-Y',strtotime($row->expiry_date)));
 				
 				if($date1 <= $date2){

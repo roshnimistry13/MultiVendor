@@ -42,7 +42,7 @@ class Category extends CI_Controller
 			$order_column= array(NULL,"category_name","parent_category_id","is_active",NULL);
 			$search_column = array("category_name");
 			$group_by = "";
-			$order_by = "category_id  DESC";
+			$order_by = "category_id  asc";
 			// $where    = array("is_active != 2");
 			$fetch_data = $this->Common_m->makeDataTables($table, $select_column, $order_column, $join_column, $where, $search_column, $order_by, $group_by);
 

@@ -120,7 +120,7 @@ class Master_m extends CI_Model{
 	//Get product list
 	public function getProductsList($category_id = '', $brand_id = '', $new_product='', $best_seller='')
 	{
-		$this->db->select('p.product_id, p.product_name, p.product_code, p.short_description, v.name, p.vendor_id, v.company, p.brand_id, b.brand_name, p.category_id, c.category_name, p.mrp_price, p.discount, p.net_price, p.image, p.is_new_product, p.is_popular_product, p.is_feature_product');
+		$this->db->select('p.product_id, p.product_name, p.product_code, p.short_description, v.name, p.vendor_id, v.company, p.brand_id, b.brand_name, p.category_id, c.category_name, p.mrp_price, p.discount, p.net_price, p.image, p.is_new_product, p.is_popular_product, p.is_feature_product,p.cover_img');
 		$this->db->from('product_details p');
 		$this->db->join('vendor v','v.vendor_id = p.vendor_id');
 		$this->db->join('category c','c.category_id = p.category_id');
@@ -156,19 +156,26 @@ class Master_m extends CI_Model{
 		$this->db->where('p.is_active',1);
 		$this->db->order_by('p.product_id desc');
 		$query = $this->db->get()->result_array();
+		
 		return $query;
 	}
 	
-	//Get product all details
-	public function getAllProductDetails($product_id){
-		$this->db->select('p.product_id, p.product_name, p.product_code, p.short_code, p.short_description, p.description, p.vendor_id, v.company, c.category_id, c.category_name, p.brand_id, b.brand_name, p.mrp_price, p.discount, p.net_price, p.tax, p.image, s.stock_id, s.onhand_quantity, p.is_new_product, p.is_popular_product,p.is_feature_product');
+	//Get product all details form product
+	public function getAllProductDetails($product_id = NULL , $short_code = NULL){
+		if($product_id != null && $product_id != ""){
+			$this->db->where('p.product_id',$product_id);
+		}
+		if($short_code != null && $short_code != ""){
+			$this->db->where('p.short_code',$short_code);
+		}
+		$this->db->select('p.*, v.name as vendor_name, c.category_id, c.category_name, b.brand_name');
 		$this->db->from('product_details p');
 		$this->db->join('vendor v','v.vendor_id = p.vendor_id');
 		$this->db->join('category c','c.category_id = p.category_id');
 		$this->db->join('brand b','b.brand_id = p.brand_id');
 		//$this->db->join('group_unit gu','gu.group_unit_id = p.group_unit_id');
-		$this->db->join('stock s','s.product_id = p.product_id');
-		$this->db->where('p.product_id',$product_id);
+		// $this->db->join('stock s','s.product_id = p.product_id');
+		//$this->db->where('p.product_id',$product_id);
 		$query=$this->db->get()->result_array();
 		return $query;
 	}
@@ -302,17 +309,17 @@ class Master_m extends CI_Model{
 	
 	
 		//function for get Order data
-	public function getOrderData($order_id)
+	public function getOrderSummary($order_id)
 	{
-		$this->db->select('o.order_id, o.bill_id, b.first_name as b_first_name, b.last_name as b_last_name, b.email as b_email, b.mobile as b_mobile, b.address as b_address, b.city as b_city, b.state as b_state, b.pincode as b_pincode, b.country as b_country, o.customer_id, c.first_name as c_first_name, c.last_name as c_last_name, c.email, o.order_number, o.total_quantity, o.total_amount, o.ship_amount, o.gst_amount, o.grand_total, o.order_date, o.delivery_status_id, s.delivery_status, i.invoice_number, i.invoice_date, i.invoice_file');
+		$this->db->select('o.*, o.bill_id,s.delivery_status,ca.*,c.customer_name as cust_name,c.mobile as cust_phone,c.email as cust_email');
 		$this->db->from('orders o');
 		$this->db->join('customer_detail c','c.customer_id = o.customer_id');
-		$this->db->join('bill_address b','b.bill_id = o.bill_id');
+		$this->db->join('customer_address ca','ca.customer_id = o.customer_id');
 		$this->db->join('delivery_status s','s.delivery_status_id = o.delivery_status_id');
-		$this->db->join('invoice_details i','i.order_id = o.order_id');
 		$this->db->where("o.order_id",$order_id);
+		$this->db->where("ca.set_default",1);
 		$query = $this->db->get();
-		return $query->row_array();
+		return $query->result_array();
 	}
 	
 	
@@ -527,7 +534,7 @@ class Master_m extends CI_Model{
 
 	/** item order detail from order id*/
 	public function getCustomerOrderList($order_id){
-		$this->db->select('od.*,p.product_name');
+		$this->db->select('od.*,p.cover_img');
 		$this->db->from('order_details od');
 		$this->db->join('product_details p','p.product_id=od.product_id');
 		$this->db->where('od.order_id',$order_id);
@@ -535,6 +542,428 @@ class Master_m extends CI_Model{
 		return $result;
 	}
 
-	/*** ordercheckout*/
 	
+	//get Product filter data
+	public function getFilterData($filter,$rowperpage, $rowno){
+		$this->db->select('p.product_id, p.product_name, p.short_code, p.short_description, p.net_price, p.cover_img,p.mrp_price,p.discount');
+		$this->db->from('product_details p');
+		$this->db->where('p.is_active', 1);
+		
+		//For category
+		if(isset($filter['category']) && strlen(trim($filter['category']))>0)
+		{
+   			$this->db->where("p.category_id", $filter['category']);
+   		}
+   		
+   		//for brand
+   		if(isset($filter['brand']) && strlen(trim($filter['brand']))>0)
+		{
+			$this->db->where("p.brand_id", $filter['brand']);
+   		}
+   		
+   		//for start price
+   		if(isset($filter['start_price']) && strlen(trim($filter['start_price']))>0)
+		{
+			$start_price = $filter['start_price'];
+   			$this->db->where("p.net_price >= $start_price");
+   		}
+   		
+   		//for end price
+		if(isset($filter['end_price']) && strlen(trim($filter['end_price']))>0)
+		{
+			$end_price = $filter['end_price'];
+   			$this->db->where("p.net_price <= $end_price");
+   		}
+   		
+		$this->db->order_by('p.product_id desc');
+		
+		
+   		if(strlen(trim($rowperpage))>0 && strlen(trim($rowno))>0)
+		{
+			$this->db->limit($rowperpage, $rowno);
+   		}
+		$query=$this->db->get()->result_array();
+	
+		return $query;
+	}
+
+	public function getCategoryhierarchy($category_id){
+		//$data 						= array();
+		$cat_cond['category_id'] 	= $category_id;		
+		$result						= $this->where('category',$cat_cond);	
+		$hierarchy					= $result[0]['hierarchy'];
+		if(!empty($hierarchy && $hierarchy != null && $hierarchy != "")){
+			$child_hierarchy			= explode(',',$hierarchy);
+			$i = 0;
+			foreach($child_hierarchy as $row){
+				$cat['category_id'] 	= $row;
+				$res 					= $this->Master_m->where('category',$cat);
+				$cat_name[$i] 				= $res[0]['category_name'];	
+				$i++;		
+			}
+			$data = $cat_name;
+		}
+		return $data;
+	}
+
+	public function getProductElemetsAttributes($product_id){
+
+		$this->db->select('pea.element_id,pea.attributes_id,pe.element_name,pe.element_id');
+		$this->db->from('product_elements_attributes pea');
+		$this->db->join('product_elements pe','pe.element_id = pea.element_id');
+		$this->db->where('pea.product_id', $product_id);
+		$query		= $this->db->get()->result_array();
+		
+		$elements = array();
+		
+		if(!empty($query)){
+			
+			foreach($query as $row){
+				
+				$element_name 				= $row['element_name'];
+				$attributes_id 				= explode(',', $row['attributes_id']);
+				$attr_arr = array();
+				
+				if(!empty($attributes_id)){
+					
+					foreach($attributes_id as $attr){
+						$whr['attributes_id'] 	= $attr;
+						$attr_res 				= $this->where('attributes',$whr);
+						$attr_name = $attr_res[0]['attributes_name'];
+						$attr_arr[] = $attr_name;	
+					}
+				}
+				
+				$elements[$element_name] 	= implode(',',$attr_arr);
+			}
+		}
+		return $elements;
+	}
+
+	public function addTocart_xx($data){
+
+		{
+			$product_id 			= $data['product_id'];
+			$quantity   			= $data['quantity'];
+			$where['product_id'] 	= $product_id;
+			$result   				= $this->where('product_details',$where);
+			$product_name   		= $result[0]['product_name'];
+			$net_price   			= $result[0]['net_price'];
+			$mrp_price   			= $result[0]['mrp_price'];
+			$discount    			= $result[0]['discount'];
+			$discount_amt    		= $result[0]['discount_amt'];
+			$gst   					= $result[0]['tax'];
+			$gst_amt   				= $result[0]['gst_amt'];
+			$cover_img   			= $result[0]['cover_img'];
+			
+			if($quantity == NULL || $quantity == "")
+			{
+				$quantity = 1;
+			}
+
+			$final_amount 				= $net_price * $quantity;
+			$customer_id 				= $data['customer_id'];
+			$item['customer_id'] 		= $customer_id;
+			$item['product_id'] 		= $product_id;
+			$res 						= $this->where('customer_cart',$item);
+			
+			if(!empty($res)){
+				
+				$old_qty   			= $res[0]['quantity'];
+				$final_qty 			= $quantity + $old_qty;
+				$id['cart_id'] 		= $res[0]['cart_id'];
+				$final_amount 		= $net_price * $final_qty;
+				$update = array(
+					'quantity'=>$final_qty,
+					'total_amt'=>$final_amount
+				);
+
+				$update_query = update('customer_cart',$update,$id);	
+				logThis($update_query->query, date('Y-m-d'),'Customer Cart');
+				if($update_query->status == "success")
+				{	
+					$response['success'] = "suceess";
+					$response['message'] = "You have this item in your cart and we have increased the quantity by 1";
+					return $response;
+				}else{
+					return false;
+				}					
+			}
+			else
+			{
+				
+				$insertdata['customer_id'] 		= $customer_id;
+				$insertdata['product_id'] 		= $product_id;
+				$insertdata['product_name'] 	= $product_name;
+				$insertdata['quantity'] 		= $quantity;
+				$insertdata['net_price'] 		= $net_price;
+				$insertdata['total_amt'] 		= $final_amount;
+				$insertdata['mrp'] 				= $mrp_price;
+				$insertdata['discount'] 		= $discount;
+				$insertdata['discount_amt'] 	= $discount_amt;
+				$insertdata['gst'] 				= $gst;
+				$insertdata['gst_amt'] 			= $gst_amt;
+				$insertdata['image'] 		= $cover_img;
+
+				$insert_result = insert('customer_cart',$insertdata,'');
+				logThis($insert_result->query, date('Y-m-d'),'Customer Cart');
+				
+				if($insert_result->status = 'success'){
+					$response['success'] = "suceess";
+					$response['message'] = "Added to cart";
+					return $response;
+				}else{
+					return false;
+				}			
+				
+			}
+		}
+
+
+	}
+
+	public function addTocart($data){
+
+		$product_id 			= $data['product_id'];
+		$quantity   			= $data['quantity'];
+		$customer_id 			= $data['customer_id'];
+		if($quantity == NULL || $quantity == "")
+		{
+			$quantity = 1;
+		}
+					
+		$item['customer_id'] 		= $customer_id;
+		$item['product_id'] 		= $product_id;
+		$res 						= $this->where('customer_cart',$item);
+		
+		if(!empty($res)){
+			
+			$old_qty   			= $res[0]['quantity'];
+			$final_qty 			= $quantity + $old_qty;
+			$id['cart_id'] 		= $res[0]['cart_id'];
+			$update = array(
+				'quantity'=>$final_qty,
+			);
+
+			$update_query = update('customer_cart',$update,$id);	
+			logThis($update_query->query, date('Y-m-d'),'Customer Cart');
+			if($update_query->status == "success")
+			{	
+				$response['success'] = "suceess";
+				$response['message'] = "You have this item in your cart and we have increased the quantity by 1";
+				return $response;
+			}else{
+				return false;
+			}					
+		}
+		else
+		{
+			
+			$insertdata['customer_id'] 		= $customer_id;
+			$insertdata['product_id'] 		= $product_id;
+			$insertdata['quantity'] 		= $quantity;			
+
+			$insert_result = insert('customer_cart',$insertdata,'');
+			logThis($insert_result->query, date('Y-m-d'),'Customer Cart');
+			
+			if($insert_result->status = 'success'){
+				$response['success'] = "suceess";
+				$response['message'] = "Added to cart";
+				return $response;
+			}else{
+				return false;
+			}			
+			
+		}
+	}
+
+	/*** get total cart item  */
+	public function getTotalCountCartProdut($customer_id){
+		$this->db->select('COUNT(cart_id) as totalCart');
+		$this->db->from('customer_cart');
+		$this->db->where('customer_id',$customer_id);
+		$query = $this->db->get()->result_array();
+		return $query[0]['totalCart'];
+	}
+	
+	/*** get total  whishlist item */
+	public function getTotalWhishList($customer_id){
+		$this->db->select('COUNT(whish_list_id) as totalwhishlist');
+		$this->db->from('whish_list');
+		$this->db->where('customer_id',$customer_id);
+		$query = $this->db->get()->result_array();
+		return $query[0]['totalwhishlist'];
+	}
+
+	/**** get and move selected cart item from cart */
+	public function getSelectedCartItemDetail($customer_id,$product_arr = array()){
+		$this->db->select('*');
+		$this->db->from('customer_cart');
+		$this->db->where('customer_id',$customer_id);
+		if(!empty($product_arr)){
+			$this->db->where_in('product_id',$product_arr);
+		}		
+		$query = $this->db->get()->result_array();
+		return $query;
+	}
+
+	/***get whishlist product detail */
+	public function getWishListItem($customer_id){
+		$this->db->select('w.*,p.product_name,short_code,p.net_price,p.mrp_price,p.discount,p.cover_img');
+		$this->db->from('whish_list w');
+		$this->db->join('product_details p','p.product_id = w.product_id');
+		$this->db->where('customer_id',$customer_id);
+		$query = $this->db->get()->result_array();
+		return $query;
+	}
+
+	public function getCustomerCartItems($customer_id){
+		$this->db->select('c.*,p.*');
+		$this->db->from('customer_cart c');
+		$this->db->join('product_details p','p.product_id = c.product_id');
+		$this->db->where('customer_id',$customer_id);
+		$query = $this->db->get()->result_array();
+		return $query;
+	}
+
+	public function addOrder($customer_id){
+		$cart_data			= $this->getCustomerCartItems($customer_id);
+		$payment_type 		= $this->input->post('payment_type');
+		
+		if(!empty($cart_data)){
+			
+			$whr['customer_id'] 	= $customer_id;
+			$whr['set_default'] 	= 1;
+			$address_res 			= $this->Master_m->where('customer_address',$whr);
+			$shipping_address       = "";
+			if(!empty($address_res)){
+				$name 			= $address_res[0]['first_name'].' '.$address_res[0]['last_name'];
+				$mobile 		= $address_res[0]['mobile'];
+				$address 		= $address_res[0]['address'].' ,<br>'.$address_res[0]['city'].' , '.$address_res[0]['state'].' ,<br>'.$address_res[0]['country'].' - '.$address_res[0]['pincode'];
+				$shipping_address 	= '<strong>'.$name.'</strong><br>'.$address.'<br>Phone no : '.$mobile; 
+			}
+			
+			
+			$total_item  		= count($cart_data);
+			$total_amt 			= 0;
+			$total_gst 			= 0;
+			$total_discount 	= 0;
+			$total_quantity		= 0;
+			$total_mrp			= 0;
+			foreach($cart_data as $item){
+				$gst_amt			= $item['gst_amt'];
+				$discount_amt		= $item['discount_amt'];
+				$quantity			= $item['quantity'];
+				$net_price			= $item['net_price'];
+				$mrp_price			= $item['mrp_price'];
+				$total_amt			= $total_amt + ($net_price * $quantity);
+				$total_quantity		= $total_quantity + $quantity;
+				$total_gst 			= $total_gst + $gst_amt;
+				$total_discount 	= $total_discount + ($discount_amt * $quantity);
+				$total_mrp 			= $total_mrp + ($mrp_price * $quantity);
+			}
+			$order_number 						= $this->Master_m->getLatestOrderNumber();
+			$order_data['order_number'] 		= "ORD-".$order_number;
+			$order_data['customer_id']			= $customer_id;
+			$order_data['total_item']			= $total_item;
+			$order_data['total_mrp']			= $total_mrp;
+			$order_data['total_quantity']		= $total_quantity;
+			$order_data['total_amount'] 		= $total_amt;
+			$order_data['gst_amount'] 			= $total_gst;
+			$order_data['discount_amt'] 		= $total_discount;
+			$order_data['order_date']			= date('Y-m-d');
+			$order_data['is_active']			= 1;
+			$order_data['delivery_status_id']	= 1;
+			$order_data['shipping_address']		= $shipping_address;
+
+			$insert_result = insert('orders',$order_data,'');				
+			logThis($insert_result->query, date('Y-m-d'),'Order');
+			$order_id = $insert_result->id;
+			
+			if($insert_result->status = 'success') {
+				foreach($cart_data as $row){
+					$quantity	= $row['quantity'];
+					$net_price	= $row['net_price'];
+					$total		= ($net_price * $quantity);
+					
+					$order_detail['order_id'] 		= $order_id;
+					$order_detail['product_id'] 	= $row['product_id'];
+					$order_detail['product_name'] 	= $row['product_name'];
+					$order_detail['quantity'] 		= $row['quantity'];
+					$order_detail['net_price'] 		= $row['net_price'];
+					$order_detail['mrp_price'] 		= $row['mrp_price'];
+					$order_detail['total_amt'] 		= $total;
+					$order_detail['discount'] 		= $row['discount'];
+					$order_detail['discount_amt'] 	= ($row['discount_amt'] * $quantity);
+					$order_detail['gst'] 			= $row['tax'];
+					$order_detail['gst_amt'] 		= $row['gst_amt'];
+	
+					$insert_order 	= insert('order_details',$order_detail,'');
+					logThis($insert_order->query, date('Y-m-d'),'Order Detail');	
+					$update_stock = $this->updateProductStock($row['product_id'],$quantity);				
+	
+				}
+
+				$payment['payment_mode']		= $payment_type;
+				$payment['order_id'] 			= $order_id;
+				$payment['customer_id'] 		= $customer_id;
+				$payment['total_pay_amount']	= $total_amt;
+				$payment['payment_date']		= date('Y-m-d');
+				$payment['pay_status']			= 1;
+
+				$insert_payment = insert('payment_details',$payment,'');				
+				logThis($insert_payment->query, date('Y-m-d'),'Payment Detail');
+
+				$condition['customer_id'] 		= $customer_id;
+				$result 						= delete('customer_cart',$condition);
+				return true;
+			}
+			else{
+				return false;
+			}
+			
+		}
+	}
+
+	public function updateProductStock($product_id,$product_qty){
+		$this->db->select('*');
+		$this->db->from('stock_details');
+		$this->db->where('product_id',$product_id);
+		$this->db->order_by('stock_details_id','desc');
+		$query = $this->db->get()->result_array();
+		if(!empty($query)){
+			$old_stock = $current_stock = $query[0]['current_stock'];
+			$new_stock = $current_stock - $product_qty;
+	
+			$insertdata['product_id'] 		= $product_id;
+			$insertdata['old_stock'] 		= $old_stock;
+			$insertdata['current_stock']	= $new_stock;
+			$insertdata['status']			= 0;
+	
+			$insert_stock = insert('stock_details',$insertdata,'');				
+			logThis($insert_stock->query, date('Y-m-d'),'Stock Detail');
+	
+			$whr['product_id']			= $product_id;
+			$update['stock']			= $new_stock;
+			$update_result 				= update('product_details',$update,$whr);
+			logThis($update_result->query, date('Y-m-d'),'Product');
+			return true;
+		}	
+		return false;
+	}
+
+	public function allDeliveryStatus(){
+		$this->db->select('*');
+		$this->db->from('delivery_status');
+		$this->db->where('is_active',1);
+		$query = $this->db->get()->result_array();
+		return $query;
+	}
+	public function getCustomerOrderpayment($order_id){
+		$this->db->select('*');
+		$this->db->from('payment_details');
+		$this->db->where('order_id',$order_id);
+		$query = $this->db->get()->result_array();
+		return $query;
+	}
 }	

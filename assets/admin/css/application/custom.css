@@ -634,4 +634,30 @@ a.disabled {
 .view-order-page .product-detail>tbody>tr>td {
   padding: 8px 15px !important;
 }
+#product_stock_detail_modal .dataTables_filter {
+  display: none !important;
+}
+#product_stock_detail_modal .dataTables_scrollHeadInner {
+  width: 100% !important;
+}
+#product_stock_detail_modal .dataTables_info {
+ font-size: 12px !important;
+}
+.table-responsive .dropdown-menu{
+  height: 160px !important;
+  overflow: auto;
+}
+.table-responsive .dropdown-menu .dropdown-item.active{
+  background-color: #5fbcf273 !important;
 
+}
+
+.orderDatatable_actions .dropdown-menu li a{
+  width: 100% !important;
+  height: auto !important;
+  font-size: 14px !important;
+  border-radius: 0 !important;
+}
+.userDatatable-content .dropdown .btn {
+  font-size: 13px !important;
+}

@@ -1,0 +1,1 @@
+"2022-09-05 21:14:36pm "," delete "," DELETE FROM customer_cart WHERE 1=1  and product_id = NULL and customer_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/Home/removeFromCart "," R: http://localhost/MultiVendor/cart"

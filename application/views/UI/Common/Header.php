@@ -16,10 +16,14 @@
     <link href="https://fonts.googleapis.com/css?family=Libre+Baskerville:300,300i,400,400i,500,500i&amp;display=swap"
         rel="stylesheet">
 
+        <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
+        <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/select2.min.css">
+    <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/font-awesome.min.css">
     <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/drift-basic.min.css">
     <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/photoswipe.css">
     <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/font-icon.min.css">
     <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/bootstrap.min.css">
+    
     <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/reset.css">
     <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/defined.css">
     <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/base.css">
@@ -29,6 +33,8 @@
     <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/single-masonry-theme.css">
     <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/single-product.css">
 	<link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/blog.css">
+	<link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/shop.css">
+	<link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/toastify.min.css">
     <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/custom.css">
 	
 </head>

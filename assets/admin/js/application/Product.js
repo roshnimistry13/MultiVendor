@@ -3,9 +3,9 @@ jQuery(document).ready(function()
 {
 	table_name = 'productDatatable';
 	url = base_url + "Admin/Product/bindDataTable";
-	target = [0,6];
+	target = [0,7];
 
-	toDataTable(table_name,url,target);
+	toDataTable(table_name,url,target,true);
 		
 	//product description editor	
 	new FroalaEditor('#text_description',
@@ -55,7 +55,7 @@ $("form[id='product-form']").validate(
 			text_short_description:
 			{
 				required: true,
-				maxlength: 100
+				//maxlength: 100
 			},
 			text_description:
 			{
@@ -193,6 +193,49 @@ function updateProduct(id,is_active)
 			}
 		})
 }
+//Update Product Status
+function duplicateProduct(id)
+{
+	Swal.fire(
+		{
+			title: 'Want to DUPLICATE Record ?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, DUPLICATE it!'
+		}).then((result) =>
+		{
+			if (result.value)
+			{
+				
+				$.ajax(
+					{
+						"url" : base_url + "Admin/Product/duplicateRecords",
+						type: 'post',
+						dataType: 'json',
+						data: {id : id},
+						success: function (data)
+						{
+							if(data.status=="success")
+							{
+								Swal.fire("Success", "Successsfully Added ", "success");
+								$('#productDatatable').DataTable().ajax.reload();
+							}
+							else if(data.status=="error")
+							{
+								Swal.fire("Error", "Something went wrong!!", "error");
+							}
+						},
+						error: function (textStatus, errorThrown)
+						{
+							console.log(textStatus);
+						}
+					});
+			}
+		})
+}
 
 function deleteImage(element_id,image_name,product_id)
 {
@@ -263,8 +306,9 @@ function bindChildcategoryByparent(id){
 				$('ul#category_breadcrumb').html(breadcrumbs);
 				
 			}else{
-				var category_option = json['category_option'];
+				var category_option 		= json['category_option'];
 				var breadcrumbs 			= json['breadcrumbs'];
+				//$('#text_subcategory_id').html(category_option);
 				$('ul#category_breadcrumb').html(breadcrumbs);
 				//Swal.fire("Error", "No Data Found!!", "error");
 			}
@@ -329,46 +373,44 @@ $('#text_subcategory_id').on('change', function(){
 });
 // }).change();
 
-/*** calculate discount price */
+/*** calculate selling price and mrp */
 
-function calculateDiscount(){
-	var mrp_price	 	= $('#text_mrp_price').val();
+function calculateSellingprice(){
+	var unit_price 		= $('#text_unit_price').val();
+	var gst 			= $('#text_tax').val();
 	var discount 		= $('#text_discount').val();
-	var final_price 	= mrp_price;
-	if(discount != "" && discount != NaN && discount != undefined){
-		if(discount > 0){
-			var discount_rs = (parseFloat(mrp_price) * parseFloat(discount)) / 100;			
-			final_price = parseFloat(mrp_price) - discount_rs;		
-			final_price = parseInt(final_price);		
-		}
+	var mrp_price		= 0
+	var selling_price	= 0
+
+	if(gst != "" && gst != NaN && gst != undefined && gst > 0){
+		var gst_rs = (parseFloat(unit_price) * parseFloat(gst)) / 100;	
+		mrp_price = (parseFloat(unit_price) + parseFloat(gst_rs)); 
+		$('#text_mrp_price').val(Math.round(mrp_price));
+		$('#text_net_price').val(Math.round(mrp_price));
+	}else{
+		$('#text_mrp_price').val(unit_price);
+		$('#text_net_price').val(unit_price);
+		mrp_price = $('#text_mrp_price').val();
 	}
-	return final_price;
+
+	if(discount != "" && discount != NaN && discount != undefined && discount > 0){
+		var discount_rs = (parseFloat(mrp_price) * parseFloat(discount)) / 100;	console.log(discount_rs);
+		selling_price = parseFloat(mrp_price) - discount_rs;		
+		selling_price = Math.round(selling_price);
+		$('#text_net_price').val(selling_price);	
+	}
+
 }
 
+
 $('.cal-discount').on('change', function(){
-	$('#text_net_price').val('');
-	var final_net_price = calculateDiscount();
-	$('#text_net_price').val(final_net_price);
+	calculateSellingprice();
+	
 });
 
 /** calculate Gst on  */
-$('#text_tax,#text_net_price').on('change', function(){
-	var net_price	 	= calculateDiscount();
-	var gst 			= $('#text_tax').val();
-	$('#text_net_price').val('');
-	if(gst != "" && gst != NaN && gst != undefined){
-		if(gst > 0){
-			var gst_rs = (parseFloat(net_price) * parseFloat(gst)) / 100;			
-			var final_price = parseFloat(net_price) + gst_rs;
-			$('#text_net_price').val(final_price);
-		}else{
-			$('#text_net_price').val(net_price);
-			//Swal.fire("warning", "Select GST !!", "warning");
-		}		
-	}
-	else{
-		$('#text_net_price').val(net_price);
-	}
+$('#text_tax, #text_unit_price').on('change', function(){
+	calculateSellingprice();
 });
 
 

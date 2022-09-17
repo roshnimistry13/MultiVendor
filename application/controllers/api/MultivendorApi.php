@@ -698,19 +698,20 @@ class MultivendorApi extends REST_Controller
 		if($key == SECRETKEY)
 		{
 			
-			$customer_id = $this->input->post('customer_id');
-			$first_name = $this->input->post('first_name');
-			$last_name = $this->input->post('last_name');
-			$email = $this->input->post('email');
-			$mobile = $this->input->post('mobile');
-			$address = $this->input->post('address');
+			$customer_id 			= $this->input->post('customer_id');
+			$first_name 			= $this->input->post('first_name');
+			$last_name 				= $this->input->post('last_name');
+			$email 					= $this->input->post('email');
+			$mobile 				= $this->input->post('mobile');
+			$address 				= $this->input->post('address');
 			/*$locality = $this->input->post('locality');
 			$landmark = $this->input->post('landmark');*/
-			$city = $this->input->post('city');
-			$state = $this->input->post('state');
-			$pincode = $this->input->post('pincode');
-			$country = $this->input->post('country');
-			$address_type = $this->input->post('address_type');
+			$city 					= $this->input->post('city');
+			$state 					= $this->input->post('state');
+			$pincode 				= $this->input->post('pincode');
+			$country 				= $this->input->post('country');
+			$address_type 			= $this->input->post('address_type');
+			$set_default 			= $this->input->post('set_default');
 			
 			if($customer_id == '' || $customer_id == NULL)
 			{
@@ -798,19 +799,27 @@ class MultivendorApi extends REST_Controller
 			}
 			else
 			{
-				$insertdata['customer_id'] = $customer_id;
-				$insertdata['first_name'] = $first_name;
-				$insertdata['last_name'] = $last_name;
-				$insertdata['email'] = $email;
-				$insertdata['mobile'] = $mobile;
-				$insertdata['address'] = $address;
-				/*$insertdata['locality'] = $locality;
-				$insertdata['landmark'] = $landmark;*/
-				$insertdata['city'] = $city;
-				$insertdata['state'] = $state;
-				$insertdata['pincode'] = $pincode;
-				$insertdata['country'] = $country;
-				$insertdata['address_type'] = $address_type;
+				if($set_default != "" && $set_default != null && $set_default > 0){
+					$whr['customer_id'] = $customer_id;
+					$update1['set_default'] = 0;
+					$update_address_result 				= update('customer_address',$update1,$whr);
+					logThis($update_address_result->query, date('Y-m-d'),'Customer Address');
+
+					$insertdata['set_default'] = 1;
+				}
+				
+				$insertdata['customer_id'] 		= $customer_id;
+				$insertdata['first_name'] 		= $first_name;
+				$insertdata['last_name'] 		= $last_name;
+				$insertdata['email'] 			= $email;
+				$insertdata['mobile'] 			= $mobile;
+				$insertdata['address'] 			= $address;
+				$insertdata['city'] 			= $city;
+				$insertdata['state'] 			= $state;
+				$insertdata['pincode'] 			= $pincode;
+				$insertdata['country'] 			= $country;
+				$insertdata['address_type'] 	= $address_type;
+				//$insertdata['set_default'] = $set_default;
 				
 				$insert_result = insert('customer_address',$insertdata,'');
 				logThis($insert_result->query, date('Y-m-d'),'Customer Address');
@@ -844,25 +853,72 @@ class MultivendorApi extends REST_Controller
 		}
 	}
 
+
+	// CHANGE DELIVERY ADDRESS
+
+	public function changeDeliveryAddress_post(){
+		$key = $this->post('secretkey');
+		if($key == SECRETKEY){
+			$customer_id 				= $this->input->post('customer_id');
+			$deliverd_address_id 		= $this->input->post('address_id');
+
+			$whr['customer_id'] = $customer_id;
+			$update1['set_default'] = 0;
+			$update_result 				= update('customer_address',$update1,$whr);
+			logThis($update_result->query, date('Y-m-d'),'Customer Address');
+
+			if($update_result->status == "success"){
+				$whr1['address_id'] 		= $deliverd_address_id;
+				$whr1['customer_id'] 		= $customer_id;
+				$upadte2['set_default'] = 1;
+				$update_result2 				= update('customer_address',$upadte2,$whr1);
+				logThis($update_result2->query, date('Y-m-d'),'Customer Address');
+				if($update_result2->status == "success"){
+					$this->response([
+						'status' 		=> TRUE,
+						'data' 			=> array(),
+						'message' 		=> 'Address Change Successfully.'
+					], REST_Controller::HTTP_OK);
+	
+				}
+			}else{
+				$this->response([
+					'status' 		=> FALSE,
+					'data' 			=> array(),
+					'message' 		=> 'Try again after sometimes!!'
+				], REST_Controller::HTTP_OK);
+			}
+		}
+		else
+		{
+			//Secret key invalid
+			$this->response([
+					'status' => FALSE,
+					'data' => 'null',
+					'message' => SECRETKEY_MESSAGE
+				], REST_Controller::HTTP_OK);
+
+		}
+	}
 	public function editAddress_post()
 	{
 		$key = $this->post('secretkey');
 		//Secret key
 		if($key == SECRETKEY)
 		{
-			$address_id = $this->input->post('address_id');
-			$first_name = $this->input->post('first_name');
-			$last_name = $this->input->post('last_name');
-			$email = $this->input->post('email');
-			$mobile = $this->input->post('mobile');
-			$address = $this->input->post('address');
-			/*$locality = $this->input->post('locality');
-			$landmark = $this->input->post('landmark');*/
-			$city = $this->input->post('city');
-			$state = $this->input->post('state');
-			$pincode = $this->input->post('pincode');
-			$country = $this->input->post('country');
-			$address_type = $this->input->post('address_type');
+			$customer_id 		= $this->input->post('customer_id');
+			$address_id			= $this->input->post('address_id');
+			$first_name 		= $this->input->post('first_name');
+			$last_name 			= $this->input->post('last_name');
+			$email 				= $this->input->post('email');
+			$mobile 			= $this->input->post('mobile');
+			$address 			= $this->input->post('address');
+			$city 				= $this->input->post('city');
+			$state 				= $this->input->post('state');
+			$pincode 			= $this->input->post('pincode');
+			$country 			= $this->input->post('country');
+			$address_type 		= $this->input->post('address_type');
+			$set_default 		= $this->input->post('set_default');
 			
 			if($address_id == '' || $address_id == NULL)
 			{
@@ -943,6 +999,14 @@ class MultivendorApi extends REST_Controller
 			}
 			else
 			{
+				if($set_default != "" && $set_default != null && $set_default > 0){
+					$whr['customer_id'] = $customer_id;
+					$update1['set_default'] = 0;
+					$update_address_result 				= update('customer_address',$update1,$whr);
+					logThis($update_address_result->query, date('Y-m-d'),'Customer Address');
+
+					$updatedata['set_default'] = 1;
+				}
 				$updatedata['first_name'] = $first_name;
 				$updatedata['last_name'] = $last_name;
 				$updatedata['email'] = $email;
@@ -954,7 +1018,8 @@ class MultivendorApi extends REST_Controller
 				$updatedata['country'] = $country;
 				$updatedata['address_type'] = $address_type;
 				
-				$cond['address_id'] = $address_id;
+				$cond['address_id'] 		= $address_id;
+				$cond['customer_id'] 		= $customer_id;
 				$update_result = update('customer_address',$updatedata,$cond);
 				logThis($update_result->query, date('Y-m-d'),'Customer Address');
 				
@@ -1189,29 +1254,24 @@ class MultivendorApi extends REST_Controller
 	{
 		$i     = 0;
 		$product = array();
-
-		foreach($results as $row)
-		{
-			$product[$i]['product_id'] = $row['product_id'];
-			$product[$i]['product_name'] = $row['product_name'];
-			$product[$i]['product_code'] = $row['product_code'];
-			$product[$i]['short_description'] = $row['short_description'];
-			$product[$i]['name'] = $row['name'];
-			$product[$i]['vendor_id'] = $row['vendor_id'];
-			$product[$i]['company'] = $row['company'];
-			$product[$i]['brand_id'] = $row['brand_id'];
-			$product[$i]['brand_name'] = $row['brand_name'];
-			$product[$i]['category_id'] = $row['category_id'];
-			$product[$i]['category_name'] = $row['category_name'];
-			$product[$i]['mrp_price'] = $row['mrp_price'];
-			$product[$i]['discount'] = $row['discount'];
-			$product[$i]['net_price'] = $row['net_price'];
-			$product[$i]['is_new_product'] = $row['is_new_product'];
-			$product[$i]['is_popular_product'] = $row['is_popular_product'];
-			$product[$i]['is_feature_product'] = $row['is_feature_product'];
-			$product[$i]['image'] = explode ("|", $row['image']);
-			$i++;
-		}
+		// /print_r($results);
+		foreach($results as $key => $val)
+		{	$data = array();		
+			if(!empty($val)){
+				foreach($val as $key1 => $val1){
+					if($key1 == "image"){
+						$data[$key1] = explode ("|", $val1);
+						// echo "<pre>".print_r($product[$key])."</pre>";
+					}
+					else{
+						$data[$key1] = $val1;
+					}
+				}
+			}
+			$product[$key] = $data;
+			
+		}		
+		
 		return $product;
 	}
 
@@ -1258,8 +1318,7 @@ class MultivendorApi extends REST_Controller
 		//Secret key
 		if($key == SECRETKEY)
 		{
-			$brand_id = $this->post('brand_id');
-			
+			$brand_id = $this->post('brand_id');			
 			if($brand_id == '' || $brand_id == NULL)
 			{
 				$this->response([
@@ -1269,8 +1328,7 @@ class MultivendorApi extends REST_Controller
 			}
 			else
 			{
-				$results = $this->Master_m->getProductsList($category_id = NULL, $brand_id, $new_product = NULL, $best_seller = NULL);
-				
+				$results = $this->Master_m->getProductsList($category_id = NULL, $brand_id, $new_product = NULL, $best_seller = NULL);				
 				if(!empty($results))
 				{
 					$product = $this->setProductList($results);
@@ -1347,7 +1405,7 @@ class MultivendorApi extends REST_Controller
 		if($key == SECRETKEY)
 		{
 			$product_id = $this->input->post('product_id');
-			
+			$product_img = array();
 			if($product_id == '' || $product_id == NULL)
 			{
 				$this->response([
@@ -1357,45 +1415,14 @@ class MultivendorApi extends REST_Controller
 			}
 			else
 			{
-				$results = $this->Master_m->getAllProductDetails($product_id);
-				
+				$results = $this->Master_m->getAllProductDetails($product_id);				
 				if(!empty($results))
 				{
-					$i     = 0;
-					$product = array();
-
-					foreach($results as $row)
-					{
-						$product[$i]['product_id'] = $row['product_id'];
-						$product[$i]['product_name'] = $row['product_name'];
-						$product[$i]['product_code'] = $row['product_code'];
-						$product[$i]['short_code'] = $row['short_code'];
-						$product[$i]['short_description'] = $row['short_description'];
-						$product[$i]['description'] = $row['description'];
-						$product[$i]['vendor_id'] = $row['vendor_id'];
-						$product[$i]['company'] = $row['company'];
-						$product[$i]['category_id'] = $row['category_id'];
-						$product[$i]['category_name'] = $row['category_name'];
-						$product[$i]['brand_id'] = $row['brand_id'];
-						$product[$i]['brand_name'] = $row['brand_name'];
-						///$product[$i]['unit'] = $row['unit'];
-						$product[$i]['mrp_price'] = $row['mrp_price'];
-						$product[$i]['discount'] = $row['discount'];
-						$product[$i]['net_price'] = $row['net_price'];
-						$product[$i]['tax'] = $row['tax'];
-						$product[$i]['onhand_quantity'] = $row['onhand_quantity'];
-						$product[$i]['is_new_product'] = $row['is_new_product'];
-						$product[$i]['is_popular_product'] = $row['is_popular_product'];
-						$product[$i]['is_feature_product'] = $row['is_feature_product'];
-						$product[$i]['image'] = explode ("|", $row['image']);
-
-						$i++;
-					}
-
+					$product = $this->setProductList($results);
 					$this->response([
 							'status' => TRUE,
 							'message' => 'Product details .',
-							'image_url' => base_url().PRODUCT_IMAGE_PATH,
+							'image_url' => base_url().PRODUCT_IMAGE_PATH.$product_id,
 							'data' => $product,
 						], REST_Controller::HTTP_OK);
 				}
@@ -1837,77 +1864,28 @@ class MultivendorApi extends REST_Controller
 
 	// function to add product in cart
 	public function addToCart_post()
-	{
+	{	
+		
 		$key = $this->post('secretkey');
 		if($key == SECRETKEY)
 		{
-			$product_id 			= $this->post('product_id');
-			$quantity   			= $this->post('quantity');
-			$where['product_id'] 	= $product_id;
-			$result   				= $this->Master_m->where('product_details',$where);
-			$product_name   		= $result[0]['product_name'];
-			$net_price   			= $result[0]['net_price'];
-			$mrp_price   			= $result[0]['mrp_price'];
-			$discount    			= $result[0]['discount'];
-			$discount_amt    		= $result[0]['discount_amt'];
-			$gst   					= $result[0]['tax'];
-			$gst_amt   				= $result[0]['gst_amt'];
-			if($quantity == NULL || $quantity == "")
-			{
-				$quantity = 1;
-			}
-			$final_amount 				= $net_price * $quantity;
-			$customer_id 				= $this->post('customer_id');
-			$item['customer_id'] 		= $customer_id;
-			$item['product_id'] 		= $product_id;
-			$res 						= $this->Master_m->where('customer_cart',$item);
+			$data['product_id'] 			= $this->post('product_id');
+			$data['quantity']  				= $this->post('quantity');
+			$data['customer_id'] 			= $this->post('customer_id');
+			
+			$res 						= $this->Master_m->addTocart($data);
 			if(!empty($res)){
-				$old_qty   			= $res[0]['quantity'];
-				$final_qty 			= $quantity + $old_qty;
-				$id['cart_id'] 		= $res[0]['cart_id'];
-				$final_amount 		= $net_price * $final_qty;
-				$update = array(
-					'quantity'=>$final_qty,
-					'total_amt'=>$final_amount
-				);
-
-				$this->Master_m->updaterecord('customer_cart',$id,$update);
-
 				$this->response([
 						'status' => TRUE,
-						'message' => 'Update to Cart Item'
+						'message' => $res['message']
 					], REST_Controller::HTTP_OK);
 			}
 			else
 			{
-				$insertdata['customer_id'] 		= $customer_id;
-				$insertdata['product_id'] 		= $product_id;
-				$insertdata['product_name'] 	= $product_name;
-				$insertdata['quantity'] 		= $quantity;
-				$insertdata['net_price'] 		= $net_price;
-				$insertdata['total_amt'] 		= $final_amount;
-				$insertdata['mrp'] 				= $mrp_price;
-				$insertdata['discount'] 		= $discount;
-				$insertdata['discount_amt'] 	= $discount_amt;
-				$insertdata['gst'] 				= $gst;
-				$insertdata['gst_amt'] 			= $gst_amt;
-
-				$insert_result = insert('customer_cart',$insertdata,'');
-				logThis($insert_result->query, date('Y-m-d'),'Customer Cart');
-				if($insert_result->status = 'success')
-				{
-					$this->response([
-						'status' => TRUE,
-						'message' => 'Added to Cart'
-					], REST_Controller::HTTP_OK);
-					
-				}				
-				else
-				{
-					$this->response([
+				
+				$this->response([
 							'status' => FALSE,
 						], REST_Controller::HTTP_OK);
-				}
 			}
 		}
 		else
@@ -1961,22 +1939,32 @@ class MultivendorApi extends REST_Controller
 		if($key == SECRETKEY)
 		{
 			$customer_id 				= $this->post('customer_id');
-			$where['customer_id'] 		= $customer_id;
-			$cart_items 				= $this->Master_m->where('customer_cart',$where);
-
-			if(!empty($cart_items))
-			{
-				$this->response([
-						'status' 	=> TRUE,
-						'data'		=> $cart_items,
-						'message' 	=>	'Cart Items List'
+			if($customer_id != "" && $customer_id != null && $customer_id >0){
+				$where['customer_id'] 		= $customer_id;
+				$cart_items 				= $this->Master_m->getCustomerCartItems($customer_id);
+				
+				
+				if(!empty($cart_items))
+				{
+					$result 					= $this->setProductList($cart_items);
+					$this->response([
+							'status' 	=> TRUE,
+							'data'		=> $result,
+							'image_url' => base_url().PRODUCT_IMAGE_PATH,
+							'message' 	=>	'Cart Items List'
+						], REST_Controller::HTTP_OK);
+				}
+				else
+				{
+					$this->response([
+						'status' => FALSE,
+						'message' => 'No Cart Items found'
 					], REST_Controller::HTTP_OK);
-			}
-			else
-			{
+				}
+			}else{
 				$this->response([
 					'status' => FALSE,
-					'message' => 'No Cart Items found'
+					'message' => 'customer id is not empty / null or 0 '
 				], REST_Controller::HTTP_OK);
 			}
 		}
@@ -2032,16 +2020,18 @@ class MultivendorApi extends REST_Controller
 			$quantity     		= $this->post('quantity');
 			$customer_id		= $this->post('customer_id');
 
+			$where['product_id'] 	= $product_id;
+			$result   				= $this->Master_m->where('product_details',$where);
+			$net_price 				= $result[0]['net_price'];
+			$total_amt              = $quantity * $net_price;
+
 			$condition['product_id'] 	= $product_id;
 			$condition['customer_id'] 	= $customer_id;
-			$updatedata['quantity'] 	= $quantity;
+			$updatedata['quantity'] 	= $quantity;			
 					
-			$update_result = update('customer_cart',$updatedata,$condition);
-			
-			logThis($update_result->query, date('Y-m-d'),'Customer Cart');
-			
+			$update_result = update('customer_cart',$updatedata,$condition);			
+			logThis($update_result->query, date('Y-m-d'),'Customer Cart');			
 			if($update_result->status == 'success'){
-
 				$this->response([
 					'status' => TRUE,
 					'message' => 'Quantity Updated'
@@ -2066,25 +2056,39 @@ class MultivendorApi extends REST_Controller
 	}
 
 	//order product details and save database
-	public function addOrder_post()
+	public function addOrder_post_xx()
 	{
 		$key = $this->post('secretkey');
 		//Secret key
 		if($key == SECRETKEY){
 
+			$product_id					= $this->input->post('product_id');
+			$product_arr				= array();
+			if(!empty($product_id)){
+				$product_arr = explode(',',$product_id);
+			}
 			$customer_id 				= $this->input->post('customer_id');
-			$where['customer_id'] 		= $customer_id;
-			$cart_items 				= $this->Master_m->where('customer_cart',$where);	
+			// $where['customer_id'] 		= $customer_id;
+			// $cart_items 				= $this->Master_m->where('customer_cart',$where);	
+			$cart_items 				= $this->Master_m->getSelectedCartItemDetail($customer_id,$product_arr);	
 			
 			if(!empty($cart_items)){
-
-				$item_data 						= $this->Master_m->getTotalcartItem($customer_id);
-				$order_number 					= $this->Master_m->getLatestOrderNumber();
-				$insertdata['order_number'] 	= "ORD-".$order_number;
-				$insertdata['customer_id'] 		= $customer_id;
-				$insertdata['total_quantity'] 	= $item_data[0]['totalQty'];
-				$insertdata['total_amount'] 	= $item_data[0]['totalamount'];
-				$insertdata['order_date'] 		= date('Y-m-d');				
+				$total_Qty = 0;
+				$total_amt = 0;
+				foreach($cart_items  as $item){
+					$total_Qty = $total_Qty + $item['quantity'];
+					$total_amt = $total_amt + $item['total_amt'];
+				}
+				
+				//$item_data 						= $this->Master_m->getTotalcartItem($customer_id);				
+				$order_number 						= $this->Master_m->getLatestOrderNumber();
+				$insertdata['order_number'] 		= "ORD-".$order_number;
+				$insertdata['customer_id'] 			= $customer_id;
+				// $insertdata['total_quantity'] 	= $item_data[0]['totalQty'];
+				// $insertdata['total_amount'] 		= $item_data[0]['totalamount'];
+				$insertdata['total_quantity'] 		= $total_Qty;
+				$insertdata['total_amount'] 		= $total_amt;
+				$insertdata['order_date'] 			= date('Y-m-d');				
 				
 				$insert_result = insert('orders',$insertdata,'');
 				
@@ -2097,6 +2101,8 @@ class MultivendorApi extends REST_Controller
 					$insertOrder['product_id'] 		= $row['product_id'];
 					$insertOrder['quantity'] 		= $row['quantity'];
 					$insertOrder['net_price'] 		= $row['net_price'];
+					$insertOrder['total_amt'] 		= $row['total_amt'];
+					$insertOrder['discount'] 		= $row['discount'];
 
 					$insert_order 	= insert('order_details',$insertOrder,'');
 					logThis($insert_order->query, date('Y-m-d'),'Order Detail');
@@ -2117,6 +2123,33 @@ class MultivendorApi extends REST_Controller
 				}
 			}else{
 				
+				$this->response([
+					'status' => FALSE,				
+					'message' => 'No Item Found in Cart'
+				], REST_Controller::HTTP_OK);
+			}
+		}
+		else
+		{			//Secret key invalid
+			$this->response([
+					'status' => FALSE,				
+					'message' => SECRETKEY_MESSAGE
+				], REST_Controller::HTTP_OK);
+		}
+	}
+	public function placeOrder_post()
+	{
+		$key = $this->post('secretkey');
+		//Secret key
+		if($key == SECRETKEY){
+			$customer_id 				= $this->input->post('customer_id');
+			$add_order 					= $this->Master_m->addOrder($customer_id);			
+			if($add_order){				
+					$this->response([
+						'status' => TRUE,
+						'message' => 'Order Placed'
+					], REST_Controller::HTTP_OK);				
+			}else{
 				$this->response([
 					'status' => FALSE,				
 					'message' => 'No Item Found in Cart'
@@ -2210,7 +2243,6 @@ class MultivendorApi extends REST_Controller
 			$orderdata   				= $this->Master_m->where('orders',$where);			
 			if(!empty($orderdata)){
 				$OrderList   			= $this->Master_m->getCustomerOrderList($customer_id);
-				
 				$this->response([
 					'status' 		=> TRUE,
 					'data' 			=> $orderdata,
@@ -2221,7 +2253,7 @@ class MultivendorApi extends REST_Controller
 				
 				$this->response([
 					'status' 		=> FALSE,
-					'data' 			=> '',
+					'data' 			=> array(),
 					'message' 		=> 'No Order Found !!'
 				], REST_Controller::HTTP_OK);
 
@@ -2248,10 +2280,10 @@ class MultivendorApi extends REST_Controller
 			$order_id 				= $this->input->post('order_id');
 			$OrderList   			= $this->Master_m->getCustomerOrderList($order_id);
 			if(!empty($OrderList)){	
-				
 				$this->response([
 					'status' 		=> TRUE,
 					'data' 			=> $OrderList,
+					'image_url' 	=> base_url().PRODUCT_IMAGE_PATH,
 					'message' 		=> 'order history data.'
 				], REST_Controller::HTTP_OK);
 
@@ -2277,6 +2309,9 @@ class MultivendorApi extends REST_Controller
 		}
 	}
 	
+	
+
+
 	public function getOrderInvoice_post()
 	{
 		$key = $this->post('secretkey');
@@ -2841,5 +2876,4 @@ class MultivendorApi extends REST_Controller
 				], REST_Controller::HTTP_OK);
 		}
 	}
-	
 }

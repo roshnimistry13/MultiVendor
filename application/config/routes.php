@@ -147,6 +147,7 @@ $route['submit-slider']            = "Admin/Slider/submitSlider";
 /** Order */
 $route['order']            	        = "Admin/Order/index";
 $route['view-order/(:any)']         = "Admin/Order/ViewOrder";
+$route['update-delivery-status']    = "Admin/Order/updateDeliveryStatus";
 
 
 /** coupon */
@@ -154,6 +155,12 @@ $route['coupon']            	        = "Admin/Coupon/index";
 $route['add-coupon']            	    = "Admin/Coupon/addCoupon";
 $route['edit-coupon/(:any)']            = "Admin/Coupon/editCopoun";
 $route['submit-coupon']            	    = "Admin/Coupon/submitCoupon";
+
+/** stock */
+
+$route['stock']            	        = "Admin/Stock/index";
+$route['edit-stock/(:any)']         = "Admin/Stock/editStock";
+$route['submit-stock']              = "Admin/Stock/submitStock";
 
 /*** */
 $route['admin-logout']      = 'Admin/login/logout';
@@ -172,9 +179,14 @@ $route['product']                   = "Home/product";
 $route['product-detail/(:any)']     = "Home/productDetail";
 $route['blog']                      = "Home/blog";
 $route['cart']                      = "Home/cart";
+$route['whishlist']                 = "Home/whishlist";
 $route['checkout']                  = "Home/checkout";
 $route['register-customer']         = "Home/registerCustomer";
 $route['customer-login']            = "Home/customerLogin";
 $route['logout']                    = "Home/logout";
 $route['change-password']           = "Home/changePassword";
 $route['subscribe-newsletter']      = "Home/subscribeNewsletter";
+$route['add-cust-address']          = "Home/submitCustomerAddress";
+$route['change-delivery-address']   = "Home/changeDeliveryAddress";
+$route['place-order']               = "Home/placeOrder";
+$route['get-state-by-country']      = "Home/getStateByCountry";

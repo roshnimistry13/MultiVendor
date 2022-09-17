@@ -1,0 +1,2 @@
+"2022-08-20 22:27:08pm "," update "," UPDATE user SET `last_login` = '2022-08-20 18:57:08' WHERE 1=1  and user_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/login-check "," R: http://localhost/MultiVendor/admin"
+"2022-08-20 22:28:41pm "," insert "," INSERT INTO coupon(`coupon_code`, `start_date`, `expiry_date`, `created_by`, `create_at`) VALUES('ABC123', '2022-08-01', '2022-08-31', '1', '2022-08-20 18:58:41') "," ::1 "," URL: http://localhost/MultiVendor/submit-coupon "," R: http://localhost/MultiVendor/add-coupon"

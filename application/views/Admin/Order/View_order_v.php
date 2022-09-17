@@ -36,6 +36,7 @@
             <div class="col-lg-12 mb-30">
                 <div class="card">
                     <div class="card-body">
+                        
                         <div class="atbd-nav-controller nav-controller-slide">
                             <div class="nav-controller-content tab-content">
                                 <div class="tab-pane fade active show" id="control1" role="tabpanel"
@@ -62,7 +63,29 @@
                                                         aria-selected="false">Payment </a>
                                                 </li>
                                             </ul>
+
+
                                             <div class="tab-content">
+                                                <!-- ORDER SUMMARY -->
+
+                                                <?php if(!empty($orderSummary)){
+                                                    $order_no           = $orderSummary[0]['order_number'];
+                                                    $total_quantity     = $orderSummary[0]['total_quantity'];
+                                                    $total_item         = $orderSummary[0]['total_item'];
+                                                    $discount_amt       = $orderSummary[0]['discount_amt'];
+                                                    $gst_amount         = $orderSummary[0]['gst_amount'];
+                                                    $ship_amount        = $orderSummary[0]['ship_amount'];
+                                                    $order_date         = date('d-M-Y',strtotime($orderSummary[0]['order_date']));
+                                                    $delivery_status    = $orderSummary[0]['delivery_status'];
+                                                    $total_amount       = $orderSummary[0]['total_amount'];
+                                                    $total_mrp          = $orderSummary[0]['total_mrp'];
+                                                    
+                                                    $cust_name       = $orderSummary[0]['cust_name'];
+                                                    $cust_phone       = $orderSummary[0]['cust_phone'];
+                                                    $cust_email       = $orderSummary[0]['cust_email'];                                                    
+                                                    $shipping_address       = $orderSummary[0]['shipping_address'];
+
+                                                ?>
                                                 <div class="tab-pane fade show active" id="tab-content-order"
                                                     role="tabpanel" aria-labelledby="tab-1">
                                                     <div class="row">
@@ -72,33 +95,39 @@
                                                                     <div
                                                                         class="card-header bg-white border-bottom-0 p-0 pb-25">
                                                                         <h5 class="fw-500">Order Summary</h5>
-                                                                        <h6 class="fw-500">#ORD-1</h6>
+                                                                        <h6 class="fw-500">#<?php echo $order_no;?></h6>
                                                                     </div>
                                                                     <div class="card-body bg-white">
                                                                         <div class="total">
                                                                             <div class="shipping">
-                                                                                Status:
+                                                                                Status :
                                                                                 <span
-                                                                                    class="badge badge-round badge-success badge-lg">Shipped</span>
+                                                                                    class="badge badge-round badge-success badge-lg"><?php echo $delivery_status;?></span>
                                                                             </div>
                                                                             <div class="subtotalTotal">
-                                                                                Subtotal:
-                                                                                <span>₹1,690.26</span>
+                                                                                Total Quantity :
+                                                                                <span><?php echo $total_quantity; ?></span>
+                                                                            </div>
+                                                                            <div class="subtotalTotal">
+                                                                                Total MRP :
+                                                                                <span><?php echo moneyFormatIndia_admin($total_mrp)?></span>
                                                                             </div>
                                                                             <div class="taxes">
-                                                                                Discount:
-                                                                                <span>-₹126.30</span>
+                                                                                Discount :
+                                                                                <span>-
+                                                                                    <?php echo moneyFormatIndia_admin($discount_amt);?></span>
                                                                             </div>
                                                                             <div class="shipping">
-                                                                                Shipping charge:
-                                                                                <span>₹46.30</span>
+                                                                                Shipping charge :
+                                                                                <span>0.0</span>
                                                                             </div>
                                                                         </div>
 
                                                                         <div
                                                                             class="total-money d-flex justify-content-between">
-                                                                            <h6>Total :</h6>
-                                                                            <h5>₹1738.60</h5>
+                                                                            <h6>Total Amount :</h6>
+                                                                            <h5><?php echo moneyFormatIndia_admin($total_amount);?>
+                                                                            </h5>
                                                                         </div>
                                                                     </div>
                                                                 </div><!-- ends: card -->
@@ -115,23 +144,23 @@
                                                                         <div class="total">
                                                                             <div class="">
                                                                                 Name:
-                                                                                <span>Roshni Mistry</span>
+                                                                                <span><?php echo $cust_name;?></span>
                                                                             </div>
                                                                             <div class="">
                                                                                 Phone:
-                                                                                <span>1234567896</span>
+                                                                                <span><?php echo $cust_phone; ?></span>
                                                                             </div>
                                                                             <div class="text-lowercase">
                                                                                 Email:
-                                                                                <span>roshnimistry@gmail.com</span>
+                                                                                <span><?php echo $cust_email;?></span>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                     <div class="card-body bg-white mt-2">
                                                                         <h6>Shipping Address </h6>
                                                                         <div class="mt-3">
-                                                                            <span>Phase 3 GIDC, Vapi, Gujarat
-                                                                                396191</span>
+                                                                            <div><?php echo $shipping_address ;?></div>
+
                                                                         </div>
                                                                     </div>
                                                                 </div><!-- ends: card -->
@@ -141,6 +170,10 @@
                                                     </div>
 
                                                 </div>
+                                                <?php } ?>
+
+                                                <!-- ORDER PRODUCT DETAIL -->
+                                                <?php if(!empty($productdata)){?>
                                                 <div class="tab-pane fade" id="tab-content-product" role="tabpanel"
                                                     aria-labelledby="tab-2">
                                                     <div class="row">
@@ -150,46 +183,51 @@
                                                                     <h6>Products Detail</h6>
                                                                 </div>
                                                                 <div class="card-body p-0">
-                                                                    <div class="landing-pages-table table-responsive">
+                                                                    <div class="table-responsive">
                                                                         <table
-                                                                            class="table table--default product-detail">
+                                                                            class="table table--default product-detail w-100">
                                                                             <thead>
                                                                                 <tr>
                                                                                     <th>Product</th>
                                                                                     <th>Qty</th>
                                                                                     <th>MRP(rs)</th>
-                                                                                    <th>Discount</th>
-                                                                                    <th>GST</th>
+                                                                                    <th>Selling Price</th>
+                                                                                    <th>Discount(%)</th>
+                                                                                    <th>GST(%)</th>
                                                                                     <th>Amount</th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
+                                                                                <?php 
+                                                                                        $total = 0;
+                                                                                        foreach($productdata as $row){ 
+                                                                                        $total = $total + $row['total_amt'];
+                                                                                    ?>
                                                                                 <tr>
                                                                                     <td>
-                                                                                        <a href="">Product-1</a>
+                                                                                        <a href="<?php echo base_url('edit-product/').$row['product_id'];?>"><?php echo $row['product_name'];?></a>
                                                                                     </td>
-                                                                                    <td>1</td>
-                                                                                    <td>₹200</td>
-                                                                                    <td>₹100</td>
-                                                                                    <td>₹25</td>
-                                                                                    <td>₹250</td>
-                                                                                </tr>
-                                                                                <tr>
-                                                                                    <td>
-                                                                                        <a href="">Product-2</a>
+                                                                                    <td><?php echo $row['quantity']; ?>
                                                                                     </td>
-                                                                                    <td>1</td>
-                                                                                    <td>₹200</td>
-                                                                                    <td>₹100</td>
-                                                                                    <td>₹25</td>
-                                                                                    <td>₹250</td>
+                                                                                    <td><?php echo moneyFormatIndia_admin($row['mrp_price']);?>
+                                                                                    </td>
+                                                                                    <td><?php echo moneyFormatIndia_admin($row['net_price']);?>
+                                                                                    </td>
+                                                                                    <td><?php echo $row['discount']?>
+                                                                                    </td>
+                                                                                    <td><?php echo $row['gst']?></td>
+                                                                                    <td><?php echo moneyFormatIndia_admin($row['total_amt']);?>
+                                                                                    </td>
                                                                                 </tr>
+                                                                                <?php } ?>
                                                                             </tbody>
                                                                             <tfoot>
                                                                                 <tr>
-                                                                                    <th colspan="5" class="text-right">
+                                                                                    <th colspan="6" class="text-right">
                                                                                         Total Amount</th>
-                                                                                    <th class="text-right pr-3">₹1000</th>
+                                                                                    <th class="text-right pr-3">
+                                                                                        <?php echo moneyFormatIndia_admin($total); ?>
+                                                                                    </th>
                                                                                 </tr>
                                                                             </tfoot>
                                                                         </table>
@@ -200,10 +238,43 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <?php } ?>
+                                                <!-- ORDER PAYMENT DETAIL -->
+                                                <?php if(!empty($paymentdata)){ ?>
                                                 <div class="tab-pane fade" id="tab-content-payment" role="tabpanel"
                                                     aria-labelledby="tab-3">
-                                                    <p>Content of Tab Pane 3</p>
+                                                    <div class="col-xxl-4 col-lg-6">
+                                                            <div class="bg-white radius-xl pt-25 pb-50 px-25">
+                                                                <div class="card order-summery  bg-normal p-sm-25 p-15">
+                                                                    <div
+                                                                        class="card-header bg-white border-bottom-0 p-0 pb-25">
+                                                                        <h5 class="fw-500">Payment Summary</h5>                                                                       
+                                                                    </div>
+                                                                    <div class="card-body bg-white">
+                                                                        <div class="total">
+                                                                            <div class="shipping">
+                                                                                Payment Date :
+                                                                                <span><?php echo date('d-M-Y',strtotime($paymentdata[0]['payment_date']));?></span>
+                                                                            </div>
+                                                                            <div class="shipping">
+                                                                                Status :
+                                                                                <span class="badge badge-round badge-success badge-lg"><?php echo $paymentdata[0]['pay_status'];?></span>
+                                                                            </div>
+                                                                            <div class="shipping">
+                                                                                Payment Mode :
+                                                                                <span class="badge badge-round badge-success badge-lg"><?php echo $paymentdata[0]['payment_mode'];?></span>
+                                                                            </div>
+                                                                            <div class="subtotalTotal">
+                                                                                Paid Amonut :
+                                                                                <span><?php echo moneyFormatIndia_admin($paymentdata[0]['total_pay_amount'])?></span>
+                                                                            </div>                                                                            
+                                                                        </div>                                                                        
+                                                                    </div>
+                                                                </div><!-- ends: card -->
+                                                            </div>
+                                                        </div>
                                                 </div>
+                                                <?php } ?>
                                             </div>
                                         </div>
                                     </div>
@@ -216,3 +287,4 @@
         </div>
     </div>
 </div>
+

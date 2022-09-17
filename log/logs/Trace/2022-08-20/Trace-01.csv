@@ -1,0 +1,2 @@
+"2022-08-21 01:21:09am "," update "," UPDATE coupon SET `updated_by` = '1', `update_at` = '2022-08-20 21:51:09', `is_active` = '0' WHERE 1=1  and coupon_id = '2' "," ::1 "," URL: http://localhost/MultiVendor/Admin/Coupon/updateStatus "," R: http://localhost/MultiVendor/coupon"
+"2022-08-21 01:21:12am "," update "," UPDATE coupon SET `updated_by` = '1', `update_at` = '2022-08-20 21:51:12', `is_active` = '1' WHERE 1=1  and coupon_id = '2' "," ::1 "," URL: http://localhost/MultiVendor/Admin/Coupon/updateStatus "," R: http://localhost/MultiVendor/coupon"

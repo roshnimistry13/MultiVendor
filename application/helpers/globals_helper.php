@@ -664,6 +664,7 @@ function saveHtml($html,$path){
 * 
 * @return
 */
+
 function compressImage($source, $destination, $quality, $grayscale = false){
 
 	$info = getimagesize($source);
@@ -697,6 +698,24 @@ function compressImage($source, $destination, $quality, $grayscale = false){
 	//imagejpeg($image, $destination, $quality);
 
 	return $destination;
+}
+
+function imageCompress1($file_path,$name){
+	
+	$ci =& get_instance();
+	$setting['image_path'] = $file_path;
+	$setting['image_name'] = $name;
+	$setting['compress_path'] = $file_path;
+	$setting['jpg_compress_level'] = 2;
+	$setting['png_compress_level'] = 2;
+	$setting['create_thumb'] = TRUE;
+	$setting['width_thumb'] = 300;
+	$setting['height_thumb'] = 300;
+	
+	$ci->load->library('imgcompressor', $setting);
+	$result = $ci->imgcompressor->do_compress();
+
+	return true;
 }
 
 
@@ -1009,7 +1028,7 @@ function send_email($mailData)
 		//'smtp_host'=>  'ssl://smtp.gmail.com',
 		'smtp_port'   => 465,
 		'smtp_user'=> 'devloperproactii@gmail.com',
-		'smtp_pass'   => 'nsaldarixoujyzbh',
+		'smtp_pass'   => 'yhfmblqiqjmetonj',
     	//'smtp_crypto' => 'ssl', 
 		'mailtype'=> 'html',
 		'smtp_timeout'=> '10',
@@ -1035,6 +1054,7 @@ function send_email($mailData)
 	}
 	else
 	{
+		// print_r($ci->email->print_debugger());
 		return FALSE;
 	}
 }
@@ -1288,4 +1308,61 @@ function getAllElementBycategory($id,$productid=null){
 			return $elements_html;
 }
 
+/*** WITHOUT RUPPEE SYMBOL FOR FRONTSITE -UI */
+if(! function_exists('moneyFormatIndia_ui'))
+	{
+		function moneyFormatIndia_ui($amount) {
+			$fmt = new \NumberFormatter($locale = 'en_IN', NumberFormatter::DEFAULT_STYLE);
+			return $fmt->format($amount);
+		}
+		
+	}
+
+/*** WITH RUPPEE SYMBOL FOR ADMIN PANEL */
+if(! function_exists('moneyFormatIndia_admin'))
+	{
+		function moneyFormatIndia_admin($amount) {
+			$fmt = new \NumberFormatter($locale = 'en_IN', NumberFormatter::CURRENCY);
+			return $fmt->format($amount);
+		}
+		
+	}
+
+	function getAllCountry(){
+		$url = 'https://api.countrystatecity.in/v1/countries';
+		$key = COUNTRY_API_KEY;
+		
+		$curl = curl_init($url);
+		
+		$headers = array(
+			'X-CSCAPI-KEY: '.$key
+	   );
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+		
+		$data = curl_exec($curl);
+		
+		curl_close($curl);
+		return json_decode($data);;
+	}
+
+	function getStateByCountry($countrycode){
+		$url = 'https://api.countrystatecity.in/v1/countries/'.$countrycode.'/states';
+		$key = COUNTRY_API_KEY;
+		
+		$curl = curl_init($url);
+		
+		$headers = array(
+			'X-CSCAPI-KEY: '.$key
+	   );
+		curl_setopt($curl, CURLOPT_URL, $url);
+		curl_setopt($curl, CURLOPT_HTTPHEADER, $headers);
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, true );
+		
+		$data = curl_exec($curl);
+		
+		curl_close($curl);
+		return json_decode($data);;
+	}
 ?>

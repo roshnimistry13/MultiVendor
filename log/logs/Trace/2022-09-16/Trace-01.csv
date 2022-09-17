@@ -1,0 +1,2 @@
+"2022-09-16 01:44:34am "," update "," UPDATE orders SET `delivery_status_id` = '2' WHERE 1=1  and order_id = '2' "," ::1 "," URL: http://localhost/MultiVendor/update-delivery-status "," R: http://localhost/MultiVendor/order"
+"2022-09-16 01:45:35am "," update "," UPDATE orders SET `delivery_status_id` = '1' WHERE 1=1  and order_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/update-delivery-status "," R: http://localhost/MultiVendor/order"

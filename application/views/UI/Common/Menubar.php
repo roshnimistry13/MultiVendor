@@ -338,7 +338,7 @@
                                                 </div>
                                             </div>
                                         </li>
-                                        <li
+                                        <!-- <li
                                             class="type_mega menu_wid_cus menu-item has-children menu_has_offsets menu_center pos_center">
                                             <a class="lh__1 flex al_center pr kalles-lbl__nav-sale"
                                                 href="javascript:void(0)">
@@ -987,7 +987,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </li>
+                                        </li> -->
                                         <li
                                             class="type_dropdown menu-item has-children menu_has_offsets menu_right pos_right">
                                             <a class="lh__1 flex al_center pr" href="<?php echo base_url('blog')?>">
@@ -1027,20 +1027,27 @@
                                    <?php } ?>
 
                                     <a class="icon_like cb chp position-relative dn db_md js_link_wis"
-                                        href="javascript:void(0)">
+                                        href="<?php echo base_url('whishlist')?>">
                                         <i class="iccl iccl-heart pr">
-                                            <span class="op__0 ts_op pa tcount bgb br__50 cw tc">
+                                        <?php  if(!empty($this->session->userdata[CUSTOMER_SESSION])){ ?>
+                                            <span class="op__0 ts_op pa tcount bgb br__50 cw tc total-whishlist">
                                                 3
                                             </span>
+                                        <?php } ?>
                                         </i>
                                     </a>
                                     <div class="icon_cart pr">
                                         <a class="push_side position-relative cb chp db" href="#"
                                             data-id="#nt_cart_canvas">
                                             <i class="iccl iccl-cart pr">
+                                                <?php  if(!empty($this->session->userdata[CUSTOMER_SESSION])){ 
+                                                   $customer_id =  $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+                                                   $totalCart   =   $this->Master_m->getTotalCountCartProdut($customer_id);
+                                                ?>
                                                 <span class="op__0 ts_op pa tcount bgb br__50 cw tc">
-                                                    5
+                                                   <?php echo $totalCart; ?>
                                                 </span>
+                                                <?php } ?>
                                             </i>
                                         </a>
                                     </div>

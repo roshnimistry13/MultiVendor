@@ -33,19 +33,20 @@ class Product extends CI_Controller
 			$user_type 	= $this->session->userdata[ADMIN_SESSION]['user_type'];			
 			if(strtolower($user_type) != "admin"){
 				$user_id 	= $this->session->userdata[ADMIN_SESSION]['user_id'];
-				$where    = array("p.is_active != 2","p.created_by = $user_id","p.vendor_id = $user_id");
+				$where    = array("p.is_active != 2","p.vendor_id = $user_id");
 			}else{
 				$where    = array("p.is_active != 2");
 			}
 
 			$table         				= "product_details p";
-			$select_column 				= array("p.product_id","p.product_name","p.product_code","c.category_name","p.is_active","b.brand_name","s.onhand_quantity");
-			$join_column['table'] 		= array("category c","brand b","stock s");
-			$join_column['join_on'] 	= array("c.category_id = p.category_id","b.brand_id = p.brand_id","s.product_id = p.product_id");
-			$order_column				= array(NULL,"p.product_name","b.brand_name","c.category_name","s.onhand_quantity","p.is_active",NULL);
-			$search_column 				= array("p.product_name","p.product_code","b.brand_name","c.category_name","s.onhand_quantity");
+			$select_column 				= array("p.product_id","p.product_name","p.product_code","c.category_name","p.is_active","b.brand_name","p.stock","v.name");
+			$join_column['table'] 		= array("category c","brand b","vendor v");
+			$join_column['join_on'] 	= array("c.category_id = p.category_id","b.brand_id = p.brand_id","v.vendor_id = p.vendor_id");
+			$order_column				= array(NULL,"p.product_name","p.product_code","v.name","b.brand_name","c.category_name","p.stock","p.is_active",NULL);
+			$search_column 				= array("p.product_name","p.product_code","b.brand_name","c.category_name","p.stock","v.name");
 			$group_by 					= "";
 			$order_by 					= "p.product_id  DESC";
+			
 			$fetch_data 				= $this->Common_m->makeDataTables($table, $select_column, $order_column, $join_column, $where, $search_column, $order_by, $group_by);
 			
 			$data       = array();
@@ -85,6 +86,7 @@ class Product extends CI_Controller
 				{
 					$editBtn   = '<li><a class="edit" href="'.$editBtnURL.'">'.EDIT_ICON.'</a></li>';
 					$deleteBtn = '<li><a class="remove" onclick="updateProduct('.$id.',2)">'.REMOVE_ICON.'</a></li>';
+					$copyBtn = '<li><a class="edit" onclick="duplicateProduct('.$id.')">'.COPY_ICON.'</a></li>';
 				}
 				else
 				{
@@ -93,18 +95,18 @@ class Product extends CI_Controller
 				$viewBtn   = '<li><a class="view" href="'.$viewBtnURL.'">'.EYE_ICON.'</li>';
 
 				$action    = '<ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
-								'.$editBtn.$deleteBtn.'
+								'.$editBtn.$deleteBtn.$copyBtn.'
 							</ul>';
 				
-				$product_name = '<div class="d-flex">
-									<div class="userDatatable-inline-title">
+				$product_name = '<div class="d-flex my-2">
+									<div class="userDatatable-inline-title userDatatable-content word-break">
 										<a href="javascript:void(0)" class="text-dark fw-500">
 											<h6>
 												'.$row->product_name.'
 											</h6>
 										</a>
 										<p class="d-block mb-0">
-											Total available Stock : '.$row->onhand_quantity.'
+											Total available Stock : '.$row->stock.'
 										</p>
 									</div>
 								</div>';
@@ -112,9 +114,10 @@ class Product extends CI_Controller
 				$sub_array 				= array();
 				$sub_array[] 			= '<div class="userDatatable-content">'.$i++.'</div>';
 				$sub_array[] 			= $product_name;
+				$sub_array[] 			= '<div class="userDatatable-content">'.$row->product_code.'</div>';
+				$sub_array[] 			= '<div class="userDatatable-content">'.$row->name.'</div>';
 				$sub_array[] 			= '<div class="userDatatable-content">'.$row->brand_name.'</div>';
 				$sub_array[] 			= '<div class="userDatatable-content">'.$row->category_name.'</div>';
-				$sub_array[] 			= '<div class="userDatatable-content">'.$row->onhand_quantity.'</div>';
 				$sub_array[] 			= $status;
 				$sub_array[] 			= $action;
 				$data[] 				= $sub_array;
@@ -203,14 +206,14 @@ class Product extends CI_Controller
 		}
 		
 		$data['category_elements'] 	= getAllElementBycategory($category_id,$productid);
-		$stock_result 				= $this->Master_m->where('stock',$id);
+		// $stock_result 				= $this->Master_m->where('stock',$id);
 
-		$data['product_stock'] = 0;
-		if(!empty($stock_result)){
-			$data['product_stock'] = $stock_result[0]['onhand_quantity'];	
-		}
+		// $data['product_stock'] = 0;
+		// if(!empty($stock_result)){
+		// 	$data['product_stock'] = $stock_result[0]['onhand_quantity'];	
+		// }
 		
-		$data['stock_result'] = $this->Master_m->where('product_details',$id);
+		// $data['stock_result'] = $this->Master_m->where('product_details',$id);
 		
 		$headdata['title'] = 'Edit Product | Nutreasy Think Healthy, Be Healthy';
 		$data['pagejs'] = array('application/Product.js');
@@ -243,7 +246,8 @@ class Product extends CI_Controller
 	{
 		$user_id 		= $this->session->userdata[ADMIN_SESSION]['user_id'];		
 		$product_name 	= trim($this->input->post('text_product_name'));
-		
+		$cover_image 	= $this->input->post('old_cover_image');	
+
 		$short_code 	= strtolower($product_name);
 		$rep_char 		=  array(" ",",","/","[","]","(",")","--","---");
 		$short_code 	= str_replace($rep_char,"-",$short_code);
@@ -272,21 +276,37 @@ class Product extends CI_Controller
 				}
 			}
 		}
-		$mrp_price 			= $this->input->post('text_mrp_price');
+		$unit_price 		= $this->input->post('text_unit_price');
+		//$mrp_price 			= $this->input->post('text_mrp_price');
 		$discount 			= $this->input->post('text_discount');
+		$gst 				= $this->input->post('text_tax');
 		$discount_amt		= 0;
 		$gst_amt			= 0;
-		if($discount > 0 && $discount != ''){
-			$discount_amt		= (floatval($mrp_price) * floatval($discount))/100;
-		}
-		
-		$net_price 			= $this->input->post('text_net_price');
-		$gst 				= $this->input->post('text_tax');
-		if($gst > 0){
+		$mrp_price			= 0;
+		$selling_price		= 0;
 
-			$gst_amt 			= (floatval($net_price) * floatval($gst))/100;
+		if($gst > 0){
+			
+			$gst_amt = (floatval($unit_price) * ($gst)) / 100;
+			$mrp_price = round($unit_price + $gst_amt);
+			$selling_price  = round($mrp_price);
+		}else{
+			
+			$mrp_price = $unit_price;
+			$selling_price = $unit_price;
 		}
-		
+
+		if($discount > 0 && $discount != ''){
+			
+			$discount_amt		= (floatval($mrp_price) * floatval($discount))/100;
+			$selling_price 		= round($mrp_price - $discount_amt);
+		}
+
+		if(!empty($_FILES['cover_image']['name'])){
+			$image1 		= $_FILES['cover_image']['name'];
+			$extension 		= pathinfo($image1, PATHINFO_EXTENSION);
+			$cover_image	= 'cover_image'.".".$extension;
+		}
 
 		if(!empty($this->input->post('text_product_id')))
 		{
@@ -303,36 +323,39 @@ class Product extends CI_Controller
 			$updatedata['category_id'] 				= $this->input->post('text_category_id');
 			$updatedata['child_category'] 			= $subcategory_id;
 			$updatedata['vendor_id'] 				= $this->input->post('text_vendor_id');
-			$updatedata['mrp_price'] 				= $this->input->post('text_mrp_price');
+			$updatedata['unit_price'] 				= $unit_price;
+			$updatedata['mrp_price'] 				= $mrp_price;
 			$updatedata['discount'] 				= $this->input->post('text_discount');
-			$updatedata['net_price'] 				= $this->input->post('text_net_price');
+			$updatedata['net_price'] 				= $selling_price;
 			$updatedata['tax'] 						= $this->input->post('text_tax');
 			$updatedata['qty'] 						= $this->input->post('txt_qty');
 			$updatedata['gst_amt'] 					= $gst_amt;
 			$updatedata['discount_amt'] 			= $discount_amt;
+			$updatedata['cover_img'] 				= $cover_image;
+			$updatedata['stock'] 					= $this->input->post('text_stock');
 			
 			if($this->input->post('text_is_new') == 1){
-				$insertdata['is_new_product'] 	= 1;
+				$updatedata['is_new_product'] 	= 1;
 			}
 			else
 			{
-				$insertdata['is_new_product'] 	= 0;
+				$updatedata['is_new_product'] 	= 0;
 			}
 			
 			if($this->input->post('text_popular_product') == 1){
-				$insertdata['is_popular_product'] 	= 1;
+				$updatedata['is_popular_product'] 	= 1;
 			}
 			else
 			{
-				$insertdata['is_popular_product'] 	= 0;
+				$updatedata['is_popular_product'] 	= 0;
 			}
 			
 			if($this->input->post('text_is_feature_product') == 1){
-				$insertdata['is_feature_product'] 	= 1;
+				$updatedata['is_feature_product'] 	= 1;
 			}
 			else
 			{
-				$insertdata['is_feature_product'] 	= 0;
+				$updatedata['is_feature_product'] 	= 0;
 			}
 
 			$updatedata['meta_title'] 				= $this->input->post('text_meta_title');
@@ -373,6 +396,15 @@ class Product extends CI_Controller
 			if($update_result->status == "success")
 			{
 				$this->uploadProductImages($id,$image);
+
+				if(!empty($_FILES['cover_image']['name'])){
+					$filepath 	= PRODUCT_IMAGE_PATH.$id;
+					if (!is_dir($filepath)) {
+						mkdir($filepath, 0777, true);
+					}	
+					$uploadImg1 	= $filepath.'/'.$cover_image;
+					move_uploaded_file($_FILES['cover_image']['tmp_name'],$uploadImg1);
+				}
 				$this->session->set_flashdata('success','Successfully Update Record.');
 			}
 			else
@@ -381,7 +413,7 @@ class Product extends CI_Controller
 			}
 			redirect('all-product');
 		}
-		
+
 		$insertdata['product_name'] 					= $product_name;
 		$insertdata['product_code'] 					= $this->input->post('text_product_code');
 		$insertdata['short_code'] 						= $short_code;
@@ -391,13 +423,16 @@ class Product extends CI_Controller
 		$insertdata['category_id'] 						= $category_id;
 		$insertdata['child_category'] 					= $subcategory_id;
 		$insertdata['vendor_id'] 						= $this->input->post('text_vendor_id');
-		$insertdata['mrp_price'] 						= $this->input->post('text_mrp_price');
+		$insertdata['unit_price'] 						= $unit_price;
+		$insertdata['mrp_price'] 						= $mrp_price;
 		$insertdata['discount'] 						= $this->input->post('text_discount');
-		$insertdata['net_price'] 						= $this->input->post('text_net_price');
+		$insertdata['net_price'] 						= $selling_price;
 		$insertdata['tax'] 								= $this->input->post('text_tax');
 		$insertdata['qty'] 								= $this->input->post('txt_qty');
 		$insertdata['gst_amt'] 							= $gst_amt;
 		$insertdata['discount_amt'] 					= $discount_amt;
+		$insertdata['cover_img'] 						= $cover_image;
+		$insertdata['stock'] 							= $this->input->post('text_stock');
 		
 		if($this->input->post('text_is_new') == 1){
 			$insertdata['is_new_product'] = 1;
@@ -436,34 +471,43 @@ class Product extends CI_Controller
 		{
 			$product_id = $insert_result->id;
 			$this->uploadProductImages($product_id);
+
+			if(!empty($_FILES['cover_image']['name'])){
+				$filepath 	= PRODUCT_IMAGE_PATH.$product_id;
+				if (!is_dir($filepath)) {
+					mkdir($filepath, 0777, true);
+				}	
+				$uploadImg1 	= $filepath.$cover_image;
+				move_uploaded_file($_FILES['cover_image']['tmp_name'],$uploadImg1);
+			}
 			
 			//Stock details
-			$stock = $this->input->post('text_stock');
+			// $stock = $this->input->post('text_stock');
 
-			if($stock == '' || $stock == NULL){
-				$product_stock = 0;
-			}
-			else{
+			// if($stock == '' || $stock == NULL){
+			// 	$product_stock = 0;
+			// }
+			// else{
 
-				$product_stock = $stock;
-			}
-			$stockdata['product_id'] 				= $product_id;
-			$stockdata['onhand_quantity'] 			= $product_stock;
-			$stockdata['created_by'] 				= $user_id;
-			$stockdata['created'] 					= date('Y-m-d H:i:s');
+			// 	$product_stock = $stock;
+			// }
+			// $stockdata['product_id'] 				= $product_id;
+			// $stockdata['onhand_quantity'] 			= $product_stock;
+			// $stockdata['created_by'] 				= $user_id;
+			// $stockdata['created'] 					= date('Y-m-d H:i:s');
 			
-			$stock_id 								= $this->Master_m->insert('stock',$stockdata);
-			$query 									= $this->db->last_query();
-			logThis($query, date('Y-m-d'),'Stock');
+			// $stock_id 								= $this->Master_m->insert('stock',$stockdata);
+			// $query 									= $this->db->last_query();
+			// logThis($query, date('Y-m-d'),'Stock');
 			
-			$stockdetail['stock_id'] 			= $stock_id;
-			$stockdetail['status'] 				= 1;
-			$stockdetail['quantity'] 			= $product_stock;
-			$stockdetail['created'] 			= date('Y-m-d H:i:s');
+			// $stockdetail['stock_id'] 			= $stock_id;
+			// $stockdetail['status'] 				= 1;
+			// $stockdetail['quantity'] 			= $product_stock;
+			// $stockdetail['created'] 			= date('Y-m-d H:i:s');
 			
-			$stock_id 							= $this->Master_m->insert('stock_details',$stockdetail);
-			$query 								= $this->db->last_query();
-			logThis($query, date('Y-m-d'),'Stock');
+			// $stock_id 							= $this->Master_m->insert('stock_details',$stockdetail);
+			// $query 								= $this->db->last_query();
+			// logThis($query, date('Y-m-d'),'Stock');
 			
 			//Insert product elements attributes details
 			if(!empty($element_arr))
@@ -477,8 +521,7 @@ class Product extends CI_Controller
 						$insertAttribute['product_id'] 			= $product_id;
 						$insertAttribute['element_id'] 			= $e_key;
 						$insertAttribute['attributes_id'] 		= $att_id;
-						$insertAttribute['created'] 			= date('Y-m-d H:i:s');
-						
+						$insertAttribute['created'] 			= date('Y-m-d H:i:s');						
 						$attr_result 							= insert('product_elements_attributes',$insertAttribute,'');
 						logThis($attr_result->query, date('Y-m-d'),'Product Elements Attributes');
 					}
@@ -503,6 +546,7 @@ class Product extends CI_Controller
 		
 		if($_FILES['image']['name'])
 		{
+			
 			$count_image 		= count(array_filter($_FILES['image']['name']));
 			for($i = 0; $i < $count_image; $i++)
 			{
@@ -518,19 +562,15 @@ class Product extends CI_Controller
 					mkdir($file_path,0777,true);
 				
 				$imageName 		= $_FILES['image']['name'];
-				compressImage($_FILES['image']['tmp_name'], $file_path.$imageName,30);
+				compressImage($_FILES['image']['tmp_name'], $file_path.$_FILES['image']['name'],30);
+
+				// imageCompress1($file_path,$imageName);
 				
-				/*$imageName = file_upload("image",$file_path);
-				$url = explode('/', URL);
-				array_pop($url);
-				$project_name = end($url);
-				$source = DOCUMENT_ROOT.'/'.$project_name.'/'.$file_path.$imageName;
-				$target = DOCUMENT_ROOT.'/'.$project_name.'/'.$file_path;
-				
-				$re_size = $this->resizeImage($source,$target);*/
+				// echo "<pre>". print_r($imageName). "</pre>";					
 
 				$images[] = $imageName;
 			}
+			
 			if(!empty($images)){
 				$new_image = implode('|',$images);
 				if($image != null || $image != ""){
@@ -546,6 +586,7 @@ class Product extends CI_Controller
 		$where['product_id'] 	= $product_id;
 		$update_result 			= update('product_details',$updatedata,$where);
 		logThis($update_result->query, date('Y-m-d'),'Products');
+		
 		return TRUE;
 	}
 
@@ -728,6 +769,69 @@ class Product extends CI_Controller
 			{
 			}
 			$json['elements_html'] = $elements_html;			
+		}
+		$this->output->set_content_type('application/json', 'utf-8');
+		$this->output->set_output(json_encode($json));
+	}
+
+	public function duplicateRecords(){
+		$json = array(); 
+		
+        if($this->input->is_ajax_request())
+        { 
+			$id['product_id'] 		= $this->input->post('id');
+			$result 				= $this->Master_m->where('product_details',$id);
+			if(!empty($result)){
+				$user_id 						= $this->session->userdata[ADMIN_SESSION]['user_id'];
+				$data['product_name'] 			= $result[0]['product_name'].' - (Duplicate)';
+				$data['product_code'] 			= $result[0]['product_code'];
+				$data['short_code'] 			= $result[0]['short_code'];
+				$data['short_description'] 		= $result[0]['short_description'];
+				$data['description'] 			= $result[0]['description'];
+				$data['vendor_id'] 				= $result[0]['vendor_id'];
+				$data['brand_id'] 				= $result[0]['brand_id'];
+				$data['category_id'] 			= $result[0]['category_id'];
+				$data['child_category'] 		= $result[0]['child_category'];
+				$data['qty'] 					= $result[0]['qty'];
+				$data['element_id'] 			= $result[0]['element_id'];
+				$data['attributes_id'] 			= $result[0]['attributes_id'];
+				$data['mrp_price'] 				= $result[0]['mrp_price'];
+				$data['discount'] 				= $result[0]['discount'];
+				$data['discount_amt'] 			= $result[0]['discount_amt'];
+				$data['net_price'] 				= $result[0]['net_price'];
+				$data['tax'] 					= $result[0]['tax'];
+				$data['tag'] 					= $result[0]['tag'];
+				$data['gst_amt'] 				= $result[0]['gst_amt'];
+				$data['image'] 					= $result[0]['image'];
+				$data['is_new_product'] 		= $result[0]['is_new_product'];
+				$data['is_popular_product'] 	= $result[0]['is_popular_product'];
+				$data['is_feature_product'] 	= $result[0]['is_feature_product'];
+				$data['meta_title'] 			= $result[0]['meta_title'];
+				$data['meta_description'] 		= $result[0]['meta_description'];
+				$data['meta_keyword'] 			= $result[0]['meta_keyword'];
+				$data['created_by'] 			= $user_id;
+				$data['created'] 				= date('Y-m-d');
+				$data['is_active'] 				= 0;
+				$data['stock'] 					= $result[0]['stock'];
+				$insert_result 					= insert('product_details',$data,'');
+				logThis($insert_result->query, date('Y-m-d'),'Products');
+
+				$product_id 			= $insert_result->id;
+				$product_attr 			= $this->Master_m->where('product_elements_attributes',$id);
+				
+				if(!empty($product_attr)){
+					foreach($product_attr as $attr){
+						$insertAttribute['product_id'] 			= $product_id;
+						$insertAttribute['element_id'] 			= $attr['element_id'];
+						$insertAttribute['attributes_id'] 		= $attr['attributes_id'];
+						$insertAttribute['created'] 			= date('Y-m-d H:i:s');						
+						$attr_result 							= insert('product_elements_attributes',$insertAttribute,'');
+						logThis($attr_result->query, date('Y-m-d'),'Product Elements Attributes');
+					}
+					
+				}
+				$json['status'] = 'success';
+			}
 		}
 		$this->output->set_content_type('application/json', 'utf-8');
 		$this->output->set_output(json_encode($json));

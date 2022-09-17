@@ -248,7 +248,6 @@ class Login extends CI_Controller
 		$mailData['message'] = $message;
 		
 		$send = send_email($mailData);
-		
 		return $send;
 	}
 	public function logout()

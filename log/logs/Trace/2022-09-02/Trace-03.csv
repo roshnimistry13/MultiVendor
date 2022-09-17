@@ -1,0 +1,3 @@
+"2022-09-02 03:50:03am "," insert "," INSERT INTO whish_list(`customer_id`, `product_id`) VALUES('1', '11') "," ::1 "," URL: http://localhost/MultiVendor/Home/addtowhisList "," R: http://localhost/MultiVendor/product-detail/tresemme-keratin-smooth-shampoo"
+"2022-09-02 03:50:14am "," insert "," INSERT INTO whish_list(`customer_id`, `product_id`) VALUES('1', '11') "," ::1 "," URL: http://localhost/MultiVendor/Home/addtowhisList "," R: http://localhost/MultiVendor/product-detail/tresemme-keratin-smooth-shampoo"
+"2022-09-02 03:51:44am "," insert "," INSERT INTO whish_list(`customer_id`, `product_id`) VALUES('1', '14') "," ::1 "," URL: http://localhost/MultiVendor/Home/addtowhisList "," R: http://localhost/MultiVendor/product-detail/sports-shoes-for-men"

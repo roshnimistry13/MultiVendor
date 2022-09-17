@@ -39,6 +39,16 @@
 											</th>
 											<th>
 												<span class="userDatatable-title">
+													Code
+												</span>
+											</th>
+											<th>
+												<span class="userDatatable-title">
+													Vendor
+												</span>
+											</th>
+											<th>
+												<span class="userDatatable-title">
 													Brand
 												</span>
 											</th>
@@ -46,12 +56,7 @@
 												<span class="userDatatable-title">
 													Category
 												</span>
-											</th>
-											<th>
-												<span class="userDatatable-title">
-													Stock
-												</span>
-											</th>
+											</th>											
 											<th>
 												<span class="userDatatable-title">
 													Status

@@ -18,59 +18,50 @@ jQuery(document).ready(function()
 			key: "1C%kZV[IX)_SL}UJHAEFZMUJOYGYQE[\\ZJ]RAe(+%$==",
 			attribution: false // to hide "Powered by Froala"
 		});*/
+
+		
+});
+$('.table-responsive').on('show.bs.dropdown', function () {
+	$('.table-responsive .dataTables_scrollBody').css( "overflow", "inherit" );
 });
 
-//Update Order Status
-function updateOrder(id,is_active)
-{
-	if(is_active == 1)
-		var isActive = "Enable";
-	else if(is_active == 0)
-		var isActive = "Disable";
-	else
-		var isActive = "Delete";
+$('.table-responsive').on('hide.bs.dropdown', function () {
+	$('.table-responsive .dataTables_scrollBody').css( "overflow", "auto" );
+});
 
-	Swal.fire(
-		{
-			title: 'Want to '+isActive+' Record ?',
-			text: "You won't be able to revert this!",
-			icon: 'warning',
-			showCancelButton: true,
-			confirmButtonColor: '#3085d6',
-			cancelButtonColor: '#d33',
-			confirmButtonText: 'Yes, '+isActive+' it!'
-		}).then((result) =>
-		{
-			if (result.value)
-			{
-				var updateStatus =
-				{
-					id : id,
-					status	:	is_active
-				}
-				$.ajax(
-					{
-						"url" : base_url + "Admin/Order/updateStatus",
-						type: 'post',
-						dataType: 'json',
-						data: updateStatus,
-						success: function (data)
-						{
-							if(data.status=="success")
-							{
-								Swal.fire("Success", "Successsfully Updated.", "success");
-								$('#productDatatable').DataTable().ajax.reload();
-							}
-							else if(data.status=="error")
-							{
-								Swal.fire("Error", "Something went wrong!!", "error");
-							}
-						},
-						error: function (textStatus, errorThrown)
-						{
-							console.log(textStatus);
-						}
-					});
+/*** UPDATE DELIVERY STATUS FOR ORDER */
+
+$("#orderDatatable").delegate(".delivery-status", "click", function() {
+	
+	var orderid= $(this).data('orderid');
+	var statusid= $(this).data('statusid');
+	showLoader();
+	$.ajax({
+		url: base_url + "update-delivery-status",
+		type:'POST',
+		data: { orderid : orderid,statusid:statusid },
+		datatype: "json",
+		success: function (json) {
+			if (json["success"]) {
+				hideLoader();
+				$('#orderDatatable').DataTable().ajax.reload();;
 			}
-		})
-}
+			if (json["error"]) {
+				hideLoader();
+				$('#orderDatatable').DataTable().ajax.reload();;
+			}
+		},
+	});
+	
+});
+/*** FILTER DATARECORDS NU DELIVERY STATUS */
+
+$(".filterByDeliveryStatus").on("click", function() {
+	
+	var statusid = $(this).data('statusid');console.log(statusid);
+	table_name = 'orderDatatable';
+	url = base_url + "Admin/Order/bindDataTable?status_id="+statusid;
+	target = [0,6];
+
+	toDataTable(table_name,url,target);
+});

@@ -14,14 +14,14 @@ $(document).ready(function() {
 
 /*** create datatable */
 
-function toDataTable(table_name,url,target)
+function toDataTable(table_name,url,target,scrollX=false)
 {
 	
 	var dataTable = $('#'+table_name).DataTable(
 	{
 		"processing":true,
 		"serverSide":true,
-		"scrollX": false,
+		"scrollX": scrollX,
 		"scrollY": false,
 		"order":[],
 		"paging": true,
@@ -53,6 +53,7 @@ function toDataTable(table_name,url,target)
 				"orderable":false,
 			},
 		],
+		destroy: true,
 	});
 }
 
@@ -152,3 +153,13 @@ function setmenu(){
 		$('.sidebar_nav').find('ul.submenu').find('.active').parent().parent().show();
 	}
 }
+
+function moneyformate(num){
+	y=num.toString();
+	var lastThree1 = y.substring(y.length-3);
+	var otherNumbers1 = y.substring(0,y.length-3);
+	if(otherNumbers1 != '')
+		lastThree1 = ',' + lastThree1;
+	var result = otherNumbers1.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree1;
+	return result;
+  }

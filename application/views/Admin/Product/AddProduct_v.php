@@ -10,13 +10,16 @@ $vendor_id         = "";
 $category_id       = "";
 $child_category    = "";
 $mrp_price         = "";
+$unit_price         = "";
 $discount          = "";
 $net_price         = "";
 $tag               = "";
 $tax               = "";
 $image             = "";
+$cover_img         = "";
 $is_new            = "";
 $is_best_seller    = "";
+$is_feature        = "";
 $meta_title        = "";
 $meta_description  = "";
 $meta_keyword      = "";
@@ -44,11 +47,13 @@ if(!empty($result)){
 	$category_id            = $result[0]['category_id'];
 	$child_category         = $result[0]['child_category'];
 	$mrp_price              = $result[0]['mrp_price'];
+	$unit_price              = $result[0]['unit_price'];
 	$discount               = $result[0]['discount'];
 	$net_price              = $result[0]['net_price'];
 	$tag                    = $result[0]['tag'];
 	$tax                    = $result[0]['tax'];
 	$image                  = $result[0]['image'];
+	$cover_img              = $result[0]['cover_img'];
 	$is_new_product         = $result[0]['is_new_product'];
 	$is_popular_product     = $result[0]['is_popular_product'];
 	$is_feature_product     = $result[0]['is_feature_product'];
@@ -56,22 +61,28 @@ if(!empty($result)){
 	$meta_description  		= $result[0]['meta_description'];
 	$meta_keyword      		= $result[0]['meta_keyword'];
 	$is_active         		= $result[0]['is_active'];
-	//$qty                    = $result[0]['qty'];;
-	$stock             		= $product_stock;
+	$qty                    = $result[0]['qty'];;
+	//$stock             		= $product_stock;
+	$stock             		= $result[0]['stock'];
 	$element_id        		= explode(',',$result[0]['element_id']);
 	$attributes_id     		= explode(',',$result[0]['attributes_id']);
 	$attr_result       		= $attr_result;
     $disabled               = "disabled";
 	
-	if($is_new == 0)
+	if($is_new_product == 0)
 	$is_new = "";
 	else
 	$is_new = "checked";
 
-	if($is_best_seller == 0)
+	if($is_popular_product == 0)
 	$is_best_seller = "";
 	else
 	$is_best_seller = "checked";
+
+	if($is_feature_product == 0)
+	$is_feature = "";
+	else
+	$is_feature = "checked";
 
 	if($is_active == "0")
 	$is_active = "";
@@ -340,41 +351,20 @@ if(!empty($result)){
                                                         </label>
                                                         <input type="text"
                                                             class="form-control ih-small ip-gray radius-xs b-light px-15 text-capitalize"
-                                                            id="txt_qty" name="txt_qty" placeholder="Qty" value="<?php echo $qty; ?>">
+                                                            id="txt_qty" name="txt_qty" placeholder="Qty"
+                                                            value="<?php echo $qty; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 mb-10">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">
-                                                            MRP Price (₹)
+                                                            Unit Price (₹)
                                                         </label>
                                                         <input type="text" class="form-control ih-small cal-discount"
-                                                            id="text_mrp_price" name="text_mrp_price"
-                                                            placeholder="MRP Price (₹)"
-                                                            value="<?php echo $mrp_price; ?>">
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 mb-10">
-                                                    <div class="form-group">
-                                                        <label for="formGroupExampleInput"
-                                                            class="color-dark fs-14 fw-500 align-center">
-                                                            Discount(in %)
-                                                        </label>
-                                                        <input type="text" class="form-control ih-small cal-discount"
-                                                            id="text_discount" name="text_discount" placeholder="in %"
-                                                            value="<?php echo $discount; ?>">
-                                                    </div>
-                                                </div>                                                
-                                                <div class="col-md-4 mb-10">
-                                                    <div class="form-group">
-                                                        <label for="formGroupExampleInput"
-                                                            class="color-dark fs-14 fw-500 align-center">
-                                                            Net Price
-                                                        </label>
-                                                        <input type="text" class="form-control ih-small" id="text_net_price"
-                                                            name="text_net_price" placeholder="Net Price"
-                                                            value="<?php echo $net_price; ?>" readonly>
+                                                            id="text_unit_price" name="text_unit_price"
+                                                            placeholder="Unit Price (₹)"
+                                                            value="<?php echo $unit_price; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 mb-10">
@@ -401,13 +391,49 @@ if(!empty($result)){
                                                 </div>
                                                 <div class="col-md-4 mb-10">
                                                     <div class="form-group">
+                                                        <label for="formGroupExampleInput"
+                                                            class="color-dark fs-14 fw-500 align-center">
+                                                            MRP Price (₹)
+                                                        </label>
+                                                        <input type="text" class="form-control ih-small cal-discount"
+                                                            id="text_mrp_price" name="text_mrp_price"
+                                                            placeholder="MRP Price (₹)"
+                                                            value="<?php echo $mrp_price; ?>" readonly>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 mb-10">
+                                                    <div class="form-group">
+                                                        <label for="formGroupExampleInput"
+                                                            class="color-dark fs-14 fw-500 align-center">
+                                                            Discount(in %)
+                                                        </label>
+                                                        <input type="text" class="form-control ih-small cal-discount"
+                                                            id="text_discount" name="text_discount" placeholder="in %"
+                                                            value="<?php echo $discount; ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4 mb-10">
+                                                    <div class="form-group">
+                                                        <label for="formGroupExampleInput"
+                                                            class="color-dark fs-14 fw-500 align-center">
+                                                            Selling Price
+                                                        </label>
+                                                        <input type="text" class="form-control ih-small"
+                                                            id="text_net_price" name="text_net_price"
+                                                            placeholder="Net Price" value="<?php echo $net_price; ?>"
+                                                            readonly>
+                                                    </div>
+                                                </div>
+                                                
+                                                <div class="col-md-4 mb-10">
+                                                    <div class="form-group">
                                                         <label for="text_tax"
                                                             class="color-dark fs-14 fw-500 align-center">
                                                             Stock
                                                         </label>
                                                         <input type="text" class="form-control ih-small" id="text_stock"
                                                             name="text_stock" placeholder="Stock"
-                                                            value="<?php echo $stock; ?>" <?php echo $disabled; ?>>
+                                                            value="<?php echo $stock; ?>" <?php //echo $disabled; ?>>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-6 mb-25">
@@ -424,6 +450,8 @@ if(!empty($result)){
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <?php
+                                                if(!empty($image)) { ?>
                                                 <div class="col-md-6 mb-25">
                                                     <div class="form-group">
                                                         <div id="first-name-input-wrapper" class="controls col-sm-9">
@@ -446,6 +474,38 @@ if(!empty($result)){
                                                         </div>
                                                     </div>
                                                 </div>
+                                                <?php } ?>
+                                                <div class="col-md-6 mb-25">
+                                                    <div class="form-group">
+                                                        <div class="custom-file">
+                                                            <label for="formGroupExampleInput"
+                                                                class="color-dark fs-14 fw-500 align-center">
+                                                                Cover Image
+                                                            </label>
+                                                            <input type="file" name="cover_image" id="cover_image"
+                                                                class="form-control">
+                                                            <input type="hidden" id="old_cover_image" name="old_cover_image"
+                                                                value="<?php echo $cover_img; ?>">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php
+                                                if(!empty($cover_img)) { ?>
+                                                <div class="col-md-6 mb-25">
+                                                    <div class="form-group">
+                                                        <div id="first-name-input-wrapper" class="controls col-sm-9">
+                                                            <?php
+															    $cover_img_url = base_url().PRODUCT_IMAGE_PATH.$product_id.'/'.$cover_img;
+																	?>
+                                                            <img id="" width="100" height="100"
+                                                                src="<?php echo $cover_img_url;?>"                                                                
+                                                                style="cursor: pointer; margin: 5px;">                                                           
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <?php } ?>
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-md-3 mb-10">
                                                     <div class="form-group">
                                                         <label for="text_is_new"
@@ -475,7 +535,7 @@ if(!empty($result)){
                                                         </label>
                                                         <input type="checkbox" name="text_is_feature_product"
                                                             id="text_is_feature_product" value="1"
-                                                            <?php echo $is_best_seller; ?>>
+                                                            <?php echo $is_feature; ?>>
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 mb-10">
@@ -484,9 +544,9 @@ if(!empty($result)){
                                                             class="color-dark fs-14 fw-500 align-left">
                                                             Meta Title
                                                         </label>
-                                                        <input type="text" class="form-control ih-small" id="text_meta_title"
-                                                            name="text_meta_title" placeholder="Meta title"
-                                                            value="<?php echo $meta_title; ?>">
+                                                        <input type="text" class="form-control ih-small"
+                                                            id="text_meta_title" name="text_meta_title"
+                                                            placeholder="Meta title" value="<?php echo $meta_title; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4 mb-10">

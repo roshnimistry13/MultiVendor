@@ -1,0 +1,1 @@
+"2022-09-14 23:03:55pm "," insert "," INSERT INTO customer_cart(`customer_id`, `product_id`, `quantity`) VALUES('1', '14', '1') "," ::1 "," URL: http://localhost/MultiVendor/Home/addtocart "," R: http://localhost/MultiVendor/product-detail/sports-shoes-for-men"

@@ -1,0 +1,5 @@
+"2022-09-14 01:50:48am "," insert "," INSERT INTO customer_cart(`customer_id`, `product_id`, `quantity`) VALUES('1', NULL, 1) "," ::1 "," URL: http://localhost/MultiVendor/Home/addtocart "," R: http://localhost/MultiVendor/checkout"
+"2022-09-14 01:55:52am "," insert "," INSERT INTO customer_cart(`customer_id`, `product_id`, `quantity`) VALUES('1', NULL, 1) "," ::1 "," URL: http://localhost/MultiVendor/Home/addtocart "," R: http://localhost/MultiVendor/checkout"
+"2022-09-14 01:58:02am "," insert "," INSERT INTO customer_cart(`customer_id`, `product_id`, `quantity`) VALUES('1', NULL, 1) "," ::1 "," URL: http://localhost/MultiVendor/Home/addtocart "," R: http://localhost/MultiVendor/checkout"
+"2022-09-14 01:58:29am "," insert "," INSERT INTO customer_cart(`customer_id`, `product_id`, `quantity`) VALUES('1', NULL, 1) "," ::1 "," URL: http://localhost/MultiVendor/Home/addtocart "," R: http://localhost/MultiVendor/checkout"
+"2022-09-14 01:59:59am "," insert "," INSERT INTO customer_cart(`customer_id`, `product_id`, `quantity`) VALUES('1', NULL, 1) "," ::1 "," URL: http://localhost/MultiVendor/Home/addtocart "," R: http://localhost/MultiVendor/checkout"

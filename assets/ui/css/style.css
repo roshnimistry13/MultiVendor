@@ -445,7 +445,9 @@
 .hover_button {
 	max-width: 100%;
 	padding: 0 5px;
-	top: 40%;
+	/* top: 40%; */
+	top: auto !important;
+	bottom: 0px;
 	left: 50%;
 	-webkit-transform: translate(-50%, -50%);
 	transform: translate(-50%, -50%);

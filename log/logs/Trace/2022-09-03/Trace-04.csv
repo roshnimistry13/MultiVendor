@@ -1,0 +1,3 @@
+"2022-09-03 04:23:16am "," delete "," DELETE FROM customer_cart WHERE 1=1  and product_id = '15' and customer_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/Home/removeFromCart "," R: http://localhost/MultiVendor/product-detail/sports-shoes-for-men"
+"2022-09-03 04:25:18am "," delete "," DELETE FROM customer_cart WHERE 1=1  and product_id = '13' and customer_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/Home/removeFromCart "," R: http://localhost/MultiVendor/product-detail/sports-shoes-for-men"
+"2022-09-03 04:25:56am "," delete "," DELETE FROM customer_cart WHERE 1=1  and product_id = '11' and customer_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/Home/removeFromCart "," R: http://localhost/MultiVendor/product-detail/sports-shoes-for-men"
