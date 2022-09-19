@@ -163,7 +163,11 @@ class Vendor extends CI_Controller
 			$updatedata['city'] 				= $this->input->post('text_city');;
 			$updatedata['state'] 				= $this->input->post('text_state');;
 			$updatedata['pin_code'] 			= $this->input->post('text_pincode');;
-			$updatedata['country'] 				= $this->input->post('text_country');;			
+			$updatedata['country'] 				= $this->input->post('text_country');;	
+			$updatedata['bank_name'] 			= $this->input->post('text_bank_name');;
+			$updatedata['branch_code'] 			= $this->input->post('text_branch_code');;
+			$updatedata['ifsc_code'] 			= $this->input->post('text_ifsc_code');;
+			$updatedata['accountno'] 			= $this->input->post('text_accountno');;		
 			$updatedata['modified'] 			= date('Y-m-d H:i:s');
 			$is_active 							= $this->input->post('text_is_active');
 			if($is_active == 1){
@@ -197,6 +201,10 @@ class Vendor extends CI_Controller
 			$insertdata['state'] 				= $this->input->post('text_state');;
 			$insertdata['pin_code'] 			= $this->input->post('text_pincode');;
 			$insertdata['country'] 				= $this->input->post('text_country');;
+			$insertdata['bank_name'] 			= $this->input->post('text_bank_name');;
+			$insertdata['branch_code'] 			= $this->input->post('text_branch_code');;
+			$insertdata['ifsc_code'] 			= $this->input->post('text_ifsc_code');;
+			$insertdata['accountno'] 			= $this->input->post('text_accountno');;
 			$insertdata['is_active'] 			= 1;
 			$insertdata['created'] 				= date('Y-m-d H:i:s');
 		

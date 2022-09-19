@@ -3,7 +3,7 @@ jQuery(document).ready(function()
 {
 	table_name = 'orderDatatable';
 	url = base_url + "Admin/Order/bindDataTable";
-	target = [0,6];
+	target = [0,5];
 
 	toDataTable(table_name,url,target);
 		

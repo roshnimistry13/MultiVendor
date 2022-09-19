@@ -222,12 +222,7 @@
                                                 <span class="userDatatable-title">
                                                      Customer Name
                                                 </span>
-                                            </th>
-                                            <th>
-                                                <span class="userDatatable-title">
-                                                    Quantity
-                                                </span>
-                                            </th>
+                                            </th>                                           
                                             <th>
                                                 <span class="userDatatable-title">
                                                     Amount

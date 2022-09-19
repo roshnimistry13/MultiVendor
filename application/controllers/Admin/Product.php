@@ -363,6 +363,13 @@ class Product extends CI_Controller
 			$updatedata['meta_description'] 		= $this->input->post('text_meta_description');
 			$updatedata['modified_by'] 				= $user_id;
 			$updatedata['modified'] 				= date('Y-m-d H:i:s');
+
+			$updatedata['warranty_title'] 					= $this->input->post('txt_warranty_title');
+			$updatedata['warranty_detail'] 					= $this->input->post('text_warranty_description');
+			$updatedata['return_or_replace'] 				= $this->input->post('radio_services');
+			$updatedata['return_replace_validity'] 			= $this->input->post('txt_return_replace_validity');
+			$updatedata['policy_covers'] 					= $this->input->post('txt_policy_covers');
+			$updatedata['return_policy'] 					= $this->input->post('txt_policy_description');
 			
 			if($this->input->post('text_is_active') == 1)
 				$updatedata['is_active'] = 1;
@@ -463,6 +470,13 @@ class Product extends CI_Controller
 		$insertdata['meta_keyword'] 			= $this->input->post('text_meta_keyword');
 		$insertdata['created_by'] 				= $user_id;
 		$insertdata['created'] 					= date('Y-m-d H:i:s');
+		
+		$insertdata['warranty_title'] 					= $this->input->post('txt_warranty_title');
+		$insertdata['warranty_detail'] 					= $this->input->post('text_warranty_description');
+		$insertdata['return_or_replace'] 				= $this->input->post('radio_services');
+		$insertdata['return_replace_validity'] 			= $this->input->post('txt_return_replace_validity');
+		$insertdata['policy_covers'] 					= $this->input->post('txt_policy_covers');
+		$insertdata['return_policy'] 					= $this->input->post('txt_policy_description');
 		
 		$insert_result 							= insert('product_details',$insertdata,'');
 		logThis($insert_result->query, date('Y-m-d'),'Products');

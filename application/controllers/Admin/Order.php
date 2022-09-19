@@ -41,7 +41,7 @@ class Order extends CI_Controller
 			$select_column 				= array("o.order_id","o.order_number","o.customer_id","o.total_quantity","o.total_amount","o.order_date","o.delivery_status_id","c.customer_name","o.is_active","d.delivery_status");
 			$join_column['table'] 		= array("customer_detail c","delivery_status d");
 			$join_column['join_on'] 	= array("c.customer_id = o.customer_id","d.delivery_status_id = o.delivery_status_id");
-			$order_column				= array(NULL,"o.order_date","o.order_number","c.customer_name","o.total_quantity","o.total_amount",NULL);
+			$order_column				= array(NULL,"o.order_date","o.order_number","c.customer_name","o.total_amount",NULL);
 			$search_column 				= array("o.order_number","d.delivery_status","c.customer_name");
 			$group_by 					= "";
 			$order_by 					= "o.order_id  DESC";
@@ -112,7 +112,7 @@ class Order extends CI_Controller
 				$sub_array[] 	= '<div class="userDatatable-content">'.date('d-M-Y',strtotime($row->order_date)).'</div>';
 				$sub_array[] 	= '<div class="userDatatable-content">'.$row->order_number.'</div>';
 				$sub_array[] 	= '<div class="userDatatable-content">'.$row->customer_name.'</div>';
-				$sub_array[] 	= '<div class="userDatatable-content">'.$row->total_quantity.'</div>';
+				// $sub_array[] 	= '<div class="userDatatable-content">'.$row->total_quantity.'</div>';
 				$sub_array[] 	= '<div class="userDatatable-content">'.moneyFormatIndia_admin($row->total_amount).'</div>';
 				// $sub_array[] 	= '<div class="userDatatable-content"><span class="bg-opacity-success  color-success rounded-pill userDatatable-content-status active">'.$delivery_status.'</span></div>';
 				$sub_array[] 	= '<div class="userDatatable-content">'.$status.'</div>';

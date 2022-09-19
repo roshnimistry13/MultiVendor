@@ -19,6 +19,16 @@ jQuery(document).ready(function()
 			attribution: false // to hide "Powered by Froala"
 		});
 
+	new FroalaEditor('#text_warranty_description ,#txt_policy_description', {
+			//imageUploadURL:  base_url+"Admin/Product/uploadImage",
+			imageUploadParams:
+			{
+				id: 'my_editor'
+			},
+			key: "1C%kZV[IX)_SL}UJHAEFZMUJOYGYQE[\\ZJ]RAe(+%$==",
+			attribution: false // to hide "Powered by Froala"
+	});
+
 		$('#text_category_id').select2();
 		$('#text_brand_id').select2();
 		$('#text_group').select2();

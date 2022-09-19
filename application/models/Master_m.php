@@ -639,6 +639,7 @@ class Master_m extends CI_Model{
 		}
 		return $elements;
 	}
+	
 
 	public function addTocart_xx($data){
 

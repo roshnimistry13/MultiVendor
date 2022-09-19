@@ -30,6 +30,13 @@ $disabled          = "";
 $element_id        = array();
 $attributes_id = array();
 
+$warranty_title 					= "";
+$warranty_detail 					= "";
+$return_or_replace 				    = "";
+$return_replace_validity			= "";
+$policy_covers					    = "";
+$return_policy 	                    = "";
+
 $read_only = "";
 if(strtolower($user_type) == "vendor")
 {
@@ -68,6 +75,13 @@ if(!empty($result)){
 	$attributes_id     		= explode(',',$result[0]['attributes_id']);
 	$attr_result       		= $attr_result;
     $disabled               = "disabled";
+
+    $warranty_title 					= $result[0]['warranty_title'];
+    $warranty_detail 					= $result[0]['warranty_detail'];
+    $return_or_replace 				    = $result[0]['return_or_replace'];
+    $return_replace_validity			= $result[0]['return_replace_validity'];
+    $policy_covers					    = $result[0]['policy_covers'];
+    $return_policy 	                    = $result[0]['return_policy'];
 	
 	if($is_new_product == 0)
 	$is_new = "";
@@ -293,19 +307,6 @@ if(!empty($result)){
                                                             required=""><?php echo $short_description; ?></textarea>
                                                     </div>
                                                 </div>
-
-                                                <div class="col-md-12 mb-10">
-                                                    <div class="form-group">
-                                                        <label for="formGroupExampleInput"
-                                                            class="color-dark fs-14 fw-500 align-center">
-                                                            Description
-                                                        </label>
-                                                        <textarea class="form-control" id="text_description"
-                                                            name="text_description" placeholder="Description" rows="8"
-                                                            required=""><?php echo $description; ?></textarea>
-
-                                                    </div>
-                                                </div>
                                                 <div class="col-md-4 mb-10">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
@@ -334,6 +335,19 @@ if(!empty($result)){
                                                         </select>
                                                     </div>
                                                 </div>
+
+                                                <div class="col-md-12 mb-10">
+                                                    <div class="form-group">
+                                                        <label for="formGroupExampleInput"
+                                                            class="color-dark fs-14 fw-500 align-center">
+                                                            Description
+                                                        </label>
+                                                        <textarea class="form-control" id="text_description"
+                                                            name="text_description" placeholder="Description" rows="8"
+                                                            required=""><?php echo $description; ?></textarea>
+
+                                                    </div>
+                                                </div>                                                
                                             </div>
                                             <div class="row" id="divElements">
                                                 <?php
@@ -424,7 +438,7 @@ if(!empty($result)){
                                                             readonly>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="col-md-4 mb-10">
                                                     <div class="form-group">
                                                         <label for="text_tax"
@@ -484,7 +498,8 @@ if(!empty($result)){
                                                             </label>
                                                             <input type="file" name="cover_image" id="cover_image"
                                                                 class="form-control">
-                                                            <input type="hidden" id="old_cover_image" name="old_cover_image"
+                                                            <input type="hidden" id="old_cover_image"
+                                                                name="old_cover_image"
                                                                 value="<?php echo $cover_img; ?>">
                                                         </div>
                                                     </div>
@@ -498,8 +513,8 @@ if(!empty($result)){
 															    $cover_img_url = base_url().PRODUCT_IMAGE_PATH.$product_id.'/'.$cover_img;
 																	?>
                                                             <img id="" width="100" height="100"
-                                                                src="<?php echo $cover_img_url;?>"                                                                
-                                                                style="cursor: pointer; margin: 5px;">                                                           
+                                                                src="<?php echo $cover_img_url;?>"
+                                                                style="cursor: pointer; margin: 5px;">
                                                         </div>
                                                     </div>
                                                 </div>
@@ -538,38 +553,226 @@ if(!empty($result)){
                                                             <?php echo $is_feature; ?>>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-4 mb-10">
-                                                    <div class="form-group">
-                                                        <label for="text_meta_title"
-                                                            class="color-dark fs-14 fw-500 align-left">
-                                                            Meta Title
-                                                        </label>
-                                                        <input type="text" class="form-control ih-small"
-                                                            id="text_meta_title" name="text_meta_title"
-                                                            placeholder="Meta title" value="<?php echo $meta_title; ?>">
+
+                                            </div>
+
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="card card-default card-md mb-4">
+                                                        <div class="card-body pb-10 pl-0">
+                                                            <div class="atbd-collapse atbd-collapse-custom">
+                                                                <div class="atbd-collapse-item">
+                                                                    <div class="atbd-collapse-item__header">
+                                                                        <a href="#" class="item-link collapsed"
+                                                                            data-toggle="collapse"
+                                                                            data-target="#collapse-body-meta-data"
+                                                                            aria-expanded="false"
+                                                                            aria-controls="collapse-body-meta-data">
+
+                                                                            <i class="la la-angle-right"></i>
+
+                                                                            <h6>Meta Data</h6>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div id="collapse-body-meta-data"
+                                                                        class="atbd-collapse-item__body collapse pt-3"
+                                                                        style="">
+                                                                        <div class="collapse-body-text p-0">
+                                                                            <div class="row">
+                                                                                <div class="col-12">
+                                                                                    <div class="form-group">
+                                                                                        <label for="text_meta_title"
+                                                                                            class="color-dark fs-14 fw-500 align-left">
+                                                                                            Meta Title
+                                                                                        </label>
+                                                                                        <input type="text"
+                                                                                            class="form-control ih-small"
+                                                                                            id="text_meta_title"
+                                                                                            name="text_meta_title"
+                                                                                            placeholder="Meta title"
+                                                                                            value="<?php echo $meta_title; ?>">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <label
+                                                                                            for="text_meta_description"
+                                                                                            class="color-dark fs-14 fw-500 align-left">
+                                                                                            Meta Description
+                                                                                        </label>
+                                                                                        <textarea class="form-control"
+                                                                                            id="text_meta_description"
+                                                                                            name="text_meta_description"
+                                                                                            placeholder="Meta Description"
+                                                                                            rows="2"><?php echo $meta_description; ?></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <label
+                                                                                            for="text_meta_description"
+                                                                                            class="color-dark fs-14 fw-500 align-left">
+                                                                                            Meta Keyword
+                                                                                        </label>
+                                                                                        <textarea class="form-control"
+                                                                                            id="text_meta_keyword"
+                                                                                            name="text_meta_keyword"
+                                                                                            placeholder="Meta Keyword"
+                                                                                            rows="3"><?php echo $meta_keyword; ?></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="atbd-collapse-item">
+                                                                    <div class="atbd-collapse-item__header">
+                                                                        <a href="#" class="item-link collapsed"
+                                                                            data-toggle="collapse"
+                                                                            data-target="#collapse-body-warranty-detail"
+                                                                            aria-expanded="false"
+                                                                            aria-controls="collapse-body-warranty-detail">
+
+                                                                            <i class="la la-angle-right"></i>
+
+                                                                            <h6>Warranty Detail</h6>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div id="collapse-body-warranty-detail"
+                                                                        class="atbd-collapse-item__body collapse pt-3"
+                                                                        style="">
+                                                                        <div class="collapse-body-text p-0">
+                                                                            <div lcass="row">
+                                                                                <div class="col-12 mb-10">
+                                                                                    <div class="form-group">
+                                                                                        <label for="txt_warranty_title"
+                                                                                            class="color-dark fs-14 fw-500 align-left mr-5">
+                                                                                            Warranty Title
+                                                                                        </label>
+                                                                                        <input type="text"
+                                                                                            class="form-control ih-small"
+                                                                                            name="txt_warranty_title"
+                                                                                            id="txt_warranty_title"
+                                                                                            value="<?php echo $warranty_title;?>">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-12 mb-10">
+                                                                                    <div class="form-group">
+                                                                                        <label for="txt_warranty_title"
+                                                                                            class="color-dark fs-14 fw-500 align-left mr-5">
+                                                                                            Warranty Description
+                                                                                        </label>
+                                                                                        <textarea class="form-control"
+                                                                                            id="text_warranty_description"
+                                                                                            name="text_warranty_description"
+                                                                                            placeholder="Description"
+                                                                                            rows="8"
+                                                                                            required=""><?php echo $warranty_detail;?></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="atbd-collapse-item">
+                                                                    <div class="atbd-collapse-item__header">
+                                                                        <a href="#" class="item-link collapsed"
+                                                                            data-toggle="collapse"
+                                                                            data-target="#collapse-body-return-replace-poliicy"
+                                                                            aria-expanded="false"
+                                                                            aria-controls="collapse-body-return-replace-poliicy">
+                                                                            <i class="la la-angle-right"></i>
+                                                                            <h6>Return/Replacement Policy</h6>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div id="collapse-body-return-replace-poliicy"
+                                                                        class="atbd-collapse-item__body collapse pt-5"
+                                                                        style="">
+                                                                        <div class="collapse-body-text">
+                                                                            <div class="row">
+                                                                                <div class="col-md-4">
+                                                                                    <label for="radio-optional"
+                                                                                        class="color-dark fs-14 fw-500 align-left mr-5">
+                                                                                        Policy
+                                                                                    </label>
+                                                                                    <div
+                                                                                        class="radio-horizontal-list d-flex">
+                                                                                        <div
+                                                                                            class="radio-theme-default custom-radio ">
+                                                                                            <input class="radio"
+                                                                                                type="radio"
+                                                                                                name="radio_services"
+                                                                                                value="return"
+                                                                                                id="radio_return"
+                                                                                                <?php echo ($return_or_replace == "return") ? 'checked' : '' ;?>>
+                                                                                            <label for="radio_return">
+                                                                                                <span
+                                                                                                    class="radio-text">Return</span>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                        <div
+                                                                                            class="radio-theme-default custom-radio ">
+                                                                                            <input class="radio"
+                                                                                                type="radio"
+                                                                                                name="radio_services"
+                                                                                                value="replace"
+                                                                                                id="radio_replacement"
+                                                                                                <?php echo ($return_or_replace == "replace") ? 'checked' : '' ;?>>
+                                                                                            <label
+                                                                                                for="radio_replacement">
+                                                                                                <span
+                                                                                                    class="radio-text">Replacement</span>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-3">
+                                                                                    <div class="form-group">
+                                                                                        <label
+                                                                                            for="txt_return_replace_validity"
+                                                                                            class="color-dark fs-14 fw-500 align-left mr-5">
+                                                                                            Validity
+                                                                                        </label>
+                                                                                        <input type="text"
+                                                                                            class="form-control ih-small"
+                                                                                            name="txt_return_replace_validity"
+                                                                                            id="txt_return_replace_validity"
+                                                                                            value="<?php echo $return_replace_validity; ?>">
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-5">
+                                                                                    <div class="form-group">
+                                                                                        <label
+                                                                                            for="txt_return_replace_validity"
+                                                                                            class="color-dark fs-14 fw-500 align-left mr-5">
+                                                                                            Policy Covers
+                                                                                        </label>
+                                                                                        <textarea class="form-control"
+                                                                                            id="txt_policy_covers"
+                                                                                            name="txt_policy_covers"><?php echo $policy_covers; ?></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group">
+                                                                                        <label
+                                                                                            for="txt_return_replace_validity"
+                                                                                            class="color-dark fs-14 fw-500 align-left mr-5">
+                                                                                            Policy Description
+                                                                                        </label>
+                                                                                        <textarea class="form-control"
+                                                                                            id="txt_policy_description"
+                                                                                            name="txt_policy_description"><?php echo $return_policy; ?></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="col-md-4 mb-10">
-                                                    <div class="form-group">
-                                                        <label for="text_meta_description"
-                                                            class="color-dark fs-14 fw-500 align-left">
-                                                            Meta Description
-                                                        </label>
-                                                        <textarea class="form-control" id="text_meta_description"
-                                                            name="text_meta_description" placeholder="Meta Description"
-                                                            rows="2"><?php echo $meta_description; ?></textarea>
-                                                    </div>
-                                                </div>
-                                                <div class="col-md-4 mb-10">
-                                                    <div class="form-group">
-                                                        <label for="text_meta_description"
-                                                            class="color-dark fs-14 fw-500 align-left">
-                                                            Meta Keyword
-                                                        </label>
-                                                        <textarea class="form-control" id="text_meta_keyword"
-                                                            name="text_meta_keyword" placeholder="Meta Keyword"
-                                                            rows="3"><?php echo $meta_keyword; ?></textarea>
-                                                    </div>
+                                                    <!-- ends: .card -->
+
                                                 </div>
                                             </div>
                                             <div class="row">
@@ -594,7 +797,6 @@ if(!empty($result)){
                                                 <?php
 												} ?>
                                             </div>
-
                                             <div class="form-group row mt-3">
                                                 <div class="col-sm-12 d-flex aling-items-center">
                                                     <button type="submit" class="btn btn-success  btn-xs px-30">

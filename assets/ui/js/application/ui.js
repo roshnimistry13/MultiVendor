@@ -263,8 +263,8 @@ $(".btnAddToCart").on("click", function (e) {
 				toast_success(json['message']);
 				if (json["totalCart"]) {
 					$(".icon_cart .tcount").text(json["totalCart"]);
-					var cartitem = '<div class="mini_cart_items js_cat_items lazyload cart_product_list"></div>';
-					$(cartitem).insertAfter('div.cart_product_list');
+					var cartitem = '<div class="mini_cart_item js_cart_item flex al_center pr oh"><div class="ld_cart_bar"></div></div>';
+					$(cartitem).appendTo('div.cart_product_list');
 				}
 			} else {
 				$("#nt_login_canvas").addClass("act_opened");

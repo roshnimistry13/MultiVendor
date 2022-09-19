@@ -1418,12 +1418,14 @@ class MultivendorApi extends REST_Controller
 				$results = $this->Master_m->getAllProductDetails($product_id);				
 				if(!empty($results))
 				{
+					$product_element = $this->getProductElemetsAttributes($product_id);
 					$product = $this->setProductList($results);
 					$this->response([
 							'status' => TRUE,
 							'message' => 'Product details .',
 							'image_url' => base_url().PRODUCT_IMAGE_PATH.$product_id,
 							'data' => $product,
+							'product_element' => $product_element,
 						], REST_Controller::HTTP_OK);
 				}
 				else
@@ -2875,5 +2877,41 @@ class MultivendorApi extends REST_Controller
 					'message' => 'Secreat key invalid or null.'
 				], REST_Controller::HTTP_OK);
 		}
+	}
+
+	public function getProductElemetsAttributes($product_id){
+
+		$this->db->select('pea.element_id,pea.attributes_id,pe.element_name,pe.element_id');
+		$this->db->from('product_elements_attributes pea');
+		$this->db->join('product_elements pe','pe.element_id = pea.element_id');
+		$this->db->where('pea.product_id', $product_id);
+		$query		= $this->db->get()->result_array();
+		
+		$elements = array();
+		$i = 0;
+		if(!empty($query)){
+			
+			foreach($query as $row){
+				
+				$element_name 				= $row['element_name'];
+				$attributes_id 				= explode(',', $row['attributes_id']);
+				$attr_arr = array();
+				
+				if(!empty($attributes_id)){
+					
+					foreach($attributes_id as $attr){
+						$whr['attributes_id'] 	= $attr;
+						$attr_res 				= $this->Master_m->where('attributes',$whr);
+						$attr_name = $attr_res[0]['attributes_name'];
+						$attr_arr[] = $attr_name;	
+					}
+				}
+				
+				$elements[$i]['elemant'] 	= $element_name;
+				$elements[$i]['value'] 		= $attr_arr;
+				$i++;
+			}
+		}
+		return $elements;
 	}
 }
