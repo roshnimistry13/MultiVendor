@@ -17,7 +17,7 @@
                     <div class="kalles-section tp_se_cdt">
 
                         <div
-                            class="on_list_view_false prs_wis products nt_products_holder row fl_center row_pr_1 cdt_des_1 round_cd_false nt_cover ratio_nt position_8 space_30 nt_default">
+                            class="on_list_view_false prs_wis products nt_products_holder row  row_pr_1 cdt_des_1 round_cd_false nt_cover ratio_nt position_8 space_30 nt_default">
                             <?php if(!empty($whishlist)){
                                 foreach($whishlist as $row){?>
                                     <div class="col-lg-2 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
