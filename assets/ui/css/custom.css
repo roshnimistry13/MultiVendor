@@ -1,4 +1,10 @@
 
+/**  width css**/
+.myorder-page .r--tablet #r--masonry-theme .r--grid-item {
+	width: 100% !important;
+}
+
+
 /**  label error color**/
 label.error {
     color:red !important;
@@ -41,12 +47,25 @@ label.error {
   }
 
   .change_delivery_address .payment_method_bacs ,
+  #mangeAddressModal .payment_method_bacs ,
   .patyment-section .payment_method_bacs {   
     background: none !important;
     border-top:none !important;
     margin-top: 0px !important;
   }
 
+  #mangeAddressModal .payment_method > label {
+    margin-left: 10px;
+  }
+  #mangeAddressModal i {
+    font-size: 16px;
+    font-weight: 500;
+  }
+  #mangeAddressModal .action{
+    display: flex;
+    justify-content: space-between;
+    align-items: center
+  }
 
 
 /** Divider with text */
@@ -86,4 +105,7 @@ label.error {
     /* width: 100% !important; */
     height: 30px !important;
   }
-  
+
+  .popover  {
+   width: 100%;
+  }

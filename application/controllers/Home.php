@@ -455,8 +455,8 @@ class Home extends CI_Controller
 	public function applyFilter($rowno=0)
     {
        
-        $category_id = $this->input->post("category");
-		
+        $category_id 		= $this->input->post("category");
+		$whish_product 		= array();
         //Get category name
         if(!empty($category_id))
         {
@@ -636,6 +636,8 @@ class Home extends CI_Controller
 		if($this->input->is_ajax_request()){
 			$customer_id 		= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
 
+
+			$addressid 		= $this->input->post('txtaddressid');
 			$fname 			= $this->input->post('fname');
 			$lname 			= $this->input->post('lname');
 			$mobile_no 		= $this->input->post('mobile_no');
@@ -648,25 +650,59 @@ class Home extends CI_Controller
 			$addressType	= $this->input->post('txtaddressTyperadio');
 			$setdefault 	= $this->input->post('txtdefaultaddress');
 
-			$insertdata['customer_id'] 		 	= $customer_id;
-			$insertdata['first_name']  			= $fname;
-			$insertdata['last_name']  			= $lname;
-			$insertdata['email']  				= $email;
-			$insertdata['mobile']  				= $mobile_no;
-			$insertdata['address']  			= $address;
-			$insertdata['city']  				= $city;
-			$insertdata['state']  				= $state;
-			$insertdata['pincode']  			= $pincode;
-			$insertdata['country']  			= $country;
-			$insertdata['address_type']  		= $addressType;
-			$insertdata['set_default']  		= $setdefault;
-			$insertdata['created_by']  			= $customer_id;
-			$insertdata['created']  			= date('Y_m-d');
-			$insertdata['is_active']  			= 1;
+			$whr['customer_id'] 		= $customer_id;
+			$update1['set_default'] 	= 0;
+			$update_result 				= update('customer_address',$update1,$whr);
+			logThis($update_result->query, date('Y-m-d'),'Customer Address');
+			
+			if(!empty($addressid) && $addressid != "" && $addressid != null && $addressid != 0){
 
-			$insert_result = insert('customer_address',$insertdata,'');					
-			logThis($insert_result->query, date('Y-m-d'),'Customer Address');
-			$json['success'] 			= 'success';
+				$updatedata['customer_id'] 		 	= $customer_id;
+				$updatedata['first_name']  			= $fname;
+				$updatedata['last_name']  			= $lname;
+				$updatedata['email']  				= $email;
+				$updatedata['mobile']  				= $mobile_no;
+				$updatedata['address']  			= $address;
+				$updatedata['city']  				= $city;
+				$updatedata['state']  				= $state;
+				$updatedata['pincode']  			= $pincode;
+				$updatedata['country']  			= $country;
+				$updatedata['address_type']  		= $addressType;
+				$updatedata['set_default']  		= $setdefault;
+				$updatedata['modified']  			= date('Y_m-d');				
+
+				$where['address_id'] 	= $addressid;
+				$where['customer_id'] 	= $customer_id;
+				$update_result 			= update('customer_address',$updatedata,$where);			
+				logThis($update_result->query, date('Y-m-d'),'Customer Address');
+				$json['success'] 			= 'success';
+				$json['message'] 			= 'address update succesfully !';
+	
+			}
+			else {
+
+				$insertdata['customer_id'] 		 	= $customer_id;
+				$insertdata['first_name']  			= $fname;
+				$insertdata['last_name']  			= $lname;
+				$insertdata['email']  				= $email;
+				$insertdata['mobile']  				= $mobile_no;
+				$insertdata['address']  			= $address;
+				$insertdata['city']  				= $city;
+				$insertdata['state']  				= $state;
+				$insertdata['pincode']  			= $pincode;
+				$insertdata['country']  			= $country;
+				$insertdata['address_type']  		= $addressType;
+				$insertdata['set_default']  		= $setdefault;
+				$insertdata['created_by']  			= $customer_id;
+				$insertdata['created']  			= date('Y_m-d');
+				$insertdata['is_active']  			= 1;
+	
+				$insert_result = insert('customer_address',$insertdata,'');					
+				logThis($insert_result->query, date('Y-m-d'),'Customer Address');
+				$json['success'] 			= 'success';
+				$json['message'] 			= 'address insert succesfully !';
+			}
+			
 		}
 		$this->output->set_content_type('application/json', 'utf-8');
 		$this->output->set_output(json_encode($json));
@@ -726,6 +762,82 @@ class Home extends CI_Controller
 		$this->output->set_output(json_encode($json));
 	}
 
+	/*** get customer all address list for profile*/
+	public function getCustomerAllAddress(){
+		$json = array();
+		if($this->input->is_ajax_request()){
+			$where['customer_id'] = $customer_id 		= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+			$result = $this->Master_m->where('customer_address',$where);
+			$address_list = '';
+			if(!empty($result)){
+				$address_list .= '<ul class="payment_methods">';
+				foreach($result as $row){
+					$checked            = "";
+					$default 			= '';
+					$name 			= $row['first_name'].' '.$row['last_name'];
+					$mobile 		= $row['mobile'];
+					$address 		= $row['address'];
+					$pincode 		= $row['pincode'];
+					$city_state 	= $row['city'].' , '.$row['state'].' , '.$row['country'].' - '.$pincode;
+					
+					$address_type 		= $row['address_type'];
+					$address_id 		= $row['address_id'];
+					$set_default 		= $row['set_default'];
+					
+					if($set_default == 1){
+						$checked = "checked";
+						$default = '(Default)';
+					}else{
+						$checked            = "";
+					}
+
+					$address_list .= '<li class="payment_method">											
+										<div class="action ml-2 mr-2">
+											<label for="txtDeliveryAddress_'.$address_id.'">'.$name.' '.$default.'<span class="badge badge-pill badge-info ml__5">'.$address_type.'</span></label>
+											<div>	
+												<a href="javascript:void(0)" class="btneditaddress text-success" data-id="'.$address_id.'"><i class="iccl iccl-edit"></i></a> | <a class="btremoveaddress text-danger" href="javascript:void(0)" data-id="'.$address_id.'"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+											</div>
+										</div>
+											<div class="payment_box payment_method_bacs mb-2">
+												<p>'.$address.'</p>
+												<p>'.$city_state.'</p>
+												<p>Contact No : '.$mobile.'</p>
+											</div>											
+										</li>';	
+									
+				}
+				$address_list .= '</ul>';	
+				$json['address_list'] 	= $address_list;
+				$json['success'] 		= 'success';
+			}else{
+				$json['error'] 			= 'Address Not Found !!';
+			}	
+
+		}
+		$this->output->set_content_type('application/json', 'utf-8');
+		$this->output->set_output(json_encode($json));
+	}
+
+	/** FETCH ADDRESS DETAIL FROM ADDRESS ID */
+	public function getAddressData(){
+		$json = array();
+		if($this->input->is_ajax_request()){
+			$address_id = $this->input->post('address_id');
+			
+			$where['customer_id'] 	= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+			$where['address_id']	= $address_id;
+			$result					= $this->Master_m->where('customer_address',$where);
+			if(!empty($result)){
+				$json['success']	= 'success';
+				$json['result']		= $result;
+			}else{
+				$json['error']		= 'error';
+			}
+		}
+		$this->output->set_content_type('application/json', 'utf-8');
+		$this->output->set_output(json_encode($json));
+	}
+
 	/*** UPDATE DELIVERY STATUS AT CHECKOUT */
 	public function changeDeliveryAddress(){
 		$json = array();
@@ -758,6 +870,7 @@ class Home extends CI_Controller
 		$this->output->set_output(json_encode($json));
 	}
 
+		// PLACE ORDER
 	public function placeOrder(){
 		$json = array();
 		
@@ -781,6 +894,7 @@ class Home extends CI_Controller
 		
 	}
 
+	// GET STATE BY COUNTRY
 	public function getStateByCountry(){
 		$json = array();
 		
@@ -800,5 +914,90 @@ class Home extends CI_Controller
 		}
 		$this->output->set_content_type('application/json', 'utf-8');
 		$this->output->set_output(json_encode($json));
+	}
+
+	// MY ACCOUNT PAGE
+	public function myAccount(){
+		if(!empty($this->session->userdata[CUSTOMER_SESSION])){
+			$customer_id 						= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+		
+			//Meta Data
+			$meta_data['meta_title']			= "My Account | ".UI_THEME;
+			$meta_data['meta_description']		= "My Account | ".UI_THEME;
+			$meta_data['meta_keyword']			= "My Account | ".UI_THEME;
+			$meta_data['active_menu']			= "My Account";
+			
+			$this->load->view('UI/Common/Header',$meta_data);
+			$this->load->view('UI/Common/Menubar');
+			$this->load->view('UI/MyAccount_v');
+			$this->load->view('UI/Common/Footer');
+		}else{
+			redirect('home');
+		}
+	}
+
+	// DELETE ADDRESS 
+	public function deleteAddress(){
+		$json = array();
+		
+		if($this->input->is_ajax_request()){
+			$customer_id 			= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+			$address_id 			= $this->input->post('address_id');
+
+			$whr1['address_id'] 		= $address_id;
+			$whr1['customer_id'] 		= $customer_id;
+			$result						= delete('customer_address',$whr1);
+			$json['success']			= 'success';	
+		}
+		$this->output->set_content_type('application/json', 'utf-8');
+		$this->output->set_output(json_encode($json));
+	}
+
+	/* BIND ALL ORDERS**/
+	public function myOrders(){
+		if(!empty($this->session->userdata[CUSTOMER_SESSION])){
+			$data['orderHtml'] = "";
+			$customer_id 		= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+			$allorder 			= $this->Master_m->getAllOrderList($customer_id);
+			if(!empty($allorder)){
+				$data['orderHtml']			= $this->Master_m->displayOrderHistory($allorder);
+			}
+			
+			//Meta Data
+			$meta_data['meta_title']			= "My Orders | ".UI_THEME;
+			$meta_data['meta_description']		= "My Orders | ".UI_THEME;
+			$meta_data['meta_keyword']			= "My Orders | ".UI_THEME;
+			$meta_data['active_menu']			= "My Orders";
+
+			$this->load->view('UI/Common/Header',$meta_data);
+			$this->load->view('UI/Common/Menubar');
+			$this->load->view('UI/MyOrders_v',$data);
+			$this->load->view('UI/Common/Footer');
+		}else{
+			redirect('home');
+		}
+	}
+
+	/*** ORDER DETAIL PAGE */
+	public function orderDetail(){
+		if(!empty($this->session->userdata[CUSTOMER_SESSION])){
+
+			$customer_id 				= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+			$order_id 					= $this->input->get('id');
+			$data['orderDetail'] 		= $this->Master_m->getCustomerOrderList($order_id);
+			
+			//Meta Data
+			$meta_data['meta_title']			= "My Orders | ".UI_THEME;
+			$meta_data['meta_description']		= "My Orders | ".UI_THEME;
+			$meta_data['meta_keyword']			= "My Orders | ".UI_THEME;
+			$meta_data['active_menu']			= "My Orders";
+
+			$this->load->view('UI/Common/Header',$meta_data);
+			$this->load->view('UI/Common/Menubar');
+			$this->load->view('UI/OrderDetails_v',$data);
+			$this->load->view('UI/Common/Footer');
+		}else{
+			redirect('home');
+		}
 	}
 }

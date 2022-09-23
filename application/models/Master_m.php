@@ -534,10 +534,25 @@ class Master_m extends CI_Model{
 
 	/** item order detail from order id*/
 	public function getCustomerOrderList($order_id){
-		$this->db->select('od.*,p.cover_img');
+		$this->db->select('od.*,p.cover_img,o.shipping_address');
 		$this->db->from('order_details od');
+		$this->db->join('orders o','o.order_id=od.order_id','left');
 		$this->db->join('product_details p','p.product_id=od.product_id');
 		$this->db->where('od.order_id',$order_id);
+		$result = $this->db->get()->result_array();
+		return $result;
+	}
+	
+	/** CUSTOMER ORDER LIST by year*/
+	public function getAllOrderList($customer_id,$filetr_year = null){
+		if($filetr_year == null){
+			$filetr_year = date('Y');
+		}
+		$this->db->select('o.*');
+		$this->db->from('orders o');
+		$this->db->where('o.customer_id',$customer_id);
+		$this->db->where("Year(o.order_date)", $filetr_year);
+		
 		$result = $this->db->get()->result_array();
 		return $result;
 	}
@@ -966,5 +981,50 @@ class Master_m extends CI_Model{
 		$this->db->where('order_id',$order_id);
 		$query = $this->db->get()->result_array();
 		return $query;
+	}
+
+	/*** CREATE ORDERLIST HTML  */
+	public function displayOrderHistory($data){
+		if(!empty($data)){
+			$html 	= '';
+			$html	.= '<div class="lt-block-reviews">
+							<div class="r--desktop r--tablet w__100">
+								<div id="r--masonry-theme" class="r--show-part-preview">
+									<div class="r--masonry-theme">
+										<div class="r--grid row m-0">';
+			foreach($data as $order){
+				$order_id 		= $order['order_id'];
+				$order_number 	= $order['order_number'];
+				$total_amount 	= $order['total_amount'];
+				$order_date 	= $order['order_date'];
+				$delivery_date 	= $order['delivery_date'];
+
+				$html	.='<div class="col-md-4">
+						<a href="'.base_url('order-detail?id=').$order_id.'">
+							<div class="r--grid-item mb-5">
+								<div class="r--author r--text-limit">
+									<div class="r--avatar-default text-center text-white">O</div>
+									<span class="r--author-review">ORDER # '.$order_number.'</span>
+								</div>
+								<div class="r--item-body">';
+								if($delivery_date != "" && $delivery_date != null && !empty($delivery_date))
+								{
+									$html	.='<span class="r--total-view text-success">Delivered on Apr 15</span>';
+								}
+								$html	.='<p class="">Order Placed : '.date('d-M-Y',strtotime($order_date)).'</p>
+									<p class="r--title-review r--body-item m-0">Total : <i
+											class="fa fa-inr"></i> '.$total_amount.'</p>
+								</div>
+							</div>
+						</a>
+					</div>';  
+			}                                  
+			$html	.='</div>
+						</div>
+					</div>
+				</div>
+			</div>';
+			return $html;
+		}
 	}
 }	

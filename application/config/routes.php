@@ -190,3 +190,6 @@ $route['add-cust-address']          = "Home/submitCustomerAddress";
 $route['change-delivery-address']   = "Home/changeDeliveryAddress";
 $route['place-order']               = "Home/placeOrder";
 $route['get-state-by-country']      = "Home/getStateByCountry";
+$route['my-account']                = "Home/myAccount";
+$route['order-history']             = "Home/myOrders";
+$route['order-detail']             = "Home/orderDetail";

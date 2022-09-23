@@ -249,7 +249,7 @@ class Product extends CI_Controller
 		$cover_image 	= $this->input->post('old_cover_image');	
 
 		$short_code 	= strtolower($product_name);
-		$rep_char 		=  array(" ",",","/","[","]","(",")","--","---");
+		$rep_char 		=  array(" ",",","/","[","]","(",")","--","---","&");
 		$short_code 	= str_replace($rep_char,"-",$short_code);
 		$rep_char1 		=  array("--","---","----","----");
 		$short_code 	= str_replace($rep_char1,"-",$short_code);		

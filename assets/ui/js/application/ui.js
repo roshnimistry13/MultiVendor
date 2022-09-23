@@ -64,6 +64,7 @@ jQuery.validator.addMethod(
 );
 
 $(function () {
+	$('[data-toggle="popover"]').popover({html : true});
 	$("#price_range_slider").slider({
 		range: true,
 		min: 0,
@@ -696,6 +697,7 @@ $(".btn_add_address").on("click", function (e) {
 /*** open modal for ADD ADDRESS */
 $(".btn-add-newaddress").on("click", function (e) {
 	$('#changeAddressModal').modal('hide');
+	$('#mangeAddressModal').modal('hide');
 	$('#customerAddressModal').modal('show');
 });
 
@@ -799,6 +801,7 @@ $("form[id='customer_address']").validate({
 			success: function (json) {
 				if (json["success"]) {
 					$('#customerAddressModal').modal('hide');
+					toast_success(json['message']);
 					location.reload();
 				}
 				if (json["error"]) {
@@ -815,10 +818,10 @@ $('.btn-continue').on('click',function(){
 		$('.patyment-section').removeClass('dn');
 		$('.btn-continue').addClass('dn');
 		$('.btn-place-order').removeClass('dn');
-		$('#terms').prop('disabled',true)
+		$('#terms').prop('disabled',true);
 	}
 	else {
-		alert('please check terms & conditions')
+		alert('please check terms & conditions');
 	}
 	
 });
@@ -859,5 +862,109 @@ $("#txtcountry").on("change", function() {
 			}
 		},
 	});
+	
+});
+
+/*** open modal for CHANGE ADDRESS */
+$(".btn_manage_address").on("click", function (e) 
+{
+	$('#mangeAddressModal .all-address-list').html('');
+	bindAllAddress();
+	$('#mangeAddressModal').modal('show');
+});
+
+
+function bindAllAddress(){
+	
+	$.ajax({
+		url: base_url + "Home/getCustomerAllAddress",
+		type: "POST",
+		datatype: "json",
+		data: {},
+		success: function (json) {
+			if (json["success"] == "success") {
+				var address_list = json["address_list"];
+				
+				$('#mangeAddressModal .all-address-list').html(address_list);
+			}
+			else if (json["error"]) {
+				$('#mangeAddressModal .all-address-list').html('<h5 class="text-center">No Address Found !</h5>');
+			}
+		},
+	});
+}
+
+/***  GET ADDRESS DATA ***/
+$(".all-address-list").on("click", ".btneditaddress", function () {
+	var address_id = $(this).data('id'); 
+	$.ajax({
+		url: base_url + "Home/getAddressData",
+		type: "POST",
+		datatype: "json",
+		data: { address_id : address_id} ,
+		success: function (json) {
+			if (json["success"] == "success") {
+				$('#customer_address')[0].reset();
+				var result = json['result'];
+				var fname  = result[0]['first_name'];
+				var lname  = result[0]['last_name'];
+				var email  = result[0]['email'];
+				var mobile  = result[0]['mobile'];
+				var address  = result[0]['address'];
+				var city  = result[0]['city'];
+				var state  = result[0]['state'];
+				var pincode  = result[0]['pincode'];
+				var country  = result[0]['country'];
+				var address_type  = result[0]['address_type'];
+				var set_default  = result[0]['set_default'];
+				
+				$('#txtaddressid').val(address_id);
+				$('#fname').val(fname);
+				$('#lname').val(lname);
+				$('#mobile_no').val(mobile);
+				$('#email').val(email);
+				$('#txtaddress').text(address);
+				$('#txtcity').val(city);
+				$('#pincode').val(pincode);
+				$('#txtcountry').val(country);
+				$('#txtcountry').trigger('change');
+				setTimeout(function(){
+					$('#txtstate').val(state);
+					$('#txtstate').trigger('change');
+				}, 1500);
+				
+				$("input[name=txtaddressTyperadio][value='"+address_type+"']").prop('checked', true);
+				
+
+				if(set_default == 1){
+					$("input[name=txtdefaultaddress][value='"+set_default+"']").prop('checked', true);
+				}
+				$('#mangeAddressModal').modal('hide');
+				$('#customerAddressModal').modal('show');
+			}
+			if (json["error"]) {
+			}
+		},
+	});
+});
+
+$(".all-address-list").on("click", ".btremoveaddress", function () {
+	var address_id = $(this).data('id'); 
+	if (confirm('Are you sure you want to delete this address?')) {
+		$.ajax({
+			url: base_url + "Home/deleteAddress",
+			type: "POST",
+			datatype: "json",
+			data: { address_id : address_id} ,
+			success: function (json) {
+				if (json["success"] == "success") {
+					
+					bindAllAddress();
+				}
+				if (json["error"]) {
+				}
+			},
+		});
+	  }
 	
 });

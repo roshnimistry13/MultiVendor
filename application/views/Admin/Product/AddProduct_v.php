@@ -347,7 +347,7 @@ if(!empty($result)){
                                                             required=""><?php echo $description; ?></textarea>
 
                                                     </div>
-                                                </div>                                                
+                                                </div>
                                             </div>
                                             <div class="row" id="divElements">
                                                 <?php
@@ -450,6 +450,8 @@ if(!empty($result)){
                                                             value="<?php echo $stock; ?>" <?php //echo $disabled; ?>>
                                                     </div>
                                                 </div>
+                                            </div>
+                                            <div class="row">
                                                 <div class="col-md-6 mb-25">
                                                     <div class="form-group">
                                                         <div class="custom-file">
@@ -571,7 +573,7 @@ if(!empty($result)){
 
                                                                             <i class="la la-angle-right"></i>
 
-                                                                            <h6>Meta Data</h6>
+                                                                            <h6 class="fw-600">Meta Data</h6>
                                                                         </a>
                                                                     </div>
                                                                     <div id="collapse-body-meta-data"
@@ -635,7 +637,7 @@ if(!empty($result)){
 
                                                                             <i class="la la-angle-right"></i>
 
-                                                                            <h6>Warranty Detail</h6>
+                                                                            <h6 class="fw-600">Warranty Detail</h6>
                                                                         </a>
                                                                     </div>
                                                                     <div id="collapse-body-warranty-detail"
@@ -666,8 +668,7 @@ if(!empty($result)){
                                                                                             id="text_warranty_description"
                                                                                             name="text_warranty_description"
                                                                                             placeholder="Description"
-                                                                                            rows="8"
-                                                                                            required=""><?php echo $warranty_detail;?></textarea>
+                                                                                            rows="8"><?php echo $warranty_detail;?></textarea>
                                                                                     </div>
                                                                                 </div>
                                                                             </div>
@@ -682,7 +683,7 @@ if(!empty($result)){
                                                                             aria-expanded="false"
                                                                             aria-controls="collapse-body-return-replace-poliicy">
                                                                             <i class="la la-angle-right"></i>
-                                                                            <h6>Return/Replacement Policy</h6>
+                                                                            <h6 class="fw-600">Return/Replacement Policy</h6>
                                                                         </a>
                                                                     </div>
                                                                     <div id="collapse-body-return-replace-poliicy"
@@ -690,7 +691,7 @@ if(!empty($result)){
                                                                         style="">
                                                                         <div class="collapse-body-text">
                                                                             <div class="row">
-                                                                                <div class="col-md-4">
+                                                                                <div class="col-md-6">
                                                                                     <label for="radio-optional"
                                                                                         class="color-dark fs-14 fw-500 align-left mr-5">
                                                                                         Policy
@@ -726,7 +727,7 @@ if(!empty($result)){
                                                                                         </div>
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="col-md-3">
+                                                                                <div class="col-md-6">
                                                                                     <div class="form-group">
                                                                                         <label
                                                                                             for="txt_return_replace_validity"
@@ -740,7 +741,7 @@ if(!empty($result)){
                                                                                             value="<?php echo $return_replace_validity; ?>">
                                                                                     </div>
                                                                                 </div>
-                                                                                <div class="col-md-5">
+                                                                                <div class="col-12">
                                                                                     <div class="form-group">
                                                                                         <label
                                                                                             for="txt_return_replace_validity"

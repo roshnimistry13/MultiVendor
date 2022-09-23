@@ -9,37 +9,9 @@
             </div>
         </div>
     </div>
-    <div class="container container_cat pop_default cat_default mb__20">
-        <div class="cat_toolbar row fl_center al_center mt__30">
-            <div class="cat_filter col op__0 pe_none">
-                <a href="#" data-opennt="#kalles-section-nt_filter" data-pos="left" data-remove="true"
-                    data-class="popup_filter" data-bg="hide_btn" class="has_icon btn_filter mgr"><i
-                        class="iccl fwb iccl-filter fwb mr__5"></i>Filter</a>
-                <a href="#" data-id="#kalles-section-nt_filter" class="btn_filter js_filter dn mgr"><i
-                        class="iccl fwb iccl-filter fwb mr__5"></i>Filter</a>
-            </div>
-            <div class="cat_sortby cat_sortby_js col tr kalles_dropdown kalles_dropdown_container">
-                <a class="in_flex fl_between al_center sortby_pick kalles_dropDown_label" href="#">
-                    <span class="lbl-title sr_txt dn">Featured</span>
-                    <span class="lbl-title sr_txt_mb">Sort by</span>
-                    <i class="ml__5 mr__5 facl facl-angle-down"></i>
-                </a>
-                <div class="nt_sortby dn">
-                    <svg class="ic_triangle_svg" viewBox="0 0 20 9" role="presentation">
-                        <path
-                            d="M.47108938 9c.2694725-.26871321.57077721-.56867841.90388257-.89986354C3.12384116 6.36134886 5.74788116 3.76338565 9.2467995.30653888c.4145057-.4095171 1.0844277-.40860098 1.4977971.00205122L19.4935156 9H.47108938z"
-                            fill="#ffffff"></path>
-                    </svg>
-                    <div class="h3 mg__0 tc cd tu ls__2 dn_lg db">Sort by<i class="pegk pe-7s-close fs__50 ml__5"></i>
-                    </div>
-                    <div class="nt_ajaxsortby wrap_sortby kalles_dropdown_options">
-                        <a data-label="Featured" class="kalles_dropdown_option truncate selected" href="#">Featured</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+    <div class="container container_cat pop_default cat_default mb__20">      
 
-        <div class="row">
+        <div class="row mt__30">
             <div class="js_sidebar sidebar sidebar_nt col-lg-3 col-12 space_30 hidden_false lazyload">
                 <div id="kalles-section-sidebar_shop"
                     class="kalles-section nt_ajaxFilter section_sidebar_shop type_instagram">
@@ -91,7 +63,7 @@
                         <a href="#" class="clear_filter dib bf_icons" aria-label="Remove tag Vendor  Kalles">MultiVendor</a> -->
                     </div>
 
-                    <div class="on_list_view_false products nt_products_holder row fl_center row_pr_1 cdt_des_1 round_cd_false nt_cover ratio_nt position_8 space_30 nt_default" id="productList">
+                    <div class="on_list_view_false products nt_products_holder row  row_pr_1 cdt_des_1 round_cd_false nt_cover ratio_nt position_8 space_30 nt_default" id="productList">
                     </div>
 
                     <div class="product-pagination">
