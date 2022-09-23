@@ -42,13 +42,14 @@
                     $mrp_price       = $row['mrp_price'] * $quantity;
                     $net_price       = $row['net_price'];
                     $total_amt       = $row['total_amt'];
-                    $discount_amt    = $row['discount_amt'] * $quantity;
+                    $discount_amt    = $row['discount_amt'];
                     $cover_img       = $row['cover_img'];
                     $popover_content = '<div><span>MRP<small>('.$quantity.'Items)</small></span><span class='."float-right".'>₹ '.$mrp_price.'</span></div>
                     <div><span>Selling Price</span><span class='."float-right".'>₹ '.$net_price.'</span></div>
                     <div><span>Discount</span><span class='."float-right".'>₹ '.$discount_amt.'</span></div>
-                    <div><span>Shipping</span><span class='."float-right".'>₹ 00</span></div>
-                    <div><span>Total Amount</span><span class='."float-right".'>₹ '.$total_amt.'</span></div>';
+                    <div class='."pb-3".'><span>Shipping</span><span class='."float-right".'>₹ 00</span></div>
+                    <div class='."border".'></div>
+                    <div class='."py-3".'><strong><span>Total Amount</span><span class='."float-right".'>₹ '.$total_amt.'</span></strong></div>';
             ?>
                 <div class="cart_item js_cart_item">
                     <div class="ld_cart_bar"></div>
