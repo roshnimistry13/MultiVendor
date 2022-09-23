@@ -111,4 +111,7 @@ label.error {
   }
   .nitin{
     display: block;
+    justify-content: center;
+    text-align: center;
+    font-size: 12px;
   }
