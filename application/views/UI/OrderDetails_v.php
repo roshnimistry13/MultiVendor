@@ -47,7 +47,8 @@
                     $popover_content = '<div><span>MRP<small>('.$quantity.'Items)</small></span><span class='."float-right".'>₹ '.$mrp_price.'</span></div>
                     <div><span>Selling Price</span><span class='."float-right".'>₹ '.$net_price.'</span></div>
                     <div><span>Discount</span><span class='."float-right".'>₹ '.$discount_amt.'</span></div>
-                    <div><span>Shipping</span><span class='."float-right".'>₹ 00</span></div>';
+                    <div><span>Shipping</span><span class='."float-right".'>₹ 00</span></div>
+                    <div><span>Total Amount</span><span class='."float-right".'>₹ '.$total_amt.'</span></div>';
             ?>
                 <div class="cart_item js_cart_item">
                     <div class="ld_cart_bar"></div>
