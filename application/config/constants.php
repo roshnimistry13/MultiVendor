@@ -141,7 +141,7 @@ define("SLIDER_IMAGE_PATH" ,"upload_data/images/Slider/");
 define("BRAND_LOGO_PATH" ,"upload_data/images/Brand/");
 define("BLOG_IMAGE_PATH" ,"upload_data/images/Blog/");
 define("TESTIMONIAL_IMAGE_PATH" ,"upload_data/images/Testimonial/");
-define("INVOICE_PDF_PATH" ,"upload_data/pdf/Invoice/");
+define("INVOICE_PDF_PATH" ,"upload_data/Invoice/");
 
 /**************Image Path setting*************************/
 define("ALLOW_TYPES" ,"*");

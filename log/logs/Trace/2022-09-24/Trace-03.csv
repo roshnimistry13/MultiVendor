@@ -1,0 +1,1 @@
+"2022-09-24 03:29:40am "," insert "," INSERT INTO customer_cart(`customer_id`, `product_id`, `quantity`) VALUES('1', '13', '1') "," ::1 "," URL: http://localhost/MultiVendor/Home/addtocart "," R: http://localhost/MultiVendor/product-detail/panasonic-20l-solo-microwave-oven-nn-st26jmfdg-silver-51-auto-menus"

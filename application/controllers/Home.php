@@ -11,7 +11,6 @@ class Home extends CI_Controller
 	// Show Home page
 	public function index()
 	{
-		
 		//Meta Data
 		$meta_data['meta_title']			= "Home | ".UI_THEME;
 		$meta_data['meta_description']		= "Home | ".UI_THEME;
@@ -880,6 +879,7 @@ class Home extends CI_Controller
 			$whr['customer_id'] 		= $customer_id;
 			$result 					= $this->Master_m->addOrder($customer_id);
 			if($result){
+				$this->Master_m->generateInvoice($result);
 				$json['success'] 	= "success";
 				$json['msg'] 		= "Order Placed Successfully !!";
 				$json['redirect'] 	= base_url('home');
@@ -999,5 +999,25 @@ class Home extends CI_Controller
 		}else{
 			redirect('home');
 		}
+	}
+
+	function createPdf(){
+		$html1 = $this->load->view('UI/Invoice_v',true);
+		$html = $this->output->get_output($html1);
+		$this->load->library('pdf');
+		// Load HTML content
+        $this->pdf->loadHtml($html);
+		
+		//$this->pdf->setPaper('A4', 'landscape');
+        
+        // Render the HTML as PDF
+        $this->pdf->render();
+		ob_end_clean();
+       // Output the generated PDF (1 = download and 0 = preview)
+        $this->pdf->stream("welcome.pdf", array("Attachment"=>0));
+		// $file = $this->pdf->output();
+		// $filepath = INVOICE_PDF_PATH;
+		// $file_name = "welcome.pdf";
+		// file_put_contents($filepath.$file_name, $file);  
 	}
 }

@@ -10,6 +10,10 @@
     $brand_id               = array();
     $element_id             = array();
 	$is_active              = "checked";
+    $return_or_replace 				    = "";
+    $return_replace_validity			= "";
+    $policy_covers					    = "";
+    $return_policy 	                    = "";
 
 	if(!empty($result))
 	{
@@ -24,6 +28,11 @@
         $brand_id           = explode(',',$result[0]['brand_id']);
         $element_id         = explode(',',$result[0]['element_id']);
 
+        $return_or_replace 				    = $result[0]['return_or_replace'];
+        $return_replace_validity			= $result[0]['return_replace_validity'];
+        $policy_covers					    = $result[0]['policy_covers'];
+        $return_policy 	                    = $result[0]['return_policy'];
+	
 		
 		if($is_active == "0"){
 			$is_active = "";
@@ -164,11 +173,13 @@
                                                         </div>
                                                     </div>
                                                 </div> -->
-                                                <div class="col-md-8 mb-25 elements-list">                                                    
+                                                <div class="col-md-8 mb-25 elements-list">
                                                     <div class="form-group tagSelect-rtl">
-                                                        <label for="exampleFormControlSelect2" class="il-gray fs-14 fw-500 align-center">Elements</label>
+                                                        <label for="exampleFormControlSelect2"
+                                                            class="il-gray fs-14 fw-500 align-center">Elements</label>
                                                         <div class="atbd-select ">
-                                                            <select name="txt_elements[]" id="txt_elements" class="form-control " multiple="multiple" required>
+                                                            <select name="txt_elements[]" id="txt_elements"
+                                                                class="form-control " multiple="multiple" required>
                                                                 <option value="">select</option>
                                                                 <?php
                                                                     foreach($elements as $ele){
@@ -188,7 +199,7 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                
+
                                                 <div class="col-md-4 mb-25">
                                                     <div class="form-group">
                                                         <div class="custom-file">
@@ -231,6 +242,110 @@
                                                 <?php } ?>
                                             </div>
 
+                                            <div class="row">
+                                                <div class="col-12">
+                                                    <div class="card card-default card-md mb-4">
+                                                        <div class="card-body pb-10 pl-0">
+                                                            <div class="atbd-collapse atbd-collapse-custom ">
+                                                                <div class="atbd-collapse-item">
+                                                                    <div class="atbd-collapse-item__header active">
+                                                                        <a href="#" class="item-link collapsed"
+                                                                            data-toggle="collapse"
+                                                                            data-target="#collapse-body-return-replace-poliicy"
+                                                                            aria-expanded="false"
+                                                                            aria-controls="collapse-body-return-replace-poliicy">
+                                                                            <i class="la la-angle-right"></i>
+                                                                            <h6 class="fw-600">Return/Replacement Policy
+                                                                            </h6>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div id="collapse-body-return-replace-poliicy"
+                                                                        class="atbd-collapse-item__body collapse pt-5 show" >
+                                                                        <div class="collapse-body-text">
+                                                                            <div class="row">
+                                                                                <div class="col-md-6">
+                                                                                    <label for="radio-optional"
+                                                                                        class="color-dark fs-14 fw-500 align-left mr-5">
+                                                                                        Policy
+                                                                                    </label>
+                                                                                    <div class="checkbox-group d-flex">
+                                                                                        <div class="checkbox-theme-default custom-checkbox checkbox-group__single">
+                                                                                            <input class="checkbox"
+                                                                                                type="checkbox"
+                                                                                                name="check_services[]"
+                                                                                                value="return"
+                                                                                                id="check_return"
+                                                                                                <?php echo ($return_or_replace == "return") ? 'checked' : '' ;?>>
+                                                                                            <label for="check_return">
+                                                                                                <span
+                                                                                                    class="checkbox-text">Return</span>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                        <div class="checkbox-theme-default custom-checkbox checkbox-group__single">
+                                                                                            <input class="checkbox"
+                                                                                                type="checkbox"
+                                                                                                name="check_services[]"
+                                                                                                value="replace"
+                                                                                                id="check_replace"
+                                                                                                <?php echo ($return_or_replace == "replace") ? 'checked' : '' ;?>>
+                                                                                            <label for="check_replace">
+                                                                                                <span
+                                                                                                    class="checkbox-text">Replace</span>
+                                                                                            </label>
+                                                                                        </div>
+                                                                                                                                                                                
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-6">
+                                                                                    <div class="form-group">
+                                                                                        <label
+                                                                                            for="txt_return_replace_validity"
+                                                                                            class="color-dark fs-14 fw-500 align-left mr-5">
+                                                                                            Validity
+                                                                                        </label>
+                                                                                        <input type="text"
+                                                                                            class="form-control ih-small"
+                                                                                            name="txt_return_replace_validity"
+                                                                                            id="txt_return_replace_validity"
+                                                                                            value="<?php echo $return_replace_validity; ?>" required>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-12">
+                                                                                    <div class="form-group">
+                                                                                        <label
+                                                                                            for="txt_return_replace_validity"
+                                                                                            class="color-dark fs-14 fw-500 align-left mr-5">
+                                                                                            Policy Covers
+                                                                                        </label>
+                                                                                        <textarea class="form-control"
+                                                                                            id="txt_policy_covers"
+                                                                                            name="txt_policy_covers" required><?php echo $policy_covers; ?></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="col-md-12">
+                                                                                    <div class="form-group">
+                                                                                        <label
+                                                                                            for="txt_return_replace_validity"
+                                                                                            class="color-dark fs-14 fw-500 align-left mr-5">
+                                                                                            Policy Description
+                                                                                        </label>
+                                                                                        <textarea class="form-control"
+                                                                                            id="txt_policy_description"
+                                                                                            name="txt_policy_description" required><?php echo $return_policy; ?></textarea>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <!-- ends: .card -->
+
+                                                </div>
+                                            </div>
+
                                             <div class="form-group row mt-3">
                                                 <div class="col-sm-12 d-flex aling-items-center">
                                                     <button type="submit" class="btn btn-success  btn-xs px-30"
@@ -255,7 +370,7 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
 
 </div>

@@ -534,7 +534,7 @@ class Master_m extends CI_Model{
 
 	/** item order detail from order id*/
 	public function getCustomerOrderList($order_id){
-		$this->db->select('od.*,p.cover_img,o.shipping_address');
+		$this->db->select('od.*,p.cover_img,o.shipping_address,o.order_number');
 		$this->db->from('order_details od');
 		$this->db->join('orders o','o.order_id=od.order_id','left');
 		$this->db->join('product_details p','p.product_id=od.product_id');
@@ -878,8 +878,10 @@ class Master_m extends CI_Model{
 				$total_discount 	= $total_discount + ($discount_amt * $quantity);
 				$total_mrp 			= $total_mrp + ($mrp_price * $quantity);
 			}
+			$current_fy 		= getFY();
+			$random_number 		= rand_number();
 			$order_number 						= $this->Master_m->getLatestOrderNumber();
-			$order_data['order_number'] 		= "ORD-".$order_number;
+			$order_data['order_number'] 		= 'OD'.$current_fy.'-'.$customer_id.time();
 			$order_data['customer_id']			= $customer_id;
 			$order_data['total_item']			= $total_item;
 			$order_data['total_mrp']			= $total_mrp;
@@ -910,6 +912,7 @@ class Master_m extends CI_Model{
 					$order_detail['mrp_price'] 		= $row['mrp_price'];
 					$order_detail['total_amt'] 		= $total;
 					$order_detail['discount'] 		= $row['discount'];
+					$order_detail['return_or_replace'] 		= $row['return_or_replace'];
 					$order_detail['discount_amt'] 	= ($row['discount_amt'] * $quantity);
 					$order_detail['gst'] 			= $row['tax'];
 					$order_detail['gst_amt'] 		= $row['gst_amt'];
@@ -932,7 +935,7 @@ class Master_m extends CI_Model{
 
 				$condition['customer_id'] 		= $customer_id;
 				$result 						= delete('customer_cart',$condition);
-				return true;
+				return $order_id;
 			}
 			else{
 				return false;
@@ -1026,5 +1029,33 @@ class Master_m extends CI_Model{
 			</div>';
 			return $html;
 		}
+	}
+
+	public function generateInvoice($order_id){
+		// ORDER DATA
+		$this->db->select('*');
+		$this->db->from('orders');
+		$this->db->where('order_id',$order_id);
+		$orderdata = $this->db->get()->result_array();
+		
+		$customer_id 	= $orderdata[0]['customer_id'];
+		$order_number 	= $orderdata[0]['order_number'];
+		$file_path 		= INVOICE_PDF_PATH.'/'.$customer_id.'/';
+		$file_name 		= $order_number.'.pdf';
+
+		// ORDER PRODUCT DETAIL
+		$this->db->select('*');
+		$this->db->from('order_details');
+		$this->db->where('order_id',$order_id);
+		$orderproductDetail = $this->db->get()->result_array();
+
+		$data['orderdata'] 	= $orderdata;
+		$data['productdata'] = $orderproductDetail;
+		$html1  = $this->load->view('UI/Invoice_v',$data);
+		$html = $this->output->get_output($html1);
+		// $html1 = $this->load->view('UI/Invoice_v');
+		// $html = $this->output->get_output($html1);
+		createPdf($file_path,$file_name,$html);
+		return true;
 	}
 }	

@@ -1,5 +1,7 @@
 <?php 
     $id= "406-8552175-7565926";
+    $customer_id 				= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+    $order_number               = $orderDetail[0]['order_number'];
 ?>
 
 <div id="nt_content" class="myorder-page">
@@ -17,10 +19,10 @@
         <div class="row">
             <div class="col-12">
                 <div class="mini_cart_tool mt__10 float-right">
-                    <button type="button" class="single_add_to_cart_button button truncate js_frm_cart  mb-2">
+                    <a href="<?php echo INVOICE_PDF_PATH.$customer_id.'/'.$order_number.'.pdf'?>" type="button" class="single_add_to_cart_button button truncate js_frm_cart  mb-2" download>
                         <i class="fa fa-download" aria-hidden="true"></i>
                         <span class="txt_add ">Download Invoice</span>
-                    </button>
+                    </a>
 
                 </div>
             </div>
@@ -43,6 +45,7 @@
                     $net_price       = $row['net_price'];
                     $total_amt       = $row['total_amt'];
                     $discount_amt    = $row['discount_amt'];
+                    $return_or_replace    = $row['return_or_replace'];
                     $cover_img       = $row['cover_img'];
                     $popover_content = '<div><span>MRP<small>('.$quantity.'Items)</small></span><span class='."float-right".'>₹ '.$mrp_price.'</span></div>
                     <div><span>Selling Price</span><span class='."float-right".'>₹ '.$net_price.'</span></div>

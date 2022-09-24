@@ -193,3 +193,4 @@ $route['get-state-by-country']      = "Home/getStateByCountry";
 $route['my-account']                = "Home/myAccount";
 $route['order-history']             = "Home/myOrders";
 $route['order-detail']             = "Home/orderDetail";
+$route['createPdf']             = "Home/createPdf";

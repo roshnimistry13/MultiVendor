@@ -952,10 +952,9 @@ function file_upload($name,$path)
 }
 
 
-function rand_password() 
+function rand_number() 
 {
 	$length = 8;
-	//$chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*(){}<>\?|/'; 
 	$chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; 
     return substr( str_shuffle( $chars ), 0, $length );
 }
@@ -1365,4 +1364,110 @@ if(! function_exists('moneyFormatIndia_admin'))
 		curl_close($curl);
 		return json_decode($data);;
 	}
+
+	/**** GET CURRENT FINANCIAL YEAR */
+	if(!function_exists('getFY')){
+		function getFY($date = null){
+			$date = (is_null($date)?now():$date);
+			$sd   = getFYStartDate($date);
+			$ed   = getFYEndDate($date);
+			return substr($sd, 0, 4).substr($ed, 2, 2);
+		}
+	}
+	if(!function_exists('getFYStartDate')){
+		function getFYStartDate($curDate){
+	
+			$effectiveDate = date("Y-m-d",mktime(0, 0, 0, 4  ,1, date('Y', strtotime("-3 months", strtotime($curDate)))));
+			return $effectiveDate;
+		}
+	
+	}
+	if(!function_exists('getFYEndDate')){
+		function getFYEndDate($curDate){
+			$effectiveDate = date("Y-m-d",mktime(0, 0, 0, 3  ,31, date('Y', strtotime("+9 months", strtotime($curDate)))));
+			return $effectiveDate;
+		}
+	}
+
+	/** Create and save pdf to folder */
+	function createPdf($filepath,$file_name,$html_code){
+		// $html1 = $this->load->view('UI/Invoice_v',true);
+		// $html = $this->output->get_output($html1);
+		$ci     	=& get_instance();
+		
+		if (!is_dir($filepath)) {
+			mkdir($filepath, 0777, true);
+		}	
+		$ci->load->library('pdf');
+		
+		// Load HTML content
+		$ci->pdf->loadHtml($html_code);
+		
+		// Render the HTML as PDF
+		$ci->pdf->render();
+		
+		// ob_end_clean();      
+		// $this->pdf->stream("welcome.pdf", array("Attachment"=>0));  // Output the generated PDF (1 = download and 0 = preview)
+		
+		$file = $ci->pdf->output();
+		file_put_contents($filepath.$file_name, $file);  
+		return true;
+	}
+
+	/***INDIAN CURENCY : RUPPES IN WORD  */
+	function convertToIndianCurrency($number) 
+	{
+		$no = round($number);
+		$decimal = round($number - ($no = floor($number)), 2) * 100;    
+		$digits_length = strlen($no);    
+		$i = 0;
+		$str = array();
+		$words = array(
+			0 => '',
+			1 => 'One',
+			2 => 'Two',
+			3 => 'Three',
+			4 => 'Four',
+			5 => 'Five',
+			6 => 'Six',
+			7 => 'Seven',
+			8 => 'Eight',
+			9 => 'Nine',
+			10 => 'Ten',
+			11 => 'Eleven',
+			12 => 'Twelve',
+			13 => 'Thirteen',
+			14 => 'Fourteen',
+			15 => 'Fifteen',
+			16 => 'Sixteen',
+			17 => 'Seventeen',
+			18 => 'Eighteen',
+			19 => 'Nineteen',
+			20 => 'Twenty',
+			30 => 'Thirty',
+			40 => 'Forty',
+			50 => 'Fifty',
+			60 => 'Sixty',
+			70 => 'Seventy',
+			80 => 'Eighty',
+			90 => 'Ninety');
+		$digits = array('', 'Hundred', 'Thousand', 'Lakh', 'Crore');
+		while ($i < $digits_length) {
+			$divider = ($i == 2) ? 10 : 100;
+			$number = floor($no % $divider);
+			$no = floor($no / $divider);
+			$i += $divider == 10 ? 1 : 2;
+			if ($number) {
+				$plural = (($counter = count($str)) && $number > 9) ? 's' : null;            
+				$str [] = ($number < 21) ? $words[$number] . ' ' . $digits[$counter] . $plural : $words[floor($number / 10) * 10] . ' ' . $words[$number % 10] . ' ' . $digits[$counter] . $plural;
+			} else {
+				$str [] = null;
+			}  
+		}
+		
+		$Rupees = implode(' ', array_reverse($str));
+		$paise = ($decimal) ? "And Paise " . ($words[$decimal - $decimal%10]) ." " .($words[$decimal%10])  : '';
+		return ($Rupees ? '' . $Rupees : '') . $paise . " Only";
+	}
+
 ?>
