@@ -168,6 +168,7 @@ class Vendor extends CI_Controller
 			$updatedata['branch_code'] 			= $this->input->post('text_branch_code');;
 			$updatedata['ifsc_code'] 			= $this->input->post('text_ifsc_code');;
 			$updatedata['accountno'] 			= $this->input->post('text_accountno');;		
+			$updatedata['acc_holder_name'] 		= $this->input->post('text_card_holdername');;		
 			$updatedata['modified'] 			= date('Y-m-d H:i:s');
 			$is_active 							= $this->input->post('text_is_active');
 			if($is_active == 1){
@@ -205,6 +206,7 @@ class Vendor extends CI_Controller
 			$insertdata['branch_code'] 			= $this->input->post('text_branch_code');;
 			$insertdata['ifsc_code'] 			= $this->input->post('text_ifsc_code');;
 			$insertdata['accountno'] 			= $this->input->post('text_accountno');;
+			$insertdata['acc_holder_name'] 		= $this->input->post('text_card_holdername');;		
 			$insertdata['is_active'] 			= 1;
 			$insertdata['created'] 				= date('Y-m-d H:i:s');
 		

@@ -3,7 +3,7 @@ jQuery(document).ready(function()
 {
 	table_name = 'productDatatable';
 	url = base_url + "Admin/Product/bindDataTable";
-	target = [0,7];
+	target = [0,6];
 
 	toDataTable(table_name,url,target,true);
 		
@@ -78,20 +78,27 @@ $("form[id='product-form']").validate(
 			text_category_id:
 			{
 				required: true
-			},
-			text_group:
+			},			
+			text_vendor_id:
 			{
 				required: true
-			},
-			text_group_unit:
-			{
-				required: true
-			},
-			text_reach_in:
-			{
-				required: true
-			},
+			},			
 			text_net_price:
+			{
+				required: true,
+            	number: true
+			},
+			text_unit_price:
+			{
+				required: true,
+            	number: true
+			},
+			text_stock:
+			{
+				required: true,
+            	number: true
+			},
+			text_stock_limit:
 			{
 				required: true,
             	number: true
@@ -104,24 +111,19 @@ $("form[id='product-form']").validate(
 			text_short_description	: {required: "Please enter short description"},
 			text_description		: {required: "Please enter description"},
 			text_brand_id			: {required: "Please select Brand"},
-			text_category_id		: {required: "Please select category"},
-			text_group			: {required: "Please select Group"},
-			text_group_unit			: {required: "Please select Group Unit"},
-			text_reach_in			: {required: "Please enter Reach in"},
-			text_net_price				: {
-										required: "Please enter Net price",
-										number: "Please enter Number"
-										},
+			text_vendor_id			: {required: "Please select vendor"},
+			text_category_id		: {required: "Please select category"},			
+			text_net_price			: { required: "Please enter Net price", number: "Please enter Number" },
+			text_unit_price			: { required: "Please enter Unit price", number: "Please enter Number" },
+			text_stock				: { required: "Please enter stock",number: "Please enter Number" },
+			text_stock_limit		: { required: "Please enter stock limit",number: "Please enter Number" },
 		},
 		
 		errorPlacement: function(error, element) {
-			if (element.attr("name") == "txtgender" || element.attr("name") == "txtmarital_status" )
+			if (element.hasClass("select2")){
         		error.insertAfter(element.parent());
-			else if (element.parent().hasClass("vd_checkbox") || element.parent().hasClass("vd_radio")){
-				element.parent().append(error);
-			} else if (element.parent().hasClass("vd_input-wrapper")){
-				error.insertAfter(element.parent());
-			}else {
+			}
+			else {
 				error.insertAfter(element);
 			}
 		}, 

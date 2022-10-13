@@ -1152,7 +1152,7 @@ class MultivendorApi extends REST_Controller
 		}
 	}
 
-	//category list api
+	/*** GET CATEGORY LIST : CLOTHING */
 	public function getCategory_post()
 	{
 		$key = $this->post('secretkey');
@@ -1160,7 +1160,47 @@ class MultivendorApi extends REST_Controller
 		//Secret key
 		if($key == SECRETKEY)
 		{
-			$categoryList = $this->Master_m->categoryList();
+			$categoryList 	= $this->Master_m->categoryList();
+			//$categoryList 		= $this->Master_m->getChildCategory();
+			//$remove 			= array_pop($categoryList);;
+			if(!empty($categoryList))
+			{
+				$this->response([
+						'status' => TRUE,
+						'message' => 'Category list.',
+						'image_url' => base_url().CATEGORY_IMAGE_PATH,
+						'data' => $categoryList,
+					], REST_Controller::HTTP_OK);
+			}
+			else
+			{
+				$this->response([
+						'status' => FALSE,
+						'message' => 'Category not found.'
+					], REST_Controller::HTTP_OK);
+			}
+		}
+		else
+		{
+			$this->response([
+					'status' => FALSE,
+					'message' => SECRETKEY_MESSAGE
+				], REST_Controller::HTTP_OK);
+		}
+	}
+
+	/*** GET CHILD CATEGORY FOR CATEGOTY : WOMEN ,MEN , KIDS */
+
+	public function getChildCategory_post()
+	{
+		$key = $this->post('secretkey');
+
+		//Secret key
+		if($key == SECRETKEY)
+		{
+			$short_code 		= $this->post('cat_short_code');
+			$categoryList 		= $this->Master_m->getChildCategory($short_code);
+			//$remove 			= array_pop($categoryList);;
 			if(!empty($categoryList))
 			{
 				$this->response([
@@ -1449,7 +1489,7 @@ class MultivendorApi extends REST_Controller
 		}
 	}
 
-	// New products list
+	/******* NEW PRODUCT LIST  */
 	public function newProduct_post()
 	{
 		$key         = $this->post('secretkey');
@@ -1488,7 +1528,7 @@ class MultivendorApi extends REST_Controller
 		}
 	}
 
-	// Best seller products list
+	/**** BEST SELLER PRODUCT */ 
 	public function bestSellerProduct_post()
 	{
 		$key         = $this->post('secretkey');
@@ -1517,6 +1557,42 @@ class MultivendorApi extends REST_Controller
 						'message' => 'Products not found or null.'
 					], REST_Controller::HTTP_OK);
 			}
+		}
+		else
+		{
+			$this->response([
+					'status' => FALSE,
+					'message' => SECRETKEY_MESSAGE
+				], REST_Controller::HTTP_OK);
+		}
+	}
+
+	/***** RECENT SEARCH PRODUCT LIST*/
+
+	public function getRecentSearch_post(){
+
+		$key         = $this->post('secretkey');
+
+		if($key == SECRETKEY) {
+
+			$customer_id 				= $this->input->post('customer_id');
+			$result 					= $this->Master_m->getRecentViewProduct($customer_id);			
+			if(!empty($result)){
+
+				$this->response([
+					'status' => TRUE,
+					'message' => 'recently view product list .',
+					'image_url' => base_url().PRODUCT_IMAGE_PATH,
+					'data' => $result,
+				], REST_Controller::HTTP_OK);
+			}
+			else{
+
+				$this->response([
+					'status' => FALSE,
+					'message' => 'Products not found or null.'
+				], REST_Controller::HTTP_OK);
+			}			
 		}
 		else
 		{
@@ -2139,6 +2215,7 @@ class MultivendorApi extends REST_Controller
 				], REST_Controller::HTTP_OK);
 		}
 	}
+
 	public function placeOrder_post()
 	{
 		$key = $this->post('secretkey');
@@ -2168,70 +2245,7 @@ class MultivendorApi extends REST_Controller
 	}
 
 
-	// send Notification to a specific User
-	public function sendMsgNotification($sender_name,$receiver_id,$msg,$data = array())
-	{
-		$content = array(
-			"en"=> $msg
-		);
-		$heading = array(
-			"en"=>	$sender_name
-		);
-
-		$hashes_array = array();
-		array_push($hashes_array, array(
-				"id"  => "like-button",
-				"text"=> "Like",
-				"icon"=> "http://i.imgur.com/N8SN8ZS.png",
-				"url" => "https://yoursite.com"
-			));
-		array_push($hashes_array, array(
-				"id"  => "like-button-2",
-				"text"=> "Like2",
-				"icon"=> "http://i.imgur.com/N8SN8ZS.png",
-				"url" => "https://yoursite.com"
-			));
-		//	print_r();die;
-		$fields = array(
-			'app_id'                   => "37cabe91-f449-48f2-86ad-445ae883ad77",
-			/* 'included_segments' => array(
-			'All'
-			),*/
-			'include_external_user_ids' =>array($receiver_id),
-			'data'                     => $data,
-			'contents'                 => $content,
-			/*'buttons' 					=> $hashes_array,
-			*/	'headings'=> $heading
-		);
-		$fields = json_encode($fields);
-
-
-		$ch     = curl_init();
-		curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
-		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
-				'Content-Type: application/json; charset=utf-8',
-				'Authorization: Basic Njc0Mzk2NzctMWY1NS00ZGVlLTg4NGUtNDNhOTg0ZTM5YzI1'
-			));
-		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
-		curl_setopt($ch, CURLOPT_HEADER, FALSE);
-		curl_setopt($ch, CURLOPT_POST, TRUE);
-		curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
-		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-
-		$response = curl_exec($ch);
-		$httpcode = curl_getinfo($ch,CURLINFO_HTTP_CODE);
-		curl_close($ch);
-		//echo json_encode($response);
-		//echo $httpcode;
-		//echo $httpcode == 200; die();
-		if($httpcode == 200)
-		{
-			return true;
-			//$json['status'] = "success";
-			// json_encode($json);
-		}
-	}
-	// send Notification to a specific Users
+	
 
 	////order history list
 	public function orderHistory_post()
@@ -2310,8 +2324,6 @@ class MultivendorApi extends REST_Controller
 
 		}
 	}
-	
-	
 
 
 	public function getOrderInvoice_post()
@@ -2347,6 +2359,193 @@ class MultivendorApi extends REST_Controller
 				], REST_Controller::HTTP_OK);
 		}
 	}
+
+	/****** PRODUCT ELEMENTS & ATTRIBUTES VALUE********* */
+	public function getProductElemetsAttributes($product_id){
+
+		$this->db->select('pea.element_id,pea.attributes_id,pe.element_name,pe.element_id');
+		$this->db->from('product_elements_attributes pea');
+		$this->db->join('product_elements pe','pe.element_id = pea.element_id');
+		$this->db->where('pea.product_id', $product_id);
+		$query		= $this->db->get()->result_array();
+		
+		$elements = array();
+		$i = 0;
+		if(!empty($query)){
+			
+			foreach($query as $row){
+				
+				$element_name 				= $row['element_name'];
+				$attributes_id 				= explode(',', $row['attributes_id']);
+				$attr_arr = array();
+				
+				if(!empty($attributes_id)){
+					
+					foreach($attributes_id as $attr){
+						$whr['attributes_id'] 	= $attr;
+						$attr_res 				= $this->Master_m->where('attributes',$whr);
+						$attr_name = $attr_res[0]['attributes_name'];
+						$attr_arr[] = $attr_name;	
+					}
+				}
+				
+				$elements[$i]['elemant'] 	= $element_name;
+				$elements[$i]['value'] 		= $attr_arr;
+				$i++;
+			}
+		}
+		return $elements;
+	}
+
+	/***** CATEGORY WITH OFFERS VALUE********** */
+
+	public function getOfferwithCategoryList_post(){
+		$key = $this->post('secretkey');
+
+		if($key == SECRETKEY){
+
+			$category_id 				= $this->input->post('category_id');
+			$result   					= $this->Master_m->getAllCategoryByoffer($category_id);
+			
+			if(!empty($result)){	
+				$this->response([
+					'status' 		=> TRUE,
+					'data' 			=> $result,
+					'message' 		=> 'offer data.'
+				], REST_Controller::HTTP_OK);
+
+			}else{
+				
+				$this->response([
+					'status' 		=> FALSE,
+					'data' 			=> '',
+					'message' 		=> 'No Item Found !!'
+				], REST_Controller::HTTP_OK);
+
+			}			
+		}
+		else
+		{
+			//Secret key invalid
+			$this->response([
+					'status' => FALSE,
+					'data' => 'null',
+					'message' => SECRETKEY_MESSAGE
+				], REST_Controller::HTTP_OK);
+
+		}
+	}
+
+	/***** PRODUCT FILTER COLOR LIST  */
+	public function getProductFilterColor_post(){
+		$key = $this->post('secretkey');
+
+		if($key == SECRETKEY){
+			$result   					= $this->Master_m->allProductFilterColor();
+			
+			if(!empty($result)){	
+				$this->response([
+					'status' 		=> TRUE,
+					'data' 			=> $result,
+					'message' 		=> 'color list.'
+				], REST_Controller::HTTP_OK);
+
+			}else{
+				
+				$this->response([
+					'status' 		=> FALSE,
+					'data' 			=> '',
+					'message' 		=> 'No Item Found !!'
+				], REST_Controller::HTTP_OK);
+
+			}			
+		}
+		else
+		{
+			//Secret key invalid
+			$this->response([
+					'status' => FALSE,
+					'data' => 'null',
+					'message' => SECRETKEY_MESSAGE
+				], REST_Controller::HTTP_OK);
+
+		}
+	}
+
+
+
+
+
+
+
+
+
+/******************************* NOT IN USED  *************************************************************** */
+	
+	// send Notification to a specific User
+	public function sendMsgNotification($sender_name,$receiver_id,$msg,$data = array())
+	{
+		$content = array(
+			"en"=> $msg
+		);
+		$heading = array(
+			"en"=>	$sender_name
+		);
+
+		$hashes_array = array();
+		array_push($hashes_array, array(
+				"id"  => "like-button",
+				"text"=> "Like",
+				"icon"=> "http://i.imgur.com/N8SN8ZS.png",
+				"url" => "https://yoursite.com"
+			));
+		array_push($hashes_array, array(
+				"id"  => "like-button-2",
+				"text"=> "Like2",
+				"icon"=> "http://i.imgur.com/N8SN8ZS.png",
+				"url" => "https://yoursite.com"
+			));
+		//	print_r();die;
+		$fields = array(
+			'app_id'                   => "37cabe91-f449-48f2-86ad-445ae883ad77",
+			/* 'included_segments' => array(
+			'All'
+			),*/
+			'include_external_user_ids' =>array($receiver_id),
+			'data'                     => $data,
+			'contents'                 => $content,
+			/*'buttons' 					=> $hashes_array,
+			*/	'headings'=> $heading
+		);
+		$fields = json_encode($fields);
+
+
+		$ch     = curl_init();
+		curl_setopt($ch, CURLOPT_URL, "https://onesignal.com/api/v1/notifications");
+		curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+				'Content-Type: application/json; charset=utf-8',
+				'Authorization: Basic Njc0Mzk2NzctMWY1NS00ZGVlLTg4NGUtNDNhOTg0ZTM5YzI1'
+			));
+		curl_setopt($ch, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($ch, CURLOPT_HEADER, FALSE);
+		curl_setopt($ch, CURLOPT_POST, TRUE);
+		curl_setopt($ch, CURLOPT_POSTFIELDS, $fields);
+		curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
+
+		$response = curl_exec($ch);
+		$httpcode = curl_getinfo($ch,CURLINFO_HTTP_CODE);
+		curl_close($ch);
+		//echo json_encode($response);
+		//echo $httpcode;
+		//echo $httpcode == 200; die();
+		if($httpcode == 200)
+		{
+			return true;
+			//$json['status'] = "success";
+			// json_encode($json);
+		}
+	}
+	// send Notification to a specific Users
 
 	public function orderTracking_post()
 	{
@@ -2879,39 +3078,6 @@ class MultivendorApi extends REST_Controller
 		}
 	}
 
-	public function getProductElemetsAttributes($product_id){
+	/******************************* NOT IN USE END  ******************************************************************* */
 
-		$this->db->select('pea.element_id,pea.attributes_id,pe.element_name,pe.element_id');
-		$this->db->from('product_elements_attributes pea');
-		$this->db->join('product_elements pe','pe.element_id = pea.element_id');
-		$this->db->where('pea.product_id', $product_id);
-		$query		= $this->db->get()->result_array();
-		
-		$elements = array();
-		$i = 0;
-		if(!empty($query)){
-			
-			foreach($query as $row){
-				
-				$element_name 				= $row['element_name'];
-				$attributes_id 				= explode(',', $row['attributes_id']);
-				$attr_arr = array();
-				
-				if(!empty($attributes_id)){
-					
-					foreach($attributes_id as $attr){
-						$whr['attributes_id'] 	= $attr;
-						$attr_res 				= $this->Master_m->where('attributes',$whr);
-						$attr_name = $attr_res[0]['attributes_name'];
-						$attr_arr[] = $attr_name;	
-					}
-				}
-				
-				$elements[$i]['elemant'] 	= $element_name;
-				$elements[$i]['value'] 		= $attr_arr;
-				$i++;
-			}
-		}
-		return $elements;
-	}
 }

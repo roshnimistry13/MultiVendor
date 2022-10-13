@@ -71,7 +71,7 @@
                                                 <?php if(!empty($orderSummary)){
                                                     $order_no           = $orderSummary[0]['order_number'];
                                                     $total_quantity     = $orderSummary[0]['total_quantity'];
-                                                    $total_item         = $orderSummary[0]['total_item'];
+                                                    //$total_item         = $orderSummary[0]['total_item'];
                                                     $discount_amt       = $orderSummary[0]['discount_amt'];
                                                     $gst_amount         = $orderSummary[0]['gst_amount'];
                                                     $ship_amount        = $orderSummary[0]['ship_amount'];
@@ -177,11 +177,9 @@
                                                 <div class="tab-pane fade" id="tab-content-product" role="tabpanel"
                                                     aria-labelledby="tab-2">
                                                     <div class="row">
-                                                        <div class="col-12 mt-30">
+                                                        <div class="col-12">
                                                             <div class="card border-0">
-                                                                <div class="card-header">
-                                                                    <h6>Products Detail</h6>
-                                                                </div>
+                                                                
                                                                 <div class="card-body p-0">
                                                                     <div class="table-responsive">
                                                                         <table
@@ -190,7 +188,7 @@
                                                                                 <tr>
                                                                                     <th>Product</th>
                                                                                     <th>Qty</th>
-                                                                                    <th>MRP(rs)</th>
+                                                                                    <th>MRP</th>
                                                                                     <th>Selling Price</th>
                                                                                     <th>Discount(%)</th>
                                                                                     <th>GST(%)</th>
@@ -202,10 +200,17 @@
                                                                                         $total = 0;
                                                                                         foreach($productdata as $row){ 
                                                                                         $total = $total + $row['total_amt'];
+                                                                                        $elements_attributes    =  json_decode($row['elements_attributes'],true);                                                                                                                                                                                
                                                                                     ?>
                                                                                 <tr>
                                                                                     <td>
                                                                                         <a href="<?php echo base_url('edit-product/').$row['product_id'];?>"><?php echo $row['product_name'];?></a>
+                                                                                        <div class="sub-title text-capitalize"><small>Vendor Name : <?php echo $row['vendor_name']?></small></div>
+                                                                                        <?php if(!empty($elements_attributes)){
+                                                                                            foreach($elements_attributes as $key=>$val){ ?>
+                                                                                                <div class="sub-title"><small><?php echo $key; ?> : <?php echo $val;?></small></div>                                  
+                                                                                        <?php } }?>
+                                                                                        
                                                                                     </td>
                                                                                     <td><?php echo $row['quantity']; ?>
                                                                                     </td>

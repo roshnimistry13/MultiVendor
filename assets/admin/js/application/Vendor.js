@@ -19,6 +19,7 @@ $("form[id='vendor-form']").validate(
 		{
 			text_name: {
 				required: true,
+				lettersonly : true,
 			},
 			text_email: {
 				required: true,
@@ -37,6 +38,25 @@ $("form[id='vendor-form']").validate(
 				required: true,
 				validate_pan: true,
 			},
+			text_bank_name: {
+				lettersonly :true,
+			},
+			text_card_holdername: {
+				lettersonly :true,
+			},
+			text_accountno: {
+				number:true,
+				maxlength: 11,				
+				minlength: 11,				
+			},
+			text_ifsc_code: {
+				validate_ifsc:true,	
+				maxlength: 11,		
+			},
+			text_branch_code: {
+				maxlength: 6,
+				minlength: 6,		
+			},
 		},
 		// Specify validation error messages
 		messages: {
@@ -53,6 +73,11 @@ $("form[id='vendor-form']").validate(
 			text_state				: {required: "Please enter state"},
 			text_pincode			: {required: "Please enter pincode"},
 			text_country			: {required: "Please select country"},
+			text_bank_name			: {required: "Please enter bank name"},
+			text_branch_code		: {required: "Please enter branch code"},
+			text_ifsc_code			: {required: "Please enter IFSC code"},
+			text_accountno			: {required: "Please enter account no"},
+			text_card_holdername	: {required: "Please enter card holder name"},
 		},
 		
 		errorPlacement: function(error, element) {

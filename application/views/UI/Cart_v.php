@@ -26,43 +26,56 @@
             <?php 
             $total_amt = 0;
             $subtotal = 0;
+            
            ?>
             <div class="cart_items js_cat_items">
-                <?php 
+                <?php
                     foreach($cart as $item){ 
-                        $quantity       =  $item['quantity'];
-                        $net_price      =  $item['net_price'];
-                        $final_price    =  $quantity  * $net_price;
-                        $subtotal      =  $final_price + $subtotal;?>
+                        $product_id             =  $item['product_id'];
+                        $short_code             =  $item['short_code'];
+                        $quantity               =  $item['quantity'];
+                        $stock                  =  $item['stock'];
+                        $net_price              =  $item['net_price'];
+                        $elements_attributes    =  json_decode($item['elements_attributes'],true);
+                        $final_price            =  $quantity  * $net_price;
+                        $subtotal               =  $final_price + $subtotal;?>
                     <div class="cart_item js_cart_item cart_item_<?php echo $item['product_id'];?>">
                         <div class="ld_cart_bar"></div>
                         <div class="row al_center">
                             <div class="col-12 col-md-12 col-lg-4">
                                 <div class="page_cart_info flex al_center">
-                                    <a href="product-detail-layout-01.html">
+                                    <a href="javascript:void(0)">
                                         <img class="lazyload w__100 lz_op_ef"
                                             src="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%201128%201439%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3C%2Fsvg%3E"
                                             data-src="<?php echo base_url().PRODUCT_IMAGE_PATH.$item['product_id'].'/'.$item['cover_img']?>" alt="">
                                     </a>
                                     <div class="mini_cart_body ml__15">
                                         <h5 class="mini_cart_title mg__0 mb__5"><a
-                                                href="product-detail-layout-01.html"><?php echo $item['product_name'];?></a></h5>
+                                                href="<?php echo base_url('product-detail/').$short_code.'/?pid='.$product_id?>"><?php echo $item['product_name'];?></a></h5>
                                         <div class="mini_cart_meta">
-                                            <p class="cart_selling_plan"></p>
+                                            <p class="cart_selling_plan mb-1">Seller : <?php echo $item['vendor_name'];?></p>
+                                            <?php if(!empty($elements_attributes)){
+                                                foreach($elements_attributes as $key=>$val){ ?>
+                                                    <p class="cart_selling_plan mb-0"><?php echo getElementNameByID($key); ?> : <?php echo getAttributeNameByID($val);?></p>
+                                            <?php } }?>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-12 col-md-2 col-lg-2 tc mini_cart_actions">
+                                <input type="hidden" id="txt_stock_<?php echo $item['product_id'];?>" value="<?php echo $stock;?>">
                                 <div class="quantity pr mr__10 qty__true">
                                     <input type="number" class="input-text qty text tc qty_cart_js" id="item_<?php echo $item['product_id'];?>" name="updates" data-pid="<?php echo $item['product_id']; ?>"
-                                        value="<?php echo (!empty($item['quantity']) && $item['quantity'] != null) ? $item['quantity'] : '1' ?>" min="1">
+                                        value="<?php echo (!empty($item['quantity']) && $item['quantity'] != null) ? $item['quantity'] : '1' ?>" min="1" readonly>
                                     <div class="qty tc fs__14 update-qty">
                                         <button type="button" class="plus db cb pa pd__0 pr__15 tr r__0" onclick="plusItemQty(<?php echo $item['product_id'];?>)">
                                             <i class="facl facl-plus"></i></button>
                                         <button type="button" class="minus db cb pa pd__0 pl__15 tl l__0 qty_1" onclick="minusItemQty(<?php echo $item['product_id'];?>)">
                                             <i class="facl facl-minus"></i></button>
                                     </div>
+                                    <?php if($stock > 0 && $stock <= 10){ ?>
+                                                <span class="cr"><?php echo $stock;?> left</span> 
+                                    <?php } ?>  
                                 </div>
                             </div>
                             <div class="col-12 col-md-4 col-lg-2 tc__ tc_lg">
@@ -152,13 +165,13 @@
                     <div class="col-lg-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
                         <div class="product-inner pr">
                             <div class="product-image pr oh lazyload">
-                                <a class="d-block" href="product-detail-layout-01.html">
+                                <a class="d-block" href="">
                                     <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-03.jpg"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-01.jpg"></div>
                                 </a>
                                 <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                     <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-04.jpg"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-02.jpg"></div>
                                 </div>
                                 <div class="nt_add_w ts__03 pa ">
                                     <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
@@ -192,11 +205,11 @@
                                         class="onsale nt_label"><span>-40%</span></span></span>
                                 <a class="d-block" href="product-detail-layout-01.html">
                                     <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-fashion-9/pr-s-49.jpg"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-10.jpg"></div>
                                 </a>
                                 <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                     <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-fashion-9/pr-s-50.jpg"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-11.jpg"></div>
                                 </div>
                                 <div class="nt_add_w ts__03 pa ">
                                     <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
@@ -221,11 +234,11 @@
                                 </h3>
                                 <span class="price dib mb__5"><del>$75.00</del><ins>$45.00</ins></span>
                                 <div class="swatch__list_js swatch__list lh__1 nt_swatches_on_grid">
-                                    <span data-bgset="<?php echo UI_ASSETS ?>images/home-fashion-9/pr-s-50.jpg"
+                                    <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-12.jpg"
                                         class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right js__pink"><span
                                             class="tt_txt">Pink</span><span
                                             class="swatch__value bg_color_pink lazyload"></span></span>
-                                    <span data-bgset="<?php echo UI_ASSETS ?>images/home-fashion-9/pr-s-51.jpg"
+                                    <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr14.jpg"
                                         class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right js__cyan"><span
                                             class="tt_txt">Cyan</span><span
                                             class="swatch__value bg_color_cyan lazyload"></span></span>
@@ -238,11 +251,11 @@
                             <div class="product-image pr oh lazyload">
                                 <a class="d-block" href="product-detail-layout-01.html">
                                     <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-21.jpg"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-21.jpg"></div>
                                 </a>
                                 <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                     <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-22.jpg"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-22.jpg"></div>
                                 </div>
                                 <div class="nt_add_w ts__03 pa ">
                                     <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
@@ -271,11 +284,11 @@
                             <div class="product-image pr oh lazyload">
                                 <a class="d-block" href="product-detail-layout-01.html">
                                     <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-31.jpg"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-27.jpg"></div>
                                 </a>
                                 <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                     <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-32.jpg"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-28.jpg"></div>
                                 </div>
                                 <div class="nt_add_w ts__03 pa ">
                                     <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
@@ -297,11 +310,11 @@
                                 </h3>
                                 <span class="price dib mb__5">$49.00 – $56.00</span>
                                 <div class="swatch__list_js swatch__list lh__1 nt_swatches_on_grid">
-                                    <span data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-31.jpg"
+                                    <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-34.jpg"
                                         class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right lazyload"><span
                                             class="tt_txt">Blue</span><span
                                             class="swatch__value bg_color_blue"></span></span>
-                                    <span data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-33.jpg"
+                                    <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-33.jpg"
                                         class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right lazyload"><span
                                             class="tt_txt">Black</span><span
                                             class="swatch__value bg_color_black"></span></span>
@@ -314,11 +327,11 @@
                             <div class="product-image pr oh lazyload">
                                 <a class="d-block" href="product-detail-layout-01.html">
                                     <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-19.jpg"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-19.jpg"></div>
                                 </a>
                                 <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                     <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-20.jpg"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-20.jpg"></div>
                                 </div>
                                 <div class="nt_add_w ts__03 pa ">
                                     <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
@@ -347,11 +360,11 @@
                             <div class="product-image pr oh lazyload">
                                 <a class="d-block" href="product-detail-layout-01.html">
                                     <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-fashion-9/pr-s-33.jpg"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-36.jpg"></div>
                                 </a>
                                 <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                     <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-fashion-9/pr-s-34.jpg"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-37.jpg"></div>
                                 </div>
                                 <div class="nt_add_w ts__03 pa ">
                                     <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
@@ -379,8 +392,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="kalles-section tp_se_cdt">
         <div class="related product-extra mt__70 mb__80">
             <div class="container">
@@ -394,16 +405,13 @@
                     <div class="col-lg-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
                         <div class="product-inner pr">
                             <div class="product-image pr oh lazyload">
-                                <span class="tc nt_labels pa pe_none cw">
-                                    <span class="onsale nt_label"><span>-34%</span></span>
-                                </span>
                                 <a class="d-block" href="product-detail-layout-01.html">
                                     <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/megamenu/pr-11.jpg"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-01.jpg"></div>
                                 </a>
                                 <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                     <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/megamenu/pr-12.jpg"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-02.jpg"></div>
                                 </div>
                                 <div class="nt_add_w ts__03 pa ">
                                     <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
@@ -418,21 +426,62 @@
                                             class="tt_txt">Quick Shop</span><i class="iccl iccl-cart"></i><span>Quick
                                             Shop</span></a>
                                 </div>
+                                <div class="product-attr pa ts__03 cw op__0 tc">
+                                    <p class="truncate mg__0 w__100">S, M, L</p>
+                                </div>
                             </div>
                             <div class="product-info mt__15">
                                 <h3 class="product-title pr fs__14 mg__0 fwm">
-                                    <a class="cd chp" href="product-detail-layout-01.html">La Bohème Rose Gold</a>
+                                    <a class="cd chp" href="product-detail-layout-01.html">Ridley High Waist</a>
                                 </h3>
-                                <span class="price dib mb__5"><del>$60.00</del><ins>$40.00</ins></span>
+                                <span class="price dib mb__5">$36.00</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
+                        <div class="product-inner pr">
+                            <div class="product-image pr oh lazyload">
+                                <span class="tc nt_labels pa pe_none cw"><span
+                                        class="onsale nt_label"><span>-40%</span></span></span>
+                                <a class="d-block" href="product-detail-layout-01.html">
+                                    <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-10.jpg"></div>
+                                </a>
+                                <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
+                                    <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-11.jpg"></div>
+                                </div>
+                                <div class="nt_add_w ts__03 pa ">
+                                    <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
+                                            class="tt_txt">Add to Wishlist</span><i class="facl facl-heart-o"></i></a>
+                                </div>
+                                <div class="hover_button op__0 tc pa flex column ts__03">
+                                    <a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
+                                        href="#"><span class="tt_txt">Quick view</span><i
+                                            class="iccl iccl-eye"></i><span>Quick view</span></a>
+                                    <a href="#"
+                                        class="pr pr_atc cd br__40 bgw tc dib js__qs cb chp ttip_nt tooltip_top_left"><span
+                                            class="tt_txt">Quick Shop</span><i class="iccl iccl-cart"></i><span>Quick
+                                            Shop</span></a>
+                                </div>
+                                <div class="product-attr pa ts__03 cw op__0 tc">
+                                    <p class="truncate mg__0 w__100">S, M</p>
+                                </div>
+                            </div>
+                            <div class="product-info mt__15">
+                                <h3 class="product-title pr fs__14 mg__0 fwm">
+                                    <a class="cd chp" href="product-detail-layout-01.html">Skin Sweatpans</a>
+                                </h3>
+                                <span class="price dib mb__5"><del>$75.00</del><ins>$45.00</ins></span>
                                 <div class="swatch__list_js swatch__list lh__1 nt_swatches_on_grid">
-                                    <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-27.jpg"
-                                        class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right"><span
+                                    <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-12.jpg"
+                                        class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right js__pink"><span
                                             class="tt_txt">Pink</span><span
-                                            class="swatch__value bg_color_pink"></span></span>
-                                    <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-35.jpg"
-                                        class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right"><span
-                                            class="tt_txt">Black</span><span
-                                            class="swatch__value bg_color_black"></span></span>
+                                            class="swatch__value bg_color_pink lazyload"></span></span>
+                                    <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr14.jpg"
+                                        class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right js__cyan"><span
+                                            class="tt_txt">Cyan</span><span
+                                            class="swatch__value bg_color_cyan lazyload"></span></span>
                                 </div>
                             </div>
                         </div>
@@ -442,11 +491,11 @@
                             <div class="product-image pr oh lazyload">
                                 <a class="d-block" href="product-detail-layout-01.html">
                                     <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-fashion-9/pr-s-37.png"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-21.jpg"></div>
                                 </a>
                                 <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                     <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-fashion-9/pr-s-38.png"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-22.jpg"></div>
                                 </div>
                                 <div class="nt_add_w ts__03 pa ">
                                     <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
@@ -464,23 +513,22 @@
                             </div>
                             <div class="product-info mt__15">
                                 <h3 class="product-title pr fs__14 mg__0 fwm">
-                                    <a class="cd chp" href="product-detail-layout-01.html">Simple Skin T-shirt</a>
+                                    <a class="cd chp" href="product-detail-layout-01.html">Black mountain hat</a>
                                 </h3>
-                                <span class="price dib mb__5">$56.00</span>
+                                <span class="price dib mb__5">$50.00</span>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
                         <div class="product-inner pr">
                             <div class="product-image pr oh lazyload">
-                                <span class="tc nt_labels pa pe_none cw"><span class="nt_label new">New</span></span>
                                 <a class="d-block" href="product-detail-layout-01.html">
                                     <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-01.jpg"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-27.jpg"></div>
                                 </a>
                                 <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                     <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-02.jpg"></div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-28.jpg"></div>
                                 </div>
                                 <div class="nt_add_w ts__03 pa ">
                                     <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
@@ -495,15 +543,22 @@
                                             class="tt_txt">Quick Shop</span><i class="iccl iccl-cart"></i><span>Quick
                                             Shop</span></a>
                                 </div>
-                                <div class="product-attr pa ts__03 cw op__0 tc">
-                                    <p class="truncate mg__0 w__100">XS, S, M, L, XL</p>
-                                </div>
                             </div>
                             <div class="product-info mt__15">
                                 <h3 class="product-title pr fs__14 mg__0 fwm">
-                                    <a class="cd chp" href="product-detail-layout-01.html">Analogue Resin Strap</a>
+                                    <a class="cd chp" href="product-detail-layout-01.html">Men pants</a>
                                 </h3>
-                                <span class="price dib mb__5">$30.00</span>
+                                <span class="price dib mb__5">$49.00 – $56.00</span>
+                                <div class="swatch__list_js swatch__list lh__1 nt_swatches_on_grid">
+                                    <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-34.jpg"
+                                        class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right lazyload"><span
+                                            class="tt_txt">Blue</span><span
+                                            class="swatch__value bg_color_blue"></span></span>
+                                    <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-33.jpg"
+                                        class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right lazyload"><span
+                                            class="tt_txt">Black</span><span
+                                            class="swatch__value bg_color_black"></span></span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -512,118 +567,64 @@
                             <div class="product-image pr oh lazyload">
                                 <a class="d-block" href="product-detail-layout-01.html">
                                     <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-lookbook-collection/pr-pin-51.jpg">
-                                    </div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-19.jpg"></div>
                                 </a>
                                 <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                     <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-lookbook-collection/pr-pin-52.jpg">
-                                    </div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-20.jpg"></div>
                                 </div>
-                                <div class="nt_add_w ts__03 pa">
-                                    <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-                                        <span class="tt_txt">Add to Wishlist</span><i class="facl facl-heart-o"></i>
-                                    </a>
+                                <div class="nt_add_w ts__03 pa ">
+                                    <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
+                                            class="tt_txt">Add to Wishlist</span><i class="facl facl-heart-o"></i></a>
                                 </div>
                                 <div class="hover_button op__0 tc pa flex column ts__03">
                                     <a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                        href="#">
-                                        <span class="tt_txt">Quick view</span><i class="iccl iccl-eye"></i><span>Quick
-                                            view</span>
-                                    </a>
+                                        href="#"><span class="tt_txt">Quick view</span><i
+                                            class="iccl iccl-eye"></i><span>Quick view</span></a>
                                     <a href="#"
-                                        class="pr pr_atc cd br__40 bgw tc dib js_addtc cb chp ttip_nt tooltip_top_left">
-                                        <span class="tt_txt">Add to cart</span><i class="iccl iccl-cart"></i><span>Add
-                                            to cart</span>
-                                    </a>
+                                        class="pr pr_atc cd br__40 bgw tc dib js_addtc cb chp ttip_nt tooltip_top_left"><span
+                                            class="tt_txt">Add to cart</span><i class="iccl iccl-cart"></i><span>Add to
+                                            cart</span></a>
                                 </div>
                             </div>
                             <div class="product-info mt__15">
                                 <h3 class="product-title pr fs__14 mg__0 fwm">
-                                    <a class="cd chp" href="product-detail-layout-01.html">Stripe Long Sleeve Top</a>
+                                    <a class="cd chp" href="product-detail-layout-01.html">Cream women pants</a>
                                 </h3>
-                                <span class="price dib mb__5">$15.00 </span>
+                                <span class="price dib mb__5">$35.00</span>
                             </div>
                         </div>
                     </div>
                     <div class="col-lg-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
                         <div class="product-inner pr">
                             <div class="product-image pr oh lazyload">
-                                <a class="db" href="product-detail-layout-01.html">
+                                <a class="d-block" href="product-detail-layout-01.html">
                                     <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/single-product/pr-viewed-01.jpg">
-                                    </div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-36.jpg"></div>
                                 </a>
                                 <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                     <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/single-product/pr-viewed-02.jpg">
-                                    </div>
+                                        data-bgset="<?php echo UI_ASSETS ?>images/products/pr-37.jpg"></div>
                                 </div>
-                                <div class="nt_add_w ts__03 pa">
-                                    <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-                                        <span class="tt_txt">Add to Wishlist</span><i class="facl facl-heart-o"></i>
-                                    </a>
+                                <div class="nt_add_w ts__03 pa ">
+                                    <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
+                                            class="tt_txt">Add to Wishlist</span><i class="facl facl-heart-o"></i></a>
                                 </div>
                                 <div class="hover_button op__0 tc pa flex column ts__03">
                                     <a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                        href="#">
-                                        <span class="tt_txt">Quick view</span><i class="iccl iccl-eye"></i><span>Quick
-                                            view</span>
-                                    </a>
+                                        href="#"><span class="tt_txt">Quick view</span><i
+                                            class="iccl iccl-eye"></i><span>Quick view</span></a>
                                     <a href="#"
-                                        class="pr pr_atc cd br__40 bgw tc dib js_addtc cb chp ttip_nt tooltip_top_left">
-                                        <span class="tt_txt">Add to cart</span><i class="iccl iccl-cart"></i><span>Add
-                                            to cart</span>
-                                    </a>
+                                        class="pr pr_atc cd br__40 bgw tc dib js_addtc cb chp ttip_nt tooltip_top_left"><span
+                                            class="tt_txt">Add to cart</span><i class="iccl iccl-cart"></i><span>Add to
+                                            cart</span></a>
                                 </div>
                             </div>
                             <div class="product-info mt__15">
                                 <h3 class="product-title pr fs__14 mg__0 fwm">
-                                    <a class="cd chp" href="product-detail-layout-01.html">Felt Cowboy Hat</a>
+                                    <a class="cd chp" href="product-detail-layout-01.html">Sunny Life</a>
                                 </h3>
-                                <span class="price dib mb__5">$22.00 </span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
-                        <div class="product-inner pr">
-                            <div class="product-image pr oh lazyload">
-                                <a class="db" href="product-detail-layout-01.html">
-                                    <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/single-product/pr-viewed-03.jpg">
-                                    </div>
-                                </a>
-                                <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-                                    <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/single-product/pr-viewed-04.jpg">
-                                    </div>
-                                </div>
-                                <div class="nt_add_w ts__03 pa">
-                                    <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-                                        <span class="tt_txt">Add to Wishlist</span><i class="facl facl-heart-o"></i>
-                                    </a>
-                                </div>
-                                <div class="hover_button op__0 tc pa flex column ts__03">
-                                    <a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                        href="#">
-                                        <span class="tt_txt">Quick view</span><i class="iccl iccl-eye"></i><span>Quick
-                                            view</span>
-                                    </a>
-                                    <a href="#"
-                                        class="pr pr_atc cd br__40 bgw tc dib js__qs cb chp ttip_nt tooltip_top_left">
-                                        <span class="tt_txt">Quick Shop</span><i class="iccl iccl-cart"></i><span>Quick
-                                            Shop</span>
-                                    </a>
-                                </div>
-                                <div class="product-attr pa ts__03 cw op__0 tc">
-                                    <p class="truncate mg__0 w__100">S, M, L</p>
-                                </div>
-                            </div>
-                            <div class="product-info mt__15">
-                                <h3 class="product-title pr fs__14 mg__0 fwm">
-                                    <a class="cd chp" href="product-detail-layout-01.html">Blue Jean</a>
-                                </h3>
-                                <span class="price dib mb__5">$25.00 </span>
+                                <span class="price dib mb__5">$68.00</span>
                             </div>
                         </div>
                     </div>
@@ -631,5 +632,4 @@
             </div>
         </div>
     </div>
-
 </div>

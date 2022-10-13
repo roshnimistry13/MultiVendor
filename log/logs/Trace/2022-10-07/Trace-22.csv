@@ -1,0 +1,2 @@
+"2022-10-07 22:28:40pm "," delete "," DELETE FROM offer WHERE 1=1  and offer_id = '3' "," ::1 "," URL: http://localhost/MultiVendor/Admin/Offer/deleteoffer "," R: http://localhost/MultiVendor/offer"
+"2022-10-07 22:28:50pm "," delete "," DELETE FROM offer WHERE 1=1  and offer_id = '3' "," ::1 "," URL: http://localhost/MultiVendor/Admin/Offer/deleteoffer "," R: http://localhost/MultiVendor/offer"

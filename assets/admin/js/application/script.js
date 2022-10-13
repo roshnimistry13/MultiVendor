@@ -57,7 +57,11 @@ function toDataTable(table_name,url,target,scrollX=false)
 	});
 }
 
-/**** valiadte for email and phone no */
+/**** valiadte method for custome validation */
+jQuery.validator.addMethod("lettersonly", function(value, element) {
+	return this.optional(element) || /^[a-z  .()/-]+$/i.test(value);
+}, "Please enter charecter only");
+
 jQuery.validator.addMethod("phone", function (phone_number, element) {
 	phone_number = phone_number.replace(/\s+/g, "");
 	return this.optional(element) || phone_number.length > 9 && phone_number.length < 12 ;
@@ -90,11 +94,30 @@ jQuery.validator.addMethod("validate_pan", function(value, element) {
 	}
 }, "Please Enter Valid Pan Number");
 
+jQuery.validator.addMethod("alphanumeric", function(value, element) {
+
+	if (/[a-z0-9A-Z]$/.test(value)) {
+		return true;
+	} else {
+		return false;
+	}
+}, "Please Enter Only Alphabets and Numbers");
+
+jQuery.validator.addMethod("validate_ifsc", function(value, element) {
+
+	if (/[A-Z]{4}[0][A-Z0-9]{6}$/.test(value)) {
+		return true;
+	} else {
+		return false;
+	}
+}, "Please Enter Valid IFSC Code");
+
 /*** valdate date  */
 jQuery.validator.addMethod("greater_date", function(value, element, startDate) {
 	//var startDate = $('#from_date').val();
 	return Date.parse($(startDate).val()) < Date.parse(value) || value == "";
 }, "End date must be after start date");
+
 
 var stack_topleft = {"dir1": "down", "dir2": "right", "push": "bottom"};
 var stack_topright = {"dir1": "down", "dir2": "left", "push": "bottom"};
@@ -163,3 +186,52 @@ function moneyformate(num){
 	var result = otherNumbers1.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree1;
 	return result;
   }
+
+
+  
+//Lock screen js start
+var idleTime = 0;
+
+$(document).ready(function () {
+    // Increment the idle time counter every minute.
+    var idleInterval = setInterval(timerIncrement, 10000); // 1 minute
+
+    // Zero the idle timer on mouse movement.
+    $(this).mousemove(function (e) {
+        idleTime = 0;
+        //checkLockscreenSession();
+        
+    });
+    $(this).keypress(function (e) {
+        idleTime = 0;
+        //checkLockscreenSession();
+    });
+});
+
+function timerIncrement() {
+    idleTime = idleTime + 1;
+    if (idleTime > 100) 
+    {
+    	createLockSession();
+    }
+}
+
+function createLockSession()
+{
+	$.ajax(
+		  {
+		  	"url" : "Admin/Lockscreen/createLockSession",
+		  	type: 'post',
+		  	dataType: 'json',
+		  	success: function (data)
+		  	{
+		  		if(data.status=="success")
+		  		{
+		  			$("#lockscreenModal").modal('show');
+		  			idleTime = 0;
+		  		}
+		  	},
+		  });
+}
+
+//Lock screen js end

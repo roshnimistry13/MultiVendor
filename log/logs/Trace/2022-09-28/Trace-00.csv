@@ -1,0 +1,2 @@
+"2022-09-28 00:23:06am "," insert "," INSERT INTO customer_cart(`customer_id`, `product_id`, `quantity`) VALUES('1', '4', '1') "," ::1 "," URL: http://localhost/MultiVendor/Home/addtocart "," R: http://localhost/MultiVendor/product-detail/allen-solly-womens-regular-fit-t-shirt?pid=4"
+"2022-09-28 00:23:22am "," insert "," INSERT INTO customer_cart(`customer_id`, `product_id`, `quantity`) VALUES('1', '6', '1') "," ::1 "," URL: http://localhost/MultiVendor/Home/addtocart "," R: http://localhost/MultiVendor/product-detail/dennis-lingo-men-shirt?pid=6"

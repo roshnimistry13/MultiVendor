@@ -277,3 +277,24 @@ $config['gst_array'] = array(
 	"20" => "20% GST",
 	"28" => "28% GST",
 );
+
+$config['offer_keywords_array'] = array(
+	"under" => "Under",
+	"upto" => "Up to",
+	"from" => "From",
+	"flat" => "Flat",
+	"min" => "Min",
+	"starting at" => "Starting at",
+);
+
+$config['return_replace_reason_array'] = array(
+	"Product with Physical Damage" 						=> "Product with Physical Damage",
+	"Product with Manufacturing Defect" 				=> "Product with Manufacturing Defect",
+	"Item received is different from their description" => "Item received is different from their description",
+	"Issues related to the Quality of the product" 		=> "Issues related to the Quality of the product",
+	"Issues related to Size/Color/Fit of the product" 	=> "Issues related to Size/Color/Fit of the product",
+	"Fake product" 										=> "Fake product",
+	"Item received has missing parts or accessories;" 	=> "Item received has missing parts or accessories;",
+	"Other" 											=> "Other",
+);
+

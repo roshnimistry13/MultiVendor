@@ -42,10 +42,10 @@ class Product extends CI_Controller
 			$select_column 				= array("p.product_id","p.product_name","p.product_code","c.category_name","p.is_active","b.brand_name","p.stock","v.name");
 			$join_column['table'] 		= array("category c","brand b","vendor v");
 			$join_column['join_on'] 	= array("c.category_id = p.category_id","b.brand_id = p.brand_id","v.vendor_id = p.vendor_id");
-			$order_column				= array(NULL,"p.product_name","p.product_code","v.name","b.brand_name","c.category_name","p.stock","p.is_active",NULL);
+			$order_column				= array("p.product_name","p.product_code","v.name","b.brand_name","c.category_name","p.stock","p.is_active",NULL);
 			$search_column 				= array("p.product_name","p.product_code","b.brand_name","c.category_name","p.stock","v.name");
 			$group_by 					= "";
-			$order_by 					= "p.product_id  DESC";
+			$order_by 					= "p.stock  asc";
 			
 			$fetch_data 				= $this->Common_m->makeDataTables($table, $select_column, $order_column, $join_column, $where, $search_column, $order_by, $group_by);
 			
@@ -97,6 +97,20 @@ class Product extends CI_Controller
 				$action    = '<ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
 								'.$editBtn.$deleteBtn.$copyBtn.'
 							</ul>';
+
+				$available_stock = $row->stock;
+				if($available_stock <= 15){
+					$stock_badges = 'badge-danger';
+				}
+				else if($available_stock <= 25){
+					$stock_badges = 'badge-warning';
+				}
+				else if($available_stock <= 50){
+					$stock_badges = 'badge-info';
+				}
+				else{
+					$stock_badges = 'badge-success';
+				}
 				
 				$product_name = '<div class="d-flex my-2">
 									<div class="userDatatable-inline-title userDatatable-content word-break">
@@ -104,15 +118,13 @@ class Product extends CI_Controller
 											<h6>
 												'.$row->product_name.'
 											</h6>
-										</a>
-										<p class="d-block mb-0">
-											Total available Stock : '.$row->stock.'
-										</p>
+										</a>																				
+										<span class="badge badge-round '.$stock_badges.' badge-md">Stock : '.$row->stock.'</span>										
 									</div>
 								</div>';
 				
+				
 				$sub_array 				= array();
-				$sub_array[] 			= '<div class="userDatatable-content">'.$i++.'</div>';
 				$sub_array[] 			= $product_name;
 				$sub_array[] 			= '<div class="userDatatable-content">'.$row->product_code.'</div>';
 				$sub_array[] 			= '<div class="userDatatable-content">'.$row->name.'</div>';
@@ -252,14 +264,17 @@ class Product extends CI_Controller
 		$rep_char 		=  array(" ",",","/","[","]","(",")","--","---","&");
 		$short_code 	= str_replace($rep_char,"-",$short_code);
 		$rep_char1 		=  array("--","---","----","----");
-		$short_code 	= str_replace($rep_char1,"-",$short_code);		
+		$short_code 	= str_replace($rep_char1,"-",$short_code);	
+		$short_code 	= str_replace("'", "", $short_code);
+		$short_code 	= str_replace("'", "", $short_code);
+		
 		$last_char 		= substr($short_code, -1);
 		if($last_char == '-'){
 			$short_code = rtrim($short_code, "-");;
 		}else{
 			$short_code = $short_code;
 		}
-		
+		$product_name 		 = str_replace("'", "", $product_name);
 		$category_id		 = $this->input->post('text_category_id');
 		$subcategory_id 	 = $this->input->post('text_subcategory_id');	
 		$element_ids 		 = $this->input->post('txt_element_id');
@@ -366,10 +381,6 @@ class Product extends CI_Controller
 
 			$updatedata['warranty_title'] 					= $this->input->post('txt_warranty_title');
 			$updatedata['warranty_detail'] 					= $this->input->post('text_warranty_description');
-			$updatedata['return_or_replace'] 				= $this->input->post('radio_services');
-			$updatedata['return_replace_validity'] 			= $this->input->post('txt_return_replace_validity');
-			$updatedata['policy_covers'] 					= $this->input->post('txt_policy_covers');
-			$updatedata['return_policy'] 					= $this->input->post('txt_policy_description');
 			
 			if($this->input->post('text_is_active') == 1)
 				$updatedata['is_active'] = 1;
@@ -473,10 +484,7 @@ class Product extends CI_Controller
 		
 		$insertdata['warranty_title'] 					= $this->input->post('txt_warranty_title');
 		$insertdata['warranty_detail'] 					= $this->input->post('text_warranty_description');
-		$insertdata['return_or_replace'] 				= $this->input->post('radio_services');
-		$insertdata['return_replace_validity'] 			= $this->input->post('txt_return_replace_validity');
-		$insertdata['policy_covers'] 					= $this->input->post('txt_policy_covers');
-		$insertdata['return_policy'] 					= $this->input->post('txt_policy_description');
+		
 		
 		$insert_result 							= insert('product_details',$insertdata,'');
 		logThis($insert_result->query, date('Y-m-d'),'Products');
@@ -491,37 +499,10 @@ class Product extends CI_Controller
 				if (!is_dir($filepath)) {
 					mkdir($filepath, 0777, true);
 				}	
-				$uploadImg1 	= $filepath.$cover_image;
+				$uploadImg1 	= $filepath.'/'.$cover_image;
 				move_uploaded_file($_FILES['cover_image']['tmp_name'],$uploadImg1);
 			}
 			
-			//Stock details
-			// $stock = $this->input->post('text_stock');
-
-			// if($stock == '' || $stock == NULL){
-			// 	$product_stock = 0;
-			// }
-			// else{
-
-			// 	$product_stock = $stock;
-			// }
-			// $stockdata['product_id'] 				= $product_id;
-			// $stockdata['onhand_quantity'] 			= $product_stock;
-			// $stockdata['created_by'] 				= $user_id;
-			// $stockdata['created'] 					= date('Y-m-d H:i:s');
-			
-			// $stock_id 								= $this->Master_m->insert('stock',$stockdata);
-			// $query 									= $this->db->last_query();
-			// logThis($query, date('Y-m-d'),'Stock');
-			
-			// $stockdetail['stock_id'] 			= $stock_id;
-			// $stockdetail['status'] 				= 1;
-			// $stockdetail['quantity'] 			= $product_stock;
-			// $stockdetail['created'] 			= date('Y-m-d H:i:s');
-			
-			// $stock_id 							= $this->Master_m->insert('stock_details',$stockdetail);
-			// $query 								= $this->db->last_query();
-			// logThis($query, date('Y-m-d'),'Stock');
 			
 			//Insert product elements attributes details
 			if(!empty($element_arr))
@@ -576,11 +557,10 @@ class Product extends CI_Controller
 					mkdir($file_path,0777,true);
 				
 				$imageName 		= $_FILES['image']['name'];
-				compressImage($_FILES['image']['tmp_name'], $file_path.$_FILES['image']['name'],30);
+				//compressImage($_FILES['image']['tmp_name'], $file_path.$_FILES['image']['name'],30);
 
-				// imageCompress1($file_path,$imageName);
-				
-				// echo "<pre>". print_r($imageName). "</pre>";					
+				$uploadImg1 	= $file_path.'/'.$imageName;
+				move_uploaded_file($_FILES['image']['tmp_name'],$uploadImg1);		
 
 				$images[] = $imageName;
 			}
@@ -793,7 +773,11 @@ class Product extends CI_Controller
 		
         if($this->input->is_ajax_request())
         { 
-			$id['product_id'] 		= $this->input->post('id');
+			$PID = $id['product_id'] 		= $this->input->post('id');
+			
+			$directory = PRODUCT_IMAGE_PATH.$PID;
+			$images = glob($directory . "/*");	
+			
 			$result 				= $this->Master_m->where('product_details',$id);
 			if(!empty($result)){
 				$user_id 						= $this->session->userdata[ADMIN_SESSION]['user_id'];
@@ -809,6 +793,7 @@ class Product extends CI_Controller
 				$data['qty'] 					= $result[0]['qty'];
 				$data['element_id'] 			= $result[0]['element_id'];
 				$data['attributes_id'] 			= $result[0]['attributes_id'];
+				$data['unit_price'] 			= $result[0]['unit_price'];
 				$data['mrp_price'] 				= $result[0]['mrp_price'];
 				$data['discount'] 				= $result[0]['discount'];
 				$data['discount_amt'] 			= $result[0]['discount_amt'];
@@ -817,12 +802,15 @@ class Product extends CI_Controller
 				$data['tag'] 					= $result[0]['tag'];
 				$data['gst_amt'] 				= $result[0]['gst_amt'];
 				$data['image'] 					= $result[0]['image'];
+				$data['cover_img'] 				= $result[0]['cover_img'];
 				$data['is_new_product'] 		= $result[0]['is_new_product'];
 				$data['is_popular_product'] 	= $result[0]['is_popular_product'];
 				$data['is_feature_product'] 	= $result[0]['is_feature_product'];
 				$data['meta_title'] 			= $result[0]['meta_title'];
 				$data['meta_description'] 		= $result[0]['meta_description'];
 				$data['meta_keyword'] 			= $result[0]['meta_keyword'];
+				$data['warranty_title'] 		= $result[0]['warranty_title'];
+				$data['warranty_detail'] 		= $result[0]['warranty_detail'];
 				$data['created_by'] 			= $user_id;
 				$data['created'] 				= date('Y-m-d');
 				$data['is_active'] 				= 0;
@@ -832,7 +820,18 @@ class Product extends CI_Controller
 
 				$product_id 			= $insert_result->id;
 				$product_attr 			= $this->Master_m->where('product_elements_attributes',$id);
-				
+
+				$filepath 	= PRODUCT_IMAGE_PATH.$product_id;
+				if (!is_dir($filepath)) {
+					mkdir($filepath, 0777, true);
+				}
+
+				foreach($images as $img){
+					$source = $img;				
+					$destination = PRODUCT_IMAGE_PATH.$product_id.'/'.basename($img);
+					copy($source, $destination); 				
+				}
+
 				if(!empty($product_attr)){
 					foreach($product_attr as $attr){
 						$insertAttribute['product_id'] 			= $product_id;

@@ -15,7 +15,7 @@ function toast_error(message){
 	Toastify({
 			text: message,
 			className: "toast-error",
-			duration: 1000,
+			duration: 2000,
 			close:true,
 		}).showToast();
 }
@@ -35,6 +35,10 @@ function moneyformate(num){
   }
 
 /**** valiadte for email and phone no */
+jQuery.validator.addMethod("lettersonly", function(value, element) {
+	return this.optional(element) || /^[a-z  .()/-]+$/i.test(value);
+}, "Please enter charecter only");
+
 jQuery.validator.addMethod(
 	"phone",
 	function (phone_number, element) {
@@ -62,6 +66,15 @@ jQuery.validator.addMethod(
 	},
 	"Account Email can contain only ASCII characters. This must be in the format of something@email.com"
 );
+
+jQuery.validator.addMethod("validate_ifsc", function(value, element) {
+
+	if (/[A-Z]{4}[0][A-Z0-9]{6}$/.test(value)) {
+		return true;
+	} else {
+		return false;
+	}
+}, "Please Enter Valid IFSC Code");
 
 $(function () {
 	$('[data-toggle="popover"]').popover({html : true});
@@ -108,7 +121,7 @@ function createProductGrid(result, sno, whishList) {
 		var mrp 			= "";
 
 		var product_image 				= result[index].cover_img;
-		var product_detail_url 			= base_url + "product-detail/" + short_code;
+		var product_detail_url 			= base_url + "product-detail/" + short_code +"?pid="+id;
 		if (product_image) {
 			var img_arr 		= product_image.split("|");
 			var img_url 		= base_url + PRODUCT_IMAGE_PATH + id + "/" + product_image;
@@ -128,13 +141,13 @@ function createProductGrid(result, sno, whishList) {
 		var div =
 			'<div class="col-lg-3 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1"><div class="product-inner pr"><div class="product-image product__card pr oh lazyload"></span><a class="d-block" href="' +
 			product_detail_url +
-			'"><div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571" data-bgset="' +
+			'" target="_blank"><div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571" data-bgset="' +
 			img_url +
 			'"></div></a><div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0"><div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571" data-bgset="' +
 			img_url +
 			'"></div></div><div class="nt_add_w ts__03 pa ' +
 			wish_class +
-			'"><a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span class="tt_txt">Add to Wishlist</span><i class="facl facl-heart-o"></i></a></div><div class="hover_button op__0 tc pa flex column ts__03"><a href="#" class="pr pr_atc cd br__40 bgw tc dib js__qs cb chp ttip_nt tooltip_top_left"><span class="tt_txt">Quick Shop</span><i class="iccl iccl-cart"></i><span>Quick Shop</span></a></div></div><div class="product-info mt__15"><h3 class="product-title pr fs__14 mg__0 fwm"><a class="cd chp" href="' +
+			'"><a href="javascript:void(0)" class="wishlistadd cb chp ttip_nt tooltip_right" data-pid="'+ id +'" onclick="additemToWishlost('+ id +')"><span class="tt_txt">Add to Wishlist</span><i class="facl facl-heart-o"></i></a></div></div><div class="product-info mt__15"><h3 class="product-title pr fs__14 mg__0 fwm"><a class="cd chp" href="' +
 			product_detail_url +
 			'">' +
 			product_name +
@@ -218,7 +231,7 @@ $(document).ready(function () {
 					createProductGrid(response.result, response.row, whishList);
 				} else {
 					$("#productList").empty();
-					var div = "<h5>No Product found</h5>";
+					var div = "<h5 class='text-center'>No Product found</h5>";
 					$("#productList").append(div);
 				}
 			},
@@ -252,35 +265,55 @@ function category_filter(val)
 /*** add to cart item */
 $(".btnAddToCart").on("click", function (e) {
 	var product_id = $(".product_detail_page").data("pid");
-	var quantity = $("#txt_quantity").val();
-
-	$.ajax({
-		url: base_url + "Home/addtocart",
-		type: "POST",
-		datatype: "json",
-		data: { quantity: quantity, product_id: product_id },
-		success: function (json) {
-			if (json["success"] == "success") {
-				toast_success(json['message']);
-				if (json["totalCart"]) {
-					$(".icon_cart .tcount").text(json["totalCart"]);
-					var cartitem = '<div class="mini_cart_item js_cart_item flex al_center pr oh"><div class="ld_cart_bar"></div></div>';
-					$(cartitem).appendTo('div.cart_product_list');
-				}
-			} else {
-				$("#nt_login_canvas").addClass("act_opened");
-				$(".mask-overlay").addClass("mask_opened");
-				$("html").addClass("hside_opened");
-				$("body").addClass("pside_opened");
-			}
-		},
+	var quantity = 1;
+	var eleArray = {};
+	var error 	 = 0
+	$('.product-variants').each(function(index, element) {
+		var elemets = $(this).data('elements');
+		if($(this).find('li.is-selected').length){
+			var value 	= $(this).find('li.is-selected').data('attrid');
+			eleArray[elemets] = value;
+		}else{
+			error++;			
+			toast_error('Plese select '+ $(this).data('elename'));
+		}		
 	});
+	if(error == 0){
+		$.ajax({
+			url: base_url + "Home/addtocart",
+			type: "POST",
+			datatype: "json",
+			data: { quantity: quantity, product_id: product_id ,eleArray:eleArray },
+			success: function (json) {
+				if (json["success"] == "success") {
+					toast_success(json['message']);
+					if (json["totalCart"]) {
+						$(".icon_cart .tcount").text(json["totalCart"]);
+						var cartitem = '<div class="mini_cart_item js_cart_item flex al_center pr oh"><div class="ld_cart_bar"></div></div>';
+						$(cartitem).appendTo('div.cart_product_list');
+						location.reload();
+					}
+				} else {
+					$("#nt_login_canvas").addClass("act_opened");
+					$(".mask-overlay").addClass("mask_opened");
+					$("html").addClass("hside_opened");
+					$("body").addClass("pside_opened");
+				}
+			},
+		});
+	}
+	
 });
 
 /*** add to whishList item */
-$(".wishlistadd").on("click", function (e) {
-	var product_id = $(".product_detail_page").data("pid");
+// $(document).delegate('.wishlistadd', 'click', function() {
+	$(".wishlistadd").on("click", function (e) {
+	var product_id 	= $(this).data("pid");
+	additemToWishlost(product_id);
+});
 
+function additemToWishlost(product_id){
+	var returnval = '';
 	$.ajax({
 		url: base_url + "Home/addtowhisList",
 		type: "POST",
@@ -289,17 +322,28 @@ $(".wishlistadd").on("click", function (e) {
 		success: function (json) {
 			if (json["success"] == "success") {
 				if (json["totalWishList"]) {
+					toast_success(json['message']);
 					$(".icon_like .total-whishlist").text(json["totalWishList"]);
+					returnval = true;
 				}
-			} else {
-				// $('#nt_login_canvas').addClass('act_opened');
-				// $(".mask-overlay").addClass('mask_opened');
-				// $("html").addClass("hside_opened");
-				// $("body").addClass("pside_opened");
+			}else if(json["error"] == "error") {
+				toast_success(json['message']);
+				returnval = false;
+			} 
+			else if(json["warning"] == "warning") {
+				toast_success(json['message']);				
+				$('.nt_add_w').removeClass("wis_added");
+				$('#nt_login_canvas').addClass('act_opened');
+				$(".mask-overlay").addClass('mask_opened');
+				$("html").addClass("hside_opened");
+				$("body").addClass("pside_opened");
+				returnval = false;
+				
 			}
 		},
 	});
-});
+	return returnval;
+}
 
 $(".btnToLogin").on("click", function (e) {
 	e.preventDefault();
@@ -566,7 +610,23 @@ $nt_js_cart.on("click", ".cart_ac_remove", function (evt) {
 							}
 						});
 						$nt_js_cart.removeClass("ld_nt_cl");
+					}, 500);
+					
+					setTimeout(() => {
+						var subtotal 		= 0;
+					
+					if($('.mini_cart_item .cart_price').length){
+						$('.cart_price ins').each(function(index, element) {
+							subtotal = subtotal + parseFloat($(this).text()); 
+						});
+						var cart_length = $('.mini_cart_item .cart_price').length;
+						$('.mini_cart_footer .cart_tot_price').text(subtotal.toFixed(2));
+						$(".icon_cart .tcount").text(cart_length);
+					}else{
+						$('.mini_cart_footer .cart_tot_price').text(subtotal.toFixed(2));
+					}
 					}, 1000);
+					
 				} else {
 					setTimeout(() => {
 						$wrapItem.slideUp(300, "swing", function () {
@@ -624,30 +684,57 @@ $(".nt_add_w").on("click", ".wis_remove", function () {
 	
 	let $product = $(this).closest(".product"),$this = $(this);
 	product_id = $this.data("pid");
+	$result = removeWishListitem(product_id);
+	if($result){
+		$product.addClass("kalles-hidden-product");
+		setTimeout(() => $product.remove(), 500);
+		if($result == 0){
+			var emptywishlist = '<div class="col-12 py-5 text-center"><i class="las la-shopping-bag pr mb__10 fs__55"></i><h5 class="text-center">You have no items in your wishlist. Start adding!</h5></div>';
+			$('.wishlist-item-div').append(emptywishlist);
+		}
+	}
+	
+});
+
+function removeWishListitem(product_id){
+	var totalwishlist = 0
 	$.ajax({
 		url: base_url + "Home/removeFromWishList",
 		type: "POST",
+		async: false,
 		datatype: "json",
 		data: { product_id: product_id },
 		success: function (json) {
 			if (json["success"] == "success") {
 				toast_success(json['message']);
-				$product.addClass("kalles-hidden-product");
-				setTimeout(() => $product.remove(), 500);
+				$(".icon_like .total-whishlist").text(json["totalWishList"]);
+				totalwishlist = json["totalWishList"];
 			}
 			if (json["error"]) {
+				totalwishlist = 0;
 			}
 		},
 	});
-});
+	return totalwishlist;
+}
 
 
 /*** UPDATE ITEM QUANTITY */
 
 function plusItemQty(product_id)
 {
-	var item_quantity = parseInt($('#item_'+product_id).val()) + 1;
-	updateItemqauantity(product_id,item_quantity);
+	var item_quantity 	= parseInt($('#item_'+product_id).val()) + 1; console.log(item_quantity);
+	var stock 			= parseInt($('#txt_stock_'+product_id).val()); console.log(stock);
+	if(item_quantity <= stock){
+		updateItemqauantity(product_id,item_quantity);
+	}else{
+		toast_error('Out of Stock');
+		setTimeout(function(){
+			$('#item_'+product_id).val(stock);
+		}, 500);
+		
+		
+	}
 }
 function minusItemQty(product_id)
 {
@@ -838,6 +925,10 @@ $('.btn-place-order').on('click',function(){
 				window.location.href = json["redirect"];
 			}
 			if (json["error"]) {
+				toast_error(json["msg"]);
+				if(json["redirect"]){
+					window.location.href = json["redirect"];
+				}
 				
 			}
 		},
@@ -967,4 +1058,124 @@ $(".all-address-list").on("click", ".btremoveaddress", function () {
 		});
 	  }
 	
+});
+
+/*** FILTER ORDER BY YEAR */
+$(".myorder-page").on("click", ".btnfilteryear", function () {
+	var filterYear = $(this).data('label');
+	$.ajax({
+		url: base_url + "Home/getFilterOrderByYear",
+		type: "POST",
+		datatype: "json",
+		data: { filterYear : filterYear} ,
+		success: function (json) {
+			if (json["success"] == "success") {
+				var orderHtml = json['orderHtml'];
+				$(".myorder-page .order-list").html('');
+				$(".myorder-page .order-list").html(orderHtml);
+			}
+			if (json["error"]) {
+				$(".myorder-page .order-list").html('<div><h5 class="text-center">Sorry, No Results Found !!</h5></div>');
+			}
+		},
+	});
+});
+
+/*** OPEN MODAL FOR RETURN /REPLACE ORDER */
+$(".btn-return-replace").on("click", function () {
+	var title 		= $(this).data('btnname');
+	var orderid 	= $(this).data('orderid');
+	var productid 	= $(this).data('productid');
+	
+	$('#txt_product_id').val(productid);
+	$('#txt_order_id').val(orderid);
+	if(title == "return"){
+		var action = base_url + "submit-return";
+		$('#return-replace-request-form').attr("action",action);
+		$('#refund_div').show();
+		$("#refund_div input").prop('required',true);
+	}else{
+		var action = base_url + 'submit-replace';
+		$('#return-replace-request-form').attr("action",action);
+		$("#refund_div input").prop('required',false);
+		$('#refund_div').hide();
+	}
+
+	$.ajax({
+		url: base_url + "Home/getOrderedProductDetail",
+		type: "POST",
+		datatype: "json",
+		data: { orderid : orderid,productid:productid},		
+		success: function (json){
+			if (json["success"] == "success") {
+				var result 				= json['result'];
+				var total_amt 			= result[0]['total_amt'];
+				var shipping_address 	= result[0]['shipping_address'];
+				var order_number 		= result[0]['order_number'];
+				$('.dilivered-address').html(shipping_address);
+				$('.product-price').html('<i class="fa fa-inr"></i> '+total_amt+'');
+			}
+			if (json["error"]) {
+
+			}
+		},
+	});
+	
+	$('#requestTitle').text(title +' Request ');
+	$('#returnRequestModal').find('label.error').remove();
+	$('#returnRequestModal').modal('show');
+});
+
+/****** FORM SUBMIT : RETURN - REPLACE REQUEST*/
+$("form[id='return-replace-request-form']").validate({
+	// Specify validation rules
+	rules: {
+		txt_ifsc:{
+			validate_ifsc:true,
+			maxlength: 11,				
+			minlength: 11,	
+		},
+		txt_acc_no:{
+			number:true,
+			maxlength: 11,				
+			minlength: 11,	
+		},
+		txt_account_name:{
+			lettersonly :true,
+		},
+		txt_phone_no:{
+			phone :true,
+		},
+	},
+	// Specify validation error messages
+	messages: {
+		txt_reason: 		{required: "Please select reason" },
+		txt_ifsc: 			{required: "Please enter IFSC code"},
+		txt_acc_no: 		{required:"Please enter account no"},
+		txt_account_name: 	{required:"Please enter card holder name"},
+		txt_phone_no: 		{required:"Please enter phone no"},
+	},
+	submitHandler: function (form) {
+		// form.submit();
+		$.ajax({
+			url: $(form).attr("action"),
+			type: $(form).attr("method"),
+			data: new FormData($(form)[0]),
+			async: false,
+			cache: false,
+			contentType: false,
+			processData: false,
+			datatype: "json",
+			success: function (json) {				
+				if(json["success"]) {	
+					toast_success(json["msg"]);	
+					location.reload();			
+				}
+				if(json["error"]) {
+					toast_error(json["error"]);
+				}
+				$('#returnRequestModal').modal('hide');
+			},
+		});
+	},
 });

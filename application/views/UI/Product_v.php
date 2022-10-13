@@ -2,7 +2,7 @@
     <div class="kalles-section page_section_heading">
         <div class="page-head tc pr oh cat_bg_img page_head_">
             <div class="parallax-inner nt_parallax_false lazyload nt_bg_lz pa t__0 l__0 r__0 b__0"
-                data-bgset="<?php echo UI_ASSETS ?>images/shop/shop-banner.jpg"></div>
+                data-bgset="<?php echo UI_ASSETS ?>images/banner/shop-banner.jpg"></div>
             <div class="container pr z_100">
                 <h1 class="mb__5 cw">Product</h1>
                 <p class="mg__0">Shop through our latest selection .</p>
@@ -32,13 +32,14 @@
                                             <li class="cat-item">
                                                 <a href="javascript:void(0)" onclick="category_filter(<?php echo $category['category_id'] ?>)" id="filter_category_<?php echo $category['category_id'] ?>">
                                                     <?php echo ucwords($category['category_name']); ?><span
-                                                        class="cat_count">(<?php echo $category['category_total_product']; ?>)</span></a>
+                                                        class="cat_count d-inline-block">(<?php echo $category['category_total_product']; ?>)</span></a>
                                             </li>
                                             <?php } ?>
                                         </ul>
                                         <?php } ?>
                                     </div>
-                                    <div class="col-12 col-md-12 widget">
+                                    
+                                    <!-- <div class="col-12 col-md-12 widget">
                                         <h5 class="widget-title">Filter by price</h5>
                                         <div class="loke_scroll progress-price">
                                             <div class="form-group">
@@ -46,7 +47,7 @@
                                                 <input type="range" class="form-control-range" id="price_range_slider">
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> -->
                                 </div>
                             </div>
                         </div>

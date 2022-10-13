@@ -32,10 +32,7 @@ $attributes_id = array();
 
 $warranty_title 					= "";
 $warranty_detail 					= "";
-$return_or_replace 				    = "";
-$return_replace_validity			= "";
-$policy_covers					    = "";
-$return_policy 	                    = "";
+
 
 $read_only = "";
 if(strtolower($user_type) == "vendor")
@@ -78,10 +75,7 @@ if(!empty($result)){
 
     $warranty_title 					= $result[0]['warranty_title'];
     $warranty_detail 					= $result[0]['warranty_detail'];
-    $return_or_replace 				    = $result[0]['return_or_replace'];
-    $return_replace_validity			= $result[0]['return_replace_validity'];
-    $policy_covers					    = $result[0]['policy_covers'];
-    $return_policy 	                    = $result[0]['return_policy'];
+    
 	
 	if($is_new_product == 0)
 	$is_new = "";
@@ -314,7 +308,7 @@ if(!empty($result)){
                                                             Vendor
                                                         </label>
                                                         <select id="text_vendor_id" name="text_vendor_id"
-                                                            class="form-control select2">
+                                                            class="form-control select2" required>
                                                             <option value="">
                                                                 Select Vendor
                                                             </option>
@@ -675,100 +669,7 @@ if(!empty($result)){
                                                                         </div>
                                                                     </div>
                                                                 </div>
-                                                                <div class="atbd-collapse-item">
-                                                                    <div class="atbd-collapse-item__header">
-                                                                        <a href="#" class="item-link collapsed"
-                                                                            data-toggle="collapse"
-                                                                            data-target="#collapse-body-return-replace-poliicy"
-                                                                            aria-expanded="false"
-                                                                            aria-controls="collapse-body-return-replace-poliicy">
-                                                                            <i class="la la-angle-right"></i>
-                                                                            <h6 class="fw-600">Return/Replacement Policy</h6>
-                                                                        </a>
-                                                                    </div>
-                                                                    <div id="collapse-body-return-replace-poliicy"
-                                                                        class="atbd-collapse-item__body collapse pt-5"
-                                                                        style="">
-                                                                        <div class="collapse-body-text">
-                                                                            <div class="row">
-                                                                                <div class="col-md-6">
-                                                                                    <label for="radio-optional"
-                                                                                        class="color-dark fs-14 fw-500 align-left mr-5">
-                                                                                        Policy
-                                                                                    </label>
-                                                                                    <div
-                                                                                        class="radio-horizontal-list d-flex">
-                                                                                        <div
-                                                                                            class="radio-theme-default custom-radio ">
-                                                                                            <input class="radio"
-                                                                                                type="radio"
-                                                                                                name="radio_services"
-                                                                                                value="return"
-                                                                                                id="radio_return"
-                                                                                                <?php echo ($return_or_replace == "return") ? 'checked' : '' ;?>>
-                                                                                            <label for="radio_return">
-                                                                                                <span
-                                                                                                    class="radio-text">Return</span>
-                                                                                            </label>
-                                                                                        </div>
-                                                                                        <div
-                                                                                            class="radio-theme-default custom-radio ">
-                                                                                            <input class="radio"
-                                                                                                type="radio"
-                                                                                                name="radio_services"
-                                                                                                value="replace"
-                                                                                                id="radio_replacement"
-                                                                                                <?php echo ($return_or_replace == "replace") ? 'checked' : '' ;?>>
-                                                                                            <label
-                                                                                                for="radio_replacement">
-                                                                                                <span
-                                                                                                    class="radio-text">Replacement</span>
-                                                                                            </label>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-6">
-                                                                                    <div class="form-group">
-                                                                                        <label
-                                                                                            for="txt_return_replace_validity"
-                                                                                            class="color-dark fs-14 fw-500 align-left mr-5">
-                                                                                            Validity
-                                                                                        </label>
-                                                                                        <input type="text"
-                                                                                            class="form-control ih-small"
-                                                                                            name="txt_return_replace_validity"
-                                                                                            id="txt_return_replace_validity"
-                                                                                            value="<?php echo $return_replace_validity; ?>">
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-12">
-                                                                                    <div class="form-group">
-                                                                                        <label
-                                                                                            for="txt_return_replace_validity"
-                                                                                            class="color-dark fs-14 fw-500 align-left mr-5">
-                                                                                            Policy Covers
-                                                                                        </label>
-                                                                                        <textarea class="form-control"
-                                                                                            id="txt_policy_covers"
-                                                                                            name="txt_policy_covers"><?php echo $policy_covers; ?></textarea>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="col-md-12">
-                                                                                    <div class="form-group">
-                                                                                        <label
-                                                                                            for="txt_return_replace_validity"
-                                                                                            class="color-dark fs-14 fw-500 align-left mr-5">
-                                                                                            Policy Description
-                                                                                        </label>
-                                                                                        <textarea class="form-control"
-                                                                                            id="txt_policy_description"
-                                                                                            name="txt_policy_description"><?php echo $return_policy; ?></textarea>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </div>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
+                                                                
                                                             </div>
                                                         </div>
                                                     </div>

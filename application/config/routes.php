@@ -146,7 +146,16 @@ $route['submit-slider']            = "Admin/Slider/submitSlider";
 
 /** Order */
 $route['order']            	        = "Admin/Order/index";
+$route['order-confirmed']           = "Admin/Order/index";
+$route['order-processing']          = "Admin/Order/index";
+$route['order-shipped']             = "Admin/Order/index";
+$route['order-delivered']           = "Admin/Order/index";
+$route['order-return']              = "Admin/Order/returnOrder";
+$route['order-refund']              = "Admin/Order/index";
+$route['order-cancel']              = "Admin/Order/index";
+$route['replace-order']             = "Admin/Order/replaceOrder";
 $route['view-order/(:any)']         = "Admin/Order/ViewOrder";
+$route['view-request/(:any)']         = "Admin/Order/ViewRequest";
 $route['update-delivery-status']    = "Admin/Order/updateDeliveryStatus";
 
 
@@ -156,11 +165,25 @@ $route['add-coupon']            	    = "Admin/Coupon/addCoupon";
 $route['edit-coupon/(:any)']            = "Admin/Coupon/editCopoun";
 $route['submit-coupon']            	    = "Admin/Coupon/submitCoupon";
 
+
+/** Offer */
+$route['offer']            	            = "Admin/Offer/index";
+$route['add-offer']            	        = "Admin/Offer/addOffer";
+$route['edit-offer/(:any)']             = "Admin/Offer/editOffer";
+$route['submit-offer']            	    = "Admin/Offer/submitOffer";
+
 /** stock */
 
 $route['stock']            	        = "Admin/Stock/index";
 $route['edit-stock/(:any)']         = "Admin/Stock/editStock";
 $route['submit-stock']              = "Admin/Stock/submitStock";
+
+/*** Customer */
+$route['customer']            	        = "Admin/Customer/index";
+
+/***profile */
+$route['profile']            	     = "Admin/Profile/index";
+$route['submit-profile']             = "Admin/Profile/submitProfile";
 
 /*** */
 $route['admin-logout']      = 'Admin/login/logout';
@@ -174,8 +197,8 @@ $route['/']                         = "Home/index";
 $route['home']                      = "Home/index";
 $route['about-us']                  = "Home/aboutUs";
 $route['contact-us']                = "Home/contactUs";
-$route['shop']                      = "Home/shop";
-$route['product']                   = "Home/product";
+$route['shop']                      = "Home/product";
+// $route['product']                   = "Home/product";
 $route['product-detail/(:any)']     = "Home/productDetail";
 $route['blog']                      = "Home/blog";
 $route['cart']                      = "Home/cart";
@@ -192,5 +215,8 @@ $route['place-order']               = "Home/placeOrder";
 $route['get-state-by-country']      = "Home/getStateByCountry";
 $route['my-account']                = "Home/myAccount";
 $route['order-history']             = "Home/myOrders";
-$route['order-detail']             = "Home/orderDetail";
-$route['createPdf']             = "Home/createPdf";
+$route['order-detail']              = "Home/orderDetail";
+$route['createPdf']                 = "Home/createPdf";
+$route['404-error']                 = "Home/errorPage";
+$route['submit-return']            = "Home/submitReturn";
+$route['submit-replace']            = "Home/submitReplace";

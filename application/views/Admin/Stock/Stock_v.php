@@ -33,7 +33,12 @@
                                             </th>
                                             <th>
                                                 <span class="userDatatable-title">
-                                                    Product Name
+                                                    Product
+                                                </span>
+                                            </th>
+                                            <th>
+                                                <span class="userDatatable-title">
+                                                    Vendor
                                                 </span>
                                             </th>
                                             <th>
@@ -61,11 +66,11 @@
 </div>
 
 <div class="modal-basic modal fade show" id="product_stock_detail_modal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-md" role="document">
+    <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content modal-bg-white ">
             <div class="modal-header">
                 <!-- <h6 class="modal-title">Stock Detail</h6><br> -->
-				<span class="product-name color-primary"></span>
+                <span class="product-name color-primary"></span>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span data-feather="x"></span></button>
             </div>
@@ -74,20 +79,30 @@
                     <div class="col-lg-12 mb-30">
                         <div class="userDatatable global-shadow border-0 bg-white w-100">
                             <div class="table-responsive">
-                                <table class="table mb-0 w-100" id="stockDetailDatatable">
+                                <table class="table mb-0 w-100 table-basic" id="stockDetailDatatable">
                                     <thead>
                                         <tr class="userDatatable-header">
-                                            <th>
+                                            <th class=" text-center">
                                                 <span class="userDatatable-title">
                                                     Date
                                                 </span>
                                             </th>
-                                            <th>
+                                            <th class=" text-center">
+                                                <span class="userDatatable-title">
+                                                    Stock in
+                                                </span>
+                                            </th>
+                                            <th class=" text-center">
+                                                <span class="userDatatable-title">
+                                                    Stock Out
+                                                </span>
+                                            </th>
+                                            <th class=" text-center">
                                                 <span class="userDatatable-title">
                                                     Old Stock
                                                 </span>
                                             </th>
-                                            <th>
+                                            <th class=" text-center">
                                                 <span class="userDatatable-title">
                                                     Current Stock
                                                 </span>

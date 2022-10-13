@@ -10,14 +10,14 @@
     $brand_id               = array();
     $element_id             = array();
 	$is_active              = "checked";
-    $return_or_replace 				    = "";
+    $return_or_replace 				    = array();
     $return_replace_validity			= "";
     $policy_covers					    = "";
     $return_policy 	                    = "";
 
 	if(!empty($result))
 	{
-		$category_id       	= $result[0]['category_id'];
+        $category_id       	= $result[0]['category_id'];
 		$category_name      = $result[0]['category_name'];
 		$top_menu 			= $result[0]['top_menu'];
 		$menu_position      = $result[0]['menu_position'];
@@ -28,11 +28,10 @@
         $brand_id           = explode(',',$result[0]['brand_id']);
         $element_id         = explode(',',$result[0]['element_id']);
 
-        $return_or_replace 				    = $result[0]['return_or_replace'];
+        $return_or_replace 				    = explode(',',$result[0]['return_or_replace']);
         $return_replace_validity			= $result[0]['return_replace_validity'];
         $policy_covers					    = $result[0]['policy_covers'];
         $return_policy 	                    = $result[0]['return_policy'];
-	
 		
 		if($is_active == "0"){
 			$is_active = "";
@@ -242,7 +241,7 @@
                                                 <?php } ?>
                                             </div>
 
-                                            <div class="row">
+                                            <div class="row policy-section">
                                                 <div class="col-12">
                                                     <div class="card card-default card-md mb-4">
                                                         <div class="card-body pb-10 pl-0">
@@ -275,7 +274,7 @@
                                                                                                 name="check_services[]"
                                                                                                 value="return"
                                                                                                 id="check_return"
-                                                                                                <?php echo ($return_or_replace == "return") ? 'checked' : '' ;?>>
+                                                                                                <?php echo (in_array("return",$return_or_replace)) ? "checked" : "" ;?>>
                                                                                             <label for="check_return">
                                                                                                 <span
                                                                                                     class="checkbox-text">Return</span>
@@ -287,7 +286,7 @@
                                                                                                 name="check_services[]"
                                                                                                 value="replace"
                                                                                                 id="check_replace"
-                                                                                                <?php echo ($return_or_replace == "replace") ? 'checked' : '' ;?>>
+                                                                                                <?php echo (in_array("replace",$return_or_replace)) ? "checked" : "" ;?>>  
                                                                                             <label for="check_replace">
                                                                                                 <span
                                                                                                     class="checkbox-text">Replace</span>
@@ -303,7 +302,7 @@
                                                                                             class="color-dark fs-14 fw-500 align-left mr-5">
                                                                                             Validity
                                                                                         </label>
-                                                                                        <input type="text"
+                                                                                        <input type="number"
                                                                                             class="form-control ih-small"
                                                                                             name="txt_return_replace_validity"
                                                                                             id="txt_return_replace_validity"

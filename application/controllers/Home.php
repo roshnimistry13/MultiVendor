@@ -11,6 +11,7 @@ class Home extends CI_Controller
 	// Show Home page
 	public function index()
 	{
+		
 		//Meta Data
 		$meta_data['meta_title']			= "Home | ".UI_THEME;
 		$meta_data['meta_description']		= "Home | ".UI_THEME;
@@ -40,6 +41,7 @@ class Home extends CI_Controller
 	/*** CONTCAT US */
 	public function contactUs()
 	{
+		
 		//Meta Data
 		$meta_data['meta_title']			= "Contact Us | ".UI_THEME;
 		$meta_data['meta_description']		= "Contact Us | ".UI_THEME;
@@ -56,6 +58,22 @@ class Home extends CI_Controller
 	public function product()
 	{
 		$this->session->unset_userdata('filter_sess');
+		$short_code 	= $this->input->get('category'); 
+		$category_id 	= $this->input->get('cid'); 
+
+		if(!empty($short_code) && $short_code != ""){
+			$cat_cond['short_code'] = $short_code;
+        	$cat_result = $this->Master_m->where('category',$cat_cond);
+			if(!empty($cat_result)){
+				$cat_id = $cat_result[0]['category_id'];	
+
+				$session_data['category'] = $cat_id;
+				$session_data['brand'] = "";
+				$session_data['start_price'] = "";
+				$session_data['end_price'] = 10000;
+				$this->session->set_userdata('filter_sess', $session_data);
+			}
+		}
 		$data['category_total_product'] = $this->Master_m->getCategoryTotalProduct();
 		
 		//Meta Data
@@ -74,7 +92,21 @@ class Home extends CI_Controller
 	public function productDetail()
 	{
 		$short_code 				= $this->uri->segment('2');
-		$product_detail 			= $this->Master_m->getAllProductDetails(null,$short_code);
+		$product_id 				= $this->input->get('pid');
+		$product_detail 			= $this->Master_m->getAllProductDetails($product_id,$short_code);
+
+		$variant_p = $this->Master_m->getAllProductDetails(null,$short_code);
+		//print_r($variant_p);
+		$p_array = array();
+		$size_array = array();
+		$ele = array();
+		foreach($variant_p as $p){			
+			$pid =$p['product_id'];
+			$res1 = $this->Master_m->getProductVariants($pid);
+				
+		}
+		//array_column($p_array, 'Size');
+
 		
 		$data = array();
 		$data['breadcrumbs'] 		= "";
@@ -106,11 +138,12 @@ class Home extends CI_Controller
 				if(!empty($result)){
 					$data['wish_list_class'] = "wis_added";
 				}
+
+				$addToRecent = $this->Master_m->addToRecentView($customer_id,$product_id);
 			}
 			
 			$data['product_element'] 	= $this->Master_m->getProductElemetsAttributes($product_id);			
 			$data['product_detail'] 	= $product_detail[0];
-
 			//Meta Data
 			$meta_data['meta_title']				= "Shop | ".UI_THEME;
 			$meta_data['meta_description']			= "Shop | ".UI_THEME;
@@ -130,7 +163,6 @@ class Home extends CI_Controller
 		if(!empty($this->session->userdata[CUSTOMER_SESSION])){
 			$customer_id 						= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
 			$data['cart'] 						= $this->Master_m->getCustomerCartItems($customer_id);
-		
 			//Meta Data
 			$meta_data['meta_title']			= "Cart | ".UI_THEME;
 			$meta_data['meta_description']		= "Cart | ".UI_THEME;
@@ -141,6 +173,9 @@ class Home extends CI_Controller
 			$this->load->view('UI/Common/Menubar');
 			$this->load->view('UI/Cart_v',$data);
 			$this->load->view('UI/Common/Footer');
+		}
+		else{
+			redirect('404-error');
 		}
 	}
 
@@ -377,7 +412,7 @@ class Home extends CI_Controller
 		  $allcount 			= count(array_filter($products_result));  
 		  $products 			= $this->Master_m->getFilterData($filter,ROW_PER_PAGE,$rowno);
 		  $whish_product 		= array();
-		
+		// print_r($products_result);
 		  if(!empty($this->session->userdata[CUSTOMER_SESSION])){
 			$customer_id 				= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
 				$wh['customer_id'] 		= $customer_id;
@@ -429,7 +464,11 @@ class Home extends CI_Controller
 			if(!empty($this->session->userdata[CUSTOMER_SESSION])){
 				$data['product_id'] 	= $this->input->post('product_id');
 				$data['quantity'] 		= $this->input->post('quantity');
-				$customer_id = $data['customer_id'] 	= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+				$customer_id 			= $data['customer_id'] 	= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+				$elemets 				= $this->input->post('eleArray');
+				if(!empty($elemets)){
+					$data['elements_attributes'] = json_encode($elemets);
+				}
 				
 				$cart 					= $this->Master_m->addTocart($data);
 				if($cart){
@@ -565,7 +604,8 @@ class Home extends CI_Controller
 
 				
 			}else{
-				$json['error'] = 'error';
+				$json['warning'] 			= 'warning';
+				$json['message'] 			= "Please Login / Sign up for shopping!!";
 			}
 		}		
 		$this->output->set_content_type('application/json', 'utf-8');
@@ -575,10 +615,14 @@ class Home extends CI_Controller
 	public function removeFromCart(){
 		$json = array();
 		if($this->input->is_ajax_request()){
-			$del['product_id']				= $this->input->post('product_id');
-			$del['customer_id'] 			= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+			$del['product_id']					= $this->input->post('product_id');
+			$del['customer_id'] = $customer_id	= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
 			$result							= delete('customer_cart',$del);
 			logThis($result->query, date('Y-m-d'),'Customer Cart');
+			
+			$cart_detail = $this->Master_m->getCustomerCartItems($customer_id);
+			
+			// print_r($cart_detail);die;
 			$json['success'] 			= 'success';
 			$json['message'] 			= 'item removed ';
 		}
@@ -590,12 +634,15 @@ class Home extends CI_Controller
 		
 		$json = array();
 		if($this->input->is_ajax_request()){
+			$customer_id					= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
 			$del['product_id']				= $this->input->post('product_id');
-			$del['customer_id'] 			= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
-			$result					= delete('whish_list',$del);
+			$del['customer_id'] 			= $customer_id;
+			$result							= delete('whish_list',$del);
 			logThis($result->query, date('Y-m-d'),'Customer WishList');
+			$totalWishList   			= $this->Master_m->getTotalWhishList($customer_id);
 			$json['success'] 			= 'success';
 			$json['message'] 			= 'item removed from whishlist';
+			$json['totalWishList'] 		= $totalWishList;
 		}
 		$this->output->set_content_type('application/json', 'utf-8');
 		$this->output->set_output(json_encode($json));
@@ -872,22 +919,30 @@ class Home extends CI_Controller
 		// PLACE ORDER
 	public function placeOrder(){
 		$json = array();
-		
 		if($this->input->is_ajax_request()){
-			$payment_type 				= $this->input->post('payment_type');
-			$customer_id 				= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
-			$whr['customer_id'] 		= $customer_id;
-			$result 					= $this->Master_m->addOrder($customer_id);
-			if($result){
-				$this->Master_m->generateInvoice($result);
-				$json['success'] 	= "success";
-				$json['msg'] 		= "Order Placed Successfully !!";
-				$json['redirect'] 	= base_url('home');
-
+			$checkitemStock      = $this->Master_m->checkCartItemStock(); // 0 :instock , <0 :outofstock
+			if($checkitemStock == 0){
+				$payment_type 				= $this->input->post('payment_type');
+				$customer_id 				= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+				$whr['customer_id'] 		= $customer_id;
+				$result 					= $this->Master_m->addOrder($customer_id);
+				if($result){
+					$this->Master_m->generateInvoice($result);
+					$json['success'] 	= "success";
+					$json['msg'] 		= "Order Placed Successfully !!";
+					$json['redirect'] 	= base_url('order-history');
+	
+				}else{
+					$json['error'] 		= "error";
+					$json['msg'] 		= "There was a problem placing order , please try after sometimes!!";
+					$json['redirect'] 	= base_url('cart');
+				}
 			}else{
-				$json['error'] 		= "error";
-				$json['msg'] 		= "Something went wrong !!!!";
+					$json['error'] 			= "error";
+					$json['msg'] 			= "Please Check Item Stock Before Place Order!!!!";
+					$json['redirect'] 		= base_url('cart');
 			}
+			
 		}
 		$this->output->set_content_type('application/json', 'utf-8');
 		$this->output->set_output(json_encode($json));
@@ -963,6 +1018,7 @@ class Home extends CI_Controller
 				$data['orderHtml']			= $this->Master_m->displayOrderHistory($allorder);
 			}
 			
+			
 			//Meta Data
 			$meta_data['meta_title']			= "My Orders | ".UI_THEME;
 			$meta_data['meta_description']		= "My Orders | ".UI_THEME;
@@ -1001,23 +1057,89 @@ class Home extends CI_Controller
 		}
 	}
 
-	function createPdf(){
-		$html1 = $this->load->view('UI/Invoice_v',true);
-		$html = $this->output->get_output($html1);
-		$this->load->library('pdf');
-		// Load HTML content
-        $this->pdf->loadHtml($html);
+	/*** FILTER ORDER BY YEAR */
+	public function getFilterOrderByYear(){
+		$json = array();
 		
-		//$this->pdf->setPaper('A4', 'landscape');
-        
-        // Render the HTML as PDF
-        $this->pdf->render();
-		ob_end_clean();
-       // Output the generated PDF (1 = download and 0 = preview)
-        $this->pdf->stream("welcome.pdf", array("Attachment"=>0));
-		// $file = $this->pdf->output();
-		// $filepath = INVOICE_PDF_PATH;
-		// $file_name = "welcome.pdf";
-		// file_put_contents($filepath.$file_name, $file);  
+		if($this->input->is_ajax_request()){
+			if(!empty($this->session->userdata[CUSTOMER_SESSION])){
+				$customer_id 	= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+				$filterYear 	= $this->input->post('filterYear');
+				$allorder 		= $this->Master_m->getAllOrderList($customer_id,$filterYear);
+				if(!empty($allorder)){
+					$json['orderHtml']			= $this->Master_m->displayOrderHistory($allorder);
+					$json['success'] 	= "success";
+				}else{
+					$json['error'] 		= "error";
+				}				
+			}
+		}
+		$this->output->set_content_type('application/json', 'utf-8');
+		$this->output->set_output(json_encode($json));
+	}
+
+	/**** FETCH PRODUCT DETAIL FROM ORDER TABLE  */
+	public function getOrderedProductDetail(){
+		$json = array();		
+		if($this->input->is_ajax_request()){
+			$order_id 	= $this->input->post('orderid');
+			$productid 	= $this->input->post('productid');
+			$result = $this->Master_m->getOrderedProductDetail($order_id,$productid);
+			if(!empty($result)){
+				$json['result'] = $result;
+				$json['success'] = 'success';
+			}else{
+				$json['error'] = "error";
+			}
+		}
+		$this->output->set_content_type('application/json', 'utf-8');
+		$this->output->set_output(json_encode($json));
+	}
+
+	/**** SUBMIT REQUEST FORM */
+
+	public function submitReturn(){
+		$json = array();		
+		if($this->input->is_ajax_request()){
+			if(!empty($this->session->userdata[CUSTOMER_SESSION])){				
+				$result = $this->Master_m->saveReturn();
+				if($result){
+					$json['success'] = "success";
+					$json['msg'] 	 = "Return Request sent successfully !!";
+				}else{
+					$json['error'] = "Request Not Sent , Please Try Again After Sometimes !!";
+				}
+			}
+			else{
+				$json['error'] = "Please Login";
+			}		
+		}
+		$this->output->set_content_type('application/json', 'utf-8');
+		$this->output->set_output(json_encode($json));
+	}
+
+	/**** SUBMIT REQUEST FORM */
+	public function submitReplace(){
+		$json = array();		
+		if($this->input->is_ajax_request()){
+			if(!empty($this->session->userdata[CUSTOMER_SESSION])){				
+				$result = $this->Master_m->saveReplace();
+				if($result){
+					$json['success'] = "success";
+					$json['msg'] 	 = "Replace Request sent successfully !!";
+				}else{
+					$json['error'] = "Request Not Sent , Please Try Again After Sometimes !!";
+				}
+			}
+			else{
+				$json['error'] = "Please Login";
+			}		
+		}
+		$this->output->set_content_type('application/json', 'utf-8');
+		$this->output->set_output(json_encode($json));
+	}
+
+	public function errorPage(){
+		$this->load->view('UI/Error_404_v');
 	}
 }

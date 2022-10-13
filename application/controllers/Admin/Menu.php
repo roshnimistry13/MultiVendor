@@ -107,7 +107,7 @@ class Menu extends CI_Controller
 				$sub_array = array();
 				$sub_array[] = '<div class="userDatatable-content">'.$i++.'</div>';
 				$sub_array[] = '<div class="userDatatable-content">'.ucwords($row->menu_name).'</div>';
-				$sub_array[] = '<div class="userDatatable-content">'.$submenu.'</div>';
+				$sub_array[] = '<div class="userDatatable-content word-break">'.$submenu.'</div>';
 				$sub_array[] = $status;
 				$sub_array[] = $action;
 				$data[] = $sub_array;

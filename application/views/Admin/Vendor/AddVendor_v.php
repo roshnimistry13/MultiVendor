@@ -17,6 +17,7 @@
     $branch_code              	= "";
     $ifsc_code              	= "";
     $accountno              	= "";
+    $acc_holder_name            = "";
     $required                   = "required";
     $disable                    = "";
     if(!empty($result))
@@ -38,6 +39,7 @@
         $branch_code              	= $result[0]['branch_code'];
         $ifsc_code              	= $result[0]['ifsc_code'];
         $accountno              	= $result[0]['accountno'];
+        $acc_holder_name            = $result[0]['acc_holder_name'];
         $is_active                  = $result[0]['is_active'];
         $required                   = "";
         if($is_active == "0")
@@ -373,6 +375,18 @@
                                                                                     id="text_accountno" name="text_accountno"
                                                                                     placeholder="Account No"
                                                                                     value="<?php echo $accountno; ?>"
+                                                                                    required <?php echo $disable;?>>
+                                                                            </div>
+                                                                        </div>
+                                                                        <div class="col-md-4 ">
+                                                                            <div class="form-group">
+                                                                                <label for="formGroupExampleInput"
+                                                                                    class="color-dark fs-14 fw-500 align-center">Account Holder Name</label>
+                                                                                <input type="text"
+                                                                                    class="form-control ih-small ip-gray radius-xs b-light px-15"
+                                                                                    id="text_card_holdername" name="text_card_holdername"
+                                                                                    placeholder="Name"
+                                                                                    value="<?php echo $acc_holder_name; ?>"
                                                                                     required <?php echo $disable;?>>
                                                                             </div>
                                                                         </div>

@@ -34,25 +34,24 @@ $("form[id='category-form']").validate(
 			text_category_name: {
 				required: true,
 			},
-			'check_services[]': {
-				required: true,
-			}
 		},
 		// Specify validation error messages
 		messages: {
-			'check_services[]'			: {required: "Please select policy"},
-			text_category_name		: {required: "Please enter category name"},
-			'txt_elements[]'		: {required: "Please select element"},
+			'check_services[]'				: {required: "Please select policy"},
+			text_category_name				: {required: "Please enter category name"},
+			txt_return_replace_validity		: {required: "Please enter validity in days"},
+			txt_policy_covers				: {required: "Please enter policy covered"},
+			txt_policy_description			: {required: "Please enter policy discription"},
+			'txt_elements[]'				: {required: "Please select element"},
 		},
 		
 		errorPlacement: function(error, element) {
-			if (element.attr("name") == "txt_elements" || element.attr("name") == "check_services")
+			if (element.attr("name") == "txt_elements"){
         		error.insertAfter(element.parent());
-			else if (element.parent().hasClass("vd_checkbox") || element.parent().hasClass("vd_radio")){
-				element.parent().append(error);
-			} else if (element.parent().hasClass("vd_input-wrapper")){
-				error.insertAfter(element.parent());
-			}else {
+			}else if(element.attr("name") == "check_services[]"){
+				error.insertAfter(element.parent().parent());
+			}
+			else {
 				error.insertAfter(element);
 			}
 		}, 
@@ -138,9 +137,13 @@ $('#text_parent_category').on('change', function(){
 	var elements = $(this).val();
 	if(elements > 0){
 		$('.elements-list').hide();
+		$('.policy-section').hide();
 		$('#txt_elements').removeAttr('required');
+		$('.policy-section').find("textarea, input,input[type=checkbox]").removeAttr('required');
 	}else{
 		$('.elements-list').show();
+		$('.policy-section').show();
 		$("#txt_elements").attr("required", true);
+		$('.policy-section').find("textarea, input,input[type=checkbox]").attr('required',true);
 	}
 }).change();

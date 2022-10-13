@@ -191,7 +191,7 @@ class Category extends CI_Controller
 			$child 		= $p_result[0]['child_category'];
 		}	
 		$short_code 		= strtolower($category_name);
-		$rep_char 			= array(" ",",","/","[","]","(",")","--","---");
+		$rep_char 			= array(" ",",","/","[","]","(",")","--","---","&");
 		$short_code 		= str_replace($rep_char,"-",$short_code);
 		$rep_char1 			= array("--","---","----","----");
 		$short_code 		= str_replace($rep_char1,"-",$short_code);
@@ -225,6 +225,13 @@ class Category extends CI_Controller
 		else
 			$elements_id = '';
 
+		$services =  $this->input->post('check_services');
+		if(!empty($services)){
+			$services = implode(',',$services);
+		}else{
+			$services = "";
+		}
+		
 		if(!empty($this->input->post('text_categroy_id')))
 		{
 			$id = $this->input->post('text_categroy_id');
@@ -268,17 +275,21 @@ class Category extends CI_Controller
 			$update_cat_res 						= update('category',$update_new_child,$cond2);
 			logThis($update_cat_res->query, date('Y-m-d'),'Category');
 
-			$updatedata['category_name'] 		= $category_name;
-			$updatedata['short_code'] 			= $short_code;
-			$updatedata['parent_category_id'] 	= $parent_category_id;
-			$updatedata['hierarchy'] 			= $hierarchy;
-			//$updatedata['brand_id'] 			= $brand_id;
-			$updatedata['element_id'] 			= $elements_id;
-			$updatedata['description'] 			= $this->input->post('text_description');
-			$updatedata['category_image'] 		= $category_image;
-			$updatedata['modified_by'] 			= $user_id;
-			$updatedata['modified'] 			= date('Y-m-d H:i:s');
-			$is_active 							= $this->input->post('text_is_active');
+			$updatedata['category_name'] 					= $category_name;
+			$updatedata['short_code'] 						= $short_code;
+			$updatedata['parent_category_id'] 				= $parent_category_id;
+			$updatedata['hierarchy'] 						= $hierarchy;
+			//$updatedata['brand_id'] 						= $brand_id;
+			$updatedata['element_id'] 						= $elements_id;
+			$updatedata['description'] 						= $this->input->post('text_description');
+			$updatedata['category_image'] 					= $category_image;
+			$updatedata['modified_by'] 						= $user_id;
+			$updatedata['modified'] 						= date('Y-m-d H:i:s');
+			$updatedata['return_or_replace'] 				= $services;
+			$updatedata['return_replace_validity'] 			= $this->input->post('txt_return_replace_validity');
+			$updatedata['policy_covers'] 					= $this->input->post('txt_policy_covers');
+			$updatedata['return_policy'] 					= $this->input->post('txt_policy_description');
+			$is_active 										= $this->input->post('text_is_active');
 			if($is_active == 1){
 				$updatedata['is_active'] = 1;
 			}
@@ -312,14 +323,18 @@ class Category extends CI_Controller
 			redirect('category');
 		}
 		
-		$insertdata['category_name'] 		= $category_name;
-		$insertdata['short_code'] 			= $short_code;
-		$insertdata['parent_category_id'] 	= $parent_category_id;
-		//$insertdata['brand_id'] 			= $brand_id;
-		$insertdata['element_id'] 			= $elements_id;
-		$insertdata['description'] 			= $this->input->post('text_description');
-		$insertdata['category_image'] 		= $category_image;
-		$insertdata['created_by'] 			= $user_id;
+		$insertdata['category_name'] 					= $category_name;
+		$insertdata['short_code'] 						= $short_code;
+		$insertdata['parent_category_id'] 				= $parent_category_id;
+		//$insertdata['brand_id'] 						= $brand_id;
+		$insertdata['element_id'] 						= $elements_id;
+		$insertdata['description'] 						= $this->input->post('text_description');
+		$insertdata['category_image'] 					= $category_image;
+		$insertdata['created_by'] 						= $user_id;
+		$insertdata['return_or_replace'] 				= $services;
+		$insertdata['return_replace_validity'] 			= $this->input->post('txt_return_replace_validity');
+		$insertdata['policy_covers'] 					= $this->input->post('txt_policy_covers');
+		$insertdata['return_policy'] 					= $this->input->post('txt_policy_description');
 		$insertdata['created'] 				= date('Y-m-d H:i:s');
 		
 		$insert_result = insert('category',$insertdata,'');

@@ -961,57 +961,57 @@ function rand_number()
 
 	
 //function for reset password
-function resetPassword($msgData)
-{
+function resetPassword($msgData){
 	$name = $msgData['name'];
 	$password = $msgData['password'];
 	
 	$html = '<div style="padding:5% 0%" align="center">
-	<div class="adM"></div>
-	<table style="background-color:#ffffff;border:1px solid #dedede;border-radius:3px" width="600" cellspacing="0" cellpadding="0" border="0">
-		<tbody>
-			<tr>
-				<td valign="top" align="center">
-					<table style="background-color:#e63c62;color:#ffffff;font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto; border-radius:3px 3px 0 0" width="100%">
+				<div class="adM"></div>
+					<table style="background-color:#ffffff;border:1px solid #dedede;border-radius:3px" width="600" cellspacing="0" cellpadding="0" border="0">
 						<tbody>
 							<tr>
-								<td style="padding:36px 48px;display:block">
-									<h1 style="font-size:30px;font-weight:700;line-height:150%;margin:0;text-align:left;color:#ffffff">Forgot Password - '.SITE_NAME.'</h1>
+								<td valign="top" align="center">
+									<table style="background-color:#e63c62;color:#ffffff;font-family:&quot;Helvetica Neue&quot;,Helvetica,Roboto; border-radius:3px 3px 0 0" width="100%">
+										<tbody>
+											<tr>
+												<td style="padding:36px 48px;display:block">
+													<h1 style="font-size:30px;font-weight:700;line-height:150%;margin:0;text-align:left;color:#ffffff">Forgot Password - '.SITE_NAME.'</h1>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</td>
+							</tr>
+							<tr style="background:#ffffff" align="center">
+								<td style="padding:3% 8%">
+									<h2 style="float:left">Hi '.$name.',</h2>
+								</td>
+							</tr>
+							<tr style="background:#ffffff" align="center">
+								<td style="padding:0% 8%">
+									<table width="100%">
+										<tbody><tr>	
+											<td style="padding:2% 4%">
+												<p style="text-align:justify;font-size:15px">Reset your password, and we will get you on your way.</p>
+												<p style="text-align:justify;font-size:15px">To change your '.SITE_NAME.' password, hear is your new Password below.</p>
+												
+												<p style="text-align:justify;font-size:15px;font-weight:bold"> New Password : '.$password.'</p>
+												<p style="text-align:justify;font-size:15px"> Change this password when you login your account.</p>
+											</td>
+										</tr>
+									</tbody></table>						
+								</td>
+							</tr>
+							<tr style="background:#ffffff">
+								<td style="padding:4% 8%">
+									Thank you for using '.SITE_NAME.'<br>
+									The '.SITE_NAME.' Team
 								</td>
 							</tr>
 						</tbody>
 					</table>
-				</td>
-			</tr>
-			<tr style="background:#ffffff" align="center">
-				<td style="padding:3% 8%">
-					<h2 style="float:left">Hi '.$name.',</h2>
-				</td>
-			</tr>
-			<tr style="background:#ffffff" align="center">
-				<td style="padding:0% 8%">
-					<table width="100%">
-						<tbody><tr>	
-							<td style="padding:2% 4%">
-								<p style="text-align:justify;font-size:15px">Reset your password, and we will get you on your way.</p>
-								<p style="text-align:justify;font-size:15px">To change your '.SITE_NAME.' password, hear is your new Password below.</p>
-								
-								<p style="text-align:justify;font-size:15px;font-weight:bold"> New Password : '.$password.'</p>
-								<p style="text-align:justify;font-size:15px"> Change this password when you login your account.</p>
-							</td>
-						</tr>
-					</tbody></table>						
-				</td>
-			</tr>
-			<tr style="background:#ffffff">
-				<td style="padding:4% 8%">
-					Thank you for using '.SITE_NAME.'<br>
-					The '.SITE_NAME.' Team
-				</td>
-			</tr>
-		</tbody>
-	</table>
-</div>';
+				</div>
+			</div>';
 	return $html;
 }
 
@@ -1307,18 +1307,36 @@ function getAllElementBycategory($id,$productid=null){
 			return $elements_html;
 }
 
-/*** WITHOUT RUPPEE SYMBOL FOR FRONTSITE -UI */
-if(! function_exists('moneyFormatIndia_ui'))
-	{
-		function moneyFormatIndia_ui($amount) {
-			$fmt = new \NumberFormatter($locale = 'en_IN', NumberFormatter::DEFAULT_STYLE);
-			return $fmt->format($amount);
-		}
-		
+	/*** GET ELEMENT NAME BY ID */
+	function getElementNameByID($element_id){
+		$ci     =& get_instance();
+		$where['element_id'] 	= $element_id;
+		$result 				= $ci->Master_m->where('product_elements',$where);
+		$ele_name 	= $result[0]['element_name']; 
+		return $ele_name;
 	}
 
-/*** WITH RUPPEE SYMBOL FOR ADMIN PANEL */
-if(! function_exists('moneyFormatIndia_admin'))
+	/*** GET ATTRIBUTE NAME BY ID */
+	function getAttributeNameByID($attributes_id){
+		$ci     =& get_instance();
+		$where['attributes_id'] 	= $attributes_id;
+		$result 					= $ci->Master_m->where('attributes',$where);
+		$attr_name 	= $result[0]['attributes_name']; 
+		return $attr_name;
+	}
+
+	/*** WITHOUT RUPPEE SYMBOL FOR FRONTSITE -UI */
+	if(! function_exists('moneyFormatIndia_ui'))
+		{
+			function moneyFormatIndia_ui($amount) {
+				$fmt = new \NumberFormatter($locale = 'en_IN', NumberFormatter::DEFAULT_STYLE);
+				return $fmt->format($amount);
+			}
+			
+		}
+
+	/*** WITH RUPPEE SYMBOL FOR ADMIN PANEL */
+	if(! function_exists('moneyFormatIndia_admin'))
 	{
 		function moneyFormatIndia_admin($amount) {
 			$fmt = new \NumberFormatter($locale = 'en_IN', NumberFormatter::CURRENCY);
@@ -1469,5 +1487,4 @@ if(! function_exists('moneyFormatIndia_admin'))
 		$paise = ($decimal) ? "And Paise " . ($words[$decimal - $decimal%10]) ." " .($words[$decimal%10])  : '';
 		return ($Rupees ? '' . $Rupees : '') . $paise . " Only";
 	}
-
 ?>

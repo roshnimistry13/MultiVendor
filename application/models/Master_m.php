@@ -85,7 +85,7 @@ class Master_m extends CI_Model{
 		return $query;
 	}
 
-	//Category list
+	//Prent Category list
 	public function categoryList()
 	{
 		$this->db->select('category_id, category_name, description, category_image');
@@ -95,14 +95,34 @@ class Master_m extends CI_Model{
 		$query = $this->db->get()->result_array();
 		return $query;
 	}
+
+	// All child Category list : parent_category_id !=0
+	public function AllChildCategoryList()
+	{
+		$this->db->select('category_id, category_name, description, category_image');
+		$this->db->from('category');
+		$this->db->where('parent_category_id != 0');
+		$this->db->where('is_active',1);
+		$query = $this->db->get()->result_array();
+		return $query;
+	}
 	
-	//Child Category list
+	//Child Category list by parent category id
 	public function childCategoryList($category_id)
 	{
 		$this->db->select('category_id, category_name, description, category_image');
 		$this->db->from('category');
 		$this->db->where('parent_category_id',$category_id);
 		$this->db->where('is_active',1);
+		$query = $this->db->get()->result_array();
+		return $query;
+	}
+
+	public function getCateforyNameByID($category_id)
+	{
+		$this->db->select('category_name,child_category');
+		$this->db->from('category');
+		$this->db->where('category_id',$category_id);
 		$query = $this->db->get()->result_array();
 		return $query;
 	}
@@ -173,9 +193,6 @@ class Master_m extends CI_Model{
 		$this->db->join('vendor v','v.vendor_id = p.vendor_id');
 		$this->db->join('category c','c.category_id = p.category_id');
 		$this->db->join('brand b','b.brand_id = p.brand_id');
-		//$this->db->join('group_unit gu','gu.group_unit_id = p.group_unit_id');
-		// $this->db->join('stock s','s.product_id = p.product_id');
-		//$this->db->where('p.product_id',$product_id);
 		$query=$this->db->get()->result_array();
 		return $query;
 	}
@@ -311,11 +328,17 @@ class Master_m extends CI_Model{
 		//function for get Order data
 	public function getOrderSummary($order_id)
 	{
-		$this->db->select('o.*, o.bill_id,s.delivery_status,ca.*,c.customer_name as cust_name,c.mobile as cust_phone,c.email as cust_email');
+		$user_id 	= $this->session->userdata[ADMIN_SESSION]['user_id'];
+		$user_type 	= $this->session->userdata[ADMIN_SESSION]['user_type'];	
+		if(strtolower($user_type) != "admin"){
+			$this->db->where("od.vendor_id",$user_id);
+		}
+		$this->db->select('o.order_number,o.ship_amount,o.order_date,o.shipping_address,s.delivery_status,ca.*,c.customer_name as cust_name,c.mobile as cust_phone,c.email as cust_email,sum(od.quantity) as total_quantity, sum(od.mrp_price) as total_mrp,sum(od.discount_amt) as discount_amt,sum(od.gst_amt) as gst_amount,sum(od.total_amt) as total_amount');
 		$this->db->from('orders o');
 		$this->db->join('customer_detail c','c.customer_id = o.customer_id');
 		$this->db->join('customer_address ca','ca.customer_id = o.customer_id');
 		$this->db->join('delivery_status s','s.delivery_status_id = o.delivery_status_id');
+		$this->db->join('order_details od','od.order_id = o.order_id');
 		$this->db->where("o.order_id",$order_id);
 		$this->db->where("ca.set_default",1);
 		$query = $this->db->get();
@@ -325,23 +348,19 @@ class Master_m extends CI_Model{
 	
 	
 	//function for get Order product details
-	public function getOrderProductDetails($order_id)
+	public function getVendOrderDeatail($order_id)
 	{
-		$this->db->select('o.product_id, p.product_name, p.short_description, o.quantity, o.net_price, p.image');
+		$user_id 	= $this->session->userdata[ADMIN_SESSION]['user_id'];
+		$user_type 	= $this->session->userdata[ADMIN_SESSION]['user_type'];	
+		if(strtolower($user_type) != "admin"){
+			$this->db->where("o.vendor_id",$user_id);
+		}
+		$this->db->select('sum(o.total_amt) as total');
 		$this->db->from('order_details o');
-		$this->db->join('product_details p', 'p.product_id = o.product_id');
 		$this->db->where("o.order_id",$order_id);
-		$query = $this->db->get();
-		return $query->result_array();
-	}
-	
-	
-	
-	
-	
-	
-	
-	
+		$query = $this->db->get()->result_array();
+		return $query[0]['total'];
+	}	
 	
 	
 	//parent Category get 
@@ -534,10 +553,19 @@ class Master_m extends CI_Model{
 
 	/** item order detail from order id*/
 	public function getCustomerOrderList($order_id){
-		$this->db->select('od.*,p.cover_img,o.shipping_address,o.order_number');
+		if(!empty($this->session->userdata[ADMIN_SESSION]))
+		{
+			$user_type 	= $this->session->userdata[ADMIN_SESSION]['user_type'];
+			if(strtolower($user_type) != "admin"){
+				$user_id 	= $this->session->userdata[ADMIN_SESSION]['user_id'];
+				$this->db->where('od.vendor_id',$user_id);
+			}
+		}
+		$this->db->select('od.*,p.cover_img,o.shipping_address,o.order_number,o.order_date,v.name as vendor_name');
 		$this->db->from('order_details od');
 		$this->db->join('orders o','o.order_id=od.order_id','left');
 		$this->db->join('product_details p','p.product_id=od.product_id');
+		$this->db->join('vendor v','v.vendor_id = p.vendor_id');
 		$this->db->where('od.order_id',$order_id);
 		$result = $this->db->get()->result_array();
 		return $result;
@@ -552,7 +580,7 @@ class Master_m extends CI_Model{
 		$this->db->from('orders o');
 		$this->db->where('o.customer_id',$customer_id);
 		$this->db->where("Year(o.order_date)", $filetr_year);
-		
+		$this->db->order_by('o.order_date','desc');
 		$result = $this->db->get()->result_array();
 		return $result;
 	}
@@ -568,6 +596,7 @@ class Master_m extends CI_Model{
 		if(isset($filter['category']) && strlen(trim($filter['category']))>0)
 		{
    			$this->db->where("p.category_id", $filter['category']);
+   			$this->db->or_where("p.child_category", $filter['category']);
    		}
    		
    		//for brand
@@ -590,6 +619,7 @@ class Master_m extends CI_Model{
    			$this->db->where("p.net_price <= $end_price");
    		}
    		
+		// $this->db->group_by('p.product_name'); 
 		$this->db->order_by('p.product_id desc');
 		
 		
@@ -597,6 +627,7 @@ class Master_m extends CI_Model{
 		{
 			$this->db->limit($rowperpage, $rowno);
    		}
+		
 		$query=$this->db->get()->result_array();
 	
 		return $query;
@@ -621,7 +652,71 @@ class Master_m extends CI_Model{
 		return $data;
 	}
 
+	/*** GET CHILD CATEGORY FROM PARENT CATEGORY : clothing*/
+	public function getChildCategory($short_code = null){
+		
+		//$cat_cond['category_id'] 	= $category_id;		
+		$cat_cond['short_code'] 	= $short_code;		
+		$result						= $this->where('category',$cat_cond);	
+		$child_category				= $result[0]['child_category'];
+		if(!empty($child_category && $child_category != null && $child_category != "")){
+			$child					= explode(',',$child_category);
+			$i = 0;
+			$cat_name = array();
+			foreach($child as $row){
+				$cat['category_id'] 	= $row;
+				$res 					= $this->Master_m->where('category',$cat);
+				$cat_name[$i]['category_name'] 		= $res[0]['category_name'];	
+				$cat_name[$i]['short_code']			= $res[0]['short_code'];	
+				$cat_name[$i]['category_id']		= $res[0]['category_id'];	
+				$cat_name[$i]['category_image']		= $res[0]['category_image'];	
+				$i++;		
+			}
+			$data = $cat_name;
+		}
+		return $data;
+	}
+
+	/*** FETCH PRODUCT VARIANT DETAIL BY PRODUCT ID */
 	public function getProductElemetsAttributes($product_id){
+
+		$this->db->select('pea.element_id,pea.attributes_id,pe.element_name,pe.element_id');
+		$this->db->from('product_elements_attributes pea');
+		$this->db->join('product_elements pe','pe.element_id = pea.element_id');
+		$this->db->where('pea.product_id', $product_id);
+		$query		= $this->db->get()->result_array();
+		
+		$elements = array();
+		
+		if(!empty($query)){
+			
+			foreach($query as $row){
+				
+				$element_name 				= $row['element_name'];
+				$element_id 				= $row['element_id'];
+				$attributes_id 				= explode(',', $row['attributes_id']);
+				$attr_arr = array();
+				
+				if(!empty($attributes_id)){
+					
+					foreach($attributes_id as $attr){
+						$whr['attributes_id'] 	= $attr;
+						$attr_res 				= $this->where('attributes',$whr);
+						$attr_name 				= $attr_res[0]['attributes_name'];
+						// $attr_arr[] 			= $attr_name;								
+						$attr_arr[$attr_name] 			= $attr;								
+					}
+					
+				}
+				
+				$elements[$element_id][$element_name] 	= $attr_arr;//implode(',',$attr_arr);
+			}
+		}
+		
+		return $elements;
+	}
+
+	public function getProductVariants($product_id){
 
 		$this->db->select('pea.element_id,pea.attributes_id,pe.element_name,pe.element_id');
 		$this->db->from('product_elements_attributes pea');
@@ -650,99 +745,19 @@ class Master_m extends CI_Model{
 				}
 				
 				$elements[$element_name] 	= implode(',',$attr_arr);
+				$elements['product_id'] 	= $product_id;
 			}
 		}
 		return $elements;
 	}
 	
-
-	public function addTocart_xx($data){
-
-		{
-			$product_id 			= $data['product_id'];
-			$quantity   			= $data['quantity'];
-			$where['product_id'] 	= $product_id;
-			$result   				= $this->where('product_details',$where);
-			$product_name   		= $result[0]['product_name'];
-			$net_price   			= $result[0]['net_price'];
-			$mrp_price   			= $result[0]['mrp_price'];
-			$discount    			= $result[0]['discount'];
-			$discount_amt    		= $result[0]['discount_amt'];
-			$gst   					= $result[0]['tax'];
-			$gst_amt   				= $result[0]['gst_amt'];
-			$cover_img   			= $result[0]['cover_img'];
-			
-			if($quantity == NULL || $quantity == "")
-			{
-				$quantity = 1;
-			}
-
-			$final_amount 				= $net_price * $quantity;
-			$customer_id 				= $data['customer_id'];
-			$item['customer_id'] 		= $customer_id;
-			$item['product_id'] 		= $product_id;
-			$res 						= $this->where('customer_cart',$item);
-			
-			if(!empty($res)){
-				
-				$old_qty   			= $res[0]['quantity'];
-				$final_qty 			= $quantity + $old_qty;
-				$id['cart_id'] 		= $res[0]['cart_id'];
-				$final_amount 		= $net_price * $final_qty;
-				$update = array(
-					'quantity'=>$final_qty,
-					'total_amt'=>$final_amount
-				);
-
-				$update_query = update('customer_cart',$update,$id);	
-				logThis($update_query->query, date('Y-m-d'),'Customer Cart');
-				if($update_query->status == "success")
-				{	
-					$response['success'] = "suceess";
-					$response['message'] = "You have this item in your cart and we have increased the quantity by 1";
-					return $response;
-				}else{
-					return false;
-				}					
-			}
-			else
-			{
-				
-				$insertdata['customer_id'] 		= $customer_id;
-				$insertdata['product_id'] 		= $product_id;
-				$insertdata['product_name'] 	= $product_name;
-				$insertdata['quantity'] 		= $quantity;
-				$insertdata['net_price'] 		= $net_price;
-				$insertdata['total_amt'] 		= $final_amount;
-				$insertdata['mrp'] 				= $mrp_price;
-				$insertdata['discount'] 		= $discount;
-				$insertdata['discount_amt'] 	= $discount_amt;
-				$insertdata['gst'] 				= $gst;
-				$insertdata['gst_amt'] 			= $gst_amt;
-				$insertdata['image'] 		= $cover_img;
-
-				$insert_result = insert('customer_cart',$insertdata,'');
-				logThis($insert_result->query, date('Y-m-d'),'Customer Cart');
-				
-				if($insert_result->status = 'success'){
-					$response['success'] = "suceess";
-					$response['message'] = "Added to cart";
-					return $response;
-				}else{
-					return false;
-				}			
-				
-			}
-		}
-
-
-	}
-
+	/*** UI : ADD TO CART ITEM*/
 	public function addTocart($data){
 
 		$product_id 			= $data['product_id'];
 		$quantity   			= $data['quantity'];
 		$customer_id 			= $data['customer_id'];
+		$elements_attributes 	= $data['elements_attributes'];
 		if($quantity == NULL || $quantity == "")
 		{
 			$quantity = 1;
@@ -751,14 +766,22 @@ class Master_m extends CI_Model{
 		$item['customer_id'] 		= $customer_id;
 		$item['product_id'] 		= $product_id;
 		$res 						= $this->where('customer_cart',$item);
+		$result_array 				= '';	
 		
 		if(!empty($res)){
-			
+			$res_ele = $res[0]['elements_attributes'];
+
+			$item_1 = json_decode($res_ele, TRUE);
+			$item_2 = json_decode($elements_attributes, TRUE);
+			$result_array = ($item_1 === $item_2);
+		}
+		if(!empty($res) && !empty($result_array)){
 			$old_qty   			= $res[0]['quantity'];
 			$final_qty 			= $quantity + $old_qty;
 			$id['cart_id'] 		= $res[0]['cart_id'];
 			$update = array(
 				'quantity'=>$final_qty,
+				'elements_attributes'=>$elements_attributes,
 			);
 
 			$update_query = update('customer_cart',$update,$id);	
@@ -771,13 +794,14 @@ class Master_m extends CI_Model{
 			}else{
 				return false;
 			}					
-		}
+		}		
 		else
 		{
 			
-			$insertdata['customer_id'] 		= $customer_id;
-			$insertdata['product_id'] 		= $product_id;
-			$insertdata['quantity'] 		= $quantity;			
+			$insertdata['customer_id'] 				= $customer_id;
+			$insertdata['product_id'] 				= $product_id;
+			$insertdata['quantity'] 				= $quantity;			
+			$insertdata['elements_attributes'] 		= $elements_attributes;			
 
 			$insert_result = insert('customer_cart',$insertdata,'');
 			logThis($insert_result->query, date('Y-m-d'),'Customer Cart');
@@ -833,21 +857,26 @@ class Master_m extends CI_Model{
 		return $query;
 	}
 
+	/*** FETCH CART ITEM DETAIL */
 	public function getCustomerCartItems($customer_id){
-		$this->db->select('c.*,p.*');
+		$this->db->select('c.*,p.*,ca.return_or_replace,ca.return_replace_validity,v.name as vendor_name');
 		$this->db->from('customer_cart c');
 		$this->db->join('product_details p','p.product_id = c.product_id');
+		$this->db->join('category ca','ca.category_id = p.category_id');
+		$this->db->join('vendor v','v.vendor_id = p.vendor_id');
 		$this->db->where('customer_id',$customer_id);
 		$query = $this->db->get()->result_array();
 		return $query;
 	}
 
+	/*** UI : PLACE ORDER */
 	public function addOrder($customer_id){
 		$cart_data			= $this->getCustomerCartItems($customer_id);
 		$payment_type 		= $this->input->post('payment_type');
 		
 		if(!empty($cart_data)){
-			
+
+			$checkitemStock      = $this->Master_m->checkCartItemStock(); // 0 :instock , <0 :outofstock
 			$whr['customer_id'] 	= $customer_id;
 			$whr['set_default'] 	= 1;
 			$address_res 			= $this->Master_m->where('customer_address',$whr);
@@ -876,7 +905,7 @@ class Master_m extends CI_Model{
 				$total_quantity		= $total_quantity + $quantity;
 				$total_gst 			= $total_gst + $gst_amt;
 				$total_discount 	= $total_discount + ($discount_amt * $quantity);
-				$total_mrp 			= $total_mrp + ($mrp_price * $quantity);
+				$total_mrp 			= $total_mrp + ($mrp_price * $quantity);			
 			}
 			$current_fy 		= getFY();
 			$random_number 		= rand_number();
@@ -893,57 +922,100 @@ class Master_m extends CI_Model{
 			$order_data['is_active']			= 1;
 			$order_data['delivery_status_id']	= 1;
 			$order_data['shipping_address']		= $shipping_address;
-
-			$insert_result = insert('orders',$order_data,'');				
-			logThis($insert_result->query, date('Y-m-d'),'Order');
-			$order_id = $insert_result->id;
 			
-			if($insert_result->status = 'success') {
-				foreach($cart_data as $row){
-					$quantity	= $row['quantity'];
-					$net_price	= $row['net_price'];
-					$total		= ($net_price * $quantity);
-					
-					$order_detail['order_id'] 		= $order_id;
-					$order_detail['product_id'] 	= $row['product_id'];
-					$order_detail['product_name'] 	= $row['product_name'];
-					$order_detail['quantity'] 		= $row['quantity'];
-					$order_detail['net_price'] 		= $row['net_price'];
-					$order_detail['mrp_price'] 		= $row['mrp_price'];
-					$order_detail['total_amt'] 		= $total;
-					$order_detail['discount'] 		= $row['discount'];
-					$order_detail['return_or_replace'] 		= $row['return_or_replace'];
-					$order_detail['discount_amt'] 	= ($row['discount_amt'] * $quantity);
-					$order_detail['gst'] 			= $row['tax'];
-					$order_detail['gst_amt'] 		= $row['gst_amt'];
-	
-					$insert_order 	= insert('order_details',$order_detail,'');
-					logThis($insert_order->query, date('Y-m-d'),'Order Detail');	
-					$update_stock = $this->updateProductStock($row['product_id'],$quantity);				
-	
+			if($checkitemStock == 0){
+				$insert_result = insert('orders',$order_data,'');				
+				logThis($insert_result->query, date('Y-m-d'),'Order');
+				$order_id = $insert_result->id;
+				
+				if($insert_result->status = 'success') {				
+					foreach($cart_data as $row){
+						$ele_arr = array();
+						$ele_attr 				= "";
+						$quantity				= $row['quantity'];
+						$net_price				= $row['net_price'];
+						$elements_attributes	= json_decode($row['elements_attributes'],true);
+						
+						foreach($elements_attributes as $key=>$val){
+							$ele_name 				= getElementNameByID($key);
+							$value 					= getAttributeNameByID($val);
+							$ele_arr[$ele_name] 	= $value;
+						}
+						if(!empty($ele_arr)){
+							$ele_attr = json_encode($ele_arr,true);
+						}
+						$total		= ($net_price * $quantity);
+						
+						$order_detail['order_id'] 					= $order_id;
+						$order_detail['product_id'] 				= $row['product_id'];
+						$order_detail['product_name'] 				= $row['product_name'];
+						$order_detail['quantity'] 					= $row['quantity'];
+						$order_detail['net_price'] 					= $row['net_price'];
+						$order_detail['mrp_price'] 					= $row['mrp_price'];
+						$order_detail['total_amt'] 					= $total;
+						$order_detail['discount'] 					= $row['discount'];
+						$order_detail['return_or_replace'] 			= $row['return_or_replace'];
+						$order_detail['return_replace_validity'] 	= $row['return_replace_validity'];
+						$order_detail['discount_amt'] 				= ($row['discount_amt'] * $quantity);
+						$order_detail['gst'] 						= $row['tax'];
+						$order_detail['gst_amt'] 					= $row['gst_amt'];
+						$order_detail['vendor_id'] 					= $row['vendor_id'];
+						$order_detail['elements_attributes'] 		= $ele_attr;
+		
+						$insert_order 	= insert('order_details',$order_detail,'');
+						logThis($insert_order->query, date('Y-m-d'),'Order Detail');	
+						$update_stock = $this->updateProductStock($row['product_id'],$quantity);				
+		
+					}
+
+					$payment['payment_mode']		= $payment_type;
+					$payment['order_id'] 			= $order_id;
+					$payment['customer_id'] 		= $customer_id;
+					$payment['total_pay_amount']	= $total_amt;
+					$payment['payment_date']		= date('Y-m-d');
+					$payment['pay_status']			= 1;
+
+					$insert_payment = insert('payment_details',$payment,'');				
+					logThis($insert_payment->query, date('Y-m-d'),'Payment Detail');
+
+					$condition['customer_id'] 		= $customer_id;
+					$result 						= delete('customer_cart',$condition);
+
+					//SEND ORDER CONFRIMATION EMAIL
+					$email 							= $this->Master_m->sendConfirmationEmail($order_id);
+					return $order_id;
 				}
-
-				$payment['payment_mode']		= $payment_type;
-				$payment['order_id'] 			= $order_id;
-				$payment['customer_id'] 		= $customer_id;
-				$payment['total_pay_amount']	= $total_amt;
-				$payment['payment_date']		= date('Y-m-d');
-				$payment['pay_status']			= 1;
-
-				$insert_payment = insert('payment_details',$payment,'');				
-				logThis($insert_payment->query, date('Y-m-d'),'Payment Detail');
-
-				$condition['customer_id'] 		= $customer_id;
-				$result 						= delete('customer_cart',$condition);
-				return $order_id;
-			}
-			else{
+				else{
+					return false;
+				}
+			}else{
 				return false;
-			}
-			
+			}			
 		}
 	}
 
+	/*** CHECK CART ITEMS IN STOCK OR NOT 
+	 * return : 0 => instock
+	 * return : < 0 => out of stock	 * 
+	 * 
+	*/
+	public function checkCartItemStock(){
+		$customer_id = $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+		$result = $this->getCustomerCartItems($customer_id);
+		$err_count = 0;  // 0 : instock 
+		if(!empty($result)){
+			foreach($result as $row){
+				$quantity			= intval($row['quantity']);
+				$stock				= intval($row['stock']);
+				if($quantity > $stock){
+					$err_count++; // increment by 1 : out of stock
+				}
+			}
+		}
+		return $err_count;
+	}
+
+	/*** UPDATE PRODUCT STOCK */
 	public function updateProductStock($product_id,$product_qty){
 		$this->db->select('*');
 		$this->db->from('stock_details');
@@ -951,26 +1023,30 @@ class Master_m extends CI_Model{
 		$this->db->order_by('stock_details_id','desc');
 		$query = $this->db->get()->result_array();
 		if(!empty($query)){
-			$old_stock = $current_stock = $query[0]['current_stock'];
-			$new_stock = $current_stock - $product_qty;
+			$old_stock = $current_stock = intval($query[0]['current_stock']);
+			if($old_stock != 0 && $old_stock > 0){
+				$new_stock = $current_stock - $product_qty;
 	
-			$insertdata['product_id'] 		= $product_id;
-			$insertdata['old_stock'] 		= $old_stock;
-			$insertdata['current_stock']	= $new_stock;
-			$insertdata['status']			= 0;
-	
-			$insert_stock = insert('stock_details',$insertdata,'');				
-			logThis($insert_stock->query, date('Y-m-d'),'Stock Detail');
-	
-			$whr['product_id']			= $product_id;
-			$update['stock']			= $new_stock;
-			$update_result 				= update('product_details',$update,$whr);
-			logThis($update_result->query, date('Y-m-d'),'Product');
-			return true;
+				$insertdata['product_id'] 		= $product_id;
+				$insertdata['old_stock'] 		= $old_stock;
+				$insertdata['ordered_qty'] 		= $product_qty;
+				$insertdata['current_stock']	= $new_stock;
+				$insertdata['status']			= 2;
+		
+				$insert_stock = insert('stock_details',$insertdata,'');				
+				logThis($insert_stock->query, date('Y-m-d'),'Stock Detail');
+		
+				$whr['product_id']			= $product_id;
+				$update['stock']			= $new_stock;
+				$update_result 				= update('product_details',$update,$whr);
+				logThis($update_result->query, date('Y-m-d'),'Product');
+				return true;
+			}			
 		}	
 		return false;
 	}
 
+	/**** FETCH ALL DELIVERY STATUS */
 	public function allDeliveryStatus(){
 		$this->db->select('*');
 		$this->db->from('delivery_status');
@@ -978,6 +1054,7 @@ class Master_m extends CI_Model{
 		$query = $this->db->get()->result_array();
 		return $query;
 	}
+
 	public function getCustomerOrderpayment($order_id){
 		$this->db->select('*');
 		$this->db->from('payment_details');
@@ -986,7 +1063,7 @@ class Master_m extends CI_Model{
 		return $query;
 	}
 
-	/*** CREATE ORDERLIST HTML  */
+	/*** UI : CREATE ORDERLIST HTML  */
 	public function displayOrderHistory($data){
 		if(!empty($data)){
 			$html 	= '';
@@ -1002,7 +1079,7 @@ class Master_m extends CI_Model{
 				$order_date 	= $order['order_date'];
 				$delivery_date 	= $order['delivery_date'];
 
-				$html	.='<div class="col-md-4">
+				$html	.='<div class="col-12 col-md-6 col-lg-4">
 						<a href="'.base_url('order-detail?id=').$order_id.'">
 							<div class="r--grid-item mb-5">
 								<div class="r--author r--text-limit">
@@ -1030,7 +1107,8 @@ class Master_m extends CI_Model{
 			return $html;
 		}
 	}
-
+	
+	/**** GENERATE INVOICE PDF AFTER ORDER OLACE*/
 	public function generateInvoice($order_id){
 		// ORDER DATA
 		$this->db->select('*');
@@ -1058,4 +1136,444 @@ class Master_m extends CI_Model{
 		createPdf($file_path,$file_name,$html);
 		return true;
 	}
-}	
+
+	/*** SEND ORDER CONFIRMATION MAIL TO CUNSTOMER*/
+	public function sendConfirmationEmail($orderid){
+		// ORDER DATA
+		$this->db->select('o.*,c.customer_name');
+		$this->db->from('orders o');
+		$this->db->join('customer_detail c','c.customer_id=o.customer_id');
+		$this->db->where('o.order_id',$orderid);
+		$orderdata = $this->db->get()->result_array();
+
+		// ORDER PRODUCT DETAIL
+		$this->db->select('*');
+		$this->db->from('order_details');
+		$this->db->where('order_id',$orderid);		
+		$orderproductDetail = $this->db->get()->result_array();
+		
+		$data['orderdata'] 	= $orderdata;
+		$data['productdata'] = $orderproductDetail;
+		$html1  = $this->load->view('UI/OrderConfirmEmail_v',$data);
+		$html = $this->output->get_output($html1);
+
+		$order_number       			= $orderdata[0]['order_number'];
+		$mailData['subject'] 			= "Order Confirmation - Your Order with Multivendor.com [".$order_number."] has been successfully placed!
+			";
+		$mailData['attachFile'] 		= "";
+		$mailData['fromID'] 			= 'devloperproactii@gmail.com';
+		$mailData['toID'] 				= 'devloperproactii@gmail.com';
+		
+		$mailData['message'] = $html;
+		
+		$send = send_email($mailData);		
+		return true;
+	}
+
+	/****  */
+	public function getAllCategoryByoffer($parent_cat_id=null){
+		
+		$this->db->select('*');
+		$this->db->from('offer');
+		$this->db->where('is_active',1);
+		$result 			= $this->db->get()->result_array();
+		$p_array 			= array();	
+		if(!empty($result)){
+			
+			$j = 0;
+			foreach($result as $row){
+				
+				$title 					= $row['title'];
+				$keywords 				= $row['keywords'];
+				$offer_on_element 		= $row['offer_on_element'];
+				$offer_value 			= $row['offer_value'];
+				$category_id 			= $row['category_id'];
+				$symbol 				= $row['symbol'];
+				
+				if(!empty($category_id)){
+					$cat = explode(',',$category_id);
+					if($parent_cat_id != "" && !empty($parent_cat_id)){
+						//$parent_cat_id = 60; // women,men,kids
+						$res_child_cat 	= $this->getCateforyNameByID($parent_cat_id);
+						$child_arr		= explode(',',$res_child_cat[0]['child_category']);
+						$cat = array_intersect($child_arr, $cat);
+					}				
+					if(!empty($cat)){
+						
+						$this->db->select('c.category_name,c.category_id');
+						$this->db->from('category c');
+						$this->db->where_in('c.category_id', $cat );
+						$this->db->group_by('c.category_id');
+						$query = $this->db->get()->result_array();
+
+						// if(!empty($query)){
+						// 	$sub_arr = array();
+						// 	$k = 0;
+						// 	foreach($query as $key=>$val){
+								
+						// 		if(!empty($val)){
+									
+						// 			foreach($val as $key1=>$val1){
+						// 				$sub_arr[$k][$key1] = $val1;
+										
+						// 			}
+						// 		}
+								
+						// 		$sub_arr[$k]['keywords'] 			= $keywords;
+						// 		$sub_arr[$k]['offer_value'] 		= $offer_value;
+						// 		$sub_arr[$k]['offer_element'] 		= $offer_on_element;
+						// 		$k++;
+						// 	}
+						// }
+
+						// $p_array[$title] = $sub_arr;
+						
+						$p_array['offer'][$j]['offer_desc']['keywords'] 			= ucwords($keywords);
+						$p_array['offer'][$j]['offer_desc']['offer_value'] 		= $offer_value;
+						$p_array['offer'][$j]['offer_desc']['offer_element'] 	= $offer_on_element;
+						$p_array['offer'][$j]['offer_desc']['symbol'] 			= $symbol;
+						$p_array['offer'][$j]['category_list'] = $query;
+						
+					}
+					
+				}else{				
+
+					if(strtolower($offer_on_element) == "price"){
+						if(strtolower($keywords) == "under"){
+							$this->db->where('p.net_price <=',$offer_value);
+						}
+						else if(strtolower($keywords) == "upto"){
+							$this->db->where('p.net_price <=',$offer_value);
+						}
+						else if(strtolower($keywords) == "from"){
+							$this->db->where('p.net_price >=',$offer_value);
+						}
+						else if(strtolower($keywords) == "flat"){
+							$this->db->where('p.net_price',$offer_value);
+						}
+						else if(strtolower($keywords) == "starting at"){
+							$this->db->where('p.net_price <=',$offer_value);
+						}
+						else if(strtolower($keywords) == "min"){
+							$this->db->where('p.net_price <=',$offer_value);
+						}
+					}
+					else if(strtolower($offer_on_element) == "discount"){
+						if(strtolower($keywords) == "upto"){
+							$this->db->where('p.discount <=',$offer_value);
+						}
+						else if(strtolower($keywords) == "from"){
+							$this->db->where('p.discount >=',$offer_value);
+						}
+						else if(strtolower($keywords) == "flat"){
+							$this->db->where('p.discount',$offer_value);
+						}
+						else if(strtolower($keywords) == "min"){
+							$this->db->where('p.discount >=',$offer_value);
+						}
+					}
+				
+					$this->db->select('p.child_category');
+					$this->db->from('product_details p');
+					$this->db->group_by('p.child_category');
+					$query = $this->db->get()->result_array();
+					
+					if(!empty($query)){
+						
+						$c_array =array();
+						$i = 0;
+						
+						foreach($query as $row){
+							
+							$child_category = $row['child_category'];
+							
+							if($parent_cat_id != "" && !empty($parent_cat_id)){
+								
+								if (in_array($child_category, $child_arr)){
+									$cat_name		= $this->getCateforyNameByID($child_category);
+									$c_array[$i]['category_name'] 		= $cat_name[0]['category_name'];
+									$c_array[$i]['category_id'] 		= $row['child_category'];
+									// $c_array[$i]['keywords'] 			= $keywords;
+									// $c_array[$i]['offer_value'] 		= $offer_value;
+									// $c_array[$i]['offer_element'] 		= $offer_on_element;
+								}
+							}
+							else{
+
+								$cat_name							= $this->getCateforyNameByID($child_category);
+								$c_array[$i]['category_name'] 		= $cat_name[0]['category_name'];
+								$c_array[$i]['category_id'] 		= $row['child_category'];
+								// $c_array[$i]['keywords'] 			= $keywords;
+								// $c_array[$i]['offer_value'] 		= $offer_value;
+								// $c_array[$i]['offer_element'] 		= $offer_on_element;
+							}
+							$i++;
+						}
+						$offer_arr = array() ;
+						$offer_arr['keywords'] 			= ucwords($keywords);
+						$offer_arr['offer_value'] 		= $offer_value;
+						$offer_arr['offer_element'] 	= $offer_on_element;
+						$offer_arr['symbol'] 			= $symbol;
+						
+						//$p_array[$title] = $c_array;						
+						$p_array['offer'][$j]['offer_desc'] 			= $offer_arr;
+						$p_array['offer'][$j]['category_list'] 		= $c_array;
+					}					
+				}
+				$j++;			
+			}
+		}		
+		return $p_array;
+	}
+
+	/*** ORDERED PRODUCT DETAIL FROM ORDERID , PRODUCT ID */
+	public function getOrderedProductDetail($order_id,$productid){
+		$this->db->select('od.product_name,od.total_amt,o.shipping_address,o.order_number');
+		$this->db->from('order_details od');
+		$this->db->join('orders o','o.order_id = od.order_id');
+		$this->db->where('od.order_id',$order_id);
+		$this->db->where('od.product_id',$productid);
+		$result = $this->db->get()->result_array();
+		return $result;
+	}
+
+	/**** GET ALL PRODUCT COLOR FOR FILTER */
+	public function allProductFilterColor(){
+		$this->db->select('element_id');
+		$this->db->from('product_elements');
+		$this->db->like('element_name',"color");
+		$result = $this->db->get()->row();
+		$color_arr 		= array();
+		$color_arr1 		= array();
+		if(!empty($result)){
+			$color_id = $result->element_id;
+
+			$this->db->select('attributes_id');
+			$this->db->from('product_elements_attributes');
+			$this->db->where('element_id',$color_id);
+			$color_res 		= $this->db->get()->result_array();
+
+			$i = 0;
+			if(!empty($color_res)){
+				foreach($color_res as $row){
+					$attributes_id = $row['attributes_id'];
+					$whr['attributes_id'] = $attributes_id;
+					$res = $this->where('attributes',$whr);
+					$color_name = $res[0]['attributes_name'];
+					if(!in_array($attributes_id, $color_arr)){
+						$color_arr[$i]['color_id'] = $attributes_id;						
+						$color_arr[$i]['color_name'] = $color_name;						
+					}
+					$i++;					
+				}
+			}
+		}
+		return $color_arr;
+	}
+
+	/*** SAVE REQUEST  : RETURN, REPLACE */
+	public function saveReturn(){
+		$customer_id 		= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+		$txt_reason 		= $this->input->post('txt_reason');
+		$txtcoment 			= $this->input->post('txtcoment');
+		$txt_ifsc 			= $this->input->post('txt_ifsc');
+		$txt_acc_no 		= $this->input->post('txt_acc_no');
+		$txt_account_name 	= $this->input->post('txt_account_name');
+		$txt_phone_no 		= $this->input->post('txt_phone_no');
+		$product_id 		= $this->input->post('txt_product_id');
+		$order_id 			= $this->input->post('txt_order_id');
+
+		$cond['order_id'] 		= $order_id;
+		$cond['product_id'] 	= $product_id;
+		$cond['customer_id'] 	= $customer_id;
+		$cond['is_completed'] 	= 0;
+		$res1 					= $this->where('return_request',$cond);
+		if(empty($res1)){
+
+			$whr['order_id'] 		= $order_id;
+			$res 					= $this->where('orders',$whr);
+			$order_no 				= $res[0]['order_number'];
+			$order_date 			= $res[0]['order_date'];
+			$shipping_address 		= $res[0]['shipping_address'];
+
+			$bank_dtail = array();
+			$bank_dtail['ifsc_code'] 	= $txt_ifsc;
+			$bank_dtail['account_no'] 	= $txt_acc_no;
+			$bank_dtail['account_name'] = $txt_account_name;
+			$bank_dtail['phone_no'] 	= $txt_phone_no;
+
+			$insertdata['request_type'] 		= "return";
+			$insertdata['customer_id'] 			= $customer_id;
+			$insertdata['order_id']				= $order_id;
+			$insertdata['order_no']				= $order_no;
+			$insertdata['product_id']			= $product_id;
+			$insertdata['order_date']			= $order_date;
+			$insertdata['return_request_date']	= date('Y-m-d');
+			$insertdata['return_reason']		= $txt_reason;
+			$insertdata['status']				= 'Return Request Sent';
+			$insertdata['comments']				= $txtcoment;
+			$insertdata['pickup_address']		= $shipping_address;
+			$insertdata['bank_detail']			= json_encode($bank_dtail);
+
+			$insert_request 				= insert('return_request',$insertdata,'');	
+			logThis($insert_request->query, date('Y-m-d'),'Request Detail');
+			
+			if($insert_request->status = 'success') {
+				return true;
+			}else{
+				return false;
+			}
+		}
+		else{
+			return false;
+		}
+	}
+	/*** SAVE REQUEST  :  REPLACE */
+	public function saveReplace(){
+		$customer_id 		= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+		$txt_reason 		= $this->input->post('txt_reason');
+		$txtcoment 			= $this->input->post('txtcoment');
+		$product_id 		= $this->input->post('txt_product_id');
+		$order_id 			= $this->input->post('txt_order_id');
+
+		$cond['order_id'] 		= $order_id;
+		$cond['product_id'] 	= $product_id;
+		$cond['customer_id'] 	= $customer_id;
+		$cond['is_completed'] 	= 0;
+		$res1 					= $this->where('return_request',$cond);
+		if(empty($res1)){
+
+			$whr['order_id'] 		= $order_id;
+			$res 					= $this->where('orders',$whr);
+			$order_no 				= $res[0]['order_number'];
+			$order_date 			= $res[0]['order_date'];
+			$shipping_address 		= $res[0]['shipping_address'];
+
+			$insertdata['request_type'] 		= "replace";
+			$insertdata['customer_id'] 			= $customer_id;
+			$insertdata['order_id']				= $order_id;
+			$insertdata['order_no']				= $order_no;
+			$insertdata['product_id']			= $product_id;
+			$insertdata['order_date']			= $order_date;
+			$insertdata['return_request_date']	= date('Y-m-d');
+			$insertdata['return_reason']		= $txt_reason;
+			$insertdata['status']				= 'Replace Request Sent';
+			$insertdata['comments']				= $txtcoment;
+			$insertdata['pickup_address']		= $shipping_address;
+
+			$insert_request 				= insert('return_request',$insertdata,'');	
+			logThis($insert_request->query, date('Y-m-d'),'Request Detail');
+			
+			if($insert_request->status = 'success') {
+				return true;
+			}else{
+				return false;
+			}
+		}
+		else{
+			return false;
+		}
+	}
+
+	/****** GET REQUEST DETAIL */
+	public function getRequestData($request_id){
+		$this->db->select('r.*,c.customer_name,c.mobile,c.email');
+		$this->db->from('return_request r');
+		$this->db->join('customer_detail c','c.customer_id = r.customer_id');
+		$this->db->where('r.return_request_id',$request_id);		
+		$query = $this->db->get()->result_array();
+		return $query;
+	}
+
+	/**** get vendor name by id */
+	public function getVendorName($vendor_id){
+		$this->db->select('name');
+		$this->db->from('vendor');
+		$this->db->where('vendor_id',$vendor_id);
+		$query = $this->db->get()->row_array();
+		return  $query['name'];
+	}
+
+	/**** ADD TO RECENT SEARCH */
+	public function addToRecentView($customer_id,$product_id){
+		$whr['customer_id'] = $customer_id;
+		$total_views 		= count($this->where('recent_view',$whr));
+
+		if($total_views < RECENT_VIEW){
+			$whr['product_id'] 	= $product_id;
+			$check_produt = $this->Where('recent_view',$whr);
+			
+			if(empty($check_produt)){
+				
+				$insertdata['customer_id'] 		= $customer_id;
+				$insertdata['product_id'] 		= $product_id;
+				$insert_records 				= insert('recent_view',$insertdata,'');	
+				logThis($insert_records->query, date('Y-m-d'),'Recent View Products');
+			}
+		}
+		else{
+			
+			$this->db->where('customer_id',$customer_id);
+			$this->db->order_by('recent_view_id','asc');
+			$this->db->limit(1);
+			$this->db->delete('recent_view');
+
+			$whr['product_id'] 	= $product_id;
+			$check_produt = $this->Where('recent_view',$whr);
+			if(empty($check_produt)){
+				
+				$insertdata['customer_id'] 		= $customer_id;
+				$insertdata['product_id'] 		= $product_id;
+				$insert_records 				= insert('recent_view',$insertdata,'');	
+				logThis($insert_records->query, date('Y-m-d'),'Recent View Products');
+			}
+		}
+
+	}
+
+	/***** FETCH ALL RECENTLY VIEW PRODUCT */
+	public function getRecentViewProduct($customer_id){
+		$this->db->select('p.product_name,p.short_code,p.product_id,p.mrp_price,p.net_price,p.cover_img');
+		$this->db->from('recent_view r');
+		$this->db->join('product_details p','p.product_id = r.product_id');
+		$this->db->where('r.customer_id',$customer_id);
+		$query =  $this->db->get()->result_array();
+		return $query;
+	}
+
+
+	/********************************   DASHBOARD FUNCTION  **************************************************** */
+
+	/*** TOTAL PRODUCTS COUNT */
+	public function totalProductsCount(){
+		$this->db->select('count(product_id) as totalproduct');
+		$this->db->from('product_details');
+		$query = $this->db->get()->row();
+		return $query->totalproduct;
+	}
+
+	/*** TOTAL VENDOR COUNT */
+	public function totalVendorCount(){
+		$this->db->select('count(vendor_id) as totalvendor');
+		$this->db->from('vendor');
+		$query = $this->db->get()->row();
+		return $query->totalvendor;
+	}
+
+
+	/*** TOTAL ORDER COUNT */
+	public function totalOrderCount(){
+		$this->db->select('count(order_id) as totalorder');
+		$this->db->from('orders');
+		$query = $this->db->get()->row();
+		return $query->totalorder;
+	}
+
+	/*** TOTAL CUSTOMER COUNT */
+	public function totalCustomerCount(){
+		$this->db->select('count(customer_id) as totalcustomer');
+		$this->db->from('customer_detail');
+		$query = $this->db->get()->row();
+		return $query->totalcustomer;
+	}
+}

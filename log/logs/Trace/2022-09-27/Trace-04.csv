@@ -1,0 +1,1 @@
+"2022-09-27 04:33:24am "," insert "," INSERT INTO customer_cart(`customer_id`, `product_id`, `quantity`) VALUES('1', '6', '1') "," ::1 "," URL: http://localhost/MultiVendor/Home/addtocart "," R: http://localhost/MultiVendor/product-detail/dennis-lingo-men-shirt"

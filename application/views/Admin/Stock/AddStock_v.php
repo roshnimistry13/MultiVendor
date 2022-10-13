@@ -67,7 +67,7 @@
                                             <input type="hidden" id="text_product_id" name="text_product_id"
                                                 value="<?php echo $product_id; ?>">
                                             <div class="row">
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-12 col-md-6 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">Product
@@ -78,15 +78,25 @@
                                                             value="<?php echo $product_name; ?>" disabled>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-12 col-md-3 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
-                                                            class="color-dark fs-14 fw-500 align-center">Product
+                                                            class="color-dark fs-14 fw-500 align-center">Current
                                                             Stock</label>
-                                                        <input type="number"
+                                                        <input type="text"
                                                             class="form-control ih-small ip-gray radius-xs b-light px-15"
                                                             name="text_product_stock" placeholder="Product Stock" required=""
-                                                            value="<?php echo $stock; ?>">
+                                                            value="<?php echo $stock; ?>" readonly>
+                                                    </div>
+                                                </div> 
+                                                <div class="col-12 col-md-3 mb-25">
+                                                    <div class="form-group">
+                                                        <label for="formGroupExampleInput"
+                                                            class="color-dark fs-14 fw-500 align-center">
+                                                            Stock in</label>
+                                                        <input type="number"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
+                                                            name="text_stock_in" placeholder="Stock in">
                                                     </div>
                                                 </div> 
                                             </div> 

@@ -52,7 +52,7 @@
 							<div class="nav-author__options">
 								<ul>
 									<li>
-										<a href="">
+										<a href="<?php echo base_url('profile');?>">
 											<span data-feather="user">
 											</span> Profile
 										</a>

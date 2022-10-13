@@ -13,6 +13,7 @@
         $category_name          = $product_detail['category_name'];
         $vendor_name            = $product_detail['vendor_name'];
         $quantity               = $product_detail['qty'];
+        $stock                  = $product_detail['stock'];
     }
 ?>
 <div id="nt_content" class="product_detail_page" data-pid="<?php echo $product_id;?>">
@@ -83,9 +84,12 @@
                                     <div class="flex wrap fl_between al_center price-review">
                                         <p class="price_range" id="price_ppr">
                                             <span class="price dib mb__5">
-                                            <i class="fa fa-inr cr fs__14"></i><ins><?php echo moneyFormatIndia_ui($net_price); ?></ins> &nbsp;
-                                            <?php if($discount !="" && $discount != null && !empty($discount)) {?>
-                                            <i class="fa fa-inr fs__14"></i> <small><del><?php echo moneyFormatIndia_ui($mrp_price); ?></del></small>
+                                                <i
+                                                    class="fa fa-inr cr fs__14"></i><ins><?php echo moneyFormatIndia_ui($net_price); ?></ins>
+                                                &nbsp;
+                                                <?php if($discount !="" && $discount != null && !empty($discount)) {?>
+                                                <i class="fa fa-inr fs__14"></i>
+                                                <small><del><?php echo moneyFormatIndia_ui($mrp_price); ?></del></small>
                                                 <small>(<?php echo $discount;?>% Off)</small>
                                                 <?php } ?>
                                             </span>
@@ -111,59 +115,65 @@
                                     <div class="pr_short_des">
                                         <p class="mg__0"><?php echo $short_description; ?></p>
                                     </div>
+                                    <div class="swatch__title">
+                                        <span>Seller : <?php echo $vendor_name; ?></span>
+                                    </div>                                    
                                     <div class="btn-atc atc-slide btn_des_1 btn_txt_3">
                                         <div id="callBackVariant_ppr">
-                                            <div class="variations mb__40 style__circle size_medium style_color des_color_1">
+                                            <?php if($stock > 0 && $stock <= 10){ ?>
+                                                <span class="cr"><?php echo $stock;?> left</span> 
+                                            <?php } ?>                                           
+                                            <div
+                                                class="variations mb__40 style__circle size_medium style_color des_color_1">
                                                 <?php if(!empty($product_element)){
                                                     foreach($product_element as $key => $val){
-                                                        $attributes = explode(',',$val);?>
-                                                <div class="swatch is-label kalles_swatch_js">
-                                                    <h4 class="swatch__title"><?php echo $key?>:
+                                                        $elementVal = $val;                        
+                                                        foreach($elementVal as $key1 => $val1){                                                            
+                                                            // $attributes = explode(',',$val1);
+                                                            $attributes = $val1;?>
+                                                <div class="swatch is-label kalles_swatch_js product-variants"
+                                                    data-elename="<?php echo $key1?>" data-elements="<?php echo $key?>">
+                                                    <h4 class="swatch__title"><?php echo $key1?>:
                                                         <span class="nt_name_current user_choose_js"></span>
                                                     </h4>
                                                     <ul class="swatches-select swatch__list_pr d-flex">
                                                         <?php 
-                                                        $i = 0;
-                                                        
-                                                        foreach($attributes as $attr){ 
+                                                        $i      = 0;
+                                                        $count  = count($attributes);
+                                                        foreach($attributes as $attr=>$attrval){                                                            
                                                             $is_selected = "";
-                                                            if($i == 0 ) { $is_selected = 'is-selected' ; }
+                                                            if($count == 1) { $is_selected = 'is-selected' ; }
                                                            ?>
-                                                        <li class="nt-swatch swatch_pr_item pr <?php echo $is_selected; ?>" data-escape="<?php echo $attr;?>">
+                                                        <li class="nt-swatch swatch_pr_item pr <?php echo $is_selected; ?>"
+                                                            data-escape="<?php echo $attr;?>"
+                                                            data-attrid="<?php echo $attrval; ?>">
                                                             <span class="swatch__value_pr"><?php echo $attr;?></span>
                                                         </li>
-                                                        <?php $i++; } ?>                                    
+                                                        <?php $i++; } ?>
                                                     </ul>
                                                 </div>
-                                                <?php } }?>
+                                                <?php } } }?>
                                             </div>
                                             <div class="nt_cart_form variations_form variations_form_ppr">
                                                 <div class="variations_button in_flex column w__100 buy_qv_false">
-                                                    <div class="flex wrap">
-                                                        <div class="quantity pr mr__10 order-1 qty__true d-inline-block"
-                                                            id="sp_qty_ppr">
-                                                            <input type="number" id="txt_quantity"
-                                                                class="input-text qty text tc qty_pr_js qty_cart_js"
-                                                                name="quantity" value="1">
-                                                            <div class="qty tc fs__14">
-                                                                <button type="button"
-                                                                    class="plus db cb pa pd__0 pr__15 tr r__0">
-                                                                    <i class="facl facl-plus"></i></button>
-                                                                <button type="button"
-                                                                    class="minus db cb pa pd__0 pl__15 tl l__0">
-                                                                    <i class="facl facl-minus"></i></button>
-                                                            </div>
-                                                        </div>
-                                                        <div class="nt_add_w ts__03 pa order-3 <?php echo $wish_list_class;?>">
+                                                    <div class="flex wrap">                                                        
+                                                        <div
+                                                            class="nt_add_w ts__03 pa order-3 <?php echo $wish_list_class;?>">
                                                             <a href="#"
-                                                                class="wishlistadd cb chp ttip_nt tooltip_top_left">
+                                                                class="wishlistadd cb chp ttip_nt tooltip_top_left"
+                                                                data-pid="<?php echo $product_id;?>">
                                                                 <span class="tt_txt">Add to Wishlist</span><i
                                                                     class="facl facl-heart-o"></i>
                                                             </a>
                                                         </div>
+                                                        <?php if($stock > 0 && $stock != "" && $stock != null){ ?>
                                                         <button type="submit" data-time="6000" data-ani="shake"
                                                             class="single_add_to_cart_button button truncate w__100 mt__20 order-4 d-inline-block animated btnAddToCart">
-                                                            <span class="txt_add ">Add to cart</span></button>
+                                                            <span class="txt_add ">Add to cart</span>
+                                                        </button>
+                                                        <?php }else{?>
+                                                        <a href="javascript:void(0)" class="truncate out_stock button pe_none text-danger">Out of stock</a>
+                                                        <?php } ?>
                                                     </div>
                                                 </div>
                                             </div>
@@ -173,10 +183,11 @@
                                         <a class="ajax_pp_js cd chp mr__20" href="javascript:void(0)">
                                             Product Detail
                                         </a>
-                                    </div>
+                                    </div>                                   
                                     <div class="product_meta">
                                         <?php echo $description; ?>
                                     </div>
+                                   
                                     <div class="social-share tc">
                                         <div
                                             class="at-share-btn-elements kalles-social-media d-block text-left fs__0 lh__1">

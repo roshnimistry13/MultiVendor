@@ -1,0 +1,1 @@
+"2022-10-05 02:58:15am "," insert "," INSERT INTO customer_cart(`customer_id`, `product_id`, `quantity`, `elements_attributes`) VALUES('1', '8', '1', '{""1"":""5"",""2"":""8"",""4"":""35"",""5"":""51""}') "," ::1 "," URL: http://localhost/MultiVendor/Home/addtocart "," R: http://localhost/MultiVendor/product-detail/allen-solly-pink-womens-regular-fit-t-shirt?pid=8"

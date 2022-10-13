@@ -1,7 +1,7 @@
 <?php 
 
-       $logo_path = UI_ASSETS.'images/mv-logo.png';
-		$logo_type = pathinfo($logo_path, PATHINFO_EXTENSION);
+        $logo_path = UI_ASSETS.'images/mv-logo.png';
+	    $logo_type = pathinfo($logo_path, PATHINFO_EXTENSION);
 		$logo_data = file_get_contents($logo_path);
 		$logo_base64 = 'data:image/' . $logo_type . ';base64,' . base64_encode($logo_data);
         
@@ -104,23 +104,7 @@
                                     <td>
                                         &nbsp;
                                     </td>
-                                </tr>
-
-                                <!-- <tr>
-										<td>
-											&nbsp;
-										</td>
-									</tr>
-									<tr>
-										<td>
-											&nbsp;
-										</td>
-									</tr>
-									<tr>
-										<td>
-											&nbsp;
-										</td>
-									</tr> -->
+                                </tr>                                
                                 <tr>
                                     <td
                                         style="font-family:Verdana, Geneva, sans-serif;font-weight:600; font-size:15px;">
@@ -157,33 +141,13 @@
                             align="right">
                             <?php echo $orderdata[0]['shipping_address'];?>
                         </td>
-                    </tr>
-                    <!-- <tr>
-							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px;" align="right">
-								206-A, Platinum Mall, Opp. Via Ground,
-							</td>
-						</tr>
-						<tr>
-							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px;" align="right">
-								Gidc Char Rasta, Vapi
-							</td>
-						</tr>
-						<tr>
-							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px;" align="right">
-								VAPI, GUJARAT, 396195
-							</td>
-						</tr> -->
+                    </tr>                    
                     <tr>
                         <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:15px;"
                             align="right">
                             &nbsp;
                         </td>
-                    </tr>
-                    <!-- <tr>
-							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px;" align="right">
-								&nbsp;
-							</td>
-						</tr> -->
+                    </tr>                    
                     <tr>
                         <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px;"
                             align="right">
@@ -195,22 +159,7 @@
                             align="right">
                             <?php echo $orderdata[0]['shipping_address'];?>
                         </td>
-                    </tr>
-                    <!-- <tr>
-							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px;" align="right">
-								206-A, Platinum Mall, Opp. Via Ground,
-							</td>
-						</tr>
-						<tr>
-							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px;" align="right">
-								Gidc Char Rasta, Vapi
-							</td>
-						</tr>
-						<tr>
-							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px;" align="right">
-								VAPI, GUJARAT, 396195
-							</td>
-						</tr> -->
+                    </tr>                    
                     <tr>
                         <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:15px;"
                             align="right">
@@ -285,7 +234,7 @@
             </td>
             <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; border-bottom:1px solid #333; border-right:1px solid #333; background-color: #ddd;"
                 width="10%" align="center">
-                Discount(%)
+                Discount
             </td>
             <td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; border-bottom:1px solid #333; border-right:1px solid #333; border-right:1px solid #333; background-color: #ddd;"
                 width="10%" align="center">

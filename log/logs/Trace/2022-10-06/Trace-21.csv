@@ -1,0 +1,3 @@
+"2022-10-06 21:27:22pm "," update "," UPDATE user SET `last_login` = '2022-10-06 21:27:22' WHERE 1=1  and user_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/login-check "," R: http://localhost/MultiVendor/admin"
+"2022-10-06 21:39:03pm "," update "," UPDATE user SET `last_login` = '2022-10-06 21:39:03' WHERE 1=1  and user_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/login-check "," R: http://localhost/MultiVendor/admin"
+"2022-10-06 21:39:15pm "," update "," UPDATE vendor SET `last_login` = '2022-10-06 21:39:15' WHERE 1=1  and vendor_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/login-check "," R: http://localhost/MultiVendor/admin"

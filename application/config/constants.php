@@ -155,6 +155,7 @@ define("MAX_HEIGHT" ,"1600");
 define("MAX_WIDTH" ,"1600");
 
 define("ROW_PER_PAGE" ,"12");
+define("RECENT_VIEW" ,"20");
 
 define("ADMIN_THEME" ,"Admin Theme");
 define("UI_THEME" ,"Multivendor E-Commerce");

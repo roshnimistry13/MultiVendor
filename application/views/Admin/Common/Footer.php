@@ -128,17 +128,110 @@ if(!empty($pagejs))
 }
 ?>
 <div id="overlayer">
-        <span class="loader-overlay">
-            <div class="atbd-spin-dots spin-lg">
-                <span class="spin-dot badge-dot dot-primary"></span>
-                <span class="spin-dot badge-dot dot-primary"></span>
-                <span class="spin-dot badge-dot dot-primary"></span>
-                <span class="spin-dot badge-dot dot-primary"></span>
-            </div>
-        </span>
-    </div>
-    <div class="overlay-dark-sidebar"></div>
-    <div class="customizer-overlay"></div>
+    <span class="loader-overlay">
+        <div class="atbd-spin-dots spin-lg">
+            <span class="spin-dot badge-dot dot-primary"></span>
+            <span class="spin-dot badge-dot dot-primary"></span>
+            <span class="spin-dot badge-dot dot-primary"></span>
+            <span class="spin-dot badge-dot dot-primary"></span>
+        </div>
+    </span>
+</div>
+<div class="overlay-dark-sidebar"></div>
+<div class="customizer-overlay"></div>
+
+
+<!-- Locscreen Modal -->
+<div class="modal fade" id="lockscreenModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" data-keyboard="false" data-backdrop="static">
+	<div class="modal-dialog modal-dialog-centered" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<form method="POST" id="unlockscreen_form" class="needs-validation" novalidate="">
+					<div class="form-group">
+						<label for="unlock_password">
+							Password
+						</label>
+						<input id="unlock_password" type="password" class="form-control" name="unlock_password" tabindex="1"  autofocus required="">
+					</div>
+					<div class="form-group">
+						<a class="btn btn-lg btn-block btn-auth-color" tabindex="4" onclick="unlockScreen()">
+							Unlock
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+<script>
+$("form[id='unlockscreen_form']").validate({
+    // Specify validation rules
+    rules: {
+        unlock_password: {
+            required: true,
+        }
+    },
+    // Specify validation error messages
+    messages: {
+        unlock_password: {
+            required: "Please enter a password",
+        },
+    },
+
+    submitHandler: function(form) {
+        form.submit();
+    }
+});
+
+
+//function for unlock screen
+function unlockScreen() {
+    if (!$("#unlockscreen_form").valid()) {
+        $("#unlockscreen_form").submit(function() {
+            return false;
+        });
+        return false;
+    } else {
+        var unlockFrm = new FormData($('#unlockscreen_form')[0]);
+
+        $.ajax({
+            "url": base_url + "Admin/Lockscreen/submitLockscreen",
+            type: 'post',
+            dataType: 'json',
+            data: unlockFrm,
+            mimeType: "multipart/form-data",
+            contentType: false,
+            cache: false,
+            processData: false,
+            success: function(data) {
+                if (data.status == "success") {
+                    $('#unlockscreen_form')[0].reset();
+                    $("#lockscreenModal").modal('hide');
+                } else if (data.status == "error") {
+                    Swal.fire("Error", data.msg, "error");
+                }
+            }
+        });
+    }
+}
+</script>
+
+
+<?php
+	if(isset($this->session->userdata['lockscreen_session']))
+	{
+	?>
+<script type="text/javascript">
+$(document).ready(function() {
+    $("#lockscreenModal").modal('show');
+});
+</script>
+<?php
+	}
+	?>
 </body>
 
 </html>

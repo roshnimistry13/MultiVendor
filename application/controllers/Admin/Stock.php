@@ -32,20 +32,21 @@ class Stock extends CI_Controller
 			$user_type 	= $this->session->userdata[ADMIN_SESSION]['user_type'];			
 			if(strtolower($user_type) != "admin"){
 				$user_id 	= $this->session->userdata[ADMIN_SESSION]['user_id'];
-				$where    = array("is_active != 2","created_by = $user_id");
+				$where    = array("p.is_active != 2","p.vendor_id = $user_id");
 			}else{
-				$where    = array("is_active != 2");
+				$where    = array("p.is_active != 2");
 			}
 
-			$table         			= "product_details";
-			$select_column 			= array("product_id","product_name","stock","vendor_id","created_by","is_active");
-			$join_column 			= "";
-			$order_column			= array(NULL,"product_name","stock",NULL);
-			$search_column 			= array("product_name","stock");
-			$group_by 				= "";
-			$order_by 				= "product_id  DESC";
-			//$where    				= array("is_active != 2");
-			$fetch_data 			= $this->Common_m->makeDataTables($table, $select_column, $order_column, $join_column, $where, $search_column, $order_by, $group_by);
+			$table         					= "product_details p";
+			$select_column 					= array("p.product_id","p.product_name","p.stock","p.vendor_id","p.created_by","p.is_active","v.name as vendor_name");
+			$join_column['table'] 			= array("vendor v");
+			$join_column['join_on']			= array('v.vendor_id = p.vendor_id');
+			$order_column					= array(NULL,"p.product_name","p.stock",NULL);
+			$search_column 					= array("p.product_name","p.stock");
+			$group_by 						= "";
+			$order_by 						= "p.stock  asc";
+			//$where    					= array("is_active != 2");
+			$fetch_data 					= $this->Common_m->makeDataTables($table, $select_column, $order_column, $join_column, $where, $search_column, $order_by, $group_by);
 
 			$data       = array();
 			$i = 1;
@@ -64,7 +65,19 @@ class Stock extends CI_Controller
 				{
 					redirect('admin');
 				}
-				
+				$available_stock = $row->stock;
+				if($available_stock <= 15){
+					$stock_badges = '<span class="badge badge-round badge-danger badge-md">'.$row->stock.'</span>';
+				}
+				else if($available_stock <= 25){
+					$stock_badges = '<span class="badge badge-round badge-warning badge-md">'.$row->stock.'</span>';
+				}
+				else if($available_stock <= 50){
+					$stock_badges = '<span class="badge badge-round badge-info badge-md">'.$row->stock.'</span>';
+				}
+				else{
+					$stock_badges = '<span class="badge badge-round badge-success badge-md">'.$row->stock.'</span>';
+				}
 				
 
 				$action    = '<ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
@@ -74,7 +87,8 @@ class Stock extends CI_Controller
 				$sub_array = array();
 				$sub_array[] = '<div class="userDatatable-content">'.$i++.'</div>';
 				$sub_array[] = '<div class="userDatatable-content word-break">'.$row->product_name.'</div>';
-				$sub_array[] = '<div class="userDatatable-content">'.$row->stock.'</div>';
+				$sub_array[] = '<div class="userDatatable-content word-break">'.$row->vendor_name.'</div>';
+				$sub_array[] = '<div class="userDatatable-content text-center">'.$stock_badges.'</div>';
 				$sub_array[] = $action;
 				$data[] = $sub_array;
 			}
@@ -100,7 +114,7 @@ class Stock extends CI_Controller
 			$product_id 		= $this->input->get('product_id');
 			$user_type 			= $this->session->userdata[ADMIN_SESSION]['user_type'];			
 			$table         			= "stock_details";
-			$select_column 			= array("stock_details_id","old_stock","current_stock","created");
+			$select_column 			= array("stock_details_id","stock_out","stock_in","old_stock","current_stock","created");
 			$join_column 			= "";
 			$order_column			= array(NULL,"old_stock","current_stock");
 			$search_column 			= array();
@@ -114,9 +128,11 @@ class Stock extends CI_Controller
 			foreach($fetch_data as $row)
 			{
 				$sub_array = array();
-				$sub_array[] = '<div class="userDatatable-content">'.date('d-M-Y' , strtotime($row->created)).'</div>';
-				$sub_array[] = '<div class="userDatatable-content">'.$row->old_stock.'</div>';
-				$sub_array[] = '<div class="userDatatable-content">'.$row->current_stock.'</div>';
+				$sub_array[] = '<div class="userDatatable-content text-center py-1">'.date('d-M-Y' , strtotime($row->created)).'</div>';
+				$sub_array[] = '<div class="userDatatable-content text-center">'.$row->stock_in.'</div>';
+				$sub_array[] = '<div class="userDatatable-content text-center">'.$row->stock_out.'</div>';
+				$sub_array[] = '<div class="userDatatable-content text-center">'.$row->old_stock.'</div>';
+				$sub_array[] = '<div class="userDatatable-content text-center">'.$row->current_stock.'</div>';
 				$data[] = $sub_array;
 			}
 
@@ -156,12 +172,15 @@ class Stock extends CI_Controller
 		$user_id 				= $this->session->userdata[ADMIN_SESSION]['user_id'];
 		$product_id 			= $this->input->post('text_product_id');
 		$stock 					= $this->input->post('text_product_stock');
+		$stock_in 				= $this->input->post('text_stock_in');
 
 		$id['product_id'] 			= $product_id;
 		$result						= $this->Master_m->where('product_details',$id);	
 		$old_stock 					= $result[0]['stock'];
 
-		$updatedata['stock'] 			= $stock;
+		$new_stock 					= $old_stock + $stock_in;
+
+		$updatedata['stock'] 			= $new_stock;
 		$updatedata['modified_by'] 		= $user_id;
 		$updatedata['modified'] 		= date('Y-m-d H:i:s');
 
@@ -172,7 +191,8 @@ class Stock extends CI_Controller
 		$insertdata['product_id'] 		= $product_id;
 		$insertdata['status'] 			= 1;
 		$insertdata['old_stock'] 		= $old_stock;
-		$insertdata['current_stock'] 	= $stock;
+		$insertdata['stock_in'] 		= $stock_in;
+		$insertdata['current_stock'] 	= $new_stock;
 		$insertdata['created'] 			= date('Y-m-d H:i:s');;		
 		$insert_result 					= insert('stock_details',$insertdata,'');
 		

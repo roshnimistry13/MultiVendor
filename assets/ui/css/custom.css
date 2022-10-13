@@ -8,6 +8,7 @@
 /**  label error color**/
 label.error {
     color:red !important;
+    font-size: 12px;;
 }
 .product-image .nt_add_w > a {
     color: #000 !important;
@@ -110,3 +111,37 @@ label.error {
    width: 100%;
   }
   
+  /*** ERROR PAGE ***/
+  .error-img{
+    width: 50%;
+  }
+  .error-block{
+    position: relative;
+    padding: 0px 0px 100px 0px;
+    /* border: 1px solid red; */
+    text-align: center;
+  }
+  .error-control{
+    position: absolute;
+    bottom: 0px;
+    right: 0px;
+    left: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  /*** MY ORDER PAGE**/
+  .myorder-page .mini_cart_actions .btn-return-replace,
+  .myorder-page .mini_cart_actions .button{
+    min-height: 30px;
+  }
+
+  /**MEDIA QUERY***/ 
+
+  @media (max-width: 1024px){
+    .myorder-page .cart_item .row > :first-child {
+      border-bottom :none !important;
+    }
+  }

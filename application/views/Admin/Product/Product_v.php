@@ -26,12 +26,7 @@
 							<div class="table-responsive">
 								<table class="table mb-0 table-borderless" id="productDatatable">
 									<thead>
-										<tr class="userDatatable-header">
-											<th>
-												<span class="userDatatable-title">
-													#
-												</span>
-											</th>
+										<tr class="userDatatable-header">											
 											<th>
 												<span class="userDatatable-title">
 													Product Name
