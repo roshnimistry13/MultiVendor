@@ -661,3 +661,12 @@ a.disabled {
 .userDatatable-content .dropdown .btn {
   font-size: 13px !important;
 }
+
+#divResult .dataTable thead tr th {
+  color: #666d92 !important;
+  /* font-size: 16px !important; */
+  font-weight: 600 !important;
+}
+#divResult .dataTable tbody tr td {
+  font-size: 14px !important;
+}

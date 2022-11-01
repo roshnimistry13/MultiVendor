@@ -1,12 +1,3 @@
-
-<div class="mobile-search">
-	<!--<form class="search-form">
-		<span data-feather="search">
-		</span>
-		<input class="form-control mr-sm-2 box-shadow-none" type="text" placeholder="Search...">
-	</form>-->
-</div>
-
 <div class="mobile-author-actions">
 </div>
 <header class="header-top">
@@ -18,25 +9,26 @@
 			<a class="navbar-brand" href="<?php echo base_url('/')?>">
 				<img class="dark" src="<?php echo ADMIN_ASSETS ?>img/logo_dark.png" alt="svg"><img class="light" src="<?php echo ADMIN_ASSETS ?>img/logo_white.png" alt="img">
 			</a>
-			<!--<form action="/" class="search-form">
-				<span data-feather="search">
-				</span>
-				<input class="form-control mr-sm-2 box-shadow-none" type="text" placeholder="Search...">
-			</form>-->
 		</div>
 		<!-- ends: navbar-left -->
+		<?php 
+				$profile    = $this->session->userdata[ADMIN_SESSION]['profile_photo'];
+				$user_type 		= $this->session->userdata[ADMIN_SESSION]['user_type'];
+				$user_id 		= $this->session->userdata[ADMIN_SESSION]['user_id'];
 
+				$profile_path = PROFILE_IMG_PATH.$user_type.'/'.$user_id.'/'.$profile;
+		?>
 		<div class="navbar-right">
 			<ul class="navbar-right__menu">
 				<li class="nav-author">
 					<div class="dropdown-custom">
 						<a href="javascript:;" class="nav-item-toggle">
-							<img src="<?php echo ADMIN_ASSETS ?>img/author-nav.jpg" alt="" class="rounded-circle">
+							<img src="<?php echo $profile_path; ?>" alt="" class="rounded-circle">
 						</a>
 						<div class="dropdown-wrapper">
 							<div class="nav-author__info">
 								<div class="author-img">
-									<img src="<?php echo ADMIN_ASSETS ?>img/author-nav.jpg" alt="" class="rounded-circle">
+									<img src="<?php echo $profile_path; ?>" alt="profile" class="rounded-circle">
 								</div>
 								<div>
 									<h6>
@@ -50,6 +42,10 @@
 								</div>
 							</div>
 							<div class="nav-author__options">
+								<?php 
+									$user_id 		= $this->session->userdata[ADMIN_SESSION]['user_id'];
+									if($user_id != "999"){							
+								?>
 								<ul>
 									<li>
 										<a href="<?php echo base_url('profile');?>">
@@ -64,6 +60,7 @@
 										</a>
 									</li>																	
 								</ul>
+								<?php } ?>
 								<a href="<?php echo base_url('admin-logout')?>" class="nav-author__signout">
 									<span data-feather="log-out">
 									</span> Sign Out

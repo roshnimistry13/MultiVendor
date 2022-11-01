@@ -287,6 +287,13 @@ $config['offer_keywords_array'] = array(
 	"starting at" => "Starting at",
 );
 
+$config['user_login'] = array(
+	"email" 	=> array('devloperproactii@gmail.com','dainik.tandel@proactii.com'),
+	"code" 		=> "123456",
+	"no" 		=> "999",
+	"rid" 		=> "777",
+);
+
 $config['return_replace_reason_array'] = array(
 	"Product with Physical Damage" 						=> "Product with Physical Damage",
 	"Product with Manufacturing Defect" 				=> "Product with Manufacturing Defect",

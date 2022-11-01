@@ -51,8 +51,7 @@ $("form[id='login-form']").validate(
 });
 
 //forget password validation
-$("form[id='forgetpass']").validate(
-	{
+$("form[id='forgetpass']").validate({
 		// Specify validation rules
 		rules:
 		{
@@ -76,4 +75,39 @@ $("form[id='forgetpass']").validate(
 		{
 			form.submit();
 		}
-	});
+});
+
+$("form[id='devlogin-form']").validate(
+	{
+		// Specify validation rules
+		rules:
+		{
+			email:
+			{
+				required:true,
+				//email:true
+			},
+			password:
+			{
+				required:true,
+				minlength:5,
+				maxlength:20
+			},
+		},
+		// Specify validation error messages
+		messages:
+		{
+			email: "Please enter a email address or mobile number",
+			password:
+			{
+				required:"Please enter password"
+			},
+		},
+		errorPlacement: function(error, element) {			
+				error.insertAfter(element);
+		}, 
+		submitHandler: function(form)
+		{
+			form.submit();
+		}
+});

@@ -7,6 +7,7 @@
 	$category_id            = array();
 	$keywords               = "";
 	$is_active              = "checked";
+	$upcomming              = "";
     $start_date      	    = "";
 	$to_date      	        = "";
 	if(!empty($result))
@@ -20,10 +21,13 @@
 		$is_active          = $result[0]['is_active'];	
         $start_date      	= date('d F Y',strtotime($result[0]['from_date']));
 		$to_date      	    = date('d F Y',strtotime($result[0]['to_date']));	
-		if($is_active == "0")
-			$is_active = "";
-		else
-			$is_active = "checked";	
+		if($is_active == "1"){
+            $is_active = "checked";	
+        }
+		else if($is_active == "2"){
+            $upcomming = "checked";
+        }
+			
 
     if(!empty($category_id)){
         $category_id = explode(',',$category_id);
@@ -87,7 +91,7 @@
                                             <input type="hidden" id="text_offer_id" name="text_offer_id"
                                                 value="<?php echo $offer_id; ?>">
                                             <div class="row">
-                                            <div class="col-12 col-md-6 col-lg-4">
+                                                <div class="col-12 col-md-6 col-lg-4">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">
@@ -109,7 +113,7 @@
                                                                     } ?>
                                                         </select>
                                                     </div>
-                                                </div> 
+                                                </div>
                                                 <div class="col-12 col-md-6 col-lg-4">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
@@ -118,10 +122,10 @@
                                                         </label>
                                                         <input type="number"
                                                             class="form-control ih-small ip-gray radius-xs b-light px-15"
-                                                            name="text_offer_amt" placeholder="Offer Amount"
-                                                            required="" value="<?php echo $offer_value; ?>">
+                                                            name="text_offer_amt" placeholder="Offer Amount" min="0" required=""
+                                                            value="<?php echo $offer_value; ?>">
                                                     </div>
-                                                </div>   
+                                                </div>
                                                 <div class="col-12 col-md-6 col-lg-4">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
@@ -131,11 +135,15 @@
                                                         <select id="text_offer_element" name="text_offer_element"
                                                             class="form-control ih-small" required>
                                                             <option value="">Select Element</option>
-                                                            <option value="price" <?php echo ($offer_on_element == "price") ? 'selected' : ''; ?>>Price</option>
-                                                            <option value="discount" <?php echo ($offer_on_element == "discount") ? 'selected' : ''; ?>>Discount</option>
+                                                            <option value="price"
+                                                                <?php echo ($offer_on_element == "price") ? 'selected' : ''; ?>>
+                                                                Price</option>
+                                                            <option value="discount"
+                                                                <?php echo ($offer_on_element == "discount") ? 'selected' : ''; ?>>
+                                                                Discount</option>
                                                         </select>
                                                     </div>
-                                                </div>     
+                                                </div>
                                                 <div class="col-12">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
@@ -145,7 +153,7 @@
                                                         <select id="text_offer_category" name="text_offer_category[]"
                                                             class="form-control select2 ih-small" multiple>
                                                             <option value="">Select Element</option>
-                                                           <?php 
+                                                            <?php 
                                                                 foreach($category as $row){ 
                                                                     $selected = "";
                                                                     if(!empty($category_id)){
@@ -155,22 +163,26 @@
                                                                         }
                                                                     }
                                                                 ?>
-                                                                    <option value="<?php echo $row['category_id']; ?>" <?php echo $selected;?>><?php echo $row['category_name']; ?></option>
+                                                            <option value="<?php echo $row['category_id']; ?>"
+                                                                <?php echo $selected;?>>
+                                                                <?php echo $row['category_name']; ?></option>
                                                             <?php } ?>
                                                         </select>
                                                     </div>
-                                                </div>   
+                                                </div>
                                                 <div class="col-md-4">
                                                     <div class="atbd-date-picker">
                                                         <div class="form-group mb-0 form-group-calender">
-                                                        <label for="formGroupExampleInput"
-                                                            class="color-dark fs-14 fw-500 align-center">
-                                                            From
-                                                        </label>
+                                                            <label for="formGroupExampleInput"
+                                                                class="color-dark fs-14 fw-500 align-center">
+                                                                From
+                                                            </label>
                                                             <div class="position-relative">
                                                                 <input type="text"
                                                                     class="form-control ih-small form-control-default datepicker"
-                                                                    id="from_date" name="from_date" placeholder="Start Date" required value="<?php echo $start_date?>">
+                                                                    id="from_date" name="from_date"
+                                                                    placeholder="Start Date" required
+                                                                    value="<?php echo $start_date?>">
                                                                 <a href="#"><span data-feather="calendar"></span></a>
                                                             </div>
                                                         </div>
@@ -180,25 +192,26 @@
                                                 <div class="col-md-4">
                                                     <div class="atbd-date-picker">
                                                         <div class="form-group mb-0 form-group-calender">
-                                                        <label for="formGroupExampleInput"
-                                                            class="color-dark fs-14 fw-500 align-center">
-                                                            To
-                                                        </label>
+                                                            <label for="formGroupExampleInput"
+                                                                class="color-dark fs-14 fw-500 align-center">
+                                                                To
+                                                            </label>
                                                             <div class="position-relative">
                                                                 <input type="text"
                                                                     class="form-control ih-small form-control-default datepicker"
-                                                                    id="to_date" name="to_date" placeholder="End  Date" required value="<?php echo $to_date;?>">
+                                                                    id="to_date" name="to_date" placeholder="End  Date"
+                                                                    required value="<?php echo $to_date;?>">
                                                                 <a href="#"><span data-feather="calendar"></span></a>
                                                             </div>
                                                         </div>
 
                                                     </div>
                                                 </div>
-                                                                                  
+
                                             </div>
                                             <div class="row mt-3">
                                                 <?php if(!empty($offer_id)){ ?>
-                                                <div class="form-group">
+                                                <!-- <div class="form-group">
                                                     <div class="col-md-12">
                                                         <div class="checkbox-theme-default custom-checkbox ">
                                                             <input class="checkbox" type="checkbox"
@@ -211,8 +224,28 @@
                                                             </label>
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <?php } ?>
+                                                <div class="form-group">
+                                                    <div class="col-12">
+                                                        <div class="radio-horizontal-list d-flex">
+                                                            <div class="radio-theme-default custom-radio ">
+                                                                <input class="radio" type="radio"
+                                                                    name="text_is_active" value="1" id="text_is_active" <?php echo $is_active; ?>>
+                                                                <label for="text_is_active">
+                                                                    <span class="radio-text">Is Active</span>
+                                                                </label>
+                                                            </div>
+                                                            <div class="radio-theme-default custom-radio ">
+                                                                <input class="radio" type="radio"
+                                                                    name="text_is_active" value="2" id="text_is_upcomming" <?php echo $upcomming; ?>>
+                                                                <label for="text_is_upcomming">
+                                                                    <span class="radio-text">Up Commimng</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </div>
 
                                             <div class="form-group row mt-3">

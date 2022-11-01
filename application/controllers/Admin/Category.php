@@ -191,9 +191,9 @@ class Category extends CI_Controller
 			$child 		= $p_result[0]['child_category'];
 		}	
 		$short_code 		= strtolower($category_name);
-		$rep_char 			= array(" ",",","/","[","]","(",")","--","---","&");
+		$rep_char 			= array(" ",",","/","[","]","(",")","--","---","&","--");
 		$short_code 		= str_replace($rep_char,"-",$short_code);
-		$rep_char1 			= array("--","---","----","----");
+		$rep_char1 			= array("--","---","----","----","--");
 		$short_code 		= str_replace($rep_char1,"-",$short_code);
 		
 		$last_char = substr($short_code, -1);

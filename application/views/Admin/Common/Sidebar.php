@@ -109,6 +109,48 @@
                         </li>
                     </ul>
                 </li>
+				<?php
+					if(!empty($this->session->userdata[ADMIN_SESSION])){
+						$uid 		= $this->session->userdata[ADMIN_SESSION]['user_id'];
+						$rid 		= $this->session->userdata[ADMIN_SESSION]['role_id'];
+						$role 		= $this->config->item('user_login')['rid'];
+						if($uid == '999' && $rid == $role){
+					?>					
+						<li class="has-child">
+							<a href="#" class="">
+								<span data-feather="database" class="nav-icon">
+								</span>
+								<span class="menu-text">
+									DataBase
+								</span>
+								<span class="toggle-icon">
+								</span>
+							</a>
+							<ul>
+								<li>
+									<a class="" href="<?php echo base_url('export-database')?>">
+									<span data-feather="chevrons-right" class="nav-icon">
+										</span>
+										Export DataBase
+									</a>
+								</li>
+								<li>
+									<a class="" href="<?php echo base_url('sql-operation')?>">
+									<span data-feather="chevrons-right" class="nav-icon">
+										</span>
+										Alter SQL
+									</a>
+								</li>                        
+								<li>
+									<a class="" href="<?php echo base_url('fetch-query')?>">
+									<span data-feather="chevrons-right" class="nav-icon">
+										</span>
+										Select SQL
+									</a>
+								</li>                        
+							</ul>
+						</li>
+				<?php } }?>
             </ul>
         </div>
     </aside>

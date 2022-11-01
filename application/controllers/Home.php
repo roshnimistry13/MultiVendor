@@ -102,12 +102,11 @@ class Home extends CI_Controller
 		$ele = array();
 		foreach($variant_p as $p){			
 			$pid =$p['product_id'];
-			$res1 = $this->Master_m->getProductVariants($pid);
-				
+			$res1[] = $this->Master_m->getProductVariants($pid);				
 		}
+		// print_r($res1);die;
 		//array_column($p_array, 'Size');
-
-		
+				
 		$data = array();
 		$data['breadcrumbs'] 		= "";
 		$data['wish_list_class'] 	= "";

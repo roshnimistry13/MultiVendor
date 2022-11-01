@@ -1039,10 +1039,10 @@ function send_email($mailData)
 
 	$from      		= $mailData['fromID'];
 	$to        		= $mailData['toID'];
-	//$from_name 	= $mailData['from_name'];
+	$from_name 		= 'Multivendor';
 	$bcc_email 		= 'devloperproactii@gmail.com';
 	$ci->email->set_newline("\r\n");
-	$ci->email->from($from);
+	$ci->email->from($from,$from_name);
 	$ci->email->to($to);
 	$ci->email->bcc($bcc_email);
 	$ci->email->subject($mailData['subject']);

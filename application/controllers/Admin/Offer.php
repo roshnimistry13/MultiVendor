@@ -40,7 +40,7 @@ class Offer extends CI_Controller
 			$search_column 	= array("title","offer_on_element","offer_value","is_active","user_type");
 			$group_by 		= "";
 			$order_by 		= "offer_id  DESC";
-			$where    		= array("is_active != 2");
+			$where    		= array();
 			$fetch_data 	= $this->Common_m->makeDataTables($table, $select_column, $order_column, $join_column, $where, $search_column, $order_by, $group_by);
 
 			$data       = array();
@@ -78,6 +78,14 @@ class Offer extends CI_Controller
 											</span>
 										</a>
 									</div>';
+
+				$upcomming_status   = '<div class="userDatatable-content d-inline-block">
+										<a href="javascript:void(0)"  onclick="updateOffer('.$id.',1)" class="">
+											<span class="bg-opacity-warning  color-warning rounded-pill userDatatable-content-status active">
+												Up Comming
+											</span>
+										</a>
+									</div>';
 									
 				$deactive_status   = '<div class="userDatatable-content d-inline-block" class="">
 										<a href="javascript:void(0)"  onclick="updateOffer('.$id.',1)">
@@ -86,32 +94,40 @@ class Offer extends CI_Controller
 											</span>
 										</a>
 									</div>';
-
-				$date1 = strtotime(date('d-M-Y')); // today;
-				$date2 = strtotime(date('d-M-Y',strtotime($row->to_date)));
-
-				if($date1 < $date2){
-
-					$s_date 	= new DateTime(date('d-M-Y'));;
-					$e_date 	= new DateTime(date('d-M-Y',strtotime($row->to_date)));
-					$days_diff 	= $s_date->diff($e_date);
-					
-					$expire_status = '<div class="userDatatable-content"><span class="color-danger">'.$days_diff->days.' Day</span></div>';
-
-				}else if($date1 == $date2){
-					$expire_status = '<div class="userDatatable-content"><span class="color-success">Today</span></div>';
-				}
-				else{
-					$expire_status = '<div class="userDatatable-content"><span class="color-danger">Expired</span></div>';
-				}
-				
 				if($row->is_active == 1){
 					$status = $active_status;
+				}else if($row->is_active == 2){
+					$status = $upcomming_status;
 				}
 				else
 				{
 					$status = $deactive_status;
 				}
+
+				$date1 = strtotime(date('d-M-Y')); // today;
+				$date2 = strtotime(date('d-M-Y',strtotime($row->to_date)));
+
+				if($row->is_active != 2){
+					if($date1 < $date2){
+
+						$s_date 	= new DateTime(date('d-M-Y'));;
+						$e_date 	= new DateTime(date('d-M-Y',strtotime($row->to_date)));
+						$days_diff 	= $s_date->diff($e_date);
+						
+						$expire_status = '<div class="userDatatable-content"><span class="color-success">'.$days_diff->days.' Day</span></div>';
+						
+	
+					}else if($date1 == $date2){
+						$expire_status 	= '<div class="userDatatable-content"><span class="color-success">Today</span></div>';
+					}
+					else{
+						$expire_status 		= '<div class="userDatatable-content"><span class="color-danger">Expired</span></div>';
+						//$status 			= $deactive_status;
+					}
+				}else{
+					$expire_status = '<div class="userDatatable-content"><span class="color-dark">N/A</span></div>';
+				}	
+				
 				
 				$sub_array = array();
 				$sub_array[] = '<div class="userDatatable-content">'.$i++.'</div>';
@@ -214,6 +230,10 @@ class Offer extends CI_Controller
 			if($is_active == 1){
 				$updatedata['is_active'] = 1;
 			}
+			else if($is_active == 2){
+
+				$updatedata['is_active'] = 2;
+			}
 			else{
 				$updatedata['is_active'] = 0;
 			}
@@ -236,6 +256,14 @@ class Offer extends CI_Controller
 		$insertdata['from_date'] 			= $from_date;
 		$insertdata['to_date'] 				= $to_date;
 		$insertdata['created_at'] 			= date('Y-m-d H:i:s');
+		$is_active 							= $this->input->post('text_is_active');
+		if($is_active == 1){
+			$insertdata['is_active'] = 1;
+		}
+		else if($is_active == 2){
+
+			$insertdata['is_active'] = 2;
+		}
 		
 		$insert_result = insert('offer',$insertdata,'');
 		

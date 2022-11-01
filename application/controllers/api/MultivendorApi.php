@@ -1538,7 +1538,7 @@ class MultivendorApi extends REST_Controller
 		{
 			$best_seller = 1;
 			$results = $this->Master_m->getProductsList($category_id = NULL, $brand_id = NULL, $new_product = NULL, $best_seller);
-
+			
 			if(!empty($results))
 			{
 				$product = $this->setProductList($results);

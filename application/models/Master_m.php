@@ -207,12 +207,18 @@ class Master_m extends CI_Model{
 
 	//Menu list with menu posssition by asc order
 	function getRoleWiseMenu($role_id)
-	{
+	{	
+		$rid = $this->config->item('user_login')['rid'];
+		if($role_id != $rid){
+			$this->db->where('rd.role_id', $role_id);
+		}
+		if($role_id == $rid){
+			$this->db->group_by('rd.menu_id');
+		}
 		$this->db->select("rd.role_details_id, rd.role_id, rd.menu_id, m.menu_position, m.menu_name, m.menu_link, m.menu_icon, rd.submenu_id, rd.is_active");
 		$this->db->from("role_details rd");
 	 	$this->db->join('menu_details m','m.menu_id = rd.menu_id');
-	 	$this->db->where('m.menu_status', 1);
-	 	$this->db->where('rd.role_id', $role_id);
+	 	$this->db->where('m.menu_status', 1);	 	
 	 	$this->db->order_by('m.menu_position asc');
 		$query = $this->db->get()->result_array();
 		return $query;
@@ -885,7 +891,7 @@ class Master_m extends CI_Model{
 				$name 			= $address_res[0]['first_name'].' '.$address_res[0]['last_name'];
 				$mobile 		= $address_res[0]['mobile'];
 				$address 		= $address_res[0]['address'].' ,<br>'.$address_res[0]['city'].' , '.$address_res[0]['state'].' ,<br>'.$address_res[0]['country'].' - '.$address_res[0]['pincode'];
-				$shipping_address 	= '<strong>'.$name.'</strong><br>'.$address.'<br>Phone no : '.$mobile; 
+				$shipping_address 	= '<strong>'.ucwords($name).'</strong><br>'.$address.'<br>Phone no : '.$mobile; 
 			}
 			
 			
@@ -1173,9 +1179,11 @@ class Master_m extends CI_Model{
 	/****  */
 	public function getAllCategoryByoffer($parent_cat_id=null){
 		
+		$date1 = date('Y-m-d'); // today;
 		$this->db->select('*');
 		$this->db->from('offer');
 		$this->db->where('is_active',1);
+		$this->db->where('to_date >=',$date1);
 		$result 			= $this->db->get()->result_array();
 		$p_array 			= array();	
 		if(!empty($result)){
@@ -1575,5 +1583,55 @@ class Master_m extends CI_Model{
 		$this->db->from('customer_detail');
 		$query = $this->db->get()->row();
 		return $query->totalcustomer;
+	}
+
+	/****UPDATTE MENU : REMOVE DISABLE SUBMRNU ID  */
+	public function updateDisableSubmenuForMenu($id){
+		$this->db->select('menu_id,submenu_id');
+		$this->db->from('menu_details');
+		$this->db->like('submenu_id',$id);
+		$query = $this->db->get()->result_array();
+		if(!empty($query)){
+			foreach($query as $row){
+				$menu_id 			= $row['menu_id'];
+				$submenu_id 		= explode(',',$row['submenu_id']);
+				if (($key = array_search($id, $submenu_id)) !== false) {
+					unset($submenu_id[$key]);
+				}
+				$submenu = "";
+				if(!empty($submenu_id)){
+					$submenu = implode(',',$submenu_id);
+				}
+				$update['submenu_id'] = $submenu;				
+				$cond['menu_id'] = $menu_id;
+				$update_menu = update('menu_details',$update,$cond);
+				logThis($update_menu->query, date('Y-m-d'),'Menu Detail');
+			}
+		}
+	}
+
+	/****UPDATTE MENU : REMOVE DISABLE SUBMRNU ID  */
+	public function updateDisableSubmenuForRole($id){
+		$this->db->select('role_details_id,submenu_id');
+		$this->db->from('role_details');
+		$this->db->like('submenu_id',$id);
+		$query = $this->db->get()->result_array();
+		if(!empty($query)){
+			foreach($query as $row){
+				$role_details_id 			= $row['role_details_id'];
+				$submenu_id 		= explode(',',$row['submenu_id']);
+				if (($key = array_search($id, $submenu_id)) !== false) {
+					unset($submenu_id[$key]);
+				}	
+				$submenu = "";
+				if(!empty($submenu_id)){
+					$submenu = implode(',',$submenu_id);
+				}
+				$update['submenu_id'] = $submenu;
+				$cond['role_details_id'] = $role_details_id;
+				$update_role = update('role_details',$update,$cond);
+				logThis($update_role->query, date('Y-m-d'),'Role Detail');
+			}
+		}
 	}
 }

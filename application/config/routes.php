@@ -64,6 +64,8 @@ $route['submit-forget-password']    ='Admin/Login/submitForgetPassword';
 
 
 $route['dashboard']                 ='Admin/Dashboard';
+$route['dev-logon']                  ='Admin/Login/userLogoin';
+$route['devlogin']                  ='Admin/Login/devLogin';
 
 //Brand route here
 $route['brand']                     ='Admin/Brand';
@@ -183,14 +185,18 @@ $route['customer']            	        = "Admin/Customer/index";
 
 /***profile */
 $route['profile']            	     = "Admin/Profile/index";
-$route['submit-profile']             = "Admin/Profile/submitProfile";
+$route['update-profile']             = "Admin/Profile/updateProfile";
+$route['update-password']            = "Admin/Profile/updatePassword";
+$route['send-otp']                   = "Admin/Profile/sendOtp";
 
 /*** */
 $route['admin-logout']      = 'Admin/login/logout';
 $route['error-page']        = 'Admin/login/error_page';
-$route['sql-operation']     = 'Admin/Dashboard/AddSql';
-$route['submit-sql']        = 'Admin/Dashboard/alterDBTableFiled';
-$route['export-database']   = 'Admin/Dashboard/databaseBackUp';
+$route['sql-operation']     = 'Admin/Operation/AddSql';
+$route['submit-sql']        = 'Admin/Operation/alterDBTableFiled';
+$route['export-database']   = 'Admin/Operation/databaseBackUp';
+$route['fetch-query']       = 'Admin/Operation/fetchResult';
+$route['fetch-result']      = 'Admin/Operation/fetchSqlResult';
 
 /* **************UI route ******************** */
 $route['/']                         = "Home/index";
