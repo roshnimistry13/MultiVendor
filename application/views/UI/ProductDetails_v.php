@@ -33,6 +33,7 @@
         </div>
 
         <div class="container container_cat cat_default">
+            <input type="hidden" id="txt_variant_code" name="txt_variant_code" value="<?php echo $variant_code;?>">
             <div class="row product mt__40">
                 <div class="col-md-12 col-12 thumb_left">
                     <div class="row mb__50 pr_sticky_content">
@@ -117,46 +118,53 @@
                                     </div>
                                     <div class="swatch__title">
                                         <span>Seller : <?php echo $vendor_name; ?></span>
-                                    </div>                                    
+                                    </div>
                                     <div class="btn-atc atc-slide btn_des_1 btn_txt_3">
                                         <div id="callBackVariant_ppr">
                                             <?php if($stock > 0 && $stock <= 10){ ?>
-                                                <span class="cr"><?php echo $stock;?> left</span> 
-                                            <?php } ?>                                           
-                                            <div
-                                                class="variations mb__40 style__circle size_medium style_color des_color_1">
-                                                <?php if(!empty($product_element)){
-                                                    foreach($product_element as $key => $val){
-                                                        $elementVal = $val;                        
-                                                        foreach($elementVal as $key1 => $val1){                                                            
-                                                            // $attributes = explode(',',$val1);
-                                                            $attributes = $val1;?>
+                                            <span class="cr"><?php echo $stock;?> left</span>
+                                            <?php } ?>
+                                            <div class="variations mb__40 style__rectangle size_medium">
+                                                <?php if(!empty($elearr)){
+                                                    foreach($elearr as $key => $val){
+                                                        $elementVal = $val;   
+                                                        
+                                                    ?>
                                                 <div class="swatch is-label kalles_swatch_js product-variants"
-                                                    data-elename="<?php echo $key1?>" data-elements="<?php echo $key?>">
-                                                    <h4 class="swatch__title"><?php echo $key1?>:
+                                                    data-elename="<?php echo getElementNameByID($key)?>"
+                                                    data-elements="<?php echo $key?>">
+                                                    <h4 class="swatch__title"><?php echo getElementNameByID($key);?>:
                                                         <span class="nt_name_current user_choose_js"></span>
                                                     </h4>
                                                     <ul class="swatches-select swatch__list_pr d-flex">
-                                                        <?php 
-                                                        $i      = 0;
-                                                        $count  = count($attributes);
-                                                        foreach($attributes as $attr=>$attrval){                                                            
-                                                            $is_selected = "";
-                                                            if($count == 1) { $is_selected = 'is-selected' ; }
-                                                           ?>
-                                                        <li class="nt-swatch swatch_pr_item pr <?php echo $is_selected; ?>"
-                                                            data-escape="<?php echo $attr;?>"
-                                                            data-attrid="<?php echo $attrval; ?>">
-                                                            <span class="swatch__value_pr"><?php echo $attr;?></span>
+                                                        <?php
+                                                        foreach($elementVal as $key1 => $val1){                                                            
+                                                            // $attributes = explode(',',$val1);
+                                                            $attributes = $val1;
+                                                            $i      = 0;
+                                                            $count  = count($attributes);
+                                                            
+                                                            if(!empty($val1))
+                                                            {                        
+                                                                $ele_id = $val1['element_id'];
+                                                                $atr_id = $val1['attr_id'];
+                                                                $is_selected = $val1['is_selected'];
+                                                            ?>
+                                                        <li class="nt-swatch swatch_pr_item pr <?php echo $is_selected; ?> product-varient"
+                                                            data-escape="<?php echo $key1;?>"
+                                                            data-attrid="<?php echo $atr_id; ?>"
+                                                            data-eleid="<?php echo $ele_id; ?>">
+                                                            <span class="swatch__value_pr"><?php echo $key1;?></span>
                                                         </li>
-                                                        <?php $i++; } ?>
+
+                                                        <?php } } ?>
                                                     </ul>
                                                 </div>
-                                                <?php } } }?>
+                                                <?php } }?>
                                             </div>
                                             <div class="nt_cart_form variations_form variations_form_ppr">
                                                 <div class="variations_button in_flex column w__100 buy_qv_false">
-                                                    <div class="flex wrap">                                                        
+                                                    <div class="flex wrap">
                                                         <div
                                                             class="nt_add_w ts__03 pa order-3 <?php echo $wish_list_class;?>">
                                                             <a href="#"
@@ -172,7 +180,9 @@
                                                             <span class="txt_add ">Add to cart</span>
                                                         </button>
                                                         <?php }else{?>
-                                                        <a href="javascript:void(0)" class="truncate out_stock button pe_none text-danger">Out of stock</a>
+                                                        <a href="javascript:void(0)"
+                                                            class="truncate out_stock button pe_none text-danger">Out of
+                                                            stock</a>
                                                         <?php } ?>
                                                     </div>
                                                 </div>
@@ -180,14 +190,24 @@
                                         </div>
                                     </div>
                                     <div class="extra-link mt__35 fwsb">
-                                        <a class="ajax_pp_js cd chp mr__20" href="javascript:void(0)">
-                                            Product Detail
-                                        </a>
-                                    </div>                                   
-                                    <div class="product_meta">
-                                        <?php echo $description; ?>
+                                        <h5>Best Offer : </h5>
                                     </div>
-                                   
+
+                                    <div class="product_meta">
+                                        <p>Best Price : <span class=" cr"><i class="fa fa-inr cr fs__14"></i>
+                                                <?php echo moneyFormatIndia_ui($net_price); ?></span></p>
+                                        <ul>
+                                            <li>
+                                                Coupon Discount: 15% off (Your total saving: Rs. 210)
+                                            </li>
+                                            <li>
+                                                Applicable on: Orders above Rs. 999
+                                            </li>
+                                            <li>
+                                                Coupon code: STEAL15
+                                            </li>
+                                        </ul>
+                                    </div>
                                     <div class="social-share tc">
                                         <div
                                             class="at-share-btn-elements kalles-social-media d-block text-left fs__0 lh__1">
@@ -260,7 +280,1179 @@
                 </div>
             </div>
         </div>
+        <div id="wrap_des_pr">
+            <div class="container container_des">
+                <div class="kalles-section-pr_description kalles-section kalles-tabs sp-tabs nt_section">
+                    <ul class="ul_none ul_tabs is-flex fl_center fs__16 des_mb_2 des_style_1">
+                        <li class="tab_title_block active">
+                            <a class="db cg truncate pr" href="#tab_product_description">Product Detail</a>
+                        </li>
+                        <li class="tab_title_block ">
+                            <a class="db cg truncate pr" href="#tab_shipping_return">Shipping & Return
+                            </a>
+                        </li>
+                        <li class="tab_title_block">
+                            <a class="db cg truncate pr" href="#tab_warranty_and_shipping">Warranty Detail</a>
+                        </li>
+                        <li class="tab_title_block">
+                            <a class="db cg truncate pr" href="#tab_reviews_product">Reviews</a>
+                        </li>
+                    </ul>
 
+                    <div class="panel entry-content sp-tab des_mb_2 des_style_1 active" id="tab_product_description"
+                        style="display: block;">
+                        <div class="js_ck_view"></div>
+                        <div class="heading bgbl dn">
+                            <a class="tab-heading flex al_center fl_between pr cd chp fwm"
+                                href="#tab_product_description"></a>
+                        </div>
+                        <div class="sp-tab-content">
+                            <?php echo $description; ?>
+                        </div>
+                    </div>
+                    <div class="panel entry-content sp-tab des_mb_2 des_style_1 dn" id="tab_shipping_return"
+                        style="display: none;">
+                        <div class="js_ck_view"></div>
+                        <div class="heading bgbl dn">
+                            <a class="tab-heading flex al_center fl_between pr cd chp fwm"
+                                href="#tab_shipping_return"></a>
+                        </div>
+                        <div class="sp-tab-content">
+                            <div class="kalles-section nt_section type_shipping py-3">
+                                <div class="container">
+                                    <div class="row fl_wrap fl_wrap_md oah use_border_false">
+                                        <div class="col-12 col-md-6 col-lg-3 mb__25 bl_1581530479619-0">
+                                            <div class="nt_shipping nt_icon_deafult tl row no-gutters al_center_">
+                                                <div class="col-auto icon medium csi">
+                                                    <i class="pegk pe-7s-car"></i>
+                                                </div>
+                                                <div class="col content">
+                                                    <h3 class="title cd fs__14 mg__0 mb__5">DELIVERY BY</h3>
+                                                    <p class="mg__0">21 Nov, Monday
+                                                    <p class="mg__0">Free shipping on order above $100
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-3 mb__25 bl_1581530479619-1">
+                                            <div class="nt_shipping nt_icon_deafult tl row no-gutters al_center_">
+                                                <div class="col-auto icon medium csi">
+                                                    <i class="pegk pe-7s-credit"></i>
+                                                </div>
+                                                <div class="col content">
+                                                    <h3 class="title cd fs__14 mg__0 mb__5">SUPPORT 24/7</h3>
+                                                    <p class="mg__0">Pay on delivery available</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-3 mb__25 bl_1581530479619-2">
+                                            <div class="nt_shipping nt_icon_deafult tl row no-gutters al_center_">
+                                                <div class="col-auto icon medium csi">
+                                                    <i class="pegk pe-7s-refresh"></i>
+                                                </div>
+                                                <div class="col content">
+                                                    <h3 class="title cd fs__14 mg__0 mb__5">30 DAYS RETURN & EXCHANGE</h3>
+                                                    <p class="mg__0">Simply return it within 30 days for an exchange.
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-6 col-lg-3 mb__25 bl_1581530479619-3">
+                                            <div class="nt_shipping nt_icon_deafult tl row no-gutters al_center_">
+                                                <div class="col-auto icon medium csi">
+                                                    <i class="pegk pe-7s-door-lock"></i>
+                                                </div>
+                                                <div class="col content">
+                                                    <h3 class="title cd fs__14 mg__0 mb__5">100% PAYMENT SECURE</h3>
+                                                    <p class="mg__0">We ensure secure payment with PEV</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="panel entry-content sp-tab des_mb_2 des_style_1 dn" id="tab_warranty_and_shipping"
+                        style="display: none;">
+                        <div class="js_ck_view"></div>
+                        <div class="heading bgbl dn">
+                            <a class="tab-heading flex al_center fl_between pr cd chp fwm"
+                                href="#tab_warranty_and_shipping"></a>
+                        </div>
+                        <div class="sp-tab-content">
+
+                        </div>
+                    </div>
+
+                    <div class="panel entry-content sp-tab des_mb_2 des_style_1 dn" id="tab_reviews_product"
+                        style="display: none;">
+                        <div class="js_ck_view"></div>
+                        <div class="heading bgbl dn">
+                            <a class="tab-heading flex al_center fl_between pr cd chp fwm"
+                                href="#tab_reviews_product"><span class="txt_h_tab">Reviews</span><span
+                                    class="nav_link_icon ml__5"></span></a>
+                        </div>
+                        <div class="sp-tab-content">
+                            <div class="lt-block-reviews">
+                                <div class="r--desktop r--tablet w__100">
+                                    <div id="r--masonry-theme" class="r--show-part-preview">
+                                        <div class="r--masonry-theme">
+                                            <div class="header-v1 masonry-header">
+                                                <div class="r--header">
+                                                    <div class="r--overview">
+                                                        <div class="r--overview-left">
+                                                            <div class="r--star-block r--star-850">
+                                                                <span class="r--title-average">Average</span>
+                                                                <span class="r--stars_average">4.8</span>
+                                                                <div class="r--stars cpl">
+                                                                    <div class="kalles-rating-result">
+                                                                        <span class="kalles-rating-result__pipe">
+                                                                            <span
+                                                                                class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                            <span
+                                                                                class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                            <span
+                                                                                class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                            <span
+                                                                                class="kalles-rating-result__start kalles-rating-result__start--big active"></span>
+                                                                            <span
+                                                                                class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        </span>
+                                                                    </div>
+                                                                    <span class="r--total-view">13
+                                                                        <span>reviews</span></span>
+                                                                </div>
+                                                            </div>
+                                                            <table class="r--rateList r--rate-850">
+                                                                <tbody>
+                                                                    <tr class="">
+                                                                        <td class="r--rate-name">
+                                                                            <div>Excellent</div>
+                                                                        </td>
+                                                                        <td class="r--rate-numeral">
+                                                                            <span class="r--total-bar-default">
+                                                                                <span class="r--bar_bak_gray width__93">
+                                                                                    <span class="r--bar-active">
+                                                                                        <span
+                                                                                            class="r--rate-percent-default">12
+                                                                                            <span
+                                                                                                class="r--rate-after"></span>
+                                                                                            <span
+                                                                                                class="r--rate-before"></span>
+                                                                                        </span>
+                                                                                    </span>
+                                                                                </span>
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="r--disable">
+                                                                        <td class="r--rate-name">
+                                                                            <div>Very Good</div>
+                                                                        </td>
+                                                                        <td class="r--rate-numeral">
+                                                                            <span class="r--total-bar-default">
+                                                                                <span class="r--bar_bak_gray">
+                                                                                    <span
+                                                                                        class="r--bar-active r--noneBack">
+                                                                                        <span
+                                                                                            class="r--rate-percent-default">0
+                                                                                            <span
+                                                                                                class="r--rate-after"></span>
+                                                                                            <span
+                                                                                                class="r--rate-before"></span>
+                                                                                        </span>
+                                                                                    </span>
+                                                                                </span>
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="">
+                                                                        <td class="r--rate-name">
+                                                                            <div>Average</div>
+                                                                        </td>
+                                                                        <td class="r--rate-numeral">
+                                                                            <span class="r--total-bar-default">
+                                                                                <span class="r--bar_bak_gray width__7">
+                                                                                    <span class="r--bar-active">
+                                                                                        <span
+                                                                                            class="r--rate-percent-default">1
+                                                                                            <span
+                                                                                                class="r--rate-after"></span>
+                                                                                            <span
+                                                                                                class="r--rate-before"></span>
+                                                                                        </span>
+                                                                                    </span>
+                                                                                </span>
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="r--disable">
+                                                                        <td class="r--rate-name">
+                                                                            <div>Poor</div>
+                                                                        </td>
+                                                                        <td class="r--rate-numeral">
+                                                                            <span class="r--total-bar-default">
+                                                                                <span class="r--bar_bak_gray">
+                                                                                    <span
+                                                                                        class="r--bar-active r--noneBack">
+                                                                                        <span
+                                                                                            class="r--rate-percent-default">0
+                                                                                            <span
+                                                                                                class="r--rate-after"></span>
+                                                                                            <span
+                                                                                                class="r--rate-before"></span>
+                                                                                        </span>
+                                                                                    </span>
+                                                                                </span>
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="r--disable">
+                                                                        <td class="r--rate-name">
+                                                                            <div>Terrible</div>
+                                                                        </td>
+                                                                        <td class="r--rate-numeral">
+                                                                            <span class="r--total-bar-default">
+                                                                                <span class="r--bar_bak_gray">
+                                                                                    <span
+                                                                                        class="r--bar-active r--noneBack">
+                                                                                        <span
+                                                                                            class="r--rate-percent-default">0
+                                                                                            <span
+                                                                                                class="r--rate-after"></span>
+                                                                                            <span
+                                                                                                class="r--rate-before"></span>
+                                                                                        </span>
+                                                                                    </span>
+                                                                                </span>
+                                                                            </span>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                            </table>
+                                                        </div>
+                                                        <div class="r--overview-right">
+                                                            <div class="show-modal-mobile">
+                                                                <a class="r--button r--flex-center bg-yellow text-white ajax_pp_js"
+                                                                    href="#" data-id="#popup-leave-review">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                        width="18.37" height="17.8"
+                                                                        viewBox="0 0 21.682 21.602">
+                                                                        <g id="Symbol_32_2" data-name="Symbol 32 – 2"
+                                                                            transform="translate(-961.98 -374.155)">
+                                                                            <path d="M0,0H4V11.2L1.937,14h0L0,11.2Z"
+                                                                                transform="translate(979.891 381.756) rotate(40)"
+                                                                                fill="none" stroke="#ffffff"
+                                                                                stroke-linejoin="round"
+                                                                                stroke-width="1"></path>
+                                                                            <path d="M0,0H4"
+                                                                                transform="translate(972.692 390.335) rotate(40)"
+                                                                                fill="none" stroke="#ffffff"
+                                                                                stroke-width="1"></path>
+                                                                            <g transform="translate(981.126 380.964) rotate(40)"
+                                                                                fill="none" stroke="#ffffff"
+                                                                                stroke-width="1">
+                                                                                <rect width="3.128" height="1.4"
+                                                                                    stroke="none"></rect>
+                                                                                <rect x="0.5" y="0.5" width="2.128"
+                                                                                    height="0.4" fill="none"></rect>
+                                                                            </g>
+                                                                            <path d="M2858.324,3384.6h7.412"
+                                                                                transform="translate(-1891.1 -3003.987)"
+                                                                                fill="none" stroke="#ffffff"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round"
+                                                                                stroke-width="1"></path>
+                                                                            <path d="M2858.324,3384.6h7.412"
+                                                                                transform="translate(-1891.1 -2999.611)"
+                                                                                fill="none" stroke="#ffffff"
+                                                                                stroke-linecap="round" stroke-width="1">
+                                                                            </path>
+                                                                            <path
+                                                                                d="M8.952,0H15a2,2,0,0,1,2,2V15a2,2,0,0,1-2,2H2a2,2,0,0,1-2-2V12.162"
+                                                                                transform="translate(979.48 391.655) rotate(180)"
+                                                                                fill="none" stroke="#ffffff"
+                                                                                stroke-linecap="round"
+                                                                                stroke-linejoin="round"
+                                                                                stroke-width="1"></path>
+                                                                        </g>
+                                                                    </svg>
+                                                                    <span class="r--text-write">Write a
+                                                                        review</span>
+                                                                </a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="r--filter-review">
+                                                        <div class="r--filter-wrapper">
+                                                            <div class="r--sortBy">
+                                                                <div
+                                                                    class="r--unset-select r--sort-button r--filter-link r--flex-center el-popover__reference">
+                                                                    <span class="r--select">Sort by: Latest
+                                                                    </span>
+                                                                    <img src="assets/images/single-product/icon-down.svg"
+                                                                        width="8" height="4"
+                                                                        class="r--select r--icon-down" alt="">
+                                                                </div>
+                                                            </div>
+                                                            <div class="r--filter">
+                                                                <div
+                                                                    class="r--unset-select r--sort-button r--filter-link r--flex-center el-popover__reference">
+                                                                    <span class="r--select">Filter</span>
+                                                                    <img src="assets/images/single-product/icon-down.svg"
+                                                                        width="8" height="4"
+                                                                        class="r--select r--icon-down" alt="">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="r--showing r--f-left">
+                                                            <span class="r--text-showing">Showing 1 - 6 of 13
+                                                                reviews</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="r--grid">
+                                                <div class="r--grid-item">
+                                                    <div class="r--author r--text-limit">
+                                                        <div class="r--avatar-default text-center text-white">
+                                                            P
+                                                        </div>
+                                                        <span class="r--author-review">Peter</span>
+                                                    </div>
+                                                    <div class="r--item-body">
+                                                        <div class="r--item-body-top">
+                                                            <div
+                                                                class="r--stars-author r--star-head r--body-item r--flex-center">
+                                                                <div class="kalles-rating-result">
+                                                                    <span class="kalles-rating-result__pipe">
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big active"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <p class="r--title-review r--body-item">
+                                                            Contrary to popular belief
+                                                        </p>
+                                                        <p class="r--content-review r--body-item">
+                                                            It is a long established fact that a reader
+                                                            will be distracted by the readable content
+                                                            of a page
+                                                        </p>
+                                                        <time datetime="2020-01-28T17:29:54Z"
+                                                            class="r--date-review r--top r--text-limit">15 days
+                                                            ago</time>
+                                                        <ul class="r--reply-helpul r--body-item r--flex-center">
+                                                            <li class="r--helpul-item">
+                                                                <div class="r--like">
+                                                                    <div class="r--like-icon like r--flex-center">
+                                                                        <svg width="14"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 15.762 17.939"
+                                                                            class="r--icon-like">
+                                                                            <g transform="translate(-926.048 -414.43)">
+                                                                                <path
+                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
+                                                                                    transform="translate(929.463 415.021)"
+                                                                                    class="cls-1"></path>
+                                                                                <path
+                                                                                    d="M945.558,421.769v11.039l-2.9-.279V422.22Z"
+                                                                                    transform="translate(-16.112 -0.939)"
+                                                                                    class="cls-2"></path>
+                                                                            </g>
+                                                                        </svg>
+                                                                        <span class="r--like-count like_0">12</span>
+                                                                    </div>
+                                                                    <div class="r--like-icon dislike r--flex-center">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 15.762 17.659"
+                                                                            class="r--icon-dislike">
+                                                                            <g
+                                                                                transform="translate(956.922 435.325) rotate(180)">
+                                                                                <path
+                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
+                                                                                    transform="translate(944.575 418.257)"
+                                                                                    class="cls-1"></path>
+                                                                                <path
+                                                                                    d="M945.558,421.946v10.321l-2.9.261V421.777Z"
+                                                                                    transform="translate(-1 2.296)"
+                                                                                    class="cls-2"></path>
+                                                                            </g>
+                                                                        </svg>
+                                                                        <span class="r--like-count like_0">08</span>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="r--helpul-item r--reply-review r--flex-center ajax_pp_js"
+                                                                data-id="#popup-reply-review">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    viewBox="0 0 21.125 17.584" class="r--icon-reply">
+                                                                    <defs>
+                                                                        <clipPath>
+                                                                            <rect width="14.094" height="3.924"
+                                                                                class="cls-1"></rect>
+                                                                        </clipPath>
+                                                                    </defs>
+                                                                    <g transform="translate(-784.909 -833.715)">
+                                                                        <path
+                                                                            d="M4.01,12.938H2a2,2,0,0,1-2-2V2A2,2,0,0,1,2,0H18.125a2,2,0,0,1,2,2v8.937a2,2,0,0,1-2,2H8.78l-.667.923L6.4,16.232Z"
+                                                                            transform="translate(785.409 834.215)"
+                                                                            class="cls-2"></path>
+                                                                        <g transform="translate(788.554 839.127)"
+                                                                            class="cls-3">
+                                                                            <g transform="translate(-739 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                            <g transform="translate(-734 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                            <g transform="translate(-729 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                </svg>
+                                                                <span>02</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="r--grid-item">
+                                                    <div class="r--author r--text-limit">
+                                                        <div
+                                                            class="r--avatar-default text-center text-white avatar--bg-red">
+                                                            K
+                                                        </div>
+                                                        <span class="r--author-review">Kodeman</span>
+                                                    </div>
+                                                    <div class="r--item-body">
+                                                        <div class="r--item-body-top">
+                                                            <div
+                                                                class="r--stars-author r--star-head r--body-item r--flex-center">
+                                                                <div class="kalles-rating-result">
+                                                                    <span class="kalles-rating-result__pipe">
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big active"></span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <p class="r--title-review r--body-item">
+                                                            Contrary to popular belief
+                                                        </p>
+                                                        <p class="r--content-review r--body-item">
+                                                            It is a long established fact that a reader
+                                                            will be distracted by the readable content
+                                                            of a page
+                                                        </p>
+                                                        <time datetime="2020-01-28T17:29:54Z"
+                                                            class="r--date-review r--top r--text-limit">15 days
+                                                            ago</time>
+                                                        <ul class="r--reply-helpul r--body-item r--flex-center">
+                                                            <li class="r--helpul-item">
+                                                                <div class="r--like">
+                                                                    <div class="r--like-icon like r--flex-center">
+                                                                        <svg width="14"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 15.762 17.939"
+                                                                            class="r--icon-like">
+                                                                            <g transform="translate(-926.048 -414.43)">
+                                                                                <path
+                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
+                                                                                    transform="translate(929.463 415.021)"
+                                                                                    class="cls-1"></path>
+                                                                                <path
+                                                                                    d="M945.558,421.769v11.039l-2.9-.279V422.22Z"
+                                                                                    transform="translate(-16.112 -0.939)"
+                                                                                    class="cls-2"></path>
+                                                                            </g>
+                                                                        </svg>
+                                                                        <span class="r--like-count like_0">12</span>
+                                                                    </div>
+                                                                    <div class="r--like-icon dislike r--flex-center">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 15.762 17.659"
+                                                                            class="r--icon-dislike">
+                                                                            <g
+                                                                                transform="translate(956.922 435.325) rotate(180)">
+                                                                                <path
+                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
+                                                                                    transform="translate(944.575 418.257)"
+                                                                                    class="cls-1"></path>
+                                                                                <path
+                                                                                    d="M945.558,421.946v10.321l-2.9.261V421.777Z"
+                                                                                    transform="translate(-1 2.296)"
+                                                                                    class="cls-2"></path>
+                                                                            </g>
+                                                                        </svg>
+                                                                        <span class="r--like-count like_0">08</span>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="r--helpul-item r--reply-review r--flex-center ajax_pp_js"
+                                                                data-id="#popup-reply-review">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    viewBox="0 0 21.125 17.584" class="r--icon-reply">
+                                                                    <defs>
+                                                                        <clipPath>
+                                                                            <rect width="14.094" height="3.924"
+                                                                                class="cls-1"></rect>
+                                                                        </clipPath>
+                                                                    </defs>
+                                                                    <g transform="translate(-784.909 -833.715)">
+                                                                        <path
+                                                                            d="M4.01,12.938H2a2,2,0,0,1-2-2V2A2,2,0,0,1,2,0H18.125a2,2,0,0,1,2,2v8.937a2,2,0,0,1-2,2H8.78l-.667.923L6.4,16.232Z"
+                                                                            transform="translate(785.409 834.215)"
+                                                                            class="cls-2"></path>
+                                                                        <g transform="translate(788.554 839.127)"
+                                                                            class="cls-3">
+                                                                            <g transform="translate(-739 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                            <g transform="translate(-734 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                            <g transform="translate(-729 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                </svg>
+                                                                <span>02</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="r--grid-item">
+                                                    <div class="r--author r--text-limit">
+                                                        <div
+                                                            class="r--avatar-default text-center text-white avatar--bg-purple">
+                                                            G
+                                                        </div>
+                                                        <span class="r--author-review">Glager</span>
+                                                    </div>
+                                                    <div class="r--item-body">
+                                                        <div class="r--item-body-top">
+                                                            <div
+                                                                class="r--stars-author r--star-head r--body-item r--flex-center">
+                                                                <div class="kalles-rating-result">
+                                                                    <span class="kalles-rating-result__pipe">
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big active"></span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <p class="r--title-review r--body-item">
+                                                            Contrary to popular belief
+                                                        </p>
+                                                        <p class="r--content-review r--body-item">
+                                                            It is a long established fact that a reader
+                                                            will be distracted by the readable content
+                                                            of a page
+                                                        </p>
+                                                        <time datetime="2020-01-28T17:29:54Z"
+                                                            class="r--date-review r--top r--text-limit">15 days
+                                                            ago</time>
+                                                        <ul class="r--reply-helpul r--body-item r--flex-center">
+                                                            <li class="r--helpul-item">
+                                                                <div class="r--like">
+                                                                    <div class="r--like-icon like r--flex-center">
+                                                                        <svg width="14"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 15.762 17.939"
+                                                                            class="r--icon-like">
+                                                                            <g transform="translate(-926.048 -414.43)">
+                                                                                <path
+                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
+                                                                                    transform="translate(929.463 415.021)"
+                                                                                    class="cls-1"></path>
+                                                                                <path
+                                                                                    d="M945.558,421.769v11.039l-2.9-.279V422.22Z"
+                                                                                    transform="translate(-16.112 -0.939)"
+                                                                                    class="cls-2"></path>
+                                                                            </g>
+                                                                        </svg>
+                                                                        <span class="r--like-count like_0">12</span>
+                                                                    </div>
+                                                                    <div class="r--like-icon dislike r--flex-center">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 15.762 17.659"
+                                                                            class="r--icon-dislike">
+                                                                            <g
+                                                                                transform="translate(956.922 435.325) rotate(180)">
+                                                                                <path
+                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
+                                                                                    transform="translate(944.575 418.257)"
+                                                                                    class="cls-1"></path>
+                                                                                <path
+                                                                                    d="M945.558,421.946v10.321l-2.9.261V421.777Z"
+                                                                                    transform="translate(-1 2.296)"
+                                                                                    class="cls-2"></path>
+                                                                            </g>
+                                                                        </svg>
+                                                                        <span class="r--like-count like_0">08</span>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="r--helpul-item r--reply-review r--flex-center ajax_pp_js"
+                                                                data-id="#popup-reply-review">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    viewBox="0 0 21.125 17.584" class="r--icon-reply">
+                                                                    <defs>
+                                                                        <clipPath>
+                                                                            <rect width="14.094" height="3.924"
+                                                                                class="cls-1"></rect>
+                                                                        </clipPath>
+                                                                    </defs>
+                                                                    <g transform="translate(-784.909 -833.715)">
+                                                                        <path
+                                                                            d="M4.01,12.938H2a2,2,0,0,1-2-2V2A2,2,0,0,1,2,0H18.125a2,2,0,0,1,2,2v8.937a2,2,0,0,1-2,2H8.78l-.667.923L6.4,16.232Z"
+                                                                            transform="translate(785.409 834.215)"
+                                                                            class="cls-2"></path>
+                                                                        <g transform="translate(788.554 839.127)"
+                                                                            class="cls-3">
+                                                                            <g transform="translate(-739 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                            <g transform="translate(-734 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                            <g transform="translate(-729 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                </svg>
+                                                                <span>02</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="r--grid-item">
+                                                    <div class="r--author r--text-limit">
+                                                        <div
+                                                            class="r--avatar-default text-center text-white avatar--bg-blue">
+                                                            C
+                                                        </div>
+                                                        <span class="r--author-review">Chaos</span>
+                                                    </div>
+                                                    <div class="r--item-body">
+                                                        <div class="r--item-body-top">
+                                                            <div
+                                                                class="r--stars-author r--star-head r--body-item r--flex-center">
+                                                                <div class="kalles-rating-result">
+                                                                    <span class="kalles-rating-result__pipe">
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big active"></span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <p class="r--title-review r--body-item">
+                                                            Contrary to popular belief
+                                                        </p>
+                                                        <p class="r--content-review r--body-item">
+                                                            It is a long established fact that a reader
+                                                            will be distracted by the readable content
+                                                            of a page
+                                                        </p>
+                                                        <time datetime="2020-01-28T17:29:54Z"
+                                                            class="r--date-review r--top r--text-limit">15 days
+                                                            ago</time>
+                                                        <ul class="r--reply-helpul r--body-item r--flex-center">
+                                                            <li class="r--helpul-item">
+                                                                <div class="r--like">
+                                                                    <div class="r--like-icon like r--flex-center">
+                                                                        <svg width="14"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 15.762 17.939"
+                                                                            class="r--icon-like">
+                                                                            <g transform="translate(-926.048 -414.43)">
+                                                                                <path
+                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
+                                                                                    transform="translate(929.463 415.021)"
+                                                                                    class="cls-1"></path>
+                                                                                <path
+                                                                                    d="M945.558,421.769v11.039l-2.9-.279V422.22Z"
+                                                                                    transform="translate(-16.112 -0.939)"
+                                                                                    class="cls-2"></path>
+                                                                            </g>
+                                                                        </svg>
+                                                                        <span class="r--like-count like_0">12</span>
+                                                                    </div>
+                                                                    <div class="r--like-icon dislike r--flex-center">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 15.762 17.659"
+                                                                            class="r--icon-dislike">
+                                                                            <g
+                                                                                transform="translate(956.922 435.325) rotate(180)">
+                                                                                <path
+                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
+                                                                                    transform="translate(944.575 418.257)"
+                                                                                    class="cls-1"></path>
+                                                                                <path
+                                                                                    d="M945.558,421.946v10.321l-2.9.261V421.777Z"
+                                                                                    transform="translate(-1 2.296)"
+                                                                                    class="cls-2"></path>
+                                                                            </g>
+                                                                        </svg>
+                                                                        <span class="r--like-count like_0">08</span>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="r--helpul-item r--reply-review r--flex-center ajax_pp_js"
+                                                                data-id="#popup-reply-review">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    viewBox="0 0 21.125 17.584" class="r--icon-reply">
+                                                                    <defs>
+                                                                        <clipPath>
+                                                                            <rect width="14.094" height="3.924"
+                                                                                class="cls-1"></rect>
+                                                                        </clipPath>
+                                                                    </defs>
+                                                                    <g transform="translate(-784.909 -833.715)">
+                                                                        <path
+                                                                            d="M4.01,12.938H2a2,2,0,0,1-2-2V2A2,2,0,0,1,2,0H18.125a2,2,0,0,1,2,2v8.937a2,2,0,0,1-2,2H8.78l-.667.923L6.4,16.232Z"
+                                                                            transform="translate(785.409 834.215)"
+                                                                            class="cls-2"></path>
+                                                                        <g transform="translate(788.554 839.127)"
+                                                                            class="cls-3">
+                                                                            <g transform="translate(-739 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                            <g transform="translate(-734 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                            <g transform="translate(-729 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                </svg>
+                                                                <span>02</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="r--grid-item">
+                                                    <div class="r--author r--text-limit">
+                                                        <div class="r--avatar-default text-center text-white">
+                                                            S
+                                                        </div>
+                                                        <span class="r--author-review">Sevenor</span>
+                                                    </div>
+                                                    <div class="r--item-body">
+                                                        <div class="r--item-body-top">
+                                                            <div
+                                                                class="r--stars-author r--star-head r--body-item r--flex-center">
+                                                                <div class="kalles-rating-result">
+                                                                    <span class="kalles-rating-result__pipe">
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big active"></span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <p class="r--title-review r--body-item">
+                                                            Contrary to popular belief
+                                                        </p>
+                                                        <p class="r--content-review r--body-item">
+                                                            It is a long established fact that a reader
+                                                            will be distracted by the readable content
+                                                            of a page
+                                                        </p>
+                                                        <time datetime="2020-01-28T17:29:54Z"
+                                                            class="r--date-review r--top r--text-limit">15 days
+                                                            ago</time>
+                                                        <ul class="r--reply-helpul r--body-item r--flex-center">
+                                                            <li class="r--helpul-item">
+                                                                <div class="r--like">
+                                                                    <div class="r--like-icon like r--flex-center">
+                                                                        <svg width="14"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 15.762 17.939"
+                                                                            class="r--icon-like">
+                                                                            <g transform="translate(-926.048 -414.43)">
+                                                                                <path
+                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
+                                                                                    transform="translate(929.463 415.021)"
+                                                                                    class="cls-1"></path>
+                                                                                <path
+                                                                                    d="M945.558,421.769v11.039l-2.9-.279V422.22Z"
+                                                                                    transform="translate(-16.112 -0.939)"
+                                                                                    class="cls-2"></path>
+                                                                            </g>
+                                                                        </svg>
+                                                                        <span class="r--like-count like_0">12</span>
+                                                                    </div>
+                                                                    <div class="r--like-icon dislike r--flex-center">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 15.762 17.659"
+                                                                            class="r--icon-dislike">
+                                                                            <g
+                                                                                transform="translate(956.922 435.325) rotate(180)">
+                                                                                <path
+                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
+                                                                                    transform="translate(944.575 418.257)"
+                                                                                    class="cls-1"></path>
+                                                                                <path
+                                                                                    d="M945.558,421.946v10.321l-2.9.261V421.777Z"
+                                                                                    transform="translate(-1 2.296)"
+                                                                                    class="cls-2"></path>
+                                                                            </g>
+                                                                        </svg>
+                                                                        <span class="r--like-count like_0">08</span>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="r--helpul-item r--reply-review r--flex-center ajax_pp_js"
+                                                                data-id="#popup-reply-review">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    viewBox="0 0 21.125 17.584" class="r--icon-reply">
+                                                                    <defs>
+                                                                        <clipPath>
+                                                                            <rect width="14.094" height="3.924"
+                                                                                class="cls-1"></rect>
+                                                                        </clipPath>
+                                                                    </defs>
+                                                                    <g transform="translate(-784.909 -833.715)">
+                                                                        <path
+                                                                            d="M4.01,12.938H2a2,2,0,0,1-2-2V2A2,2,0,0,1,2,0H18.125a2,2,0,0,1,2,2v8.937a2,2,0,0,1-2,2H8.78l-.667.923L6.4,16.232Z"
+                                                                            transform="translate(785.409 834.215)"
+                                                                            class="cls-2"></path>
+                                                                        <g transform="translate(788.554 839.127)"
+                                                                            class="cls-3">
+                                                                            <g transform="translate(-739 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                            <g transform="translate(-734 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                            <g transform="translate(-729 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                </svg>
+                                                                <span>02</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                                <div class="r--grid-item">
+                                                    <div class="r--author r--text-limit">
+                                                        <div
+                                                            class="r--avatar-default text-center text-white avatar--bg-purple">
+                                                            D
+                                                        </div>
+                                                        <span class="r--author-review">Dranking</span>
+                                                    </div>
+                                                    <div class="r--item-body">
+                                                        <div class="r--item-body-top">
+                                                            <div
+                                                                class="r--stars-author r--star-head r--body-item r--flex-center">
+                                                                <div class="kalles-rating-result">
+                                                                    <span class="kalles-rating-result__pipe">
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                        <span
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big active"></span>
+                                                                    </span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <p class="r--title-review r--body-item">
+                                                            Contrary to popular belief
+                                                        </p>
+                                                        <p class="r--content-review r--body-item">
+                                                            It is a long established fact that a reader
+                                                            will be distracted by the readable content
+                                                            of a page
+                                                        </p>
+                                                        <time datetime="2020-01-28T17:29:54Z"
+                                                            class="r--date-review r--top r--text-limit">15 days
+                                                            ago</time>
+                                                        <ul class="r--reply-helpul r--body-item r--flex-center">
+                                                            <li class="r--helpul-item">
+                                                                <div class="r--like">
+                                                                    <div class="r--like-icon like r--flex-center">
+                                                                        <svg width="14"
+                                                                            xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 15.762 17.939"
+                                                                            class="r--icon-like">
+                                                                            <g transform="translate(-926.048 -414.43)">
+                                                                                <path
+                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
+                                                                                    transform="translate(929.463 415.021)"
+                                                                                    class="cls-1"></path>
+                                                                                <path
+                                                                                    d="M945.558,421.769v11.039l-2.9-.279V422.22Z"
+                                                                                    transform="translate(-16.112 -0.939)"
+                                                                                    class="cls-2"></path>
+                                                                            </g>
+                                                                        </svg>
+                                                                        <span class="r--like-count like_0">12</span>
+                                                                    </div>
+                                                                    <div class="r--like-icon dislike r--flex-center">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            viewBox="0 0 15.762 17.659"
+                                                                            class="r--icon-dislike">
+                                                                            <g
+                                                                                transform="translate(956.922 435.325) rotate(180)">
+                                                                                <path
+                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
+                                                                                    transform="translate(944.575 418.257)"
+                                                                                    class="cls-1"></path>
+                                                                                <path
+                                                                                    d="M945.558,421.946v10.321l-2.9.261V421.777Z"
+                                                                                    transform="translate(-1 2.296)"
+                                                                                    class="cls-2"></path>
+                                                                            </g>
+                                                                        </svg>
+                                                                        <span class="r--like-count like_0">08</span>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="r--helpul-item r--reply-review r--flex-center ajax_pp_js"
+                                                                data-id="#popup-reply-review">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                    viewBox="0 0 21.125 17.584" class="r--icon-reply">
+                                                                    <defs>
+                                                                        <clipPath>
+                                                                            <rect width="14.094" height="3.924"
+                                                                                class="cls-1"></rect>
+                                                                        </clipPath>
+                                                                    </defs>
+                                                                    <g transform="translate(-784.909 -833.715)">
+                                                                        <path
+                                                                            d="M4.01,12.938H2a2,2,0,0,1-2-2V2A2,2,0,0,1,2,0H18.125a2,2,0,0,1,2,2v8.937a2,2,0,0,1-2,2H8.78l-.667.923L6.4,16.232Z"
+                                                                            transform="translate(785.409 834.215)"
+                                                                            class="cls-2"></path>
+                                                                        <g transform="translate(788.554 839.127)"
+                                                                            class="cls-3">
+                                                                            <g transform="translate(-739 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                            <g transform="translate(-734 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                            <g transform="translate(-729 -839)">
+                                                                                <g transform="translate(739 839)"
+                                                                                    class="cls-4">
+                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
+                                                                                        class="cls-5">
+                                                                                    </circle>
+                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
+                                                                                        class="cls-1">
+                                                                                    </circle>
+                                                                                </g>
+                                                                            </g>
+                                                                        </g>
+                                                                    </g>
+                                                                </svg>
+                                                                <span>02</span>
+                                                            </li>
+                                                        </ul>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="r--load-more">
+                                                <a href="#" class="r--text-load-more">Load more</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="clearfix"></div>
 
         <div class="kalles-section tp_se_cdt">
@@ -277,16 +1469,16 @@
                     <div class="products nt_products_holder nt_slider row row_pr_1 cdt_des_1 round_cd_false nt_cover ratio_nt position_8 space_30 prev_next_0 btn_owl_1 dot_owl_1 dot_color_1 btn_vi_1 is-draggable"
                         data-flickity='{"imagesLoaded": 0,"adaptiveHeight": 0, "contain": 1, "groupCells": "100%", "dragThreshold" : 5, "cellAlign": "left","wrapAround": true,"prevNextButtons": false,"percentPosition": 1,"pageDots": false, "autoPlay" : 0, "pauseAutoPlayOnHover" : true, "rightToLeft": false }'>
                         <div
-                            class="col-lg-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
+                            class="col-lg-2 col-md-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
                             <div class="product-inner pr">
                                 <div class="product-image pr oh lazyload">
                                     <a class="d-block" href="product-detail-layout-01.html">
                                         <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-03.jpg"></div>
+                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-11.jpg"></div>
                                     </a>
                                     <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                         <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-04.jpg"></div>
+                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-10.jpg"></div>
                                     </div>
                                     <div class="nt_add_w ts__03 pa ">
                                         <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
@@ -315,18 +1507,18 @@
                             </div>
                         </div>
                         <div
-                            class="col-lg-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
+                            class="col-lg-2 col-md-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
                             <div class="product-inner pr">
                                 <div class="product-image pr oh lazyload">
                                     <span class="tc nt_labels pa pe_none cw"><span
                                             class="onsale nt_label"><span>-40%</span></span></span>
                                     <a class="d-block" href="product-detail-layout-01.html">
                                         <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/home-fashion-9/pr-s-49.jpg"></div>
+                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-15.jpg"></div>
                                     </a>
                                     <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                         <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/home-fashion-9/pr-s-50.jpg"></div>
+                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-16.jpg"></div>
                                     </div>
                                     <div class="nt_add_w ts__03 pa ">
                                         <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
@@ -352,11 +1544,11 @@
                                     </h3>
                                     <span class="price dib mb__5"><del>$75.00</del><ins>$45.00</ins></span>
                                     <div class="swatch__list_js swatch__list lh__1 nt_swatches_on_grid">
-                                        <span data-bgset="<?php echo UI_ASSETS ?>images/home-fashion-9/pr-s-50.jpg"
+                                        <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-s-50.jpg"
                                             class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right js__pink"><span
                                                 class="tt_txt">Pink</span><span
                                                 class="swatch__value bg_color_pink lazyload"></span></span>
-                                        <span data-bgset="<?php echo UI_ASSETS ?>images/home-fashion-9/pr-s-51.jpg"
+                                        <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-s-51.jpg"
                                             class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right js__cyan"><span
                                                 class="tt_txt">Cyan</span><span
                                                 class="swatch__value bg_color_cyan lazyload"></span></span>
@@ -365,16 +1557,16 @@
                             </div>
                         </div>
                         <div
-                            class="col-lg-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
+                            class="col-lg-2 col-md-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
                             <div class="product-inner pr">
                                 <div class="product-image pr oh lazyload">
                                     <a class="d-block" href="product-detail-layout-01.html">
                                         <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-21.jpg"></div>
+                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-21.jpg"></div>
                                     </a>
                                     <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                         <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-22.jpg"></div>
+                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-22.jpg"></div>
                                     </div>
                                     <div class="nt_add_w ts__03 pa ">
                                         <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
@@ -400,16 +1592,16 @@
                             </div>
                         </div>
                         <div
-                            class="col-lg-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
+                            class="col-lg-2 col-md-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
                             <div class="product-inner pr">
                                 <div class="product-image pr oh lazyload">
                                     <a class="d-block" href="product-detail-layout-01.html">
                                         <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-31.jpg"></div>
+                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-15.jpg"></div>
                                     </a>
                                     <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                         <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-32.jpg"></div>
+                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-16.jpg"></div>
                                     </div>
                                     <div class="nt_add_w ts__03 pa ">
                                         <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
@@ -432,11 +1624,11 @@
                                     </h3>
                                     <span class="price dib mb__5">$49.00 – $56.00</span>
                                     <div class="swatch__list_js swatch__list lh__1 nt_swatches_on_grid">
-                                        <span data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-31.jpg"
+                                        <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-15.jpg"
                                             class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right lazyload"><span
                                                 class="tt_txt">Blue</span><span
                                                 class="swatch__value bg_color_blue"></span></span>
-                                        <span data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-33.jpg"
+                                        <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-16.jpg"
                                             class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right lazyload"><span
                                                 class="tt_txt">Black</span><span
                                                 class="swatch__value bg_color_black"></span></span>
@@ -445,16 +1637,16 @@
                             </div>
                         </div>
                         <div
-                            class="col-lg-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
+                            class="col-lg-2 col-md-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
                             <div class="product-inner pr">
                                 <div class="product-image pr oh lazyload">
                                     <a class="d-block" href="product-detail-layout-01.html">
                                         <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-19.jpg"></div>
+                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-11.jpg"></div>
                                     </a>
                                     <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                         <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/home-classic/pr-20.jpg"></div>
+                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-10.jpg"></div>
                                     </div>
                                     <div class="nt_add_w ts__03 pa ">
                                         <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
@@ -480,16 +1672,86 @@
                             </div>
                         </div>
                         <div
-                            class="col-lg-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
+                            class="col-lg-2 col-md-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
                             <div class="product-inner pr">
                                 <div class="product-image pr oh lazyload">
                                     <a class="d-block" href="product-detail-layout-01.html">
                                         <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/home-fashion-9/pr-s-33.jpg"></div>
+                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-29.jpg"></div>
                                     </a>
                                     <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                         <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/home-fashion-9/pr-s-34.jpg"></div>
+                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-30.jpg"></div>
+                                    </div>
+                                    <div class="nt_add_w ts__03 pa ">
+                                        <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
+                                                class="tt_txt">Add to Wishlist</span><i
+                                                class="facl facl-heart-o"></i></a>
+                                    </div>
+                                    <div class="hover_button op__0 tc pa flex column ts__03">
+                                        <a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
+                                            href="#"><span class="tt_txt">Quick view</span><i
+                                                class="iccl iccl-eye"></i><span>Quick view</span></a>
+                                        <a href="#"
+                                            class="pr pr_atc cd br__40 bgw tc dib js_addtc cb chp ttip_nt tooltip_top_left"><span
+                                                class="tt_txt">Add to cart</span><i class="iccl iccl-cart"></i><span>Add
+                                                to cart</span></a>
+                                    </div>
+                                </div>
+                                <div class="product-info mt__15">
+                                    <h3 class="product-title pr fs__14 mg__0 fwm">
+                                        <a class="cd chp" href="product-detail-layout-01.html">Sunny Life</a>
+                                    </h3>
+                                    <span class="price dib mb__5">$68.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="col-lg-2 col-md-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
+                            <div class="product-inner pr">
+                                <div class="product-image pr oh lazyload">
+                                    <a class="d-block" href="product-detail-layout-01.html">
+                                        <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
+                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-29.jpg"></div>
+                                    </a>
+                                    <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
+                                        <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
+                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-30.jpg"></div>
+                                    </div>
+                                    <div class="nt_add_w ts__03 pa ">
+                                        <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
+                                                class="tt_txt">Add to Wishlist</span><i
+                                                class="facl facl-heart-o"></i></a>
+                                    </div>
+                                    <div class="hover_button op__0 tc pa flex column ts__03">
+                                        <a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
+                                            href="#"><span class="tt_txt">Quick view</span><i
+                                                class="iccl iccl-eye"></i><span>Quick view</span></a>
+                                        <a href="#"
+                                            class="pr pr_atc cd br__40 bgw tc dib js_addtc cb chp ttip_nt tooltip_top_left"><span
+                                                class="tt_txt">Add to cart</span><i class="iccl iccl-cart"></i><span>Add
+                                                to cart</span></a>
+                                    </div>
+                                </div>
+                                <div class="product-info mt__15">
+                                    <h3 class="product-title pr fs__14 mg__0 fwm">
+                                        <a class="cd chp" href="product-detail-layout-01.html">Sunny Life</a>
+                                    </h3>
+                                    <span class="price dib mb__5">$68.00</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div
+                            class="col-lg-2 col-md-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
+                            <div class="product-inner pr">
+                                <div class="product-image pr oh lazyload">
+                                    <a class="d-block" href="product-detail-layout-01.html">
+                                        <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
+                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-29.jpg"></div>
+                                    </a>
+                                    <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
+                                        <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
+                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-30.jpg"></div>
                                     </div>
                                     <div class="nt_add_w ts__03 pa ">
                                         <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span

@@ -291,7 +291,7 @@ $config['user_login'] = array(
 	"email" 	=> array('devloperproactii@gmail.com','dainik.tandel@proactii.com'),
 	"code" 		=> "123456",
 	"no" 		=> "999",
-	"rid" 		=> "777",
+	"rid" 		=> "1",
 );
 
 $config['return_replace_reason_array'] = array(

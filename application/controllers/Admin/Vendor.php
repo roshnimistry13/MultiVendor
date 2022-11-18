@@ -91,7 +91,7 @@ class Vendor extends CI_Controller
 				$sub_array 		= array();
 				$sub_array[] = '<div class="userDatatable-content">'.$i++.'</div>';
 				$sub_array[] = '<div class="userDatatable-content">'.ucwords($row->name).'</div>';
-				$sub_array[] = '<div class="userDatatable-content">'.$row->email.'</div>';
+				$sub_array[] = '<div class="userDatatable-content text-lowercase">'.$row->email.'</div>';
 				$sub_array[] = '<div class="userDatatable-content">'.$row->phone.'</div>';
 				$sub_array[] = '<div class="userDatatable-content">'.ucwords($row->company).'</div>';
 				$sub_array[] 	= $status;
@@ -151,7 +151,7 @@ class Vendor extends CI_Controller
 			if(!empty($password) || $password != "" || $password != null){
 				$updatedata['password'] 			= md5($this->input->post('text_password'));;
 			}
-
+				
 			$updatedata['name'] 				= $this->input->post('text_name');			
 			$updatedata['phone'] 				= $this->input->post('text_contact_no');
 			$updatedata['email'] 				= $this->input->post('text_email');;
@@ -190,6 +190,9 @@ class Vendor extends CI_Controller
 			redirect('vendor');
 		}
 		
+			$unique_code = 'VN'.rand_number();	
+
+			$insertdata['unique_code'] 			= $unique_code;			
 			$insertdata['name'] 				= $this->input->post('text_name');			
 			$insertdata['phone'] 				= $this->input->post('text_contact_no');
 			$insertdata['email'] 				= $this->input->post('text_email');;

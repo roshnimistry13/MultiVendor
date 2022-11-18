@@ -1,0 +1,1 @@
+"2022-11-08 01:47:54am "," update "," UPDATE parent_product_listing SET `parent_name` = 'Dennis Lingo Men Shirt' WHERE 1=1  and parent_product_listing_id = '2' "," ::1 "," URL: http://localhost/MultiVendor/submit-parent-product "," R: http://localhost/MultiVendor/edit-parent-product/2"

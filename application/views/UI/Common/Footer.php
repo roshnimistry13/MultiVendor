@@ -16,12 +16,9 @@
 			                            <div class="widget_footer">
 			                                <div class="footer-contact">
 			                                    <p>
-			                                        <a class="d-block" href="javascript:void(0)">
+			                                        <a class="d-block" href="<?php echo base_url();?>">
 			                                            <img class="w-100" src="<?php echo UI_ASSETS ?>images/mv-logo.png" alt=""
-			                                                data-src="<?php echo UI_ASSETS ?>images/svg/kalles.svg">
-			                                            <!-- <img class="w__100 mb__15 lz_op_ef lazyload max-width__95px"
-														src="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20220%2066%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3C%2Fsvg%3E"
-														alt="Kalles Template" data-src="<?php echo UI_ASSETS ?>images/svg/kalles.svg"> -->
+			                                                data-src="<?php echo UI_ASSETS ?>images/svg/kalles.svg">			                                            
 			                                        </a>
 			                                    </p>
 			                                    <p>
@@ -219,13 +216,7 @@
 			                                            </div>
 			                                        </div>
 			                                    </div>
-			                                </form>
-			                                <p class="mt__20">
-			                                    <img class="w__100 lz_op_ef lazyload w__max-width__197"
-			                                        data-src="<?php echo UI_ASSETS ?>images/payment2.png"
-			                                        src="data:image/svg+xml,%3Csvg%20viewBox%3D%220%200%20197%2020%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3C%2Fsvg%3E"
-			                                        alt="">
-			                                </p>
+			                                </form>			                                
 			                            </div>
 			                        </div>
 			                    </div>
@@ -272,10 +263,7 @@
 			        </div>
 			    </div>
 			</footer>
-
-
 			<!-- End Footer  -->
-
 
 			<!-- Modal : ADD ADDRESS -->
 			<?php $allcountry = getAllCountry(); ?>
@@ -540,10 +528,8 @@
 			    </div>
 			</div>
 
-
 			<div class="mask-overlay ntpf t__0 r__0 l__0 b__0 op__0 pe_none">
 			</div>
-
 		
 			<!-- CART ITEM   -->
 			<div id="nt_cart_canvas" class="nt_fk_canvas dn">
@@ -682,7 +668,6 @@
 			        </div>
 			    </div>
 			</div>
-
 
 			<div id="nt_login_canvas" class="nt_fk_canvas dn lazyload">
 			    <?php if(empty($this->session->userdata[CUSTOMER_SESSION])){?>
@@ -992,7 +977,6 @@
 			    <?php } ?>
 			</div>
 
-
 			<div id="kalles-section-toolbar_mobile" class="kalles-section">
 			    <div class="kalles_toolbar kalles_toolbar_label_true ntpf r__0 l__0 b__0 flex fl_between al_center">
 			        <div class="type_toolbar_shop kalles_toolbar_item">
@@ -1057,7 +1041,6 @@
 			        </div>
 			    </div>
 			</div>
-
 
 			<div id="nt_menu_canvas" class="nt_fk_canvas nt_sleft dn lazyload">
 			    <i class="close_pp pegk pe-7s-close ts__03 cd">
@@ -1276,7 +1259,6 @@
 			        </div>
 			    </div>
 			</div>
-
 
 			<a id="nt_backtop" class="pf br__50 z__100 des_bt1" href="#">
 			    <span class="tc br__50 db cw">
@@ -1950,9 +1932,9 @@
 			</div>
 			
 			<script>
-				var base_url = "<?php echo base_url(); ?>";
-				var PRODUCT_IMAGE_PATH = "<?php echo PRODUCT_IMAGE_PATH ?>";
-				var UI_ASSETS = "<?php echo UI_ASSETS ?>";
+				var base_url 					= "<?php echo base_url(); ?>";
+				var PRODUCT_IMAGE_PATH 			= "<?php echo PRODUCT_IMAGE_PATH ?>";
+				var UI_ASSETS 					= "<?php echo UI_ASSETS ?>";
 			</script>
 
 			<script type="text/javascript" src="<?php echo ASSETS ?>jquery/jquery.js"></script>
@@ -1961,6 +1943,7 @@
 			<script type="text/javascript" src="<?php echo UI_ASSETS ?>js/popper.min.js"></script>
 			<script type="text/javascript" src="<?php echo UI_ASSETS ?>js/bootstrap.min.js"></script>			
 			<script type="text/javascript" src="<?php echo UI_ASSETS ?>js/select2.min.js"></script>
+			<script type="text/javascript" src="<?php echo UI_ASSETS ?>js/nouislider.min.js"></script>
 
 			<script data-cfasync="false" src="<?php echo UI_ASSETS ?>js/cdn-cgi/email-decode.min.js"></script>
 			<!-- <script src="<?php echo UI_ASSETS ?>js/jquery-3.5.1.min.js"></script> -->
@@ -1985,5 +1968,4 @@
 			<script src="<?php echo UI_ASSETS ?>js/toastify-js.js"></script>
 			<script src="<?php echo UI_ASSETS ?>js/application/ui.js"></script>
 			</body>
-
 			</html>

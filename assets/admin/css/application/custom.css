@@ -662,6 +662,10 @@ a.disabled {
   font-size: 13px !important;
 }
 
+#divResult .dataTable ,
+#divResult .dataTables_scrollHeadInner {
+  width: 100% !important;
+}
 #divResult .dataTable thead tr th {
   color: #666d92 !important;
   /* font-size: 16px !important; */
@@ -669,4 +673,11 @@ a.disabled {
 }
 #divResult .dataTable tbody tr td {
   font-size: 14px !important;
+}
+#divResult .dataTable .userDatatable-title {
+  text-transform: none !important;
+}
+
+.color-span{
+  color: red !important;
 }

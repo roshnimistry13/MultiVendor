@@ -291,11 +291,11 @@
 
                                                         </div>
                                                         <div class="col-12">
-                                                            <div class="text-small mb-0 text-info">
+                                                            <div class="text-small mb-0">
                                                                 <strong> Request Reason :</strong>
                                                                 <span><?php echo $return_reason;?></span>
                                                             </div>
-                                                            <div class="text-small mb-0 text-info">
+                                                            <div class="text-small mb-0">
                                                                 <strong>Comment :</strong>
                                                                 <span><?php echo $comments;?></span>
                                                             </div>

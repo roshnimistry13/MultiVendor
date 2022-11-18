@@ -10,8 +10,7 @@ class Home extends CI_Controller
 
 	// Show Home page
 	public function index()
-	{
-		
+	{		
 		//Meta Data
 		$meta_data['meta_title']			= "Home | ".UI_THEME;
 		$meta_data['meta_description']		= "Home | ".UI_THEME;
@@ -58,23 +57,63 @@ class Home extends CI_Controller
 	public function product()
 	{
 		$this->session->unset_userdata('filter_sess');
-		$short_code 	= $this->input->get('category'); 
-		$category_id 	= $this->input->get('cid'); 
+		$short_code 			= $this->input->get('category'); 
+		$category_id 			= ''; 
+		$data['breadcrumbs'] 	= '';
 
 		if(!empty($short_code) && $short_code != ""){
-			$cat_cond['short_code'] = $short_code;
-        	$cat_result = $this->Master_m->where('category',$cat_cond);
+			$cat_cond['short_code'] 		= $short_code;
+        	$cat_result 					= $this->Master_m->where('category',$cat_cond);
 			if(!empty($cat_result)){
-				$cat_id = $cat_result[0]['category_id'];	
-
-				$session_data['category'] = $cat_id;
-				$session_data['brand'] = "";
-				$session_data['start_price'] = "";
-				$session_data['end_price'] = 10000;
+				$category_id 					= $cat_id 	= $cat_result[0]['category_id'];	
+				$session_data['category'] 		= $cat_id;
+				$session_data['brand'] 			= "";
+				$session_data['color'] 			= "";
+				$session_data['sortby'] 		= "";
+				$session_data['start_price'] 	= "";
+				$session_data['end_price'] 		= 10000;
 				$this->session->set_userdata('filter_sess', $session_data);
+
+				$cat_hierarchy 					= $this->Master_m->getCategoryhierarchy($cat_id);
+				$count 							= count($cat_hierarchy);
+				if(!empty($cat_hierarchy)){
+
+					$breadcrumbs			= '<i class="facl facl-angle-right"></i>';
+					$i 						= 1;
+					foreach($cat_hierarchy as $row){
+						if($count == $i){
+							$breadcrumbs .= $row;
+						}else{
+							$breadcrumbs .= '<a href="'.base_url('shop?category=').strtolower($row).'">'.$row.'</a><i class="facl facl-angle-right"></i>';
+						}					
+						$i++;
+					}
+					$data['breadcrumbs'] = $breadcrumbs;
+				}
 			}
 		}
-		$data['category_total_product'] = $this->Master_m->getCategoryTotalProduct();
+		$data['color_list']				= $this->Master_m->allProductFilterColor($category_id);
+		$totalCate						= $this->Master_m->getTotalCategoryCount($category_id);
+		$totalBrand						= $this->Master_m->getTotalBrandCount($category_id);
+		
+		// CATEGORY COUNT
+		$cat_arr						= array();
+		if(!empty($totalCate)){
+			foreach($totalCate as $key=>$val){
+				$cat_arr[$key] = count($val);
+			}
+		}
+		$data['category_total_product'] = $cat_arr;
+		
+		// BRAND COUNT
+		$brand_arr						= array();
+		if(!empty($totalBrand)){
+			foreach($totalBrand as $key1=>$val1){
+				$brand_arr[$key1] = count($val1);
+			}
+		}
+		$data['brnad_total_product'] = $brand_arr;
+		$data['category_id'] = $category_id;
 		
 		//Meta Data
 		$meta_data['meta_title']			= "Shop | ".UI_THEME;
@@ -92,21 +131,43 @@ class Home extends CI_Controller
 	public function productDetail()
 	{
 		$short_code 				= $this->uri->segment('2');
-		$product_id 				= $this->input->get('pid');
-		$product_detail 			= $this->Master_m->getAllProductDetails($product_id,$short_code);
+		$product_detail 			= $this->Master_m->getAllProductDetails(null,$short_code);
+		$variant_code 				= $product_detail[0]['variant_code'];
+		$product_id 				= $product_detail[0]['product_id'];
+		
+		if($variant_code != "" && $variant_code != null && !empty($variant_code)){
+			$variant_list 				= $this->Master_m->getVariationListByCode($variant_code);
+			array_multisort(array_column($variant_list, 'attributes_id'), SORT_ASC, $variant_list);
+			
+			$elearr 					= array();
+			$vararr 					= array();
+		
+			if(!empty($variant_list)){
+				foreach($variant_list as $item)
+				{
+					$pid 					= $item['product_id']; 
+					$element_id 			= $item['element_id']; 
+					$ele_name 				= getElementNameByID($element_id);
+					$attributes_id 			= $item['attributes_id']; 
+					$attr_name				= getAttributeNameByID($attributes_id);
+					$is_selected 			= "";
+					$enable 				= "";
 
-		$variant_p = $this->Master_m->getAllProductDetails(null,$short_code);
-		//print_r($variant_p);
-		$p_array = array();
-		$size_array = array();
-		$ele = array();
-		foreach($variant_p as $p){			
-			$pid =$p['product_id'];
-			$res1[] = $this->Master_m->getProductVariants($pid);				
+					$elearr[$element_id][$attr_name]['element_id'] 		= $element_id;
+					$elearr[$element_id][$attr_name]['attr_id'] 		= $attributes_id;
+					
+					$elearr[$element_id][$attr_name]['p_id'][] 			= $pid;	
+					if(in_array($product_id,$elearr[$element_id][$attr_name]['p_id'])){					
+						$is_selected 		= "is-selected";
+					}				
+					$elearr[$element_id][$attr_name]['is_selected'] 		= $is_selected;
+				}
+			}
+		}else{
+
+			$elearr 	= $this->Master_m->getProductElemetsAttributes($product_id);			
 		}
-		// print_r($res1);die;
-		//array_column($p_array, 'Size');
-				
+		
 		$data = array();
 		$data['breadcrumbs'] 		= "";
 		$data['wish_list_class'] 	= "";
@@ -116,20 +177,23 @@ class Home extends CI_Controller
 			$child_category 			= $product_detail[0]['child_category'];
 			$result 					= $this->Master_m->getCategoryhierarchy($child_category);
 			$count 						= count($result);
+			
 			if(!empty($result)){
+
 				$breadcrumbs			= '<a href="'.base_url('home').'">Home</a><i class="facl facl-angle-right"></i>';
 				$i 						= 1;
 				foreach($result as $row){
 					if($count == $i){
 						$breadcrumbs .= $row;
 					}else{
-						$breadcrumbs .= '<a href="javascript:void(0)">'.$row.'</a><i class="facl facl-angle-right"></i>';
+						$breadcrumbs .= '<a href="'.base_url('shop?category=').strtolower($row).'">'.$row.'</a><i class="facl facl-angle-right"></i>';
 					}					
 					$i++;
 				}
 				$data['breadcrumbs'] = $breadcrumbs;
 			}
 			if(!empty($this->session->userdata[CUSTOMER_SESSION])){
+
 				$customer_id 			= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
 				$wh['product_id'] 		= $product_id;
 				$wh['customer_id'] 		= $customer_id;
@@ -141,8 +205,11 @@ class Home extends CI_Controller
 				$addToRecent = $this->Master_m->addToRecentView($customer_id,$product_id);
 			}
 			
-			$data['product_element'] 	= $this->Master_m->getProductElemetsAttributes($product_id);			
+			//$data['product_element'] 	= $this->Master_m->getProductElemetsAttributes($product_id);			
 			$data['product_detail'] 	= $product_detail[0];
+			$data['elearr'] 		= $elearr;
+			$data['variant_code'] 	= $variant_code;
+			
 			//Meta Data
 			$meta_data['meta_title']				= "Shop | ".UI_THEME;
 			$meta_data['meta_description']			= "Shop | ".UI_THEME;
@@ -394,22 +461,63 @@ class Home extends CI_Controller
 
 		  if(empty($this->session->userdata('filter_sess'))){
 			  $filter['category'] 		= '';
+			  $filter['color'] 			= '';
 			  $filter['brand'] 			= '';
+			  $filter['sortby']			= '';
 			  $filter['start_price'] 	= 0;
 			  $filter['end_price'] 		= 100000;
 		  }
 		  else{
 			  $filter['category'] 			= $this->session->userdata['filter_sess']['category'];
+			  $filter['color'] 				= $this->session->userdata['filter_sess']['color'];
 			  $filter['brand'] 				= $this->session->userdata['filter_sess']['brand'];
 			  $filter['start_price'] 		= $this->session->userdata['filter_sess']['start_price'];
 			  $filter['end_price'] 			= $this->session->userdata['filter_sess']['end_price'];
+			  $filter['sortby'] 			= $this->session->userdata['filter_sess']['sortby'];
 		  }
 		
 		  $per_page 			= '';
 		  $rNo 					= '';
-		  $products_result 		= $this->Master_m->getFilterData($filter,$per_page,$rNo); 
+		  $products_result 		= $this->Master_m->getFilterData($filter,$per_page,$rNo);
 		  $allcount 			= count(array_filter($products_result));  
 		  $products 			= $this->Master_m->getFilterData($filter,ROW_PER_PAGE,$rowno);
+		  $elearr[] 			= array();
+		  $i=0;
+		
+		  foreach($products as $product){
+			$attr_arr 					= array();
+			$variant_code 				= $product['variant_code']; 
+			
+			if($variant_code != "" && $variant_code !=null && !empty($variant_code)){
+				$variant_list 				= $this->Master_m->getVariationListByCode($variant_code,null);
+			}
+			else{
+				$variant_list 				= $this->Master_m->getVariationListByCode(null,$product['product_id']);
+			}
+				//print_r($variant_list);
+			if(!empty($variant_list)){
+				array_multisort(array_column($variant_list, 'attributes_id'), SORT_ASC, $variant_list);
+				foreach($variant_list as $item)
+				{
+					$pid 					= $item['product_id']; 
+					$element_id 			= $item['element_id']; 
+					$ele_name 				= getElementNameByID($element_id);
+					$attributes_id 			= $item['attributes_id']; 
+					$attr_name				= getAttributeNameByID($attributes_id);
+					$attr_arr[$ele_name][$attr_name]		= $attr_name;		
+				}
+				
+				$varients_arr = array();
+				foreach($attr_arr as $ekey=>$evalue)
+				{
+					$varients_arr[$ekey]		= implode(', ',$evalue);;				
+				}
+				$elearr[$i] 				=  $product;
+				$elearr[$i]['variants'] 	=  $varients_arr;	
+			}
+			$i++;
+		}
+		
 		  $whish_product 		= array();
 		// print_r($products_result);
 		  if(!empty($this->session->userdata[CUSTOMER_SESSION])){
@@ -450,7 +558,7 @@ class Home extends CI_Controller
 	 
 		  $data['pagination'] 		= $this->pagination->create_links();  
 		  $data['whish_product'] 	= $whish_product;  
-		  $data['result'] 			= $products;  
+		  $data['result'] 			= $elearr;  
 		  $data['row'] 				= $rowno; 
 		 
 		  echo json_encode($data); 
@@ -458,6 +566,7 @@ class Home extends CI_Controller
 
 	/*** ADD TO CART ITEM */
 	public function addtocart(){
+		
 		$json = array();
 		if($this->input->is_ajax_request()){
 			if(!empty($this->session->userdata[CUSTOMER_SESSION])){
@@ -493,40 +602,103 @@ class Home extends CI_Controller
     {
        
         $category_id 		= $this->input->post("category");
+        $color_id 			= $this->input->post("color");
+        $brand_id 			= $this->input->post("brand");
+        $min_price 			= $this->input->post("min_price");
+        $max_price 			= $this->input->post("max_price");
+        $sortby 			= $this->input->post("sortby");
 		$whish_product 		= array();
-        //Get category name
+       
+		//CATEGORY NAME
         if(!empty($category_id))
         {
-        	$cat_cond['category_id'] = $category_id;
-        	$category_result = $this->Master_m->where('category',$cat_cond);
-			$data['category_name'] = $category_result[0]['category_name'];
+        	$cat_cond['category_id'] 		= $category_id;
+        	$category_result 				= $this->Master_m->where('category',$cat_cond);
+			$data['category_name'] 			= $category_result[0]['category_name'];
 		}
 		else{
 			$data['category_name'] = '';  
 		}
+
+		//COLOR NAME
+        if(!empty($color_id))
+        {
+			$data['color_name'] 			= getAttributeNameByID($color_id);;
+		}
+		else{
+			$data['color_name'] = '';  
+		}
+
+		//BRAND  NAME
+        if(!empty($brand_id))
+        {
+			$data['brand_name'] 			= getBrandNameByID($brand_id);;
+		}
+		else{
+			$data['brand_name'] = '';  
+		}
         
-       
         $session_data['category'] 			= $category_id;        
-        $session_data['brand'] 				= '';        
-        $session_data['start_price'] 		= 0;
-        $session_data['end_price'] 			= 100000;
+        $session_data['color'] 				= $color_id;        
+        $session_data['brand'] 				= $brand_id;        
+        $session_data['sortby'] 			= $sortby;        
+        $session_data['start_price'] 		= $min_price;
+        $session_data['end_price'] 			= $max_price;
 		$this->session->set_userdata('filter_sess', $session_data);
         
        	
         $filter['category'] 			= $this->session->userdata['filter_sess']['category'];
+        $filter['color'] 				= $this->session->userdata['filter_sess']['color'];
         $filter['brand'] 				= $this->session->userdata['filter_sess']['brand'];
         $filter['start_price'] 			= $this->session->userdata['filter_sess']['start_price'];
         $filter['end_price'] 			= $this->session->userdata['filter_sess']['end_price'];
+        $filter['sortby'] 				= $this->session->userdata['filter_sess']['sortby'];
         
         if($rowno != 0){  
           $rowno = ($rowno-1) * ROW_PER_PAGE;  
         }  
 		
-		$per_page = '';
-		$rNo = '';
-		$result = $this->Master_m->getFilterData($filter,$per_page,$rNo);
-        $allcount = count(array_filter($result));  
-        $products = $this->Master_m->getFilterData($filter,ROW_PER_PAGE,$rowno);
+		$per_page 		= '';
+		$rNo 			= '';
+		$result 		= $this->Master_m->getFilterData($filter,$per_page,$rNo);
+        $allcount 		= count(array_filter($result));  
+        $products 		= $this->Master_m->getFilterData($filter,ROW_PER_PAGE,$rowno);
+		
+		
+		$elearr 		= array(); 
+		$i=0;
+		foreach($products as $product){
+			$attr_arr 					= array();
+			$variant_code 				= $product['variant_code']; 
+			if($variant_code != "" && $variant_code !=null && !empty($variant_code)){
+				$variant_list 				= $this->Master_m->getVariationListByCode($variant_code,null);
+			}
+			else{
+				$variant_list 				= $this->Master_m->getVariationListByCode(null,$product['product_id']);
+			}
+				//print_r($variant_list);
+				if(!empty($variant_list)){
+					array_multisort(array_column($variant_list, 'attributes_id'), SORT_ASC, $variant_list);
+					foreach($variant_list as $item)
+					{
+						$pid 					= $item['product_id']; 
+						$element_id 			= $item['element_id']; 
+						$ele_name 				= getElementNameByID($element_id);
+						$attributes_id 			= $item['attributes_id']; 
+						$attr_name				= getAttributeNameByID($attributes_id);
+						$attr_arr[$ele_name][$attr_name]		= $attr_name;		
+					}
+					
+					$varients_arr = array();
+					foreach($attr_arr as $ekey=>$evalue)
+					{
+						$varients_arr[$ekey]		= implode(', ',$evalue);;				
+					}
+					$elearr[$i] 				=  $product;
+					$elearr[$i]['variants'] 	=  $varients_arr;	
+				}
+			$i++;
+		}
 
 		if(!empty($this->session->userdata[CUSTOMER_SESSION])){
 			$customer_id 				= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
@@ -565,9 +737,9 @@ class Home extends CI_Controller
 		  $this->pagination->initialize($config);  
 	 
 		$data['pagination'] 		= $this->pagination->create_links();  
-        $data['result'] = $products;  
-        $data['row'] = $rowno;  
-		$data['whish_product'] 	= $whish_product;  
+        $data['result'] 			= $elearr;  
+        $data['row'] 				= $rowno;  
+		$data['whish_product'] 		= $whish_product;  
         echo json_encode($data); 
     } 
 
@@ -1140,5 +1312,43 @@ class Home extends CI_Controller
 
 	public function errorPage(){
 		$this->load->view('UI/Error_404_v');
+	}
+
+	/**** SHOW VARIENT PRODUCT  */
+	public function getDataFromVarientCode(){	
+		
+		$json = array();		
+		if($this->input->is_ajax_request()){
+			$selectedElementsArr 		= $this->input->post('selectedElements');			
+			$res 						= $this->Master_m->getvariantproductBYeleattr();	
+			
+			$redirect_url 				= '';
+			if(!empty($res))
+			{
+				foreach($res as $row)
+				{
+					$p_id 				= $row['product_id'];
+					foreach($selectedElementsArr as $ele=>$attr){
+						$item_ele 		= $ele;
+						$item_attr 		= $attr;
+						$res1 			= $this->Master_m->getvariantproductBYSelectedeleattr($p_id,$item_ele,$item_attr);
+										
+						if(!empty($res1)) {
+							$redirect_url = base_url().'product-detail/'.$res1->short_code.'?pid='.$res1->product_id;
+						}else{
+							$redirect_url = base_url().'product-detail/'.$res[0]['short_code'].'?pid='.$res[0]['product_id'];
+						}						
+					}					
+				}
+			}
+			else
+			{
+				$redirect_url = base_url().'product-detail/'.$res[0]['short_code'].'?pid='.$res[0]['product_id'];
+			}			
+			$json['redirect_url'] = $redirect_url;
+			$json['success'] = "success";
+		}
+		$this->output->set_content_type('application/json', 'utf-8');
+		$this->output->set_output(json_encode($json));
 	}
 }

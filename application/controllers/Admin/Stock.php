@@ -65,6 +65,19 @@ class Stock extends CI_Controller
 				{
 					redirect('admin');
 				}
+				$whr['product_id'] = $id;
+				$eleattr = $this->Master_m->where('product_elements_attributes',$whr);
+				$eleattrarr = array();
+				$elediv = '';
+				foreach($eleattr as $ele){
+					$ele_id = $ele['element_id'];
+					$ele_name = $this->Master_m->getElementNameByID($ele_id);
+					$arrt_id = $ele['attributes_id'];
+					$arrt_name = getAttributeNameByID($arrt_id);
+					$elediv .='<span class="sub-title text-primary"><small>'.$ele_name.' : '.$arrt_name.'</small></span>&nbsp;';
+				}
+
+				//print_r($eleattrarr);
 				$available_stock = $row->stock;
 				if($available_stock <= 15){
 					$stock_badges = '<span class="badge badge-round badge-danger badge-md">'.$row->stock.'</span>';
@@ -86,7 +99,7 @@ class Stock extends CI_Controller
 				
 				$sub_array = array();
 				$sub_array[] = '<div class="userDatatable-content">'.$i++.'</div>';
-				$sub_array[] = '<div class="userDatatable-content word-break">'.$row->product_name.'</div>';
+				$sub_array[] = '<div class="userDatatable-content word-break py-1">'.$row->product_name.'<br>'.$elediv.'</div>';
 				$sub_array[] = '<div class="userDatatable-content word-break">'.$row->vendor_name.'</div>';
 				$sub_array[] = '<div class="userDatatable-content text-center">'.$stock_badges.'</div>';
 				$sub_array[] = $action;

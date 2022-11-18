@@ -6,6 +6,13 @@ jQuery(document).ready(function()
 	target = [0,6];
 
 	toDataTable(table_name,url,target,true);
+
+	if($('#parentproductDatatable').length){
+		table_name = 'parentproductDatatable';
+		url = base_url + "Admin/Product/bindparentProductDataTable";
+		target = [0,5];
+		toDataTable(table_name,url,target,true);
+	}		
 		
 	//product description editor	
 	new FroalaEditor('#text_description',
@@ -140,7 +147,7 @@ $("form[id='product-form']").validate(
 		{
 			form.submit();
 		}
-	});
+});
 
 
 //Update Product Status
@@ -435,3 +442,107 @@ $(document).delegate('.elements_attributes', 'change', function() {
 		$('.qty-ele-attr').addClass('d-none');
 	}
 });
+
+//product validation form
+$("form[id='parent-product-form']").validate(
+	{
+		// Specify validation rules
+		ignore: ".ignore",
+		
+		rules:
+		{
+		},
+		// Specify validation error messages
+		messages: {
+			text_parent_product_name		: {required: "Please enter product parent name"},
+		},
+		
+		errorPlacement: function(error, element) {
+			if (element.hasClass("select2")){
+        		error.insertAfter(element.parent());
+			}
+			else {
+				error.insertAfter(element);
+			}
+		}, 
+
+		highlight: function (element) {
+			$(element).addClass('vd_bd-red');
+		},
+
+		unhighlight: function (element) {
+			$(element).closest('.control-group').removeClass('error');
+		},
+
+		submitHandler: function(form)
+		{
+			form.submit();
+		}
+});
+
+$('#all_product_list').on('change', function(){
+	var product_id 			= $('#all_product_list').val();
+	var parent_product_id 	= $('#text_parent_product_id').val();
+	showLoader();
+	$.ajax({
+		url : base_url  + "Admin/Product/addVariantToProduct",
+		type : 'POST',
+		datatype :'json',
+		data: {'parent_product_id':parent_product_id,'product_id':product_id},
+		success: function(json) {
+			hideLoader();
+			if(json['success'] == "success"){
+				$('#all_product_list').html('');
+				var varientProduct  = json['varientProduct'];
+				var product_list  = json['product_list'];
+				$('.product-variant-form .table-responsive').html('');
+				$('.product-variant-form .table-responsive').html(varientProduct);
+				$('#all_product_list').html(product_list);
+			}else{
+				
+			}
+		}
+	});	
+
+});
+
+function removeVarientProduct(product_id){
+	Swal.fire(
+		{
+			title: 'Want to REMOVE Product ?',
+			text: "You won't be able to revert this!",
+			icon: 'warning',
+			showCancelButton: true,
+			confirmButtonColor: '#3085d6',
+			cancelButtonColor: '#d33',
+			confirmButtonText: 'Yes, REMOVE it!'
+		}).then((result) =>
+		{
+			if (result.value)
+			{				
+				var parent_product_id 	= $('#text_parent_product_id').val();
+				$.ajax(
+					{
+						"url" : base_url + "Admin/Product/removeVarientProduct",
+						type: 'post',
+						dataType: 'json',
+						data: {product_id : product_id,parent_product_id:parent_product_id},
+						success: function (json)
+						{
+							if(json['success'] == "success"){
+								$('#all_product_list').html('');
+								var varientProduct  = json['varientProduct'];
+								var product_list  = json['product_list'];
+								$('.product-variant-form .table-responsive').html('');
+								$('.product-variant-form .table-responsive').html(varientProduct);
+								$('#all_product_list').html(product_list);
+							}
+						},
+						error: function (textStatus, errorThrown)
+						{
+							console.log(textStatus);
+						}
+					});
+			}
+		})
+}

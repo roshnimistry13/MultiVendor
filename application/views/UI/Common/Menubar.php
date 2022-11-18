@@ -88,7 +88,7 @@
                                         </li>
                                         <li
                                             class="type_mega menu_wid_cus menu-item has-children menu_has_offsets menu_center pos_center">
-                                            <a class="lh__1 flex al_center pr" href="<?php echo base_url('shop')?>">
+                                            <a class="lh__1 flex al_center pr" href="<?php echo base_url('shop?category=men');?>">
                                                 Men
                                             </a>
                                             <div class="sub-menu">
@@ -109,7 +109,7 @@
                                         </li>
                                         <li
                                             class="type_mega menu_wid_cus menu-item has-children menu_has_offsets menu_center pos_center">
-                                            <a class="lh__1 flex al_center pr" href="<?php echo base_url('shop');?>">
+                                            <a class="lh__1 flex al_center pr" href="<?php echo base_url('shop?category=women');?>">
                                                 Women
                                             </a>
                                             <div class="sub-menu">
@@ -130,13 +130,13 @@
                                         </li>
                                         <li
                                             class="type_mega menu_wid_cus menu-item has-children menu_has_offsets menu_center pos_center">
-                                            <a class="lh__1 flex al_center pr" href="<?php echo base_url('shop');?>">
+                                            <a class="lh__1 flex al_center pr" href="<?php echo base_url('shop?category=kids');?>">
                                                 Kids
                                             </a>
                                             <div class="sub-menu">
                                                 <div class="lazy_menu lazyload">
-                                                    <?php if(!empty($kidsCategoryCategory)){
-                                                        foreach($kidsCategoryCategory as $kids){
+                                                    <?php if(!empty($kidsCategory)){
+                                                        foreach($kidsCategory as $kids){
                                                             $k_category_name      = $kids['category_name'];
                                                             $k_short_code         = $kids['short_code'];
                                                             $k_category_id        = $kids['category_id'];

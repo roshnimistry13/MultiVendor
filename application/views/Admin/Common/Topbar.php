@@ -16,7 +16,7 @@
 				$user_type 		= $this->session->userdata[ADMIN_SESSION]['user_type'];
 				$user_id 		= $this->session->userdata[ADMIN_SESSION]['user_id'];
 
-				$profile_path = PROFILE_IMG_PATH.$user_type.'/'.$user_id.'/'.$profile;
+				$profile_path = base_url().PROFILE_IMG_PATH.$user_type.'/'.$user_id.'/'.$profile;
 		?>
 		<div class="navbar-right">
 			<ul class="navbar-right__menu">

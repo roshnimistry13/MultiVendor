@@ -1,0 +1,39 @@
+<?php
+			if ( ! defined('dainik')) exit('No direct script access allowed');
+
+
+#Begin*****************************************************************************************************
+#Time : 10-11-2022 22:40:51 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/MultiVendor/edit-category/60 #ReferrerEnd
+#Current URL: http://localhost/MultiVendor/submit-category #CurrentURLEnd
+#Request : {"text_categroy_id":"60","text_category_name":"Women","text_parent_category":"","text_description":"Women's Cloting","txt_elements":["1","2","4"],"old_category_image":"","text_is_active":"1","check_services":["return","replace"],"txt_return_replace_validity":"10","txt_policy_covers":"Lorem ipsum dolor sit amet,","txt_policy_description":"<p><span style='color: rgb(0, 0, 0); font-family: \"Open Sans\", Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>Lorem ipsum dolor sit amet,<\/span> <span style='color: rgb(0, 0, 0); font-family: \"Open Sans\", Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>Lorem ipsum dolor sit amet,<\/span><\/p>"} #Requestend
+#Operation : UPDATE #Operationend
+#Message: 
+UPDATE category SET `child_category` = '' WHERE 1=1  and category_id = '0';
+#End*******************************************************************************************************
+
+
+#Begin*****************************************************************************************************
+#Time : 10-11-2022 22:40:52 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/MultiVendor/edit-category/60 #ReferrerEnd
+#Current URL: http://localhost/MultiVendor/submit-category #CurrentURLEnd
+#Request : {"text_categroy_id":"60","text_category_name":"Women","text_parent_category":"","text_description":"Women's Cloting","txt_elements":["1","2","4"],"old_category_image":"","text_is_active":"1","check_services":["return","replace"],"txt_return_replace_validity":"10","txt_policy_covers":"Lorem ipsum dolor sit amet,","txt_policy_description":"<p><span style='color: rgb(0, 0, 0); font-family: \"Open Sans\", Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>Lorem ipsum dolor sit amet,<\/span> <span style='color: rgb(0, 0, 0); font-family: \"Open Sans\", Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>Lorem ipsum dolor sit amet,<\/span><\/p>"} #Requestend
+#Operation : UPDATE #Operationend
+#Message: 
+UPDATE category SET `category_name` = 'Women', `short_code` = 'women', `parent_category_id` = '', `hierarchy` = '60', `element_id` = '1,2,4', `description` = 'Women's Cloting', `category_image` = '', `modified_by` = '1', `modified` = '2022-11-10 22:40:51', `return_or_replace` = 'return,replace', `return_replace_validity` = '10', `policy_covers` = 'Lorem ipsum dolor sit amet,', `return_policy` = '<p><span style='color: rgb(0, 0, 0); font-family: "Open Sans", Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>Lorem ipsum dolor sit amet,</span> <span style='color: rgb(0, 0, 0); font-family: "Open Sans", Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>Lorem ipsum dolor sit amet,</span></p>', `is_active` = 1 WHERE 1=1  and category_id = '60';
+#End*******************************************************************************************************
+
+
+#Begin*****************************************************************************************************
+#Time : 10-11-2022 22:40:52 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/MultiVendor/edit-category/60 #ReferrerEnd
+#Current URL: http://localhost/MultiVendor/submit-category #CurrentURLEnd
+#Request : {"text_categroy_id":"60","text_category_name":"Women","text_parent_category":"","text_description":"Women's Cloting","txt_elements":["1","2","4"],"old_category_image":"","text_is_active":"1","check_services":["return","replace"],"txt_return_replace_validity":"10","txt_policy_covers":"Lorem ipsum dolor sit amet,","txt_policy_description":"<p><span style='color: rgb(0, 0, 0); font-family: \"Open Sans\", Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>Lorem ipsum dolor sit amet,<\/span> <span style='color: rgb(0, 0, 0); font-family: \"Open Sans\", Arial, sans-serif; font-size: 14px; font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-align: justify; text-indent: 0px; text-transform: none; white-space: normal; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; background-color: rgb(255, 255, 255); text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial; display: inline !important; float: none;'>Lorem ipsum dolor sit amet,<\/span><\/p>"} #Requestend
+#Operation : UPDATE #Operationend
+#Message: 
+UPDATE category SET `child_category` = '60' WHERE 1=1  and category_id = '';
+#End*******************************************************************************************************
+

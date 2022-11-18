@@ -86,7 +86,7 @@ class Customer extends CI_Controller
 				$sub_array[] = '<div class="userDatatable-content">'.$i++.'</div>';
 				$sub_array[] = '<div class="userDatatable-content">'.$row->customer_name.'</div>';
 				$sub_array[] = '<div class="userDatatable-content">'.$row->mobile.'</div>';
-				$sub_array[] = '<div class="userDatatable-content">'.$row->email.'</div>';
+				$sub_array[] = '<div class="userDatatable-content text-lowercase">'.$row->email.'</div>';
 				$sub_array[] = '<div class="userDatatable-content">'.$status.'</div>';
 				$sub_array[] = $action;
 				$data[] = $sub_array;

@@ -3,7 +3,9 @@
 .myorder-page .r--tablet #r--masonry-theme .r--grid-item {
 	width: 100% !important;
 }
-
+.fw__400 {
+  font-weight: 400;
+}
 
 /**  label error color**/
 label.error {

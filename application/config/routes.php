@@ -109,6 +109,10 @@ $route['all-product']                   ='Admin/Product/index';
 $route['add-product']                   ='Admin/Product/addProduct';
 $route['edit-product/(:any)']           ='Admin/Product/editProduct';
 $route['submit-product']                ='Admin/Product/submitProduct';
+$route['parent-product']                ='Admin/Product/parentProducts';
+$route['add-parent-product']            ='Admin/Product/addparentProduct';
+$route['submit-parent-product']         ='Admin/Product/submitParentProduct';
+$route['edit-parent-product/(:any)']           ='Admin/Product/editParentProduct';
 
 //Submenu routes
 $route['submenu']            	        = "Admin/Submenu/index";
@@ -197,6 +201,8 @@ $route['submit-sql']        = 'Admin/Operation/alterDBTableFiled';
 $route['export-database']   = 'Admin/Operation/databaseBackUp';
 $route['fetch-query']       = 'Admin/Operation/fetchResult';
 $route['fetch-result']      = 'Admin/Operation/fetchSqlResult';
+$route['import-sql']        = 'Admin/Operation/importSql';
+$route['import-database']   = 'Admin/Operation/importDatabase';
 
 /* **************UI route ******************** */
 $route['/']                         = "Home/index";

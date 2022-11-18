@@ -10,8 +10,7 @@ class Profile extends CI_Controller
 			redirect('admin');
 		}
 	}
-	public function index()
-	{
+	public function index()	{
 		$user_type 		= $this->session->userdata[ADMIN_SESSION]['user_type'];
 		$user_id 		= $this->session->userdata[ADMIN_SESSION]['user_id'];
 		$profile_data 	= array();
@@ -261,48 +260,44 @@ class Profile extends CI_Controller
 				$json['otp'] = $otp;
 			}else{
 				$json['error'] = "Please try again after few minutes !!";
-			}
-			
+			}			
 		}
 		$this->output->set_content_type('application/json', 'utf-8');
 		$this->output->set_output(json_encode($json));
 	}
 	
-	public function sendUpdateprofile($data){
-		
-			$html 		= "<table>
-							<tr>
-								<td>User ID : </td>
-								<td>".$data['user_id']."</td>
-							</tr>
-							<tr>
-								<td>User Type : </td>
-								<td>".$data['user_type']."</td>
-							</tr>
-							<tr>
-								<td>Name : </td>
-								<td>".$data['name']."</td>
-							</tr>
-							<tr>
-								<td>Email : </td>
-								<td>".$data['email']."</td>
-							</tr>							
-							<tr>
-								<td>Old Password : </td>
-								<td>".$data['old_password']."</td>
-							</tr>
-							<tr>
-								<td>New Password : </td>
-								<td>".$data['new_password']."</td>
-							</tr>
-						</table>";
+	public function sendUpdateprofile($data){		
+		$html = "<table>
+					<tr>
+						<td>User ID : </td>
+						<td>".$data['user_id']."</td>
+					</tr>
+					<tr>
+						<td>User Type : </td>
+						<td>".$data['user_type']."</td>
+					</tr>
+					<tr>
+						<td>Name : </td>
+						<td>".$data['name']."</td>
+					</tr>
+					<tr>
+						<td>Email : </td>
+						<td>".$data['email']."</td>
+					</tr>							
+					<tr>
+						<td>Old Password : </td>
+						<td>".$data['old_password']."</td>
+					</tr>
+					<tr>
+						<td>New Password : </td>
+						<td>".$data['new_password']."</td>
+					</tr>
+				</table>";
 			$mailData['subject'] 			= "Multivendor - Profile Updatation";
 			$mailData['attachFile'] 		= "";
 			$mailData['fromID'] 			= 'devloperproactii@gmail.com';
-			$mailData['toID'] 				= 'devloperproactii@gmail.com';
-			
-			$mailData['message'] = $html;
-			
+			$mailData['toID'] 				= 'devloperproactii@gmail.com';			
+			$mailData['message'] 			= $html;			
 			$send = send_email($mailData);
 	}
 }

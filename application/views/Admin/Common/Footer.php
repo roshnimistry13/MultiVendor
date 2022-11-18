@@ -11,28 +11,7 @@
                     </p>
                 </div>
             </div>
-            <div class="col-md-6">
-                <div class="footer-menu text-right">
-                    <ul>
-                        <li>
-                            <a href="#">
-                                About
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Team
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#">
-                                Contact
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <!-- ends: .Footer Menu -->
-            </div>
+            
         </div>
     </div>
 </footer>
@@ -78,6 +57,8 @@
 <script src="<?php echo ADMIN_ASSETS ?>js/dataTable/buttons.print.min.js">
 </script>
 <script src="<?php echo ADMIN_ASSETS ?>js/dataTable/jszip.min.js">
+</script>
+<script src="<?php echo ADMIN_ASSETS ?>js/bootstrap-select.min.js">
 </script>
 
 <!--Datatable.js-->

@@ -135,6 +135,13 @@
 									</a>
 								</li>
 								<li>
+									<a class="" href="<?php echo base_url('import-sql')?>">
+									<span data-feather="chevrons-right" class="nav-icon">
+										</span>
+										Import SQL
+									</a>
+								</li>
+								<li>
 									<a class="" href="<?php echo base_url('sql-operation')?>">
 									<span data-feather="chevrons-right" class="nav-icon">
 										</span>
@@ -147,7 +154,7 @@
 										</span>
 										Select SQL
 									</a>
-								</li>                        
+								</li>                  
 							</ul>
 						</li>
 				<?php } }?>

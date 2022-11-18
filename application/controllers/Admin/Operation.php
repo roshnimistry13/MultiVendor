@@ -185,51 +185,116 @@ class Operation extends CI_Controller
 			
 			if(!empty($sql)){				
 
-				$result = mysqli_query($conn, $sql);
-				$num    = mysqli_num_rows($result);	
-				if($num > 0){
-					$k = 0;
-					//$i = 0;
-					$tot_col = 0;
-					$table = '<div class="table-responsive"><table class="table" id="query_datatable_result">
-					<thead>
-					<tr>';
-					while($row = $result->fetch_assoc())
-					{
-						if($k == 0)
+				$result = mysqli_query($conn, $sql);				
+				if($conn -> error){
+
+					$json['error'] = $conn -> error;
+
+				}else{	
+					$num    = mysqli_num_rows($result);	
+					if($num > 0){
+						$k = 0;
+						//$i = 0;
+						$tot_col = 0;
+						$table = '<div class="table-responsive"><table class="table" id="query_datatable_result">
+						<thead>
+						<tr>';
+						while($row = $result->fetch_assoc())
 						{
-							foreach($row as $key=>$value)
+							if($k == 0)
 							{
-								$table .= '<th><span class="userDatatable-title">'.$key.'</th></span>';
+								foreach($row as $key=>$value)
+								{
+									$table .= '<th><span class="userDatatable-title">'.$key.'</th></span>';
+								}
+								$k = 1;
+								$table .= '</tr>
+								</thead>
+								<tbody>';
 							}
-							$k = 1;
-							$table .= '</tr>
-							</thead>
-							<tbody>';
-						}
-						$table .= '<tr>';
-						foreach($row as $key1=>$value1)
-						{
-							$table .= '<td class="userDatatable-content">'.$value1.'</td>';
-						}
+							$table .= '<tr>';
+							foreach($row as $key1=>$value1)
+							{
+								$table .= '<td class="userDatatable-content">'.$value1.'</td>';
+							}
 
-						$table .= '</tr>';
+							$table .= '</tr>';
 
+						}
+						$table .= '</tbody>
+						</table></div>';
+						$json['success'] = 'success';
+						$json['table'] = $table;
+					}else{
+						$json['error'] = 'No data found';
 					}
-					$table .= '</tbody>
-					</table></div>';
-					
-					$json['success'] = 'success';
-					$json['table'] = $table;
-				}else{
-					$json['error'] = 'error';
-					$json['table'] = 'No data found';
 				}
-				
 				$this->output->set_content_type('application/json', 'utf-8');
 				$this->output->set_output(json_encode($json));
 			}
 					
 		}			
+	}
+
+	public function importSql(){
+		$role_id 	= $this->session->userdata[ADMIN_SESSION]['role_id'];
+		$rid 		= $this->config->item('user_login')['rid'];
+		if($role_id == $rid){
+			$headdata['title'] 		= 'SQL | '.ADMIN_THEME;		
+			$headdata['page'] 		= "sql-operation";
+			$jsdata['pagejs'] 		= array('application/sql.js');
+			$this->load->view('Admin/Common/Header',$headdata);
+			$this->load->view('Admin/Common/Topbar');
+			$this->load->view('Admin/Common/Sidebar');
+			$this->load->view('Admin/Sql/Import_v');
+			$this->load->view('Admin/Common/Footer',$jsdata);
+		}else{
+			redirect('error-page');
+		}
+	}
+
+	public function importDatabase(){
+		$json = array();
+		if($_FILES["database"]["name"] != ''){
+
+			$array = explode(".", $_FILES["database"]["name"]);
+			$extension = end($array);
+
+			if($extension == 'sql'){
+
+				$mysqlUserName = DBUSER;
+				$mysqlPassword = DBPASS;
+				$mysqlHostName = DBHOST;
+				$DbName        = "ci4";
+				$conn      		= new mysqli($mysqlHostName,$mysqlUserName,$mysqlPassword,$DbName);
+
+				$output = '';
+				$count = 0;
+				$file_data = file($_FILES["database"]["tmp_name"]);
+				foreach($file_data as $row){
+					$start_character = substr(trim($row), 0, 2);
+					if($start_character != '--' || $start_character != '/*' || $start_character != '//' || $row != '')
+					{
+						$output = $output . $row;
+						$end_character = substr(trim($row), -1, 1);
+						if($end_character == ';')
+						{
+							if(!mysqli_query($conn, $output)) {
+								$count++;
+							}
+						$output = '';
+						}
+					}
+				}
+				if($count > 0) {
+					$json['error'] = 'There is an error in Database Import';
+				}
+				else {
+					$json['success'] = 'Database Successfully Imported';
+				}
+			}
+		}
+		$this->output->set_content_type('application/json', 'utf-8');
+		$this->output->set_output(json_encode($json));
 	}
 }

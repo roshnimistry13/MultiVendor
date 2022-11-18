@@ -147,7 +147,8 @@
 	display: block;
 	color: #878787;
 	line-height: 1.5;
-	padding: 14px 15px;
+	/* padding: 14px 15px; */
+	padding: 5px 10px;
 }
 .sub-column-item .sub-column > li a {
 	padding: 10px 0;
@@ -539,6 +540,7 @@
 	z-index: 2;
 	text-shadow: -1px -1px 1px rgba(255, 255, 255, 0.1),
 		1px 1px 1px rgba(0, 0, 0, 0.15);
+		background-color: #00000059;
 }
 .pr_grid_item .product-image:hover .hover_button {
 	opacity: 1;
@@ -966,14 +968,29 @@ svg.ic_triangle_svg {
 	height: 44px;
 	background-color: #222;
 	color: #fff;
+	
+}
+.product-grid-container .tab-heading .nav_link_icon {
+	width: 20px;
+	height: 20px;
+	color: #000;
+	background-color:inherit;
 }
 .tab-heading .nav_link_icon:before {
 	width: 15px;
 	height: 2px;
 }
+.product-grid-container .tab-heading .nav_link_icon:before {
+	width: 10px;
+	height: 2px;
+}
 .tab-heading .nav_link_icon:after {
-	width: 2px;
+	width: 2px;	
 	height: 15px;
+}
+.product-grid-container .tab-heading .nav_link_icon:after {
+	width: 2px;
+	height: 10px;
 }
 li.menu-item.menu-item-infos {
 	border-bottom: 1px solid rgba(129, 129, 129, 0.2);
@@ -2600,10 +2617,11 @@ button.mfp-close:hover {
 }
 .section_sidebar_shop ul {
 	list-style: none;
+	padding: 0px 15px;
 }
 .section_nt_filter ul,
 .section_sidebar_shop ul.nt_filter_block {
-	max-height: 250px;
+	max-height: 120px;
 	list-style: none;
 	overflow-y: auto;
 	overflow-x: hidden;
@@ -3243,6 +3261,12 @@ body .tooltip_bottom_right:hover .tt_txt {
 	margin-top: 0;
 	font-size: 18px;
 }
+.product-grid-container .widget h5.widget-title {
+	position: relative;
+	padding-bottom: 20px;
+	margin: 0;
+	font-size: 16px;
+}
 .widget h5.widget-title:after {
 	content: "";
 	width: 60px;
@@ -3253,7 +3277,7 @@ body .tooltip_bottom_right:hover .tt_txt {
 	position: absolute;
 }
 .sidebar .widget:not(:first-child) {
-	margin-top: 50px;
+	margin-top: 20px;
 }
 .sidebar .widget_product_categories ul li {
 	padding-left: 15px;
@@ -8374,14 +8398,23 @@ input.search_header__input:not([type="submit"]):not([type="checkbox"]) {
 .product-image:hover a.db:before,
 .product-image:hover a.wishlistadd,
 .product-image:hover .nt_add_cp > a,
-.product-image:hover a.nt_w_login,
-.product-image:hover .product-attr {
+.product-image:hover a.nt_w_login{
 	opacity: 1;
 	visibility: visible;
 	-webkit-transition: opacity 0.3s ease-in-out;
 	-moz-transition: opacity 0.3s ease-in-out;
 	-o-transition: opacity 0.3s ease-in-out;
 	transition: opacity 0.3s ease-in-out;
+}
+
+.product-inner:hover .product-attr {
+	opacity: 1;
+	visibility: visible;
+	-webkit-transition: opacity 0.3s ease-in-out;
+	-moz-transition: opacity 0.3s ease-in-out;
+	-o-transition: opacity 0.3s ease-in-out;
+	transition: opacity 0.3s ease-in-out;
+	line-height: 15px !important;
 }
 @media (min-width: 1025px) {
 	.nt_label {

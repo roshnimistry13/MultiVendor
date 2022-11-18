@@ -19,6 +19,7 @@
         <!-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"> -->
         <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/select2.min.css">
     <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/font-awesome.min.css">
+    <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/nouislider.min.css">
     <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/drift-basic.min.css">
     <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/photoswipe.css">
     <link rel="stylesheet" href="<?php echo UI_ASSETS ?>css/font-icon.min.css">

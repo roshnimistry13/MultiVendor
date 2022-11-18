@@ -665,9 +665,9 @@
 		}
 		$this.addClass("loaded_swatch");
 		image.attr("data-bgset", imageBg).attr("data-id", id);
-		product
-			.find("a")
-			.attr("href", href.split("?variant=")[0] + "?variant=" + vid);
+		// product
+		// 	.find("a")
+		// 	.attr("href", href.split("?variant=")[0] + "?variant=" + vid);
 		product.find(".nt_add_qv").attr("data-id", vid);
 	};
 	$.fn.initHTMLVideo = function () {
@@ -1853,14 +1853,16 @@
 				if (isNaN(number) || number == null) {
 					return 0;
 				}
-				number = (number / 100.0).toFixed(precision);
+				//number = (number / 100.0).toFixed(precision);
+				number = number.toFixed(precision);
 				let parts = number.split("."),
 					dollarsAmount = parts[0].replace(
 						/(\d)(?=(\d\d\d)+(?!\d))/g,
 						"$1" + thousands
 					),
 					centsAmount = parts[1] ? decimal + parts[1] : "";
-				return dollarsAmount + centsAmount;
+				//return dollarsAmount + centsAmount;
+				return dollarsAmount;
 			}
 			function formatMoney(cents, format) {
 				let remove_currency = false;
@@ -1868,7 +1870,7 @@
 					cents = cents.replace(".", "");
 				}
 				let placeholderRegex = /\{\{\s*(\w+)\s*\}\}/,
-					formatString = format || "${{amount}}",
+					formatString = format || "Rs.{{amount}}",
 					value = "";
 				switch (formatString.match(placeholderRegex)[1]) {
 					case "amount":
@@ -1938,12 +1940,18 @@
 					_amount.find(inputs2[handle]).val(value_curent);
 					if (check_dis) {
 						price_slider_create(values);
-						check_dis = false;
+						check_dis = false;						
 					}
+					// filter(0);
+				});
+				stepsSlider.noUiSlider.on("change", function (values, handle) {	
+					$('.clear-all-filter').removeClass('dn');				
+					filter(0);
 				});
 			});
 		}
 	};
+	
 	$.fn.KallesGalleryPhotoSwipe = function () {
 		if ($(this).length) {
 			let callgalleryPhotoSwipe = function (index, items) {
@@ -2705,4 +2713,89 @@
 		}
 		setTimeout(() => $(".flickity-enabled").kallesDisableNavSlider(), 3000);
 	});
+
+
+	
 })(window.jQuery);
+
+function filter(pagno){
+	var filter_category = $('#filterCategoryId').val();
+	var filter_color 	= $('#filterColorId').val();
+	var filter_brand 	= $('#filterBrandId').val();
+	var min_price 		= $('#min_price').val();
+	var max_price 		= $('#max_price').val();
+	var sortby 			= $('#filtersortby').val();
+	
+	$.ajax(
+		{
+			"url" : base_url+"Home/applyFilter/"+pagno,
+			type: 'post',
+			dataType: 'json',
+			data:
+			{
+				category 	: filter_category,
+				color 		: filter_color,
+				brand 		: filter_brand,
+				min_price 	: min_price,
+				max_price 	: max_price,
+				sortby 		: sortby,
+				
+			},
+			success: function (data)
+			{
+				//console.log(data.result.length);
+				$('#pagination').html(data.pagination);
+				var totalrecords = data.result.length;
+				$('.result_count span').text(totalrecords);
+				var whishList = []
+				if (data.whish_product.length >= 1) {
+					whishList = data.whish_product;
+				}
+				
+				/** CATEGORY FILTER TAG */
+				// if(filter_category == null || filter_category == '')
+				// {	
+				// 	$('.category_tag').addClass('d-none');
+				// }else{
+				// 	$('.category_tag').remove();
+				// 	var cat_filter = '<a href="javascript:void(0)" class="clear_filter dib category_tag">'+data.category_name+'</a>';					
+				// 	$('.result_clear').append(cat_filter);
+				// }
+
+				/*** COLOR FILTER TAG */
+				if(filter_color == null || filter_color == '')
+				{	
+					$('.color_tag').addClass('d-none');
+				}else{
+					$('.color_tag').remove();
+					var color_filter = '<a href="javascript:void(0)" class="clear_filter dib color_tag">'+data.color_name+'</a>';					
+					$('.result_clear').append(color_filter);
+				}
+
+				/*** BRAND FILTER TAG */
+				if(filter_brand == null || filter_brand == '')
+				{	
+					$('.brand_tag').addClass('d-none');
+				}else{
+					$('.brand_tag').remove();
+					var brand_filter = '<a href="javascript:void(0)" class="clear_filter dib brand_tag">'+data.brand_name+'</a>';					
+					$('.result_clear').append(brand_filter);
+				}
+				
+				if(data.result.length >= 1 ){
+					createProductGrid(data.result,data.sno,whishList);
+				}
+				else
+				{
+					$('#productList').empty();
+					var div = '<h5>No Product found</h5>';
+					$('#productList').append(div);	
+				}
+			},
+			error: function (textStatus, errorThrown)
+			{
+				console.log(textStatus);
+			}
+		});
+}
+

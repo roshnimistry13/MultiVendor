@@ -954,7 +954,7 @@ function file_upload($name,$path)
 
 function rand_number() 
 {
-	$length = 8;
+	$length = 6;
 	$chars = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'; 
     return substr( str_shuffle( $chars ), 0, $length );
 }
@@ -1078,8 +1078,8 @@ function adminMenu()
 	$ci     =& get_instance();
 	
 	$role_id = $ci->session->userdata[ADMIN_SESSION]['role_id'];
-	$menu_result = $ci->Master_m->getRoleWiseMenu($role_id);						
-	
+	$menu_result = $ci->Master_m->getRoleWiseMenu($role_id);		
+				
 	$menu = array();
 	$i = 0;
 	foreach($menu_result as $row)
@@ -1266,11 +1266,11 @@ function getAllElementBycategory($id,$productid=null){
 									$class_name	=	"elements_attributes";
 								}
 								$elements_html .='<div class="col-md-4 mb-10">
-													<div class="form-group tagSelect-rtl">
+													<div class="form-group tagSelect-ltr">
 														<label for="txt_attributes_'.$ele_id.'" class="il-gray fs-14 fw-500 align-center">'.$ele_name.'</label>
 														<input type="hidden" id="txt_element_id_'.$ele_id.'" name="txt_element_id[]" value="'.$ele_id.'">
 														<div class="atbd-select ">
-															<select name="txt_attributes_'.$ele_id.'[]" id="txt_attributes_'.$ele_id.'" class="form-control select2 '.$class_name.'" data-name = "'.$ele_name.'" multiple="multiple">
+															<select name="txt_attributes_'.$ele_id.'[]" id="txt_attributes_'.$ele_id.'" class="form-control select2 '.$class_name.'" data-name = "'.$ele_name.'">
 																<option value="">
 																	Select Attributes
 																</option>';
@@ -1323,6 +1323,26 @@ function getAllElementBycategory($id,$productid=null){
 		$result 					= $ci->Master_m->where('attributes',$where);
 		$attr_name 	= $result[0]['attributes_name']; 
 		return $attr_name;
+	}
+
+	/*** GET CATEGORY NAME BY ID */
+	function getCateforyNameByID($category_id)
+	{
+		$ci     =& get_instance();
+		$where['category_id'] 	= $category_id;
+		$result 					= $ci->Master_m->where('category',$where);
+		$category_name 	= $result[0]['category_name']; 
+		return $category_name;		
+	}
+
+	/*** GET CATEGORY NAME BY ID */
+	function getBrandNameByID($brand_id)
+	{
+		$ci     =& get_instance();
+		$where['brand_id'] 	= $brand_id;
+		$result 					= $ci->Master_m->where('brand',$where);
+		$brand_name 	= $result[0]['brand_name']; 
+		return $brand_name;		
 	}
 
 	/*** WITHOUT RUPPEE SYMBOL FOR FRONTSITE -UI */
@@ -1487,4 +1507,46 @@ function getAllElementBycategory($id,$productid=null){
 		$paise = ($decimal) ? "And Paise " . ($words[$decimal - $decimal%10]) ." " .($words[$decimal%10])  : '';
 		return ($Rupees ? '' . $Rupees : '') . $paise . " Only";
 	}
+
+	
+	//generate shortcode form given string
+	function generateShortcode($str)
+	{   
+		$str = preg_replace('/[^A-Za-z0-9]/', '-', $str);
+		$replace_str = '';
+		
+		$rep_char =  array(" ",".",",","<",">","?","/","'","|",":",";","{","}","[","]","~","`","!","@","#","$","%","^","&","*","(",")","-","_","=","+","--","---","----","-----","------","-------","--------","---------");
+		$rep_char_from_excel =  array(" ",".","~","`","!","@","#","$","%","^","&","*","(",")","-","_","=","+","{","}","[","]",":",";","'","|","<",">",",",".","?","/","‚");
+		$rep_char_and =  array("&","&&","&&&","&&&&","&&&$$","&&&&&&");
+		$rep_char_dash =  array("--","---","----","-----","------","-------","--------","---------");
+		
+		$replace_str = str_replace($rep_char,"-",$str);
+		$replace_str = str_replace($rep_char_from_excel,"-",$replace_str);
+		$replace_str = str_replace($rep_char_and,"-",$replace_str);
+		$replace_str = str_replace($rep_char_dash,"-",$replace_str);
+		
+		$first_char = substr($replace_str,0,1);
+		
+		if($first_char == '-')
+		{
+			$replace_str = ltrim($replace_str, "-");
+		}
+		
+		$last_char = substr($replace_str, -1);
+		if($last_char == '-'){
+			$replace_str = rtrim($replace_str, "-");
+		}
+		
+		$replace_str = strtolower($replace_str);
+		
+		return $replace_str;
+	}
+
+	function removeSpaceNextLine($str)
+	{
+		$str = trim($str);
+		$str = str_replace( array("\r\n","\r","\n"),"",$str);
+		return $str;	
+	}
+
 ?>
