@@ -89,3 +89,4 @@ $(".filterByDeliveryStatus").on("click", function() {
 
 	toDataTable(table_name,url,target);
 });
+

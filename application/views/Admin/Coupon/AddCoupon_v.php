@@ -1,17 +1,21 @@
 <?php
 			
 	$coupon_id            	= "";
+	$coupon_title           = "";
 	$coupon_code          	= "";
 	$start_date          	= "";
 	$expiry_date          	= "";
 	$coupon_amount          = "";
+	$purchase_amount        = "";
 	$description            = "";
 	$is_active              = "checked";
 	if(!empty($result))
 	{
 		$coupon_id       	= $result[0]['coupon_id'];
+		$coupon_title      	= $result[0]['coupon_title'];
 		$coupon_code      	= $result[0]['coupon_code'];
 		$coupon_amount      = $result[0]['coupon_amount'];
+		$purchase_amount    = $result[0]['purchase_amount'];
 		$description      	= $result[0]['description'];
 		$start_date      	= date('d F Y',strtotime($result[0]['start_date']));
 		$expiry_date      	= date('d F Y',strtotime($result[0]['expiry_date']));
@@ -80,6 +84,18 @@
                                             <input type="hidden" id="text_coupon_id" name="text_coupon_id"
                                                 value="<?php echo $coupon_id; ?>">
                                             <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="form-group">
+                                                        <label for="formGroupExampleInput"
+                                                            class="color-dark fs-14 fw-500 align-center">
+                                                            Coupon Title
+                                                        </label>
+                                                        <input type="text"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
+                                                            name="text_coupon_title" placeholder="i.e,  Rs. 100 off on minimum purchase of Rs. 599 ."
+                                                            required="" value="<?php echo $coupon_title; ?>">
+                                                    </div>
+                                                </div>
                                                 <div class="col-md-4">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
@@ -129,12 +145,24 @@
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">
-                                                            Coupon Amount
+                                                            Coupon Discount
                                                         </label>
                                                         <input type="number"
                                                             class="form-control ih-small ip-gray radius-xs b-light px-15"
-                                                            name="text_coupon_amt" placeholder="Coupon Amount"
+                                                            name="text_coupon_amt" placeholder="Coupon Discount(Rs.)"
                                                             required="" value="<?php echo $coupon_amount; ?>">
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-4">
+                                                    <div class="form-group">
+                                                        <label for="formGroupExampleInput"
+                                                            class="color-dark fs-14 fw-500 align-center">
+                                                            Purchase Amount
+                                                        </label>
+                                                        <input type="number"
+                                                            class="form-control ih-small ip-gray radius-xs b-light px-15"
+                                                            name="text_purchase_amt" placeholder="Purchase Amount"
+                                                            required="" value="<?php echo $purchase_amount; ?>">
                                                     </div>
                                                 </div>
                                                 <div class="col-md-4">

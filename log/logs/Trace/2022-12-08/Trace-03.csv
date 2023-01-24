@@ -1,0 +1,1 @@
+"2022-12-08 03:52:57am "," update "," UPDATE product_details SET `view_count` = 2 WHERE 1=1  and product_id = '76' "," ::1 "," URL: http://localhost/MultiVendor/product-detail/women-beige-floral-yoke-design-straight-kurta-with-trousers-with-dupatta-s-beige-vnky8c75-76 "," R: http://localhost/MultiVendor/shop"

@@ -55,6 +55,7 @@ class Product extends CI_Controller
 				$id 			 = $row->product_id;
 				$whr['product_id'] = $id;
 				$eleattr = $this->Master_m->where('product_elements_attributes',$whr);
+				$reviews = $this->Master_m->where('product_review',$whr);
 				
 				$eleattrarr = array();
 				$elediv = '';
@@ -91,23 +92,27 @@ class Product extends CI_Controller
 					$status = $deactive_status;
 				}
 
-				$viewBtnURL = base_url().'view-product/'.$id;
-				$editBtnURL = base_url().'edit-product/'.$id;
-				
+				$reviewBtnURL 	= base_url().'view-product/'.$id;
+				$editBtnURL 	= base_url().'edit-product/'.$id;
+				$reviewBtn 		= "";
+				$productname 	= "'$row->product_name'";
 				if($this->session->userdata[ADMIN_SESSION])
 				{
 					$editBtn   = '<li><a class="edit" href="'.$editBtnURL.'">'.EDIT_ICON.'</a></li>';
 					$deleteBtn = '<li><a class="remove" onclick="updateProduct('.$id.',2)">'.REMOVE_ICON.'</a></li>';
 					$copyBtn = '<li><a class="edit" onclick="duplicateProduct('.$id.')">'.COPY_ICON.'</a></li>';
+					if(!empty($reviews)){
+						$reviewBtn   = '<li><a class="view" href="javascript:void(0)" onclick="viewProductRrviews('.$id.', '.$productname.')">'.REVIEW_ICON.'</a></li>';
+					}					
 				}
 				else
 				{
 					redirect('admin');
 				}
-				$viewBtn   = '<li><a class="view" href="'.$viewBtnURL.'">'.EYE_ICON.'</li>';
+				
 
-				$action    = '<ul class="orderDatatable_actions mb-0 d-flex flex-wrap">
-								'.$editBtn.$deleteBtn.$copyBtn.'
+				$action    = '<ul class="orderDatatable_actions mb-0 d-flex flex-wrap_">
+								'.$editBtn.$deleteBtn.$copyBtn.$reviewBtn.'
 							</ul>';
 
 				$available_stock = $row->stock;
@@ -266,10 +271,12 @@ class Product extends CI_Controller
 
 	//Submit add and edit form
 	public function submitProduct(){
+		
 		$user_id 		= $this->session->userdata[ADMIN_SESSION]['user_id'];		
 		$product_name 	= trim($this->input->post('text_product_name'));
 		$cover_image 	= $this->input->post('old_cover_image');	
 		$vendor_id 		= $this->input->post('text_vendor_id');	
+		$product_tag 	= $this->input->post('product_tag');	
 		$v_code 		= "";
 		
 		$v_whr['vendor_id'] = $vendor_id;
@@ -341,7 +348,7 @@ class Product extends CI_Controller
 		if(!empty($_FILES['cover_image']['name'])){
 			$image1 		= $_FILES['cover_image']['name'];
 			$extension 		= pathinfo($image1, PATHINFO_EXTENSION);
-			$cover_image	= 'cover_image'.".".$extension;
+			$cover_image	= 'cover_image'.".webp";
 		}
 
 		if(!empty($this->input->post('text_product_id')))
@@ -368,7 +375,8 @@ class Product extends CI_Controller
 			$updatedata['gst_amt'] 					= $gst_amt;
 			$updatedata['discount_amt'] 			= $discount_amt;
 			$updatedata['cover_img'] 				= $cover_image;
-			//$updatedata['stock'] 					= $this->input->post('text_stock');
+			$updatedata['tag'] 						= $product_tag;
+			$updatedata['gst_type'] 				= $this->input->post('gst-type');
 			
 			if($this->input->post('text_is_new') == 1){
 				$updatedata['is_new_product'] 	= 1;
@@ -482,6 +490,8 @@ class Product extends CI_Controller
 		$insertdata['discount_amt'] 					= $discount_amt;
 		$insertdata['cover_img'] 						= $cover_image;
 		$insertdata['stock'] 							= $this->input->post('text_stock');
+		$insertdata['tag'] 								= $product_tag;
+		$insertdata['gst_type'] 						= $this->input->post('gst-type');
 		
 		if($this->input->post('text_is_new') == 1){
 			$insertdata['is_new_product'] = 1;
@@ -577,8 +587,7 @@ class Product extends CI_Controller
 		$new_image 	= "";
 		
 		if($_FILES['image']['name'])
-		{
-			
+		{			
 			$count_image 		= count(array_filter($_FILES['image']['name']));
 			for($i = 0; $i < $count_image; $i++)
 			{
@@ -592,11 +601,14 @@ class Product extends CI_Controller
 				if(!is_dir($file_path))
 					mkdir($file_path,0777,true);
 				
-				$imageName 		= $_FILES['image']['name'];
-				//compressImage($_FILES['image']['tmp_name'], $file_path.$_FILES['image']['name'],30);
+				
+				$img_name_arr 	= explode('.',$_FILES['image']['name']);
+				$imageName 		= $img_name_arr[0].'_'.time().'.webp';
+				//$imageName 		= $_FILES['image']['name'];
 
 				$uploadImg1 	= $file_path.'/'.$imageName;
-				move_uploaded_file($_FILES['image']['tmp_name'],$uploadImg1);		
+				compressAndConvertToWebpImage($_FILES['image']['tmp_name'],$uploadImg1);		
+				// move_uploaded_file($_FILES['image']['tmp_name'],$uploadImg1);		
 
 				$images[] = $imageName;
 			}
@@ -718,7 +730,7 @@ class Product extends CI_Controller
 					
 					if(!empty($child_category_ids))
 					{					
-						$cat_option 	= '<option value="">Select Category</option>';
+						$cat_option 	= '<option value="">Select SubCategory</option>';
 						foreach($child_category_ids as $c_row)
 						{
 							$c_id['category_id'] 		= $c_row; 
@@ -823,7 +835,8 @@ class Product extends CI_Controller
 				$data['created_by'] 			= $user_id;
 				$data['created'] 				= date('Y-m-d');
 				$data['is_active'] 				= 0;
-				$data['stock'] 					= $result[0]['stock'];				
+				$data['stock'] 					= $result[0]['stock'];	
+				$data['gst_type'] 				= $result[0]['gst-type'];			
 				$insert_result 					= insert('product_details',$data,'');
 				logThis($insert_result->query, date('Y-m-d'),'Products');
 
@@ -1152,5 +1165,48 @@ class Product extends CI_Controller
 		}
 		$this->output->set_content_type('application/json', 'utf-8');
 		$this->output->set_output(json_encode($json));
+	}
+
+	public function bindProductReviews(){
+		try
+		{
+			$product_id 		= $this->input->get('product_id');
+			$user_type 			= $this->session->userdata[ADMIN_SESSION]['user_type'];			
+			$table         			= "product_review";
+			$select_column 			= array("product_review_id","review_date","star_rate","review_title","review_content");
+			$join_column 			= "";
+			$order_column			= array("review_date","review_content","star_rate");
+			$search_column 			= array();
+			$group_by 				= "";
+			$order_by 				= "review_date  DESC";
+			$where    				= array("product_id = $product_id");
+			$fetch_data 			= $this->Common_m->makeDataTables($table, $select_column, $order_column, $join_column, $where, $search_column, $order_by, $group_by);
+
+			$data       = array();
+			$i = 1;
+			foreach($fetch_data as $row)
+			{
+				$reviews = '<span>'.$row->review_title.'</span><p>'.$row->review_content.'</p>';
+				
+				$sub_array = array();
+				$sub_array[] = '<div class="userDatatable-content text-center py-1">'.date('d-M-Y' , strtotime($row->review_date)).'</div>';
+				$sub_array[] = '<div class="userDatatable-inline-title">'.$reviews.'</div>';
+				$sub_array[] = '<div class="userDatatable-content text-center">'.$row->star_rate.'</div>';							
+				$data[] = $sub_array;
+			}
+
+			$json = array(
+				"draw"           =>     intval($_POST["draw"]),
+				"recordsTotal"   =>     $this->Common_m->getFilteredData($table, $select_column, $order_column, $join_column, $where, $search_column, $order_by, $group_by),
+				"recordsFiltered"=>     $this->Common_m->getFilteredData($table, $select_column, $order_column, $join_column, $where, $search_column, $order_by, $group_by),
+				"data"           =>     $data
+			);
+
+			echo json_encode($json);
+		}
+		catch(Exception $e)
+		{
+			$json['status'] = 'error';
+		}
 	}
 }

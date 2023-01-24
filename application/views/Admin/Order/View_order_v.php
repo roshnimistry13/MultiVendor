@@ -186,13 +186,13 @@
                                                                             class="table table--default product-detail w-100">
                                                                             <thead>
                                                                                 <tr>
-                                                                                    <th>Product</th>
-                                                                                    <th>Qty</th>
+                                                                                    <th>Product</th>                                                                                    
                                                                                     <th>MRP</th>
                                                                                     <th>Selling Price</th>
                                                                                     <th>Discount(%)</th>
                                                                                     <th>GST(%)</th>
                                                                                     <th>Amount</th>
+                                                                                    <th>Status</th>
                                                                                 </tr>
                                                                             </thead>
                                                                             <tbody>
@@ -205,15 +205,14 @@
                                                                                 <tr>
                                                                                     <td>
                                                                                         <a href="<?php echo base_url('edit-product/').$row['product_id'];?>"><?php echo $row['product_name'];?></a>
-                                                                                        <div class="sub-title text-capitalize"><small>Vendor Name : <?php echo $row['vendor_name']?></small></div>
+                                                                                        <div class="sub-title text-capitalize"><small>Vendor Name : <?php echo $row['vendor_name']?> | Qty : <?php echo $row['quantity']; ?></small></div>
                                                                                         <?php if(!empty($elements_attributes)){
                                                                                             foreach($elements_attributes as $key=>$val){ ?>
                                                                                                 <div class="sub-title"><small><?php echo $key; ?> : <?php echo $val;?></small></div>                                  
                                                                                         <?php } }?>
                                                                                         
                                                                                     </td>
-                                                                                    <td><?php echo $row['quantity']; ?>
-                                                                                    </td>
+                                                                                    
                                                                                     <td><?php echo moneyFormatIndia_admin($row['mrp_price']);?>
                                                                                     </td>
                                                                                     <td><?php echo moneyFormatIndia_admin($row['net_price']);?>
@@ -223,6 +222,7 @@
                                                                                     <td><?php echo $row['gst']?></td>
                                                                                     <td><?php echo moneyFormatIndia_admin($row['total_amt']);?>
                                                                                     </td>
+                                                                                    <td></td>
                                                                                 </tr>
                                                                                 <?php } ?>
                                                                             </tbody>

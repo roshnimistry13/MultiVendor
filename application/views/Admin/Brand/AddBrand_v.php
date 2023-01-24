@@ -74,7 +74,7 @@
                                             <input type="hidden" id="text_brand_id" name="text_brand_id"
                                                 value="<?php echo $brand_id; ?>">
                                             <div class="row">
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-4 mb-25">
                                                     <div class="form-group">
                                                         <label for="formGroupExampleInput"
                                                             class="color-dark fs-14 fw-500 align-center">Brand
@@ -85,7 +85,7 @@
                                                             value="<?php echo $brand_name; ?>">
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-4 mb-25">
                                                     <div class="form-group">
                                                         <div class="custom-file">
                                                             <label for="formGroupExampleInput"
@@ -99,14 +99,14 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="col-md-6 mb-25">
+                                                <!-- <div class="col-md-6 mb-25">
                                                     <div class="form-group">                                                        
                                                     </div>
-                                                </div>
+                                                </div> -->
                                                 <?php if(!empty($brand_logo) || $brand_logo !=""){?>
-                                                <div class="col-md-6 mb-25">
+                                                <div class="col-md-4 mb-25">
                                                     <div class="form-group">                                                        
-                                                        <img src="<?php echo base_url().BRAND_LOGO_PATH.$brand_logo ?>" >
+                                                        <img src="<?php echo base_url().BRAND_LOGO_PATH.$brand_logo ?>" width="" height="100">
                                                     </div>
                                                 </div>
                                                 <?php } ?>

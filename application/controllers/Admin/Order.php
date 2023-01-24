@@ -400,6 +400,13 @@ class Order extends CI_Controller
 			$where['order_id'] 					= $orderid;
 			$update_result 						= update('orders',$updatedata,$where);
 			logThis($update_result->query, date('Y-m-d'),'Orders');
+			// update delivery date in order detail for products 
+
+			$updatedata1['deliver_date'] 		= date('Y-m-d');
+			$where1['order_id'] 				= $orderid;
+			$update_result1						= update('order_details',$updatedata1,$where1);
+			logThis($update_result1->query, date('Y-m-d'),'order_details');
+			
 			if($update_result->status == "success")
 			{
 				$json['success']	= 'success';

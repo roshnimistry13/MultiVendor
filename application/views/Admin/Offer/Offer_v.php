@@ -4,7 +4,7 @@
 			<div class="col-lg-12">
 				<div class="breadcrumb-main">
 					<h4 class="text-capitalize breadcrumb-title">
-						Offers
+						Category Offers
 					</h4>
 					<div class="breadcrumb-action justify-content-center flex-wrap">
 						

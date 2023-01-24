@@ -1,0 +1,2 @@
+"2023-01-14 03:43:07am "," update "," UPDATE vendor SET `last_login` = '2023-01-14 03:43:06' WHERE 1=1  and vendor_id = '2' "," ::1 "," URL: http://localhost/MultiVendor/login-check "," R: http://localhost/MultiVendor/admin"
+"2023-01-14 03:44:18am "," update "," UPDATE role SET `role_name` = 'Vendor', `role_description` = '#', `updated_by` = '999', `update_at` = '2023-01-14 03:44:18', `is_active` = 1 WHERE 1=1  and role_id = '3' "," ::1 "," URL: http://localhost/MultiVendor/submit-role "," R: http://localhost/MultiVendor/edit-role/3"

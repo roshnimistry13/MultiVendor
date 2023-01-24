@@ -510,7 +510,8 @@
 .product-image .nt_add_w,
 .product-image .nt_add_cp {
 	z-index: 40;
-	left: 12px;
+	/* left: 12px; */
+	right: 12px;
 	top: 12px;
 }
 .product-image .nt_add_w > a,
@@ -535,12 +536,15 @@
 }
 .product-image .product-attr {
 	bottom: 5px;
-	left: 10px;
-	right: 10px;
+	/* left: 10px;
+	right: 10px; */
+	width: 100%;
 	z-index: 2;
 	text-shadow: -1px -1px 1px rgba(255, 255, 255, 0.1),
 		1px 1px 1px rgba(0, 0, 0, 0.15);
-		background-color: #00000059;
+	background-color: #00000059;
+	padding: 5px 0px;
+	transition: 0.3s !important;
 }
 .pr_grid_item .product-image:hover .hover_button {
 	opacity: 1;
@@ -8415,6 +8419,8 @@ input.search_header__input:not([type="submit"]):not([type="checkbox"]) {
 	-o-transition: opacity 0.3s ease-in-out;
 	transition: opacity 0.3s ease-in-out;
 	line-height: 15px !important;
+	transform: translate(0, -100px);
+	font-weight: 600;
 }
 @media (min-width: 1025px) {
 	.nt_label {

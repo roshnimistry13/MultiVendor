@@ -24,6 +24,7 @@
 	<link href="<?php echo ADMIN_ASSETS  ?>froala-editor/css/froala_style.min.css" rel="stylesheet" type="text/css" />
 	<link href="<?php echo ADMIN_ASSETS ?>js/pnotify/css/jquery.pnotify.css" media="screen" rel="stylesheet" type="text/css">
 	<link href="<?php echo ADMIN_ASSETS ?>css/bootstrap-select.min.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="<?php echo ADMIN_ASSETS ?>css/bootstrap-tagsinput.min.css" media="screen" rel="stylesheet" type="text/css">
 	<!--Custome css-->
 	<link rel="stylesheet" href="<?php echo ADMIN_ASSETS ?>css/application/custom.css">
 	

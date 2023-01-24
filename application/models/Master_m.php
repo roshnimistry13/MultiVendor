@@ -66,7 +66,7 @@ class Master_m extends CI_Model{
 	//Customer profile details
 	public function customerProfile($customer_id)
 	{
-		$this->db->select('customer_id, customer_name, gender, email, mobile');
+		$this->db->select('customer_id, customer_name, gender, email, mobile,alternate_mobile,birth_date');
 		$this->db->from('customer_detail');
 		$this->db->where('customer_id',$customer_id);
 		$this->db->where('is_active',1);
@@ -99,10 +99,11 @@ class Master_m extends CI_Model{
 	// All child Category list : parent_category_id !=0
 	public function AllChildCategoryList()
 	{
-		$this->db->select('category_id, category_name, description, category_image');
-		$this->db->from('category');
-		$this->db->where('parent_category_id != 0');
-		$this->db->where('is_active',1);
+		$this->db->select('c.category_id, c.category_name,p.category_id as parent_id');
+		$this->db->from('product_details p');
+		$this->db->join('category c','c.category_id=p.child_category');		
+		$this->db->where('c.is_active',1);
+		$this->db->group_by('p.child_category');
 		$query = $this->db->get()->result_array();
 		return $query;
 	}
@@ -150,7 +151,10 @@ class Master_m extends CI_Model{
 		//For category
 		if(isset($category_id) && strlen(trim($category_id))>0)
 		{
-   			$this->db->where("p.category_id", $category_id);
+			$this->db->group_start();
+			$this->db->where("p.category_id", $category_id);
+			$this->db->or_where("p.child_category", $category_id);
+			$this->db->group_end();
    		}
    		
    		//for brand
@@ -228,75 +232,6 @@ class Master_m extends CI_Model{
 		$this->db->where('p.brand_id',$brand_id);
 		$this->db->where('c.is_active',1);
 		$this->db->group_by('p.category_id');
-		$query=$this->db->get()->result_array();
-		return $query;
-	}
-	
-	//get latest product 
-	public function getLatestProduct(){
-		$this->db->select('p.product_id, p.product_name, p.short_code, p.image, gu.unit, p.net_price');
-		$this->db->from('product_details p');
-		$this->db->join('group_unit gu','gu.group_unit_id = p.group_unit_id');
-		$this->db->where('p.is_active',1);
-		$this->db->order_by('p.product_id','desc');
-		$this->db->limit('6');
-		$query=$this->db->get()->result_array();
-		return $query;
-	}
-	
-	//get related product 
-	public function getRelatedProduct($brand_id,$product_id){
-		$this->db->select('p.product_id, p.product_name, p.short_code, p.image, gu.unit, p.net_price');
-		$this->db->from('product_details p');
-		$this->db->join('group_unit gu','gu.group_unit_id = p.group_unit_id');
-		$this->db->where('p.brand_id',$brand_id);
-		//$this->db->where("p.product_id != $product_id");
-		$this->db->where('p.is_active',1);
-		$this->db->order_by('p.product_id','desc');
-		$this->db->limit('4');
-		$query=$this->db->get()->result_array();
-		return $query;
-	}
-	
-	//product details get 
-	public function getProductDetails($product_short_code){
-		$this->db->select('p.product_id, p.product_name, p.product_code, p.short_code, p.short_description, p.description, c.category_name, p.brand_id, b.brand_name, gu.unit, p.reach_in, p.mrp_price, p.discount, p.net_price, p.tax, p.image, p.meta_title, p.meta_description, p.meta_keyword, s.stock_id, s.onhand_quantity');
-		$this->db->from('product_details p');
-		$this->db->join('category c','c.category_id = p.category_id');
-		$this->db->join('brand b','b.brand_id = p.brand_id');
-		$this->db->join('group_unit gu','gu.group_unit_id = p.group_unit_id');
-		$this->db->join('stock s','s.product_id = p.product_id');
-		$this->db->where('p.short_code',$product_short_code);
-		$query=$this->db->get()->result_array();
-		return $query;
-	}
-	
-	//get all product 
-	public function getAllProduct($category_id){
-		$this->db->select('p.product_id, p.product_name, p.short_code, p.image, gu.unit, p.net_price');
-		$this->db->from('product_details p');
-		$this->db->join('group_unit gu','gu.group_unit_id = p.group_unit_id');
-		
-		if(isset($category_id) && strlen(trim($category_id))>0)
-		{
-   			$this->db->where("p.category_id", $category_id);
-   		}
-		
-		$this->db->where('p.is_active',1);
-		$this->db->order_by('p.product_id','desc');
-		$query=$this->db->get()->result_array();
-		return $query;
-	}
-	
-	//get cart details  
-	public function getCartDetails(){
-		$this->db->select('c.cart_id, p.product_id, p.product_name, p.image, p.quantity, p.net_price');
-		$this->db->from('customer_cart p');
-		$this->db->from('product_details p');
-		$this->db->join('group_unit gu','gu.group_unit_id = p.group_unit_id');
-		$this->db->where('p.is_active',1);
-		$this->db->order_by('p.product_id','desc');
-		$this->db->limit('6');
 		$query=$this->db->get()->result_array();
 		return $query;
 	}
@@ -453,11 +388,24 @@ class Master_m extends CI_Model{
 	}
 
 	public function getTotalCategoryCount($category_id = null){
+		$child = array();
+		$category_id;
 		if($category_id != "" || $category_id != null){
-			$this->db->group_start();
-			$this->db->where("p.category_id", $category_id);
-   			$this->db->or_where("p.child_category", $category_id);
-			$this->db->group_end();
+
+			$cat_cond['category_id'] 	= $category_id;		
+			$catresult					= $this->where('category',$cat_cond);
+			$parent_cat 				= $catresult[0]['parent_category_id'];
+			if($catresult[0]['child_category'] != null || $catresult[0]['child_category'] != "")
+			$child 						= explode(',',$catresult[0]['child_category']);
+
+			if(!empty($child) && $parent_cat > 0){
+				$this->db->where_in("p.child_category", $child);
+			}else{
+				$this->db->group_start();
+				$this->db->where("p.category_id", $category_id);
+				$this->db->or_where("p.child_category", $category_id);
+				$this->db->group_end();
+			}			
 		}
 		$this->db->select('p.product_id,p.category_id,p.variant_code, c.category_name');
 		$this->db->from('product_details p');
@@ -476,6 +424,48 @@ class Master_m extends CI_Model{
 				
 				$product_id 		= $row['product_id'];
 				$cat_id 			= $row['category_id'];
+				$category_name 		= $row['category_name'];
+				$variant_code 		= $row['variant_code'];		
+				
+				if(!empty($varient_arr) && !empty($varient_arr[$cat_id]) && $variant_code !=""){
+					if(in_array($variant_code,$varient_arr[$cat_id])){
+					
+					}else{
+						$varient_arr[$cat_id][] = $variant_code;
+					}
+				}
+				else{
+					$varient_arr[$cat_id][] = $variant_code;
+				}			
+				
+			}
+		}
+		
+		return $varient_arr;
+	}
+	public function getTotalSubCategoryCount($category_id = null){
+		if($category_id != "" || $category_id != null){
+			
+   			$this->db->or_where("p.child_category", $category_id);
+			
+		}
+		$this->db->select('p.product_id,p.category_id,p.child_category,p.variant_code, c.category_name');
+		$this->db->from('product_details p');
+		$this->db->join('category c','c.category_id = p.child_category');
+		$this->db->where('p.is_active', 1);
+		$this->db->where('c.is_active', 1);
+		$this->db->order_by('c.category_name','ASC');
+		$query=$this->db->get()->result_array();
+		
+		$cat_arr = array();
+		$varient_arr = array();
+		$i = 1;
+		$j = 1;
+		if(!empty($query)){
+			foreach($query as $row){
+				
+				$product_id 		= $row['product_id'];
+				$cat_id 			= $row['child_category'];
 				$category_name 		= $row['category_name'];
 				$variant_code 		= $row['variant_code'];		
 				
@@ -639,6 +629,30 @@ class Master_m extends CI_Model{
 		$this->db->join('product_details p','p.product_id=od.product_id');
 		$this->db->join('vendor v','v.vendor_id = p.vendor_id');
 		$this->db->where('od.order_id',$order_id);
+		$this->db->order_by('o.order_id','desc');
+		$result = $this->db->get()->result_array();
+		return $result;
+	}
+	/** item order detail from order id */
+	public function getCustomerOrderProductDetails($order_id,$product_id){
+		
+		$this->db->select('od.order_id,od.product_id,p.variant_code,od.deliver_date,od.product_name,od.quantity,od.mrp_price,od.net_price,od.total_amt,od.discount_amt,od.elements_attributes,od.return_replace_validity,p.cover_img,o.shipping_address,o.delivery_address,o.order_number,o.order_date,v.name as vendor_name,b.brand_name,o.customer_id');
+		$this->db->from('order_details od');
+		$this->db->join('orders o','o.order_id=od.order_id','left');
+		$this->db->join('product_details p','p.product_id=od.product_id');
+		$this->db->join('vendor v','v.vendor_id = p.vendor_id');
+		$this->db->join('brand b','b.brand_id = p.brand_id');
+		$this->db->where('od.order_id',$order_id);
+		$this->db->where('od.product_id',$product_id);		
+		$result = $this->db->get()->result_array();
+		return $result;
+	}
+
+	/*** GET PRODUCT REVIEWS RATING BY CUSTOMER */
+	public function getCustomerProductReview($customer_id){
+		$this->db->select('product_id,star_rate');
+		$this->db->from('product_review');
+		$this->db->where('customer_id',$customer_id);
 		$result = $this->db->get()->result_array();
 		return $result;
 	}
@@ -660,11 +674,20 @@ class Master_m extends CI_Model{
 	
 	//get Product filter data
 	public function getFilterData($filter,$rowperpage, $rowno){
-		
+		$child = array();
+		if(isset($filter['category']) && strlen(trim($filter['category']))>0)
+		{
+   			$cat_cond['category_id'] 	= $filter['category'];		
+			$catresult					= $this->where('category',$cat_cond);
+			$parent_cat 				= $catresult[0]['parent_category_id'];
+			if($catresult[0]['child_category'] != null || $catresult[0]['child_category'] != "")
+			$child 						= explode(',',$catresult[0]['child_category']);
+		}
+
 		$sort_by = "ORDER BY net_price ASC";
 		/***** 	QUERY : #1 */
 		
-		$this->db->select('DISTINCT(p.product_id) as product_ids, p.product_name as product_name, p.short_code, p.short_description, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,pe.product_id');
+		$this->db->select('DISTINCT(p.product_id) as product_id, p.product_name as product_name, p.short_code, p.short_description, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,pe.product_id');
 		$this->db->from('product_details p');
 		$this->db->join('product_elements_attributes pe','pe.product_id=p.product_id');
 		//for color
@@ -677,10 +700,15 @@ class Master_m extends CI_Model{
 		//For category
 		if(isset($filter['category']) && strlen(trim($filter['category']))>0)
 		{
-			$this->db->group_start();
-			$this->db->where("p.category_id", $filter['category']);
-   			$this->db->or_where("p.child_category", $filter['category']);
-			$this->db->group_end();
+			if(!empty($child) && $parent_cat > 0){
+				$this->db->where_in("p.child_category", $child);
+			}else{
+				$this->db->group_start();
+				$this->db->where("p.category_id", $filter['category']);
+				$this->db->or_where("p.child_category", $filter['category']);
+				$this->db->group_end();
+			}
+			
    		}
    		
    		//for brand
@@ -737,7 +765,7 @@ class Master_m extends CI_Model{
 
 		/***** 	QUERY : #2 */
 
-		$this->db->select('DISTINCT(p1.product_id) as product_ids, p1.product_name as product_name, p1.short_code, p1.short_description, p1.net_price as net_price, p1.cover_img,p1.mrp_price,p1.discount,p1.variant_code,pe1.product_id');
+		$this->db->select('DISTINCT(p1.product_id) as product_id, p1.product_name as product_name, p1.short_code, p1.short_description, p1.net_price as net_price, p1.cover_img,p1.mrp_price,p1.discount,p1.variant_code,pe1.product_id');
 		$this->db->from('product_details p1');
 		$this->db->join('product_elements_attributes pe1','pe1.product_id=p1.product_id');
 		
@@ -751,10 +779,15 @@ class Master_m extends CI_Model{
 		//For category
 		if(isset($filter['category']) && strlen(trim($filter['category']))>0)
 		{
-   			$this->db->group_start();
-   			$this->db->where("p1.category_id", $filter['category']);
-   			$this->db->or_where("p1.child_category", $filter['category']);
-   			$this->db->group_end();
+   			
+			if(!empty($child) && $parent_cat > 0){
+				$this->db->where_in("p1.child_category", $child);
+			}else{
+				$this->db->group_start();
+				$this->db->where("p1.category_id", $filter['category']);
+				$this->db->or_where("p1.child_category", $filter['category']);
+				$this->db->group_end();
+			}
    		}
    		
    		//for brand
@@ -828,7 +861,8 @@ class Master_m extends CI_Model{
 			foreach($child_hierarchy as $row){
 				$cat['category_id'] 	= $row;
 				$res 					= $this->Master_m->where('category',$cat);
-				$cat_name[$i] 				= $res[0]['category_name'];	
+				$cat_name[$i]['name'] 				= $res[0]['category_name'];	
+				$cat_name[$i]['shortcode'] 			= $res[0]['short_code'];	
 				$i++;		
 			}
 			$data = $cat_name;
@@ -837,10 +871,17 @@ class Master_m extends CI_Model{
 	}
 
 	/*** GET CHILD CATEGORY FROM PARENT CATEGORY : clothing*/
-	public function getChildCategory($short_code = null){
+	public function getChildCategory($short_code = null,$category_id = null){
+		$data = array();
+		if($short_code != null || $short_code != ""){
+			$cat_cond['short_code'] 	= $short_code;		
+		}
+
+		if($category_id != null || $category_id != ""){
+			$cat_cond['category_id'] 	= $category_id;				
+		}
 		
-		//$cat_cond['category_id'] 	= $category_id;		
-		$cat_cond['short_code'] 	= $short_code;		
+		
 		$result						= $this->where('category',$cat_cond);	
 		$child_category				= $result[0]['child_category'];
 		if(!empty($child_category && $child_category != null && $child_category != "")){
@@ -957,15 +998,17 @@ class Master_m extends CI_Model{
 		$item['product_id'] 		= $product_id;
 		$res 						= $this->where('customer_cart',$item);
 		$result_array 				= '';	
-		
-		if(!empty($res)){
-			$res_ele = $res[0]['elements_attributes'];
+		if(!empty($elements_attributes)){
+			if(!empty($res)){
+				$res_ele = $res[0]['elements_attributes'];
 
-			$item_1 = json_decode($res_ele, TRUE);
-			$item_2 = json_decode($elements_attributes, TRUE);
-			$result_array = ($item_1 === $item_2);
+				$item_1 = json_decode($res_ele, TRUE);
+				$item_2 = json_decode($elements_attributes, TRUE);
+				$result_array = ($item_1 === $item_2);
+			}
 		}
-		if(!empty($res) && !empty($result_array)){
+		// if(!empty($res) && !empty($result_array)){ // temporay comment for App  : elements_attributes no set by App side
+		if(!empty($res)){
 			$old_qty   			= $res[0]['quantity'];
 			$final_qty 			= $quantity + $old_qty;
 			$id['cart_id'] 		= $res[0]['cart_id'];
@@ -979,7 +1022,7 @@ class Master_m extends CI_Model{
 			if($update_query->status == "success")
 			{	
 				$response['success'] = "suceess";
-				$response['message'] = "You have this item in your cart and we have increased the quantity by 1";
+				$response['message'] = "You have this item in your bag and we have increased the quantity by 1";
 				return $response;
 			}else{
 				return false;
@@ -997,13 +1040,99 @@ class Master_m extends CI_Model{
 			
 			if($insert_result->status = 'success'){
 				$response['success'] = "suceess";
-				$response['message'] = "Added to cart";
+				$response['message'] = "item added to bag";
 				return $response;
 			}else{
 				return false;
 			}			
 			
 		}
+	}
+	/*** UI : ADD TO WISHLIST ITEM*/
+	public function addToWishlist($data){
+
+		$product_id 			= $data['product_id'];		
+		$customer_id 			= $data['customer_id'];
+
+		$product_arr				= array();
+		if(!empty($product_id)){
+			$product_arr = explode(',',$product_id);
+		}
+
+		// $this->db->select('*');
+		// $this->db->from('whish_list');
+		// $this->db->where_in('product_id',$product_arr);
+		// $this->db->where('customer_id',$customer_id);				
+		// $result = $this->db->get()->result_array();	
+		$json 					= array();		
+		// if(empty($result)){
+			if(!empty($product_arr)){
+				foreach($product_arr as $row){
+					$insertdata['customer_id'] 		= $customer_id;
+					$insertdata['product_id'] 		= $row;
+					
+					$this->db->select('*');
+					$this->db->from('whish_list');
+					$this->db->where('product_id',$row);
+					$this->db->where('customer_id',$customer_id);	
+					$result = $this->db->get()->result_array();	
+					if(empty($result)){
+						$insert_result = insert('whish_list',$insertdata,'');
+						logThis($insert_result->query, date('Y-m-d'),'Customer WhishList');	
+					}			
+				}
+				
+			}
+			$totalWishList   			= $this->Master_m->getTotalWhishList($customer_id);
+			$json['success'] 			= 'success';
+			$json['message'] 			= "item added to wishlist";
+			$json['totalWishList'] 		= $totalWishList;
+		// }
+		return $json;
+	}
+
+	/*** UI : MOVE TO WISHLIST FORM CART ITEM*/
+	public function moveToWishlist($data){
+
+		$product_id 			= $data['product_id'];		
+		$customer_id 			= $data['customer_id'];
+
+		$product_arr				= array();
+		if(!empty($product_id)){
+			$product_arr = explode(',',$product_id);
+		}
+
+		$json 					= array();		
+		// if(empty($result)){
+			if(!empty($product_arr)){
+				foreach($product_arr as $row){
+					$insertdata['customer_id'] 		= $customer_id;
+					$insertdata['product_id'] 		= $row;
+					
+					$this->db->select('*');
+					$this->db->from('whish_list');
+					$this->db->where('product_id',$row);
+					$this->db->where('customer_id',$customer_id);	
+					$result = $this->db->get()->result_array();	
+					
+					if(empty($result)){
+						$insert_result = insert('whish_list',$insertdata,'');
+						logThis($insert_result->query, date('Y-m-d'),'Customer WhishList');					
+					}	
+
+					$whr['product_id'] = $row;
+					$whr['customer_id'] = $customer_id;
+					$cart_res = $this->where('customer_cart',$whr);	
+					if(!empty($cart_res)){
+						$del_result							= delete('customer_cart',$whr);
+						logThis($del_result->query, date('Y-m-d'),'Customer Cart');
+					}
+				}
+				$json['success'] 			= 'success';
+				$json['message'] 			= "item moved to wishlist";
+			}			
+		// }
+		return $json;
 	}
 
 	/*** get total cart item  */
@@ -1026,23 +1155,39 @@ class Master_m extends CI_Model{
 
 	/**** get and move selected cart item from cart */
 	public function getSelectedCartItemDetail($customer_id,$product_arr = array()){
-		$this->db->select('*');
-		$this->db->from('customer_cart');
-		$this->db->where('customer_id',$customer_id);
+		$this->db->select('c.*,p.*,ca.return_or_replace,ca.return_replace_validity,v.name as vendor_name');
+		$this->db->from('customer_cart c');
+		$this->db->join('product_details p','p.product_id = c.product_id');
+		$this->db->join('category ca','ca.category_id = p.category_id');
+		$this->db->join('vendor v','v.vendor_id = p.vendor_id');
+		$this->db->where('c.customer_id',$customer_id);
 		if(!empty($product_arr)){
-			$this->db->where_in('product_id',$product_arr);
+			$this->db->where_in('c.product_id',$product_arr);
 		}		
 		$query = $this->db->get()->result_array();
 		return $query;
 	}
 
-	/***get whishlist product detail */
-	public function getWishListItem($customer_id){
-		$this->db->select('w.*,p.product_name,short_code,p.net_price,p.mrp_price,p.discount,p.cover_img');
+	/***get whishlist product detail list */
+	public function getWishListItem($customer_id,$rowperpage, $rowno,$cat_short_code=null){
+		if($cat_short_code != null || $cat_short_code != ""){
+			$cat_cond['short_code'] 	= $cat_short_code;
+			$result1					= $this->where('category',$cat_cond);
+			$parent_cat_id				= $result1[0]['category_id'];
+			$this->db->where('p.category_id',$parent_cat_id);				
+		}	
+
+		$this->db->select('w.*,p.product_name,p.short_code,p.net_price,p.mrp_price,p.discount,p.cover_img,p.variant_code,b.brand_name');
 		$this->db->from('whish_list w');
 		$this->db->join('product_details p','p.product_id = w.product_id');
-		$this->db->where('customer_id',$customer_id);
+		$this->db->join('brand b','b.brand_id = p.brand_id');
+		$this->db->where('w.customer_id',$customer_id);
+		if(strlen(trim($rowperpage))>0 && strlen(trim($rowno))>0)
+		{
+			$this->db->limit($rowperpage,$rowno);
+		}
 		$query = $this->db->get()->result_array();
+		
 		return $query;
 	}
 
@@ -1057,6 +1202,17 @@ class Master_m extends CI_Model{
 		$query = $this->db->get()->result_array();
 		return $query;
 	}
+	
+	/*** FETCH CART ITEM DETAIL SET IN COOKIES*/
+	public function getCookieItemDetail($product_id){
+		$this->db->select('p.*,ca.return_or_replace,ca.return_replace_validity,v.name as vendor_name');
+		$this->db->from('product_details p');
+		$this->db->join('category ca','ca.category_id = p.category_id');
+		$this->db->join('vendor v','v.vendor_id = p.vendor_id');
+		$this->db->where('p.product_id',$product_id);
+		$query = $this->db->get()->result_array();
+		return $query;
+	}
 
 	/*** UI : PLACE ORDER */
 	public function addOrder($customer_id){
@@ -1065,16 +1221,26 @@ class Master_m extends CI_Model{
 		
 		if(!empty($cart_data)){
 
-			$checkitemStock      = $this->Master_m->checkCartItemStock(); // 0 :instock , <0 :outofstock
+			$checkitemStock      = $this->Master_m->checkCartItemStock($customer_id); // 0 :instock , <0 :outofstock
 			$whr['customer_id'] 	= $customer_id;
 			$whr['set_default'] 	= 1;
 			$address_res 			= $this->Master_m->where('customer_address',$whr);
 			$shipping_address       = "";
 			if(!empty($address_res)){
-				$name 			= $address_res[0]['first_name'].' '.$address_res[0]['last_name'];
-				$mobile 		= $address_res[0]['mobile'];
-				$address 		= $address_res[0]['address'].' ,<br>'.$address_res[0]['city'].' , '.$address_res[0]['state'].' ,<br>'.$address_res[0]['country'].' - '.$address_res[0]['pincode'];
-				$shipping_address 	= '<strong>'.ucwords($name).'</strong><br>'.$address.'<br>Phone no : '.$mobile; 
+				$name 							= $address_res[0]['first_name'].' '.$address_res[0]['last_name'];
+				$mobile 						= $address_res[0]['mobile'];
+				$address 						= $address_res[0]['address'].' ,<br>'.$address_res[0]['city'].' , '.$address_res[0]['state'].' ,<br>'.$address_res[0]['country'].' - '.$address_res[0]['pincode'];
+				$shipping_address 				= '<strong>'.ucwords($name).'</strong><br>'.$address.'<br>Phone no : '.$mobile; 
+				$address_arr       				= array();
+				$address_arr['name'] 			= $name;
+				$address_arr['mobile'] 			= $mobile;
+				$address_arr['address'] 		= $address;
+				$address_arr['city'] 			= $address_res[0]['city'];
+				$address_arr['state'] 			= $address_res[0]['state'];
+				$address_arr['country'] 		= $address_res[0]['country'];
+				$address_arr['pincode'] 		= $address_res[0]['pincode'];
+				$delivery_address 				= json_encode($address_arr,true);
+				
 			}
 			
 			
@@ -1111,6 +1277,7 @@ class Master_m extends CI_Model{
 			$order_data['is_active']			= 1;
 			$order_data['delivery_status_id']	= 1;
 			$order_data['shipping_address']		= $shipping_address;
+			$order_data['delivery_address']		= $delivery_address;
 			
 			if($checkitemStock == 0){
 				$insert_result = insert('orders',$order_data,'');				
@@ -1150,6 +1317,7 @@ class Master_m extends CI_Model{
 						$order_detail['gst_amt'] 					= $row['gst_amt'];
 						$order_detail['vendor_id'] 					= $row['vendor_id'];
 						$order_detail['elements_attributes'] 		= $ele_attr;
+						$order_detail['order_date'] 				= date('Y-m-d');
 		
 						$insert_order 	= insert('order_details',$order_detail,'');
 						logThis($insert_order->query, date('Y-m-d'),'Order Detail');	
@@ -1188,8 +1356,8 @@ class Master_m extends CI_Model{
 	 * return : < 0 => out of stock	 * 
 	 * 
 	*/
-	public function checkCartItemStock(){
-		$customer_id = $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+	public function checkCartItemStock($customer_id){
+		//$customer_id = $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
 		$result = $this->getCustomerCartItems($customer_id);
 		$err_count = 0;  // 0 : instock 
 		if(!empty($result)){
@@ -1206,19 +1374,20 @@ class Master_m extends CI_Model{
 
 	/*** UPDATE PRODUCT STOCK */
 	public function updateProductStock($product_id,$product_qty){
-		$this->db->select('*');
-		$this->db->from('stock_details');
+		
+		$this->db->select('stock');
+		$this->db->from('product_details');
 		$this->db->where('product_id',$product_id);
-		$this->db->order_by('stock_details_id','desc');
 		$query = $this->db->get()->result_array();
-		if(!empty($query)){
-			$old_stock = $current_stock = intval($query[0]['current_stock']);
+		//if(!empty($query)){
+			$old_stock = $current_stock = intval($query[0]['stock']);
 			if($old_stock != 0 && $old_stock > 0){
 				$new_stock = $current_stock - $product_qty;
 	
 				$insertdata['product_id'] 		= $product_id;
 				$insertdata['old_stock'] 		= $old_stock;
-				$insertdata['ordered_qty'] 		= $product_qty;
+				//$insertdata['ordered_qty'] 		= $product_qty;
+				$insertdata['stock_out'] 		= $product_qty;
 				$insertdata['current_stock']	= $new_stock;
 				$insertdata['status']			= 2;
 		
@@ -1231,8 +1400,9 @@ class Master_m extends CI_Model{
 				logThis($update_result->query, date('Y-m-d'),'Product');
 				return true;
 			}			
-		}	
-		return false;
+		//}	
+		//return false;
+		return true;
 	}
 
 	/**** FETCH ALL DELIVERY STATUS */
@@ -1298,7 +1468,7 @@ class Master_m extends CI_Model{
 	}
 	
 	/**** GENERATE INVOICE PDF AFTER ORDER OLACE*/
-	public function generateInvoice($order_id){
+	public function generateInvoice($order_id,$product_id){
 		// ORDER DATA
 		$this->db->select('*');
 		$this->db->from('orders');
@@ -1307,23 +1477,378 @@ class Master_m extends CI_Model{
 		
 		$customer_id 	= $orderdata[0]['customer_id'];
 		$order_number 	= $orderdata[0]['order_number'];
-		$file_path 		= INVOICE_PDF_PATH.'/'.$customer_id.'/';
-		$file_name 		= $order_number.'.pdf';
+		$file_path 		= INVOICE_PDF_PATH.$customer_id.'/'.$order_number.'/';
+		$file_name 		= $order_number.'-'.$product_id.'.pdf';
 
 		// ORDER PRODUCT DETAIL
 		$this->db->select('*');
 		$this->db->from('order_details');
 		$this->db->where('order_id',$order_id);
+		$this->db->where('product_id',$product_id);
 		$orderproductDetail = $this->db->get()->result_array();
 
 		$data['orderdata'] 	= $orderdata;
 		$data['productdata'] = $orderproductDetail;
-		$html1  = $this->load->view('UI/Invoice_v',$data);
-		$html = $this->output->get_output($html1);
+		$html1  = $this->getInvoiceHtml($data);
+		//$html = $this->output->get_output($html1);
 		// $html1 = $this->load->view('UI/Invoice_v');
 		// $html = $this->output->get_output($html1);
-		createPdf($file_path,$file_name,$html);
-		return true;
+		
+		createPdf($file_path,$file_name,$html1);
+		return $file_path.$file_name;
+	}
+
+	public function getInvoiceHtml($data){
+		$orderdata = $data['orderdata'] ;
+		$productdata = $data['productdata'] ;
+        $logo_path = UI_ASSETS.'images/mv-logo.png';
+	    $logo_type = pathinfo($logo_path, PATHINFO_EXTENSION);
+		$logo_data = file_get_contents($logo_path);
+		$logo_base64 = 'data:image/' . $logo_type . ';base64,' . base64_encode($logo_data);
+        $html = '';
+		$html .='<!DOCTYPE html
+				PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+			<html xmlns="http://www.w3.org/1999/xhtml">
+
+				<head>
+					<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+					<title>
+					'.$orderdata[0]['order_number'].'
+					</title>
+				</head>
+
+				<body style="margin:0;">
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tr>
+							<td>
+								<img src="'.$logo_base64.'" width="150" />
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:15px;" align="right">
+								Tax Invoice/Bill of Supply Cash Memo <br>
+								<span style="font-weight:300; font-size:13px;">
+									(Original For Recipient)
+								</span>
+							</td>
+						</tr>
+
+						<tr>
+							<td colspan="2">
+								&nbsp;
+							</td>
+						</tr>
+						<!--<tr>
+								<td colspan="2">
+									&nbsp;
+								</td>
+							</tr>-->
+						<tr>
+							<td width="49%">
+								<table width="100%" border="0" cellspacing="0" cellpadding="0">
+									<tr>
+										<td>
+											<table width="100%" border="0" cellspacing="0" cellpadding="0">
+												<tr>
+													<td
+														style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px;">
+														Sold By:
+													</td>
+												</tr>
+												<tr>
+													<td
+														style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px;">
+														Appario Retail Private Ltd
+													</td>
+												</tr>
+												<tr>
+													<td
+														style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px;">
+														Building No. 5, BGR Warehousing Complex,
+													</td>
+												</tr>
+												<tr>
+													<td
+														style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px;">
+														Near Shiv Sagar Hotel, Village Vahuli, Bhiwandi, <br>Thane BHIWANDI,
+														MAHARASHTRA, 421302
+													</td>
+												</tr>
+												<tr>
+													<td>
+														&nbsp;
+													</td>
+												</tr>
+												<!--<tr>
+														<td>
+															&nbsp;
+														</td>
+													</tr>-->
+												<tr>
+													<td
+														style="font-family:Verdana, Geneva, sans-serif;font-weight:600; font-size:15px;">
+														PAN No.:
+														<span style="font-weight:300; font-size:11px;">
+															AALCA0171E
+														</span>
+													</td>
+												</tr>
+												<tr>
+													<td
+														style="font-family:Verdana, Geneva, sans-serif;font-weight:600; font-size:15px;">
+														GST Registration No.:
+														<span style="font-weight:300; font-size:11px;">
+															27AALCA0171E1ZZ
+														</span>
+													</td>
+												</tr>
+												<tr>
+													<td>
+														&nbsp;
+													</td>
+												</tr>                                
+												<tr>
+													<td
+														style="font-family:Verdana, Geneva, sans-serif;font-weight:600; font-size:15px;">
+														Order Number:
+														<span style="font-weight:300; font-size:11px;">
+															'.$orderdata[0]['order_number'].'
+														</span>
+													</td>
+												</tr>
+												<tr>
+													<td
+														style="font-family:Verdana, Geneva, sans-serif;font-weight:600; font-size:15px;">
+														Order Date:
+														<span style="font-weight:300; font-size:11px;">
+															'.date('d-m-Y',strtotime($orderdata[0]['order_date'])).'
+														</span>
+													</td>
+												</tr>
+											</table>
+										</td>
+									</tr>
+								</table>
+							</td>
+							<td width="51%" valign="top">
+								<table width="100%" border="0" cellspacing="0" cellpadding="0">
+									<tr>
+										<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px;"
+											align="right">
+											Billing Address:
+										</td>
+									</tr>
+									<tr>
+										<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:12px;"
+											align="right">
+											'.$orderdata[0]['shipping_address'].'
+										</td>
+									</tr>                    
+									<tr>
+										<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:15px;"
+											align="right">
+											&nbsp;
+										</td>
+									</tr>                    
+									<tr>
+										<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px;"
+											align="right">
+											Shipping Address:
+										</td>
+									</tr>
+									<tr>
+										<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:12px;"
+											align="right">
+											'.$orderdata[0]['shipping_address'].'
+										</td>
+									</tr>                    
+									<tr>
+										<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:15px;"
+											align="right">
+											&nbsp;
+										</td>
+									</tr>
+									<tr>
+										<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:15px;"
+											align="right">
+											Invoice Number:
+											<span style="font-weight:300; font-size:11px;">
+												DOB734-346593
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:15px;"
+											align="right">
+											Invoice Details:
+											<span style="font-weight:300; font-size:11px;">
+												DOB734-346593
+											</span>
+										</td>
+									</tr>
+									<tr>
+										<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:15px;"
+											align="right">
+											Invoice Date:
+											<span style="font-weight:300; font-size:11px;">
+												'.date('d-m-Y',strtotime($orderdata[0]['order_date'])).'
+											</span>
+										</td>
+									</tr>
+								</table>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+								&nbsp;
+							</td>
+						</tr>
+						<tr>
+							<td colspan="2">
+
+							</td>
+						</tr>       
+					
+					</table>
+
+					<table width="100%" border="0" cellspacing="0" cellpadding="0">
+						<tbody>
+						<tr>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; border-bottom:1px solid #333; border-left:1px solid #333; border-right:1px solid #333; background-color: #ddd;"
+								width="5%" height="32" align="center">
+								Sr/No.
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; border-bottom:1px solid #333; border-left:1px solid #333; border-right:1px solid #333; background-color: #ddd;"
+								width="30%" height="32" align="center">
+								Products
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; border-bottom:1px solid #333; border-right:1px solid #333; background-color: #ddd;"
+								width="10%" align="center">
+								Unit Price
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; border-bottom:1px solid #333; border-right:1px solid #333; border-right:1px solid #333; background-color: #ddd;"
+								width="10%" align="center">
+								Net Amount
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; border-bottom:1px solid #333; border-right:1px solid #333; background-color: #ddd;"
+								width="5%" align="center">
+								Qty
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; border-bottom:1px solid #333; border-right:1px solid #333; background-color: #ddd;"
+								width="10%" align="center">
+								Discount
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; border-bottom:1px solid #333; border-right:1px solid #333; border-right:1px solid #333; background-color: #ddd;"
+								width="10%" align="center">
+								Tax Rate
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; border-bottom:1px solid #333; border-right:1px solid #333; border-right:1px solid #333; background-color: #ddd;"
+								width="10%" align="center">
+								Tax Amount
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-top:1px solid #333; border-bottom:1px solid #333; border-right:1px solid #333; border-right:1px solid #333; background-color: #ddd;"
+								width="10%" align="center">
+								Total Amount
+							</td>
+						</tr>';
+						
+							$i = 1;
+							foreach($productdata as $row){
+						$html .='<tr>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:13px; border-bottom:1px solid #333; border-left:1px solid #333; border-right:1px solid #333;"
+								align="center">
+								'.$i++.'
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px; border-bottom:1px solid #333; border-left:1px solid #333; border-right:1px solid #333;"
+								align="center">
+								'.$row['product_name'].'
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px; border-bottom:1px solid #333; border-right:1px solid #333;"
+								align="center">
+								'.$row['mrp_price'].'
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px; border-bottom:1px solid #333; border-right:1px solid #333;"
+								align="center">
+								'.$row['net_price'].'
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px; border-bottom:1px solid #333; border-right:1px solid #333;"
+								align="center">
+								'.$row['quantity'].'
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px; border-bottom:1px solid #333; border-right:1px solid #333; border-right:1px solid #333;"
+								align="center">
+								'.$row['discount_amt'].'
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px; border-bottom:1px solid #333; border-right:1px solid #333; border-right:1px solid #333;"
+								align="center">
+								'.$row['gst'].'
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px; border-bottom:1px solid #333; border-right:1px solid #333; border-right:1px solid #333;"
+								align="center">
+								'.$row['gst_amt'].'
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px; border-bottom:1px solid #333; border-right:1px solid #333; border-right:1px solid #333;"
+								align="center">
+								'.$row['total_amt'].'
+							</td>
+						</tr>';
+						} 
+						$html .='<tr>
+							<td colspan="7"
+								style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px; border-bottom:1px solid #333; border-left:1px solid #333; border-right:1px solid #333;"
+								height="20" align="center">
+							</td>
+
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px; border-bottom:1px solid #333; border-right:1px solid #333; border-right:1px solid #333; background-color: #ddd;"
+								align="center">
+								'.$orderdata[0]['gst_amount'].'
+							</td>
+							<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:11px; border-bottom:1px solid #333; border-right:1px solid #333; border-right:1px solid #333; background-color: #ddd;"
+								align="center">
+								'.$orderdata[0]['total_amount'].'
+							</td>
+						</tr>
+						<tr>
+							<td colspan="9"
+								style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:11px; border-bottom:1px solid #333; border-left:1px solid #333; border-right:1px solid #333;"
+								height="20" align="left">
+								Amount in Words:
+								<span style="font-weight:300; font-size:11px;">
+								'.convertToIndianCurrency($orderdata[0]['total_amount']).'
+								</span>
+							</td>
+						</tr>
+						<tr>
+							<td colspan="9"
+								style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-bottom:1px solid #333; border-left:1px solid #333; border-right:1px solid #333; padding-right: 15px;"
+								height="32" align="right">
+								<img src="'.$logo_base64.'" width="150" />
+							</td>
+						</tr>
+						<tr>
+							<td colspan="9"
+								style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:13px; border-bottom:1px solid #333; border-left:1px solid #333; border-right:1px solid #333; padding-right: 15px;"
+								height="20" align="right">
+								Authorised Signatory
+							</td>
+						</tr>
+						</tbody>
+						<tfoot>
+						<tr>
+							<td colspan="9">
+								&nbsp;
+							</td>
+						</tr>
+							<tr>
+								<td style="font-family:Verdana, Geneva, sans-serif; font-weight:300; font-size:13px;" colspan="9"
+									align="center">
+									(This is computer generated receipt and does not require physical signature.)
+								</td>
+							</tr>
+						</tfoot>
+					</table>
+				</body>
+
+				</html>';
+				return $html;
 	}
 
 	/*** SEND ORDER CONFIRMATION MAIL TO CUNSTOMER*/
@@ -1359,163 +1884,120 @@ class Master_m extends CI_Model{
 		return true;
 	}
 
-	/****  */
-	public function getAllCategoryByoffer($parent_cat_id=null){
+	/****  GET CTAEGORY WITH OFFER*/
+	public function getAllCategoryByoffer($short_code=null){
+		$parent_cat_id = "";
+		if($short_code != null || $short_code != ""){
+			$cat_cond['short_code'] 	= $short_code;
+			$result1					= $this->where('category',$cat_cond);
+			$parent_cat_id				= $result1[0]['category_id'];				
+		}	
 		
 		$date1 = date('Y-m-d'); // today;
 		$this->db->select('*');
 		$this->db->from('offer');
 		$this->db->where('is_active',1);
 		$this->db->where('to_date >=',$date1);
-		$result 			= $this->db->get()->result_array();
+		$result 			= $this->db->get()->result_array(); 
 		$p_array 			= array();	
-		if(!empty($result)){
 			
-			$j = 0;
+		if(!empty($result)){			
+			$i = 0;
 			foreach($result as $row){
-				
+				$cat_array 				= array();
 				$title 					= $row['title'];
 				$keywords 				= $row['keywords'];
+				$offer_id 				= $row['offer_id'];
 				$offer_on_element 		= $row['offer_on_element'];
 				$offer_value 			= $row['offer_value'];
 				$category_id 			= $row['category_id'];
 				$symbol 				= $row['symbol'];
-				
-				if(!empty($category_id)){
-					$cat = explode(',',$category_id);
-					if($parent_cat_id != "" && !empty($parent_cat_id)){
-						//$parent_cat_id = 60; // women,men,kids
-						$res_child_cat 	= $this->getCateforyNameByID($parent_cat_id);
-						$child_arr		= explode(',',$res_child_cat[0]['child_category']);
-						$cat = array_intersect($child_arr, $cat);
-					}				
-					if(!empty($cat)){
-						
-						$this->db->select('c.category_name,c.category_id');
-						$this->db->from('category c');
-						$this->db->where_in('c.category_id', $cat );
-						$this->db->group_by('c.category_id');
-						$query = $this->db->get()->result_array();
-
-						// if(!empty($query)){
-						// 	$sub_arr = array();
-						// 	$k = 0;
-						// 	foreach($query as $key=>$val){
-								
-						// 		if(!empty($val)){
-									
-						// 			foreach($val as $key1=>$val1){
-						// 				$sub_arr[$k][$key1] = $val1;
-										
-						// 			}
-						// 		}
-								
-						// 		$sub_arr[$k]['keywords'] 			= $keywords;
-						// 		$sub_arr[$k]['offer_value'] 		= $offer_value;
-						// 		$sub_arr[$k]['offer_element'] 		= $offer_on_element;
-						// 		$k++;
-						// 	}
-						// }
-
-						// $p_array[$title] = $sub_arr;
-						
-						$p_array['offer'][$j]['offer_desc']['keywords'] 			= ucwords($keywords);
-						$p_array['offer'][$j]['offer_desc']['offer_value'] 		= $offer_value;
-						$p_array['offer'][$j]['offer_desc']['offer_element'] 	= $offer_on_element;
-						$p_array['offer'][$j]['offer_desc']['symbol'] 			= $symbol;
-						$p_array['offer'][$j]['category_list'] = $query;
-						
-					}
+				$j = 0;
+				if($category_id !="" || $category_id != null){ 
+					$category_ids = explode(',',$category_id);
 					
-				}else{				
-
-					if(strtolower($offer_on_element) == "price"){
-						if(strtolower($keywords) == "under"){
-							$this->db->where('p.net_price <=',$offer_value);
-						}
-						else if(strtolower($keywords) == "upto"){
-							$this->db->where('p.net_price <=',$offer_value);
-						}
-						else if(strtolower($keywords) == "from"){
-							$this->db->where('p.net_price >=',$offer_value);
-						}
-						else if(strtolower($keywords) == "flat"){
-							$this->db->where('p.net_price',$offer_value);
-						}
-						else if(strtolower($keywords) == "starting at"){
-							$this->db->where('p.net_price <=',$offer_value);
-						}
-						else if(strtolower($keywords) == "min"){
-							$this->db->where('p.net_price <=',$offer_value);
-						}
-					}
-					else if(strtolower($offer_on_element) == "discount"){
-						if(strtolower($keywords) == "upto"){
-							$this->db->where('p.discount <=',$offer_value);
-						}
-						else if(strtolower($keywords) == "from"){
-							$this->db->where('p.discount >=',$offer_value);
-						}
-						else if(strtolower($keywords) == "flat"){
-							$this->db->where('p.discount',$offer_value);
-						}
-						else if(strtolower($keywords) == "min"){
-							$this->db->where('p.discount >=',$offer_value);
-						}
-					}
-				
-					$this->db->select('p.child_category');
-					$this->db->from('product_details p');
-					$this->db->group_by('p.child_category');
-					$query = $this->db->get()->result_array();
-					
-					if(!empty($query)){
+					foreach($category_ids as $row1){					
+						$cat_cond1['category_id'] 	= $row1; 
+						$cat_res 					= $this->where('category',$cat_cond1);	
 						
-						$c_array =array();
-						$i = 0;
-						
-						foreach($query as $row){
-							
-							$child_category = $row['child_category'];
-							
-							if($parent_cat_id != "" && !empty($parent_cat_id)){
-								
-								if (in_array($child_category, $child_arr)){
-									$cat_name		= $this->getCateforyNameByID($child_category);
-									$c_array[$i]['category_name'] 		= $cat_name[0]['category_name'];
-									$c_array[$i]['category_id'] 		= $row['child_category'];
-									// $c_array[$i]['keywords'] 			= $keywords;
-									// $c_array[$i]['offer_value'] 		= $offer_value;
-									// $c_array[$i]['offer_element'] 		= $offer_on_element;
-								}
-							}
-							else{
-
-								$cat_name							= $this->getCateforyNameByID($child_category);
-								$c_array[$i]['category_name'] 		= $cat_name[0]['category_name'];
-								$c_array[$i]['category_id'] 		= $row['child_category'];
-								// $c_array[$i]['keywords'] 			= $keywords;
-								// $c_array[$i]['offer_value'] 		= $offer_value;
-								// $c_array[$i]['offer_element'] 		= $offer_on_element;
-							}
-							$i++;
+						$cat_hierarchy 				= explode(',',$cat_res[0]['hierarchy']);
+						$cat_parent					= $cat_hierarchy[0];
+						$cat_img					= $cat_res[0]['category_image'];
+						if($cat_parent == $parent_cat_id){
+							$cat_array[$j]['name'] = getCateforyNameByID($row1);
+							$cat_array[$j]['id'] 	= $row1;
+							$cat_array[$j]['image'] = base_url().CATEGORY_IMAGE_PATH.$cat_img;
+							$j++;
 						}
-						$offer_arr = array() ;
-						$offer_arr['keywords'] 			= ucwords($keywords);
-						$offer_arr['offer_value'] 		= $offer_value;
-						$offer_arr['offer_element'] 	= $offer_on_element;
-						$offer_arr['symbol'] 			= $symbol;
 						
-						//$p_array[$title] = $c_array;						
-						$p_array['offer'][$j]['offer_desc'] 			= $offer_arr;
-						$p_array['offer'][$j]['category_list'] 		= $c_array;
-					}					
+					} 					
 				}
-				$j++;			
+				if(!empty($cat_array)){				
+					$p_array[$i]['offer_id'] 			= $offer_id;
+					$p_array[$i]['keywords'] 			= ucwords($keywords);
+					$p_array[$i]['offer_value'] 		= $offer_value;
+					$p_array[$i]['offer_element'] 		= $offer_on_element;
+					$p_array[$i]['symbol'] 				= $symbol;
+					$p_array[$i]['category_list'] 		= $cat_array;
+					$i++;	
+				}		
 			}
-		}		
+		}
+		
 		return $p_array;
 	}
+
+	/***** GET OFFER PRODUCTLIST BY CATEGORY */
+	public function getProductsByOffer($offer_id,$category_id){
+		$this->db->select('keywords,offer_on_element,offer_value');
+		$this->db->from('offer');
+		$this->db->where('offer_id',$offer_id);
+		$offer_res = $this->db->get()->result_array();
+		$result = array();
+		if(!empty($offer_res)){
+			$keywords 				= $offer_res[0]['keywords'];
+			$offer_on_element 		= $offer_res[0]['offer_on_element'];
+			$offer_value 			= $offer_res[0]['offer_value'];
+
+			if(strtolower($keywords) == "under"){
+				$this->db->where("p.net_price <= $offer_value");
+			}
+			else if(strtolower($keywords) == "upto"){
+				if(strtolower($offer_on_element) == "discount"){
+					$this->db->where("p.discount <= $offer_value");
+				}				
+			}
+			else if(strtolower($keywords) == "flat"){
+				if(strtolower($offer_on_element) == "discount"){
+					$this->db->where('p.discount',$offer_value);
+				}else if(strtolower($offer_on_element) == "price"){
+					$this->db->where('p.discount_amt',$offer_value);
+				}
+			}
+			else if(strtolower($keywords) == "from"){
+				if(strtolower($offer_on_element) == "discount"){
+					$this->db->where('p.discount >=',$offer_value);
+				}else if(strtolower($offer_on_element) == "price"){
+					$this->db->where('p.net_price >=',$offer_value);
+				}
+			}
+			else if(strtolower($keywords) == "min"){
+
+			}
+			else if(strtolower($keywords) == "starting at"){
+
+			}
+			$this->db->select('p.product_id,p.product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,b.brand_name');
+			$this->db->from('product_details p');	
+			$this->db->join('brand b','b.brand_id = p.brand_id');	
+			$this->db->where("p.child_category", $category_id);		
+			$this->db->order_by('p.net_price','asc');		
+			$this->db->group_by('p.variant_code');
+			$result = $this->db->get()->result_array();		
+		}
+		return $result;
+	}
+	
 
 	/*** ORDERED PRODUCT DETAIL FROM ORDERID , PRODUCT ID */
 	public function getOrderedProductDetail($order_id,$productid){
@@ -1568,12 +2050,22 @@ class Master_m extends CI_Model{
 					$product_id 				= $row['product_id'];
 					if(!empty($product_arr)){
 						if (in_array($product_id, $product_arr)){
-							$color_name 				= getAttributeNameByID($attributes_id);;
-							$color_arr[$attributes_id] 	= $color_name;
+							$whr['attributes_id'] 	= $attributes_id;
+							$attr_res 				= $this->Master_m->where('attributes',$whr); 
+							//$color_name 				= getAttributeNameByID($attributes_id);;
+							$color_name 				= $attr_res[0]['attributes_name'];
+							$color_code 				= $attr_res[0]['attribute_code'];
+							$color_arr[$attributes_id]['name'] 	= $color_name;
+							$color_arr[$attributes_id]['code'] 	= $color_code;
 						}
 					}else{
-						$color_name 				= getAttributeNameByID($attributes_id);;
-						$color_arr[$attributes_id] 	= $color_name;
+						$whr['attributes_id'] 	= $attributes_id;
+						$attr_res 				= $this->Master_m->where('attributes',$whr); 
+						// $color_name 				= getAttributeNameByID($attributes_id);;
+						$color_name 				= $attr_res[0]['attributes_name'];
+						$color_code 				= $attr_res[0]['attribute_code'];
+						$color_arr[$attributes_id]['name'] 	= $color_name;
+						$color_arr[$attributes_id]['code'] 	= $color_code;
 					}					
 														
 				}
@@ -1752,7 +2244,7 @@ class Master_m extends CI_Model{
 
 	/***** FETCH ALL RECENTLY VIEW PRODUCT */
 	public function getRecentViewProduct($customer_id){
-		$this->db->select('p.product_name,p.short_code,p.product_id,p.mrp_price,p.net_price,p.cover_img');
+		$this->db->select('r.product_id,p.variant_code,p.product_name,p.short_code,p.product_id,p.mrp_price,p.net_price,p.cover_img');
 		$this->db->from('recent_view r');
 		$this->db->join('product_details p','p.product_id = r.product_id');
 		$this->db->where('r.customer_id',$customer_id);
@@ -1765,6 +2257,11 @@ class Master_m extends CI_Model{
 
 	/*** TOTAL PRODUCTS COUNT */
 	public function totalProductsCount(){
+		$user_type 	= $this->session->userdata[ADMIN_SESSION]['user_type'];			
+		if(strtolower($user_type) != "admin"){
+			$user_id 	= $this->session->userdata[ADMIN_SESSION]['user_id'];
+			$this->db->where('vendor_id',$user_id);
+		}
 		$this->db->select('count(product_id) as totalproduct');
 		$this->db->from('product_details');
 		$query = $this->db->get()->row();
@@ -1782,8 +2279,13 @@ class Master_m extends CI_Model{
 
 	/*** TOTAL ORDER COUNT */
 	public function totalOrderCount(){
+		$user_type 	= $this->session->userdata[ADMIN_SESSION]['user_type'];			
+		if(strtolower($user_type) != "admin"){
+			$user_id 	= $this->session->userdata[ADMIN_SESSION]['user_id'];
+			$this->db->where('vendor_id',$user_id);
+		}
 		$this->db->select('count(order_id) as totalorder');
-		$this->db->from('orders');
+		$this->db->from('order_details');
 		$query = $this->db->get()->row();
 		return $query->totalorder;
 	}
@@ -1964,7 +2466,7 @@ class Master_m extends CI_Model{
 		$this->db->join('product_details p','p.product_id = pe.product_id');
 		$this->db->where('pe.product_id',$product_id);
 		$this->db->where('pe.attributes_id',$item_attr);
-		$this->db->where('pe.element_id',$item_ele);
+		//$this->db->where('pe.element_id',$item_ele);
 		$this->db->where('pe.variant_code',$variant_code);
 		$this->db->where('p.is_active',1);
 		$this->db->order_by('pe.product_id','asc');
@@ -1987,5 +2489,1206 @@ class Master_m extends CI_Model{
 		$query = $this->db->get()->result_array();
 		return $query;
 	}
-}
 
+	/**** SUBMIR PRODUCT RATING REVIEWS */
+	public function submitRatingReviews($data){
+		$product_id 				= $data['product_id'];
+		$rate 						= $data['rate'];
+		$review_title				= $data['review_title'];
+		$review_content 			= $data['review_content'];
+		$customer_id 				= $data['customer_id'];
+		$customer_name 				= $data['customer_name'];
+		$email 						= $data['email'];
+
+		$insertdata['product_id'] 				= $product_id;
+		$insertdata['star_rate'] 				= $rate;
+		$insertdata['review_title'] 			= $review_title;
+		$insertdata['review_content'] 			= $review_content;
+		$insertdata['customer_id'] 				= $customer_id;
+		$insertdata['customer_name'] 			= $customer_name;
+		$insertdata['customer_email'] 			= $email;
+		$insertdata['review_date'] 				= date('Y-m-d');
+
+		$insert_result = insert('product_review',$insertdata,'');
+		
+		logThis($insert_result->query, date('Y-m-d'),'Product Rating Reviews');
+		
+		if($insert_result->status = 'success'){
+			$response['success'] = "suceess";
+			$response['message'] = "Review Added Successfull";
+			return $response;
+		}else{
+			return false;
+		}		
+	}
+
+	/*** ALL REVIWES BY PRODUCT ID */
+	public function getProductAllReviews($product_id){
+		$this->db->select('product_review_id,customer_name,star_rate,review_title,review_content,review_date');
+		$this->db->from('product_review');
+		$this->db->where('product_id',$product_id);
+		$result = $this->db->get()->result_array();
+		return $result;
+	}
+
+	/***** GET SIMILER PRODUCTS FROM CATEGORY */
+	public function getSimilerProducts($child_category_id,$product_id){
+		$sort_by = "ORDER BY net_price ASC";
+		/***** 	QUERY : #1 */
+		
+		$this->db->select('DISTINCT(p.product_id) as product_id, p.product_name as product_name,p.child_category, p.short_code, p.short_description, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,b.brand_name');
+		$this->db->from('product_details p');
+		$this->db->join('brand b','b.brand_id = p.brand_id');
+		$this->db->where('p.is_active', 1);
+   		$this->db->where('p.variant_code IS NOT NULL'); 
+   		$this->db->where('p.child_category',$child_category_id); 
+   		$this->db->where('p.product_id !=',$product_id); 
+		$this->db->group_by('p.variant_code');	
+		
+		$query1	= $this->db->get_compiled_select();
+
+		/***** 	QUERY : #2 */
+
+		$this->db->select('DISTINCT(p1.product_id) as product_id, p1.product_name as product_name,p1.child_category, p1.short_code, p1.short_description, p1.net_price as net_price, p1.cover_img,p1.mrp_price,p1.discount,p1.variant_code,b.brand_name');
+		$this->db->from('product_details p1');		
+		$this->db->join('brand b','b.brand_id = p1.brand_id');
+   		$this->db->where('p1.is_active', 1);
+		$this->db->where('p1.variant_code IS NULL'); 
+		$this->db->where('p1.child_category',$child_category_id); 
+		$this->db->where('p1.product_id !=',$product_id); 
+		$query2=$this->db->get_compiled_select();
+				
+		$query = $this->db->query($query1 . ' UNION ALL ' . $query2 .' '. $sort_by );
+		$result = $query->result_array();
+		$product_data = $this->createVarientList($result);
+		
+		return $result;
+	}
+
+	/*** GET VARIENT LIST OF PRODUCT*/
+	public function createVarientList($products){
+		$elearr 			= array();$i=0;
+		foreach($products as $product){
+			$attr_arr 					= array();
+			$variant_code 				= $product['variant_code']; 
+			
+			if($variant_code != "" && $variant_code !=null && !empty($variant_code)){
+				$variant_list 				= $this->Master_m->getVariationListByCode($variant_code,null);
+			}
+			else{
+				$variant_list 				= $this->Master_m->getVariationListByCode(null,$product['product_id']);
+			}
+				//print_r($variant_list);
+			if(!empty($variant_list)){
+				array_multisort(array_column($variant_list, 'attributes_id'), SORT_ASC, $variant_list);
+				foreach($variant_list as $item)
+				{
+					$pid 					= $item['product_id']; 
+					$element_id 			= $item['element_id']; 
+					$ele_name 				= getElementNameByID($element_id);
+					$attributes_id 			= $item['attributes_id']; 
+					$attr_name				= getAttributeNameByID($attributes_id);
+					$attr_arr[$ele_name][$attr_name]		= $attr_name;		
+				}
+				
+				$varients_arr = array();
+				foreach($attr_arr as $ekey=>$evalue)
+				{
+					$varients_arr[$ekey]		= implode(', ',$evalue);;				
+				}
+				$elearr[$i] 				=  $product;
+				$elearr[$i]['variants'] 	=  $varients_arr;	
+			}
+			$i++;
+		}
+		return $elearr;
+	}
+
+	/*** BEST SELLING PRODUCTS : TOP 10 */
+	public function getBestSellingProducts(){
+		$this->db->select('p.product_id,p.product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,count(o.product_id) as total');
+		$this->db->from('product_details p');
+		$this->db->join('order_details o','o.product_id=p.product_id');
+		$this->db->order_by('total','desc');
+		$this->db->group_by('o.product_id');
+		$this->db->limit(10);	
+		$result = $this->db->get()->result_array();
+		$product_data = array();
+		if(!empty($result)){
+			$product_data = $this->createVarientList($result);
+		}
+		return $product_data;
+	}
+
+	/*** RECENT VIEWED PRODUCTS OF CUSTOMER */
+	public function getRecentviewedProducts($customer_id){
+		$this->db->select('p.product_id,p.product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code');
+		$this->db->from('recent_view r');
+		$this->db->join('product_details p','p.product_id=r.product_id');
+		$this->db->where('r.customer_id',$customer_id);
+		$result = $this->db->get()->result_array();
+		
+		return $result;
+	}
+
+	/*** GET TOTAL VIEWS COUNT OF PRODUCTS */
+	public function getProductTotalViewsCount($product_id){
+		$this->db->select('view_count');
+		$this->db->from('product_details');
+		$this->db->where('product_id',$product_id);
+		$result = $this->db->get()->row();		
+		return $result->view_count;
+	}
+
+	/***** UPDATE VIEWS COUNT OF PRODUCT  */
+	public function  updateProductViews($product_id){
+		$current_views 	= $this->getProductTotalViewsCount($product_id);
+		$update_count 	= (int)$current_views + 1;
+
+		$updatedata['view_count'] 	= $update_count;
+		$where['product_id'] 		= $product_id;
+		$update_query = update('product_details',$updatedata,$where);	
+		logThis($update_query->query, date('Y-m-d'),'Product Details');
+		return true;
+	}
+
+	/***** FREQUENT/TOP SEARCH/VIEWED PRODUCTS LIST */
+	public function getFrequentViewProduct($customer_id=null){
+		if($customer_id != "" || $customer_id != null){
+			$this->db->join('recent_view r','r.product_id = p.product_id','left');	
+			$this->db->where('r.customer_id',$customer_id);
+		}
+		$this->db->select('p.product_id,p.product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,b.brand_name');
+		$this->db->from('product_details p');
+		$this->db->join('brand b','b.brand_id = p.brand_id');		
+		$this->db->where('p.view_count >',0);
+		$this->db->order_by('p.view_count','desc');
+		$this->db->limit(20);
+		$result = $this->db->get()->result_array();		
+		return $result;
+	}
+
+	/**** IS CHECK BRAND IS EXIST OR NOT */
+	public function ischeckBrand($brand_name){
+		$this->db->select('brand_id,created_by');
+		$this->db->from('brand');
+		$this->db->where('brand_name',$brand_name);
+		$query = $this->db->get()->result_array();
+		return $query;
+	}
+
+	
+
+
+/*********************************** API FUNCTION *************************************************** */
+	function getAllProductInGrid($category_id){
+		$sort_by = "ORDER BY net_price ASC";
+		/***** 	QUERY : #1 */
+		
+		$this->db->select('DISTINCT(p.product_id) as product_id, p.product_name as product_name, p.short_code, p.short_description, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,pe.product_id,v.name,b.brand_name,p.is_new_product');
+		$this->db->from('product_details p');
+		$this->db->join('product_elements_attributes pe','pe.product_id=p.product_id');
+		$this->db->join('vendor v','v.vendor_id = p.vendor_id');
+		// $this->db->join('category c','c.category_id = p.category_id');
+		$this->db->join('brand b','b.brand_id = p.brand_id');
+		$this->db->where('p.is_active', 1);
+   		$this->db->where('p.variant_code IS NOT NULL'); 
+		$this->db->where("p.child_category", $category_id);
+		$this->db->group_by('p.variant_code');		
+		$query1	= $this->db->get_compiled_select();
+
+		/***** 	QUERY : #2 */
+
+		$this->db->select('DISTINCT(p1.product_id) as product_id, p1.product_name as product_name, p1.short_code, p1.short_description, p1.net_price as net_price, p1.cover_img,p1.mrp_price,p1.discount,p1.variant_code,pe1.product_id,v1.name,b1.brand_name,p1.is_new_product');
+		$this->db->from('product_details p1');
+		$this->db->join('product_elements_attributes pe1','pe1.product_id=p1.product_id');
+		$this->db->join('vendor v1','v1.vendor_id = p1.vendor_id');
+		// $this->db->join('category c1','c1.category_id = p1.category_id');
+		$this->db->join('brand b1','b1.brand_id = p1.brand_id');		
+   		$this->db->where('p1.is_active', 1);
+		$this->db->where('p1.variant_code IS NULL');
+		$this->db->where("p1.child_category", $category_id); 
+		$query2=$this->db->get_compiled_select();
+
+		$query = $this->db->query($query1 . ' UNION ALL ' . $query2 .' '. $sort_by );
+		$result = $query->result_array();	
+		
+		return $result;
+	}
+
+	/*** TOP BRANDS : TRENDINGS */
+	public function getBrandTrendingslist($short_code){
+		if($short_code != null || $short_code != ""){
+			$cat_cond['short_code'] 	= $short_code;
+			$result						= $this->where('category',$cat_cond);
+			$category_id				= $result[0]['category_id'];
+			$this->db->where('p.category_id',$category_id);		
+		}
+
+		$this->db->select('p.brand_id,b.brand_name,b.short_code,b.brand_logo,SUM(o.quantity) as qtyCnt');
+		$this->db->from('order_details o');
+		$this->db->join('product_details p','p.product_id=o.product_id');
+		$this->db->join('brand b','b.brand_id=p.brand_id');		
+		$this->db->order_by('qtyCnt','desc');
+		$this->db->group_by('p.brand_id');
+		$this->db->limit(20);	
+		$result = $this->db->get()->result_array();		
+		//return $result;
+
+		if(count($result) < 4){
+			$this->db->select('p.brand_id,b.brand_name,b.short_code,b.brand_logo');
+			$this->db->from('product_details p');
+			$this->db->join('brand b','b.brand_id=p.brand_id');	
+			$this->db->where('p.is_active',1);
+			$this->db->where('p.category_id',$category_id);
+			$this->db->order_by('p.product_id','desc');
+			$this->db->group_by('p.brand_id');	
+			
+			$result = $this->db->get()->result_array();
+		}
+		return $result;
+	}
+
+	/*** GET CHILD CATEGORY FROM PARENT CATEGORY : clothing*/
+	public function getChildCategoryAPI($short_code = null,$category_id = null){
+		$data = array();
+		if($short_code != null || $short_code != ""){
+			$cat_cond['short_code'] 	= $short_code;		
+		}
+
+		if($category_id != null || $category_id != ""){
+			$cat_cond['category_id'] 	= $category_id;				
+		}	
+		
+		$result						= $this->where('category',$cat_cond);
+		$category_id				= $result[0]['category_id'];
+
+		$this->db->select('c.category_name,c.category_id,category_image');
+		$this->db->from('product_details p');
+		$this->db->join('category c','c.category_id=p.child_category');
+		$this->db->where('p.category_id',$category_id);
+		$this->db->group_by('p.child_category');
+		$child = $this->db->get()->result_array();
+		
+		return $child;
+	}
+
+	/*** BEST SELLING PRODUCTS : TOP 10 */
+	public function getBestSellingProductsForCategory($short_code){
+		
+		if($short_code != null || $short_code != ""){
+			$cat_cond['short_code'] 	= $short_code;
+			$result						= $this->where('category',$cat_cond);
+			$category_id				= $result[0]['category_id'];	
+			$this->db->where('p.category_id',$category_id);	
+		}		
+		
+		$this->db->select('p.product_id,p.product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,count(o.product_id) as total,b.brand_name,ROUND(AVG(COALESCE(pr.star_rate,0))) as totalstar');
+		$this->db->from('product_details p');
+		$this->db->join('order_details o','o.product_id=p.product_id');	
+		$this->db->join('brand b','b.brand_id=p.brand_id');	
+		$this->db->join('product_review pr','pr.product_id = p.product_id','left');	
+		$this->db->order_by('total','desc');
+		$this->db->group_by('o.product_id');
+		$this->db->limit(10);	
+		$result = $this->db->get()->result_array();
+
+		if(empty($result)){
+			$this->db->select('p.product_id,p.product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,b.brand_name,ROUND(AVG(COALESCE(pr.star_rate,0))) as totalstar');
+			$this->db->from('product_details p');	
+			$this->db->join('brand b','b.brand_id=p.brand_id');		
+			$this->db->join('product_review pr','pr.product_id = p.product_id','left');
+			$this->db->where('p.is_active',1);
+			$this->db->where('p.category_id',$category_id);	
+			$this->db->order_by('p.product_id','desc');
+			$this->db->group_by('p.variant_code');	
+			$result = $this->db->get()->result_array();
+		}
+
+		$product_data = array();
+		if(!empty($result)){
+			$product_data = $this->createVarientList($result);
+		}
+		return $product_data;
+	}
+
+	/**** GET ALL PRODUCT COLOR FOR FILTER */
+	public function allProductAttributesByElementAPI($data){
+
+		$short_code 				= $data['short_code'];		
+		$element_type 				= $data['element_type'];		
+
+		if($short_code != null || $short_code != ""){
+			$cat_cond['short_code'] 	= $short_code;
+			$result						= $this->where('category',$cat_cond);
+			$category_id				= $result[0]['category_id'];				
+		}
+
+		$product_arr = array();
+		if($category_id != "" || $category_id != null){
+			$this->db->select('product_id');
+			$this->db->from('product_details');			
+			$this->db->where("category_id", $category_id);   			
+			$product_res  = $this->db->get()->result_array();
+			if(!empty($product_res)){				
+				foreach($product_res as $key=>$val){
+					$product_arr[] = $val['product_id'];
+				}
+			}
+			
+		}
+		$this->db->select('element_id');
+		$this->db->from('product_elements');
+		$this->db->where('element_name',$element_type);
+		$result = $this->db->get()->row();
+
+		$color_arr 			= array();
+		$color_arr1 		= array();
+		if(!empty($result)){
+			$color_id = $result->element_id;
+
+			$this->db->select('attributes_id,product_id');
+			$this->db->from('product_elements_attributes');
+			$this->db->where('element_id',$color_id);
+			$this->db->order_by('attributes_id','asc');		
+			//$this->db->group_by('attributes_id');
+			$color_res 		= $this->db->get()->result_array();
+			
+			$i = 0;
+			if(!empty($color_res)){
+				foreach($color_res as $row){
+					$attributes_id 				= $row['attributes_id'];					
+					$product_id 				= $row['product_id'];
+					if(!empty($product_arr)){
+						if (in_array($product_id, $product_arr)){
+							$whr['attributes_id'] 	= $attributes_id;
+							$attr_res 				= $this->Master_m->where('attributes',$whr); 
+							//$color_name 				= getAttributeNameByID($attributes_id);;
+							$color_name 				= $attr_res[0]['attributes_name'];
+							$color_code 				= $attr_res[0]['attribute_code'];
+							if (array_search($color_name, array_column($color_arr, 'name')) === FALSE) {								
+								$color_arr[$i]['name'] 	= $color_name;
+								$color_arr[$i]['code'] 	= trim(ltrim($color_code, '#'));
+								$color_arr[$i]['id'] 	= $attributes_id;
+								$i++;
+							}						
+						}
+					}	
+														
+				}
+			}
+		}
+		return $color_arr;
+	}
+
+	/**** GET PRODUCTS LIST BY CATEGORY AND ATTRIBUTES ID */
+	public function getProductByAttributeAndCategory($short_code,$attribute_id){
+		
+		if($short_code != null || $short_code != ""){
+			$cat_cond['short_code'] 	= $short_code;
+			$result						= $this->where('category',$cat_cond);
+			$category_id				= $result[0]['category_id'];	
+		}
+
+		$sort_by = "ORDER BY product_id DESC";
+
+		/**** QUERY : 1 */
+		$this->db->select('p.product_id,p.product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,b.brand_name');
+		$this->db->from('product_details p');
+		$this->db->join('product_elements_attributes pe','pe.product_id=p.product_id');
+		$this->db->join('brand b','b.brand_id = p.brand_id');
+		$this->db->where('pe.attributes_id',$attribute_id);	
+		if($short_code != null || $short_code != ""){
+			$this->db->where('p.category_id',$category_id);	
+		}
+		$this->db->where('p.variant_code IS NOT NULL'); 
+		$this->db->where('p.is_active', 1);	
+		$this->db->group_by('p.variant_code');
+		$query1	= $this->db->get_compiled_select();	
+		
+		/**** QUERY : 2 */
+		$this->db->select('p1.product_id,p1.product_name, p1.short_code, p1.net_price as net_price, p1.cover_img,p1.mrp_price,p1.discount,p1.variant_code,b.brand_name');
+		$this->db->from('product_details p1');
+		$this->db->join('product_elements_attributes pe','pe.product_id=p1.product_id');
+		$this->db->join('brand b','b.brand_id = p1.brand_id');
+		$this->db->where('pe.attributes_id',$attribute_id);	
+		if($short_code != null || $short_code != ""){
+			$this->db->where('p1.category_id',$category_id);	
+		}
+		$this->db->where('p1.variant_code IS NULL'); 
+		$this->db->where('p1.is_active', 1);	
+		$query2	= $this->db->get_compiled_select();
+		
+		$query = $this->db->query($query1 . ' UNION ALL ' . $query2 .' '. $sort_by );
+		$result = $query->result_array();
+		return $result;		
+	}
+
+	/**** GET NEW LAUNCH PRODUCTS LIST */
+	public function getNewLaunchelist($short_code){
+		
+		if($short_code != null || $short_code != ""){
+			$cat_cond['short_code'] 	= $short_code;
+			$result						= $this->where('category',$cat_cond);
+			$category_id				= $result[0]['category_id'];	
+			$this->db->where('p.category_id',$category_id);	
+		}
+		
+		$this->db->select('p.product_id,p.product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,b.brand_name');
+		$this->db->from('product_details p');
+		$this->db->join('brand b','b.brand_id = p.brand_id');
+		$this->db->order_by('p.product_id','desc');		
+		$this->db->group_by('p.variant_code');
+		$this->db->LIMIT('10');
+		$result = $this->db->get()->result_array();
+		return $result;		
+	}
+	/**** GET BRAND PRODUCTS LIST */
+	public function getBrandProduct($data){
+
+		$brand_id 			= $data['brand_id']; 
+		$cat_short_code 	= $data['cat_short_code']; 
+
+		if($cat_short_code != null || $cat_short_code != ""){
+			$cat_cond['short_code'] 	= $cat_short_code;
+			$result						= $this->where('category',$cat_cond);
+			$category_id				= $result[0]['category_id'];	
+		}
+		
+		$sort_by = "ORDER BY product_id DESC";
+		/**** QUERY : 1 */
+		$this->db->select('DISTINCT(p.product_id) as product_id,p.product_name as product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,b.brand_name');
+		$this->db->from('product_details p');
+		$this->db->join('brand b','b.brand_id = p.brand_id');
+		$this->db->where('p.brand_id',$brand_id);	
+		if($cat_short_code != null || $cat_short_code != ""){
+			$this->db->where('p.category_id',$category_id);	
+		}
+		$this->db->where('p.variant_code IS NOT NULL'); 
+		$this->db->where('p.is_active', 1);	
+		$this->db->group_by('p.variant_code');
+		$query1	= $this->db->get_compiled_select();
+		
+		/**** QUERY : 2 */
+		$this->db->select('DISTINCT(p1.product_id) as product_id,p1.product_name as product_name, p1.short_code, p1.net_price as net_price, p1.cover_img,p1.mrp_price,p1.discount,p1.variant_code,b.brand_name');
+		$this->db->from('product_details p1');
+		$this->db->join('brand b','b.brand_id = p1.brand_id');
+		$this->db->where('p1.brand_id',$brand_id);
+		if($cat_short_code != null || $cat_short_code != ""){
+			$this->db->where('p1.category_id',$category_id);	
+		}	
+		$this->db->where('p1.variant_code IS NULL'); 
+		$this->db->where('p1.is_active', 1);	
+		$query2	= $this->db->get_compiled_select();
+		
+		$query = $this->db->query($query1 . ' UNION ALL ' . $query2 .' '. $sort_by );
+		$result = $query->result_array();
+		
+		return $result;		
+	}
+	/**** GET CATEGORY PRODUCTS LIST */
+	public function getCategoryProduct($category_id){
+		$sort_by = "ORDER BY product_id DESC";
+		
+		// $this->db->select('DISTINCT(p.product_id) as product_id,p.product_name as product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,b.brand_name,ROUND(AVG(star_rate)) as totalstar');
+		$this->db->select('DISTINCT(p.product_id) as product_id,p.product_name as product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,b.brand_name');
+		$this->db->from('product_details p');
+		$this->db->join('brand b','b.brand_id = p.brand_id');
+		//$this->db->join('product_review pr','pr.product_id = p.product_id','left');
+		$this->db->group_start();
+		$this->db->where("p.category_id", $category_id);
+		$this->db->or_where("p.child_category", $category_id);
+		$this->db->group_end();	
+		$this->db->where('p.variant_code IS NOT NULL'); 	
+		$this->db->group_by('p.variant_code');
+		$query1	= $this->db->get_compiled_select();
+		
+		// $this->db->select('DISTINCT(p1.product_id) as product_id,p1.product_name as product_name, p1.short_code, p1.net_price as net_price, p1.cover_img,p1.mrp_price,p1.discount,p1.variant_code,b.brand_name,ROUND(AVG(star_rate)) as totalstar');
+		$this->db->select('DISTINCT(p1.product_id) as product_id,p1.product_name as product_name, p1.short_code, p1.net_price as net_price, p1.cover_img,p1.mrp_price,p1.discount,p1.variant_code,b.brand_name');
+		$this->db->from('product_details p1');
+		$this->db->join('brand b','b.brand_id = p1.brand_id');
+		//$this->db->join('product_review pr','pr.product_id = p1.product_id','left');
+		$this->db->group_start();
+		$this->db->where("p1.category_id", $category_id);
+		$this->db->or_where("p1.child_category", $category_id);
+		$this->db->group_end();	
+		$this->db->where('p1.variant_code IS NULL'); 
+		$query2	= $this->db->get_compiled_select();
+
+		$query = $this->db->query($query1 . ' UNION ALL ' . $query2 .' '. $sort_by );
+		$result = $query->result_array();
+		//echo $this->db->last_query();
+		return $result;		
+	}
+	
+	/****GET ALL BRANDS GROUP WITH ALPHABETATS ORDER*/
+	public function getAllBrand(){
+		$this->db->select('b.brand_name,b.brand_id');
+		$this->db->from('product_details p');
+		$this->db->join('brand b','b.brand_id = p.brand_id');
+		$this->db->order_by('b.brand_name','asc');	
+		$this->db->group_by('p.brand_id');
+		$result = $this->db->get()->result_array();
+		$brand_arr = array();
+		foreach($result as $row){
+			$letter 				= substr($row['brand_name'],0,1);
+			$brand_arr[$letter][] 	= $row;
+		}
+		$brand_list = array();
+		$i = 0;
+		if(!empty($brand_arr)){
+			foreach($brand_arr as $key=>$val){
+				$brand_list[$i]['letter'] = $key;
+				$brand_list[$i]['value'] = $val;
+				$i++;
+			}
+		}
+		return $brand_list;
+	}
+
+	/*** FETCH PRODUCT VARIANT DETAIL BY PRODUCT ID */
+	public function getProductElemetsAttributesApi($product_id){
+
+		$this->db->select('pea.element_id,pea.attributes_id,pe.element_name,pe.element_id');
+		$this->db->from('product_elements_attributes pea');
+		$this->db->join('product_elements pe','pe.element_id = pea.element_id');
+		$this->db->where('pea.product_id', $product_id);
+		$query		= $this->db->get()->result_array();
+		
+		$elements = array();
+		
+		if(!empty($query)){
+			
+			foreach($query as $row){
+				
+				$element_name 				= $row['element_name'];
+				$element_id 				= $row['element_id'];
+				$attributes_id 				= explode(',', $row['attributes_id']);
+				$attr_arr = array();
+				
+				if(!empty($attributes_id)){
+					
+					foreach($attributes_id as $attr){
+						$whr['attributes_id'] 	= $attr;
+						$attr_res 				= $this->where('attributes',$whr);
+						$attr_name 				= $attr_res[0]['attributes_name'];
+						$attribute_code 		= $attr_res[0]['attribute_code'];
+						
+						$attr_arr[$attr_name]['element_id'] 		= $element_id;
+						$attr_arr[$attr_name]['attribute_code'] 	= trim(ltrim($attribute_code, '#'));		
+						$attr_arr[$attr_name]['attr_id'] 			= $attr;				
+						$attr_arr[$attr_name]['p_id'][] 			= $product_id;
+						$attr_arr[$attr_name]['enable'] 			= 'enable'; 
+						$attr_arr[$attr_name]['is_selected'] 		= true;	
+					}					
+				}
+				
+				$elements[$element_name] 	= $attr_arr;//implode(',',$attr_arr);
+			}
+		}
+		
+		return $elements;
+	}
+
+	public function getAllCustomerAddress($customer_id){
+		$this->db->select('*');
+		$this->db->from('customer_address');
+		$this->db->where('customer_id',$customer_id);
+		$this->db->where('is_active',1);
+		$this->db->order_by('set_default','desc');	
+		$result = $this->db->get()->result_array();
+		return $result;
+	}
+
+	/** item order detail from order id*/
+	public function getCustomerOrderListApi($customer_id,$search_keyword = null ,$filter=array()){
+
+		if($search_keyword != "" || $search_keyword != null){
+			$this->db->group_start();
+			$this->db->like('od.product_name',$search_keyword);
+			$this->db->or_like('b.brand_name',$search_keyword);
+			$this->db->group_end();
+		}
+
+		if(!empty($filter)){
+			if(isset($filter['status']) && $filter['status'] != ""){
+				if(strtolower($filter['status']) == "processing"){
+					$this->db->where('od.deliver_date',null);
+				}
+				else if(strtolower($filter['status']) == "delivered"){
+					$this->db->where('od.deliver_date !=',null);
+				}
+				else if(strtolower($filter['status']) == "returned"){
+					$this->db->join('return_request r','r.order_id=od.order_id');
+					$this->db->where('r.customer_id',$customer_id);
+					$this->db->where('r.is_completed',1);
+				}
+
+			}
+			if(isset($filter['time']) && $filter['time'] != ""){
+				$today = date('Y-m-d');
+				if(strtolower($filter['time']) == "last30days"){
+					$this->db->where('o.order_date BETWEEN NOW() - INTERVAL 30 DAY AND NOW()', "", false);
+				}
+				else if(strtolower($filter['time']) == "last6months"){
+					$this->db->where('o.order_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 6 MONTH)  AND CURDATE()', "", false);
+				}
+				else if(strtolower($filter['time']) == "lastyear"){
+					$this->db->where('o.order_date BETWEEN DATE_SUB(CURDATE(), INTERVAL 1 YEAR)  AND CURDATE()',"", false);
+				}
+			}
+		}
+
+		$this->db->select('o.order_id,od.product_id,od.deliver_date,o.order_date,od.product_name,p.cover_img,o.order_number,od.return_replace_validity,v.name as vendor_name,b.brand_name');
+		$this->db->from('order_details od');
+		$this->db->join('orders o','o.order_id=od.order_id');
+		$this->db->join('product_details p','p.product_id=od.product_id');
+		$this->db->join('vendor v','v.vendor_id = p.vendor_id');
+		$this->db->join('brand b','b.brand_id = p.brand_id');
+		$this->db->where('o.customer_id',$customer_id);
+		$this->db->order_by('od.order_date','desc');
+		$result = $this->db->get()->result_array();
+		
+		return $result;
+	}
+
+	/**** DELETE SELECTED PRODUCT FROM CART */
+	public function removeSelectedCartItem($customer_id,$product_arr=array()){
+		$this->db->where('customer_id',$customer_id);
+		$this->db->where_in('product_id',$product_arr);
+		$query=$this->db->delete('customer_cart');
+		return true;
+	}
+
+	/**** GET ELEMENT ATTRIBUTE OF SINGLE PRODUCT IN JSON STRING FORMATE*/
+	public function getElememtAttributeForSingleProduct($product_id){
+		$this->db->select('pea.element_id,pea.attributes_id');
+		$this->db->from('product_elements_attributes pea');
+		$this->db->where('pea.product_id', $product_id);
+		$query		= $this->db->get()->result_array();
+		$eleattr 	= array();
+		if(!empty($query)){
+			foreach($query as $row){
+				$element_id 			= $row['element_id'];
+				$attributes_id 			= $row['attributes_id'];
+				$eleattr[$element_id] 	= $attributes_id;
+			}
+		}
+		return json_encode($eleattr,true);
+	}
+
+	public function getvariantproductBYeleattrApi($data)
+	{
+		$attrid 			= $data['current_attribute'];
+		$variant_code 		= $data['variant_code'];
+
+		$this->db->select('pe.product_id, p.short_code,pe.element_id,pe.attributes_id');
+		$this->db->from('product_elements_attributes pe');
+		$this->db->join('product_details p','p.product_id = pe.product_id');
+		$this->db->where('pe.attributes_id',$attrid);
+		//$this->db->where('pe.element_id',$eleid);
+		$this->db->where('pe.variant_code',$variant_code);
+		$this->db->where('p.is_active',1);
+		$this->db->order_by('pe.product_id','asc');
+		$query = $this->db->get()->result_array();
+		return $query;
+	}
+
+	/****GET SINGLE PRODUCT REVIEW */
+	public function getSingleProductReviewaApi($customer_id,$product_id){
+		$this->db->select('star_rate');
+		$this->db->from('product_review');
+		$this->db->where('customer_id',$customer_id);
+		$this->db->where('product_id',$product_id);
+		$result = $this->db->get()->result_array();
+		return $result;
+	}
+
+	/***** CHECK PRODUCT IN WISHLIST OR NOT */
+	public function checkisinWishlist($customer_id,$productArr = array()){
+		$whish_product 		= array(); 
+		$products 		= array(); 
+		if($customer_id != "" || $customer_id != null){	
+			$wh['customer_id'] 		= $customer_id;
+			$wishlist 				= $this->Master_m->where('whish_list',$wh);
+			if(!empty($wishlist)){
+				foreach($wishlist as $row){
+					$whish_product[] = $row['product_id'];
+				}
+			}
+		}
+		
+		foreach($productArr as $row1){					
+			$product_id 		= $row1['product_id'];
+			$row1['wishlist'] 	= false;
+			if(!empty($whish_product)){
+				if(in_array($product_id,$whish_product)){
+					$row1['wishlist'] = true;
+				}
+			}					
+			$products[] = $row1;
+		}
+		return $products;
+	}
+
+	/***** SEARCH BY KEYWORDS */
+	public function searchBykeywords($search_keyword,$category=null){
+
+		if($category != null || $category != ""){
+			$cat_cond['short_code'] 	= $category;
+			$result						= $this->where('category',$cat_cond);
+			$category_id				= $result[0]['category_id'];	
+			$this->db->where('p.category_id',$category_id);	
+		}
+		if($search_keyword != "" || $search_keyword != null){
+			// $this->db->group_start();
+			$this->db->like('p.tag',$search_keyword);
+			// $this->db->group_end();
+			//$this->db->where('FIND_IN_SET("'.$search_keyword.'",p.tag) <>','0');
+		}
+		
+		$this->db->select('DISTINCT(p.product_id) as product_id,p.product_name as product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,b.brand_name,c.category_name, p.tag,ROUND(AVG(COALESCE(pr.star_rate,0))) as totalstar');
+		//$this->db->select('DISTINCT(p.product_id) as product_id,p.tag');
+		$this->db->from('product_details p');
+		$this->db->join('brand b','b.brand_id = p.brand_id','left');
+		$this->db->join('category c','c.category_id=p.child_category','left');		
+		$this->db->join('product_review pr','pr.product_id = p.product_id','left');	
+		$this->db->where('p.variant_code IS NOT NULL'); 	
+		$this->db->group_by('p.variant_code');		
+		$result = $this->db->get()->result_array();
+		//echo $this->db->last_query();
+		return $result;	
+	}
+
+	/**** INSERT SEARCH KEYWORDS  */
+	public function getRecentsearchkeywords($customer_id=NULL,$category=NULL){
+		if($category != null || $category != ""){
+			$cat_cond['short_code'] 	= $category;
+			$result						= $this->where('category',$cat_cond);
+			$category_id				= $result[0]['category_id'];	
+			$this->db->where('category',$category);	
+		}
+		if($customer_id != null || $customer_id != ""){
+			$this->db->where('customer_id',$customer_id);	
+		}
+		$this->db->select('*');
+		$this->db->from('recent_search');
+		$result = $this->db->get()->result_array();
+		$search_res 		= array();		
+		if(!empty($result)){
+			$search1 			= array();			
+				
+			$i = 0;
+			foreach($result as $row){
+				$keyword = $row['keyword'];
+				$search_id = $row['recent_search_id'];
+				if($category != null || $category != ""){
+					$this->db->where('category_id',$category_id);
+				}
+				$this->db->select('product_id,cover_img');
+				$this->db->from('product_details');
+				$this->db->like('tag',$keyword);
+				$this->db->limit(1);
+				$q = $this->db->get()->result_array();
+				
+				$search2[$keyword] = $q;
+				$search2[$keyword]['recent_search_id'] = $search_id;
+				$i++;
+			}
+			if(!empty($search2)){
+				$j = 0;
+				foreach($search2 as $key=>$val){
+					
+					$search_keyword 			= $key;
+					$cat_img 					= $val[0]['cover_img'];
+					$product_id 				= $val[0]['product_id'];
+					$recent_search_id 			= $val['recent_search_id'];
+					$search_res[$j]['keyword'] 			= $search_keyword;					
+					$search_res[$j]['image'] 			= $cat_img;
+					$search_res[$j]['search_id'] 		= $recent_search_id;
+					$search_res[$j]['product_id'] 		= $product_id;
+					$j++;
+				}
+			}
+		}
+		return $search_res;	
+	}
+
+	/*** GET SUGGESTION BY KEYWORDS */
+	public function getSuggestionByKeywords($keyword,$category_id){
+		if($category_id != null || $category_id != "" || $category_id > 0){
+			$this->db->like('hierarchy',$category_id);
+		}
+
+		$search = explode(' ', $keyword);
+		if(!empty($search)){
+			$like_statements = array();
+			foreach($search as $word){
+				$like_statements[] = "c.category_name LIKE '%" . $word . "%'";
+				$like_statements[] = "p.product_name LIKE '%" . $word . "%'";
+				
+			}
+			$like_string = "(" . implode(' OR ', $like_statements) . ")";
+			$this->db->where($like_string);
+		}
+		$this->db->select('c.category_id,c.category_name');
+		$this->db->from('category c');
+		$this->db->join('product_details p','p.child_category=c.category_id','left');
+		// $this->db->group_start();	
+		// $this->db->like('c.category_name',$keyword);
+		// $this->db->or_like('p.product_name',$keyword);
+		// $this->db->group_end();
+		
+		$this->db->group_by('c.category_id');
+		$query = $this->db->get()->result_array();
+		// echo $this->db->last_query();
+		return $query;
+	}
+
+	/***** REMOVE RECENT SEARCH */
+	public function removeRecentSearch($data){
+		$customer_id 			= $data['customer_id']; 
+		$search_id 				= $data['search_id'];
+
+		$whr['customer_id'] 		= $customer_id;
+		$whr['recent_search_id'] 	= $search_id;
+
+		$del_result					= delete('recent_search',$whr);
+		logThis($del_result->query, date('Y-m-d'),'Recent Search');
+		return true;
+	}
+
+	/**** GET FREQUENT SEARCH */
+	public function getFrequentSearch($customer_id = null,$cat_short_code = null){
+
+		if($cat_short_code != null || $cat_short_code != ""){
+			$cat_cond['short_code'] 	= $cat_short_code;
+			$result1					= $this->where('category',$cat_cond);
+			$parent_cat_id				= $result1[0]['category_id'];
+			$this->db->where('category',strtolower($cat_short_code));				
+		}	
+		if($customer_id != "" || $customer_id != null){
+			$this->db->where('customer_id',$customer_id);
+		}
+		$this->db->select('keyword,count(*)');
+		$this->db->from('recent_search');
+		$this->db->group_by('keyword');
+		$res1 = $this->db->get()->result_array();
+		$result_arr = array();
+
+		$this->db->select('p.product_id,p.product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,b.brand_name');
+		$this->db->from('product_details p');
+		$this->db->join('brand b','b.brand_id = p.brand_id');	
+		if($cat_short_code != null || $cat_short_code != ""){
+			$this->db->where('p.category_id',$parent_cat_id);	
+		}
+		$this->db->order_by('p.product_id','desc');		
+		$this->db->group_by('p.variant_code');
+		$this->db->LIMIT('20');
+		$default_res = $this->db->get()->result_array();
+		
+		if(!empty($res1)){
+			foreach($res1 as $row){
+				$keyword = $row['keyword'];
+				$this->db->select('p.product_id,p.product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,b.brand_name');
+				$this->db->from('product_details p');
+				$this->db->join('brand b','b.brand_id = p.brand_id');		
+				$this->db->like('p.tag',$keyword);	
+				$this->db->where('p.variant_code IS NOT NULL'); 	
+				$this->db->group_by('p.variant_code');			
+				$result_arr[] = $this->db->get()->result_array();
+			}	
+			
+			if(empty($result_arr)){
+				$result_arr[] = $default_res;
+			}		
+		}else{				
+				$result_arr[] = $default_res;
+		}
+		
+		return $result_arr;
+	}
+
+	/**** GET PRODUCT ALL FILTER OPTION  BY CATEGORY */
+	public function getAllProductfilteroption($data)
+	{
+		$category_id 					= $data['category_id'];
+		$brand_id						= $data['brand_id'];
+		$cat_short_code					= $data['cat_short_code'];
+		$gender							= $data['gender'];
+		//$attributes_id				= $data['attributes_id'];
+		$g_child_category 				= array(); 
+		
+		if($cat_short_code == "kids"){
+			if($gender !="" || $gender != null){
+				$cond['category_name'] 		= $gender;
+				$result2					= $this->where('category',$cond);
+				$gender_id					= $result2[0]['category_id'];		
+				$gender_child_category		= $result2[0]['child_category'];	
+				
+				if(!empty($gender_child_category) || $gender_child_category != ""){
+					$g_child_category = explode(',',$gender_child_category);
+				}
+			}
+			
+		}
+		if($cat_short_code != null || $cat_short_code != ""){
+			$cat_cond['short_code'] 	= $cat_short_code;
+			$result1					= $this->where('category',$cat_cond);
+			$parent_cat_id				= $result1[0]['category_id'];			
+			$this->db->where("p.category_id", $parent_cat_id);
+		}
+		
+		if($category_id != "" || $category_id != null){
+			$this->db->group_start();
+			// $this->db->where("p.category_id", $category_id);
+			$this->db->where("p.child_category", $category_id);
+			$this->db->group_end();
+		}
+
+		if(!empty($g_child_category)){
+			$this->db->where_in("p.child_category", $g_child_category);
+		}
+		
+
+		if($brand_id != "" || $brand_id != null){
+			$this->db->where("p.brand_id", $brand_id);
+		}
+
+		$this->db->select('pe.product_id,pe.element_id,pe.attributes_id,e.element_name,a.attributes_name,a.attribute_code,b.brand_name,b.brand_id');
+		$this->db->from('product_elements_attributes pe');
+		$this->db->join('product_details p','p.product_id = pe.product_id');
+		$this->db->join('brand b','b.brand_id = p.brand_id');
+		$this->db->join('product_elements e','e.element_id = pe.element_id');
+		$this->db->join('attributes a','a.attributes_id = pe.attributes_id');
+		$this->db->order_by('a.attributes_id','asc');
+		
+		$query = $this->db->get()->result_array();
+		
+		$elearr 					= array();
+		$elearr_arra 				= array();
+		$brand_arra 				= array();
+		$finalresult_arra 			= array();
+		$j							= 0;
+		$i							= 0;
+
+		if(!empty($query)){
+			foreach($query as $row){
+				$element_id 				= $row['element_id'];
+				$attributes_id 				= $row['attributes_id'];
+				$element_name 				= $row['element_name'];
+				$attributes_name 			= $row['attributes_name'];
+				$attribute_code 			= $row['attribute_code'];
+				$brand_name 				= $row['brand_name'];
+				$brand_id 					= $row['brand_id'];
+				
+				$elearr[$element_name][$attributes_name]['element_id'] 			= $element_id;
+				$elearr[$element_name][$attributes_name]['attribute_code'] 		= trim(ltrim($attribute_code, '#'));
+				$elearr[$element_name][$attributes_name]['attr_id'] 			= $attributes_id;
+
+				$elearr['Brand'][$brand_id]['brand_name'] 						= $brand_name;
+				$elearr['Brand'][$brand_id]['brand_id'] 						= $brand_id;
+				$brand_arra[$brand_id] 											= $brand_name;
+				$i++;
+			}
+			
+			if(!empty($elearr)){
+				
+				foreach($elearr as $key1=>$val1){					
+					$attr_arr 		= array();
+					$k 				=0;
+					$elearr_arra[$j]['element'] = $key1;
+					foreach($val1 as $key2=>$val2){						
+						// old
+						// $attr_arr[$k]['element_name'] = (string) $key1;
+						// $attr_arr[$k]['element_value'] = $val2;
+
+
+						$attr_arr[$k]['element_name'] 						= (is_string($key2)) ? (string) $key2 : (isset($val2['brand_name']) ? $val2['brand_name'] : (string) $key2) ;;//(string) $key1;
+						$attr_arr[$k]['element_value']['element_id'] 		= isset($val2['element_id']) ? $val2['element_id'] : $val2['brand_name'];
+						$attr_arr[$k]['element_value']['attr_id'] 			= isset($val2['attr_id']) ? $val2['attr_id'] : $val2['brand_id'];
+						$attr_arr[$k]['element_value']['attribute_code'] 	= isset($val2['attribute_code']) ? $val2['attribute_code'] : "";
+						//$attr_arr[$k]['brand_name'] 						= isset($val2['brand_name']) ? $val2['brand_name'] : null;
+						$k++;
+					}
+					$elearr_arra[$j]['value'] 	= $attr_arr;
+					$j++;
+				}
+			}
+		}
+		return $elearr_arra;
+	}
+	
+
+	/*** PRODUCT FILTER WITH FILTER OPRION AND SORT BY OPTION*/
+	public function productSortByWithFilter($data){
+		
+		$category_id 		= $data['category_id'];
+		$cat_short_code 	= $data['cat_short_code'];
+		$brands 			= $data['brands'];
+		$tag 				= $data['tag'];
+		//$filter_sort 		= str_replace(' ', '', $data['sort_by']);
+
+		
+		if($cat_short_code != null || $cat_short_code != ""){
+			$cat_cond['short_code'] 	= $cat_short_code;
+			$result1					= $this->where('category',$cat_cond);
+			$parent_cat_id				= $result1[0]['category_id'];			
+		}
+
+		if($brands != null){
+			$this->db->where_in("p.brand_id", $brands);
+		}
+		if($tag != null || $tag != ""){
+			$this->db->like("p.tag", $tag);
+		}
+
+		/**** QUERY : 1 */
+		$this->db->select('DISTINCT(p.product_id) as product_id,pe.element_id,pe.attributes_id');
+		$this->db->from('product_details p');
+		$this->db->join('brand b','b.brand_id = p.brand_id');	
+		$this->db->join('product_elements_attributes pe','pe.product_id=p.product_id');	
+		
+		if($category_id != null || $category_id != ""){
+			$this->db->where('p.child_category',$category_id);	
+		}
+		if($cat_short_code != null || $cat_short_code != ""){
+			$this->db->where('p.category_id',$parent_cat_id);	
+		}
+		$this->db->order_by('p.product_id','desc');
+		
+		$result = $this->db->get()->result_array();		
+		$this->db->last_query();
+		return $result;
+	}
+
+	/***** GET FINAL PRODUCT DETAIL FROM FILTER  */
+	public function getProductdetailfromFilter($data){
+		$productsid 		= $data['product_id'];
+		$filter_sort 		= $data['sort_by'];
+		$min_price			= $data['min_price'];
+		$max_price 			= $data['max_price'];
+		
+		$sort_by = "ORDER BY product_id DESC";
+		
+		/*** SORT BY FILTER OPION  */
+		if(isset($filter_sort) && ($filter_sort != "" || $filter_sort != null)){
+			if($filter_sort == "price-low-to-high"){
+				$sort_by = "ORDER BY net_price ASC";
+			}
+			else if($filter_sort == "price-high-to-low"){
+				$sort_by = "ORDER BY net_price DESC";
+			}
+			elseif($filter_sort == "discount"){
+				$this->db->where('discount !=',0); 	
+				$sort_by = "ORDER BY discount DESC";
+			}
+			elseif($filter_sort == "what-s-new"){	
+				$sort_by = "ORDER BY product_id DESC";
+			}
+		}
+
+		/**** PRICE RANFE FILTER  */
+		if(isset($min_price) && strlen(trim($min_price)>0))
+		{
+   			$this->db->where("net_price >= $min_price");
+   		}
+
+		if(isset($max_price) && strlen(trim($max_price)>0))
+		{
+			$this->db->where("net_price <= $max_price");
+   		}
+   		
+		/**** QUERY : 1 */
+		$this->db->select('DISTINCT(p.product_id) as product_id, p.product_name as product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount as discount,p.variant_code,b.brand_name');
+		$this->db->from('product_details p');
+		$this->db->join('brand b','b.brand_id = p.brand_id');	
+		$this->db->join('product_elements_attributes pe','pe.product_id=p.product_id');	
+		$this->db->where('p.variant_code IS NOT NULL'); 	
+		$this->db->where_in('p.product_id',$productsid); 	
+		$this->db->group_by('p.variant_code');	
+		$query1	= $this->db->get_compiled_select();	
+
+		/**** QUERY : 2 */
+		$this->db->select('DISTINCT(p1.product_id) as product_id, p1.product_name as product_name, p1.short_code, p1.net_price as net_price, p1.cover_img,p1.mrp_price,p1.discount as discount,p1.variant_code,b.brand_name');
+		$this->db->from('product_details p1');
+		$this->db->join('brand b','b.brand_id = p1.brand_id');	
+		$this->db->join('product_elements_attributes pe','pe.product_id=p1.product_id');	
+		$this->db->where('p1.variant_code IS NULL'); 	
+		$this->db->where_in('p1.product_id',$productsid); 	
+		
+		$query2	= $this->db->get_compiled_select();
+		
+		$query = $this->db->query($query1 . ' UNION ALL ' . $query2 .' '. $sort_by );
+		$result = $query->result_array();
+		//$result = $this->db->get()->result_array();		
+		//echo $this->db->last_query();
+		return $result;
+	}
+
+	/*** POPULER CATEGORY : TOP 10 */
+	public function popularProductByCategory($data){
+		$category_id		= $data['category_id'];
+		$cat_short_code 	= $data['cat_short_code'];
+		$brands 			= $data['brands'];
+		if($cat_short_code != null || $cat_short_code != ""){
+			$cat_cond['short_code'] 	= $cat_short_code;
+			$result1					= $this->where('category',$cat_cond);
+			$parent_cat_id				= $result1[0]['category_id'];
+			$this->db->where('p.category_id',$parent_cat_id);			
+		}
+		
+		if($brands != null){
+			$this->db->where_in("p.brand_id", $brands);
+		}
+		$this->db->select('DISTINCT(p.product_id) as product_id, p.product_name as product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,b.brand_name,count(o.product_id) as total');
+		$this->db->from('product_details p');
+		$this->db->join('order_details o','o.product_id=p.product_id');
+		$this->db->join('brand b','b.brand_id = p.brand_id');	
+		$this->db->join('product_elements_attributes pe','pe.product_id=p1.product_id');	
+		$this->db->where('p.child_category',$category_id);
+		$this->db->order_by('total','desc');
+		$this->db->group_by('o.product_id');	
+		$result = $this->db->get()->result_array();
+		
+		if(empty($result)){
+			$this->db->select('DISTINCT(p.product_id) as product_id, p.product_name as product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,b.brand_name');
+			$this->db->from('product_details p');
+			$this->db->join('brand b','b.brand_id = p.brand_id');		
+			$this->db->where('p.child_category',$category_id);
+			$this->db->where('p.is_active',1);
+			$this->db->order_by('p.product_id','desc');
+			$this->db->group_by('p.child_category');	
+			$result = $this->db->get()->result_array();
+		}
+		return $result;
+	}
+
+	/***** VERIFY CUSTOMER MOBILE */
+	public function check_mobile($data){
+		$mobile 					= $data['mobile'];
+		$customer_id				= $data['customer_id'];
+		$this->db->select('*');
+		$this->db->from('customer_detail');
+		$this->db->where('customer_id !=',$customer_id);
+		$this->db->where('mobile',$mobile);
+		$res = $this->db->get()->result_array();
+		return $res;
+	}
+
+	/***** VERIFY CUSTOMER EMAIL */
+	public function check_email($data){
+		$email 						= $data['email'];
+		$customer_id 				= $data['customer_id'];
+		$this->db->select('*');
+		$this->db->from('customer_detail');
+		$this->db->where('customer_id !=',$customer_id);
+		$this->db->where('email',$email);
+		$res = $this->db->get()->result_array();
+		return $res;
+	}
+
+	public function shopByAge($data){
+		$cat_short_code 	= $data['cat_short_code'];		
+	}
+}

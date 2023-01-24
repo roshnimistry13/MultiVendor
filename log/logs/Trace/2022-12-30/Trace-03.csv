@@ -1,0 +1,4 @@
+"2022-12-30 03:02:41am "," insert "," INSERT INTO whish_list(`customer_id`, `product_id`) VALUES('6', '103') "," ::1 "," URL: http://localhost/MultiVendor/api/MultivendorApi/addToWishlist "," R: "
+"2022-12-30 03:02:41am "," insert "," INSERT INTO whish_list(`customer_id`, `product_id`) VALUES('6', '10') "," ::1 "," URL: http://localhost/MultiVendor/api/MultivendorApi/addToWishlist "," R: "
+"2022-12-30 03:27:58am "," update "," UPDATE product_details SET `view_count` = 17 WHERE 1=1  and product_id = '48' "," ::1 "," URL: http://localhost/MultiVendor/api/MultivendorApi/productDetails "," R: "
+"2022-12-30 03:59:08am "," update "," UPDATE product_details SET `view_count` = 9 WHERE 1=1  and product_id = '103' "," ::1 "," URL: http://localhost/MultiVendor/product-detail/women-yellow-embellished-high-low-longline-top-s-yellow-vnky8c75-103 "," R: http://localhost/MultiVendor/shop"

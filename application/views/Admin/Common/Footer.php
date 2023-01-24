@@ -31,8 +31,7 @@
 <script type="text/javascript" src="<?php echo ADMIN_ASSETS ?>js/jquery/jquery.js"></script>
 <script src="<?php echo ADMIN_ASSETS ?>js/plugins.min.js">
 </script>
-<script src="<?php echo ADMIN_ASSETS ?>js/script.min.js">
-</script>
+<script src="<?php echo ADMIN_ASSETS ?>js/script.min.js"></script>
 <script type="text/javascript" src="<?php echo ADMIN_ASSETS ?>js/jquery/jquery.validate.min.js"></script>
 <!-- endinject-->
 
@@ -58,8 +57,8 @@
 </script>
 <script src="<?php echo ADMIN_ASSETS ?>js/dataTable/jszip.min.js">
 </script>
-<script src="<?php echo ADMIN_ASSETS ?>js/bootstrap-select.min.js">
-</script>
+<script src="<?php echo ADMIN_ASSETS ?>js/bootstrap-select.min.js"></script>
+<script src="<?php echo ADMIN_ASSETS ?>js/bootstrap-tagsinput.min.js"></script>
 
 <!--Datatable.js-->
 

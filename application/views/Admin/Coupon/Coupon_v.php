@@ -37,11 +37,11 @@
 													Code
 												</span>
 											</th>
-											<th>
+											<!-- <th>
 												<span class="userDatatable-title">
 													Amount<br><small>(in Rs)</small>
 												</span>
-											</th>
+											</th> -->
 											<th>
 												<span class="userDatatable-title">
 													Start Date

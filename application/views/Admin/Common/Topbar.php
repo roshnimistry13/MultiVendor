@@ -15,8 +15,10 @@
 				$profile    = $this->session->userdata[ADMIN_SESSION]['profile_photo'];
 				$user_type 		= $this->session->userdata[ADMIN_SESSION]['user_type'];
 				$user_id 		= $this->session->userdata[ADMIN_SESSION]['user_id'];
-
-				$profile_path = base_url().PROFILE_IMG_PATH.$user_type.'/'.$user_id.'/'.$profile;
+				$profile_path 	= ADMIN_ASSETS.'img/svg/user.svg';
+				if($profile != "" || $profile != null){
+					$profile_path = base_url().PROFILE_IMG_PATH.$user_type.'/'.$user_id.'/'.$profile;
+				}				
 		?>
 		<div class="navbar-right">
 			<ul class="navbar-right__menu">

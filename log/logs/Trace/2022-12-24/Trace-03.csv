@@ -1,0 +1,1 @@
+"2022-12-24 03:58:08am "," update "," UPDATE product_details SET `view_count` = 36 WHERE 1=1  and product_id = '5' "," ::1 "," URL: http://localhost/MultiVendor/api/MultivendorApi/productDetails "," R: "

@@ -1,0 +1,2 @@
+"2022-12-15 01:38:48am "," delete "," DELETE FROM whish_list WHERE 1=1  and customer_id = '1' and product_id = '10' "," ::1 "," URL: http://localhost/MultiVendor/api/MultivendorApi/removeWishlistItem "," R: "
+"2022-12-15 01:46:01am "," update "," UPDATE product_details SET `view_count` = 6 WHERE 1=1  and product_id = '9' "," ::1 "," URL: http://localhost/MultiVendor/product-detail/men-navy-blue-white-placement-striped-pure-cotton-slim-fit-t-shirt-s-blue-slim-fit-vnky8c75-9 "," R: http://localhost/MultiVendor/shop?category=men-topwear&cid=4"

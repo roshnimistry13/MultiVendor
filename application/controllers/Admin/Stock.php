@@ -200,7 +200,7 @@ class Stock extends CI_Controller
 		$where['product_id'] 			= $product_id;
 		$update_result 					= update('product_details',$updatedata,$where);
 		logThis($update_result->query, date('Y-m-d'),'Stock');
-
+		
 		$insertdata['product_id'] 		= $product_id;
 		$insertdata['status'] 			= 1;
 		$insertdata['old_stock'] 		= $old_stock;
@@ -210,8 +210,8 @@ class Stock extends CI_Controller
 		$insert_result 					= insert('stock_details',$insertdata,'');
 		
 		logThis($insert_result->query, date('Y-m-d'),'Stock Details');
-
 		$this->session->set_flashdata('success','Successfully Update Record.');
+	
 		redirect('stock');
 	}
 

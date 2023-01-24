@@ -1,0 +1,2 @@
+"2023-01-18 01:42:44am "," update "," UPDATE product_details SET `view_count` = 119 WHERE 1=1  and product_id = '118' "," ::1 "," URL: http://localhost/MultiVendor/product-detail/allen-solly-womens-regular-fit-t-shirt-m-red-vnky8c75-118 "," R: http://localhost/MultiVendor/shop"
+"2023-01-18 01:50:45am "," update "," UPDATE product_details SET `view_count` = 120 WHERE 1=1  and product_id = '118' "," ::1 "," URL: http://localhost/MultiVendor/product-detail/allen-solly-womens-regular-fit-t-shirt-m-red-vnky8c75-118 "," R: http://localhost/MultiVendor/shop"

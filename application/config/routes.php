@@ -177,6 +177,10 @@ $route['offer']            	            = "Admin/Offer/index";
 $route['add-offer']            	        = "Admin/Offer/addOffer";
 $route['edit-offer/(:any)']             = "Admin/Offer/editOffer";
 $route['submit-offer']            	    = "Admin/Offer/submitOffer";
+$route['special-offer']            	    = "Admin/Offer/specialoffer";
+$route['add-special-offer']            	= "Admin/Offer/addSpecialOffer";
+$route['submit-special-offer']          = "Admin/Offer/submitSpecialOffer";
+$route['edit-special-offer/(:any)']     = "Admin/Offer/editSpecialOffer";
 
 /** stock */
 
@@ -194,15 +198,17 @@ $route['update-password']            = "Admin/Profile/updatePassword";
 $route['send-otp']                   = "Admin/Profile/sendOtp";
 
 /*** */
-$route['admin-logout']      = 'Admin/login/logout';
-$route['error-page']        = 'Admin/login/error_page';
-$route['sql-operation']     = 'Admin/Operation/AddSql';
-$route['submit-sql']        = 'Admin/Operation/alterDBTableFiled';
-$route['export-database']   = 'Admin/Operation/databaseBackUp';
-$route['fetch-query']       = 'Admin/Operation/fetchResult';
-$route['fetch-result']      = 'Admin/Operation/fetchSqlResult';
-$route['import-sql']        = 'Admin/Operation/importSql';
-$route['import-database']   = 'Admin/Operation/importDatabase';
+$route['admin-logout']          = 'Admin/login/logout';
+$route['error-page']            = 'Admin/login/error_page';
+$route['sql-operation']         = 'Admin/Operation/AddSql';
+$route['submit-sql']            = 'Admin/Operation/alterDBTableFiled';
+$route['export-database']       = 'Admin/Operation/databaseBackUp';
+$route['fetch-query']           = 'Admin/Operation/fetchResult';
+$route['fetch-result']          = 'Admin/Operation/fetchSqlResult';
+$route['import-sql']            = 'Admin/Operation/importSql';
+$route['import-database']       = 'Admin/Operation/importDatabase';
+$route['export-mail-database']  = 'Admin/Operation/databaseBackUpAndMail';
+$route['drop-all-tables']       = 'Admin/Operation/dropAllTables';
 
 /* **************UI route ******************** */
 $route['/']                         = "Home/index";
@@ -230,5 +236,7 @@ $route['order-history']             = "Home/myOrders";
 $route['order-detail']              = "Home/orderDetail";
 $route['createPdf']                 = "Home/createPdf";
 $route['404-error']                 = "Home/errorPage";
-$route['submit-return']            = "Home/submitReturn";
+$route['submit-return']             = "Home/submitReturn";
 $route['submit-replace']            = "Home/submitReplace";
+$route['submit-rating-reviews']     = "Home/submitProductRatingReview";
+

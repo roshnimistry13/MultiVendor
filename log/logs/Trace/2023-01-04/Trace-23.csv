@@ -1,0 +1,2 @@
+"2023-01-04 23:36:39pm "," update "," UPDATE user SET `last_login` = '2023-01-04 23:36:39' WHERE 1=1  and user_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/login-check "," R: http://localhost/MultiVendor/admin"
+"2023-01-04 23:50:45pm "," insert "," INSERT INTO recent_search(`keyword`, `customer_id`, `created_at`) VALUES('Tunics', '1', '2023-01-04') "," ::1 "," URL: https://localhost/MultiVendor/api/MultivendorApi/searchBykeywords "," R: "

@@ -29,15 +29,21 @@
         </div>
     </div>
 </div> -->
-<?php $totalCart = ''; $totalWishlist = '';
+<?php $totalCart = 0; $totalWishlist = '';
     if(!empty($this->session->userdata[CUSTOMER_SESSION])){   
         $customer_id        =  $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
         $totalCart          =   $this->Master_m->getTotalCountCartProdut($customer_id);
         $totalWishlist      =   $this->Master_m->getTotalWhishList($customer_id);
+    }else{
+        if(isset($_COOKIE["temp_cart"])){
+            $cart_item 		    = json_decode(stripslashes($_COOKIE["temp_cart"]),true); 
+            $totalCart 			= count($cart_item); 
+        }
+        
     }
-    $mensCategory       = $this->Master_m->getChildCategory('men');
-    $womensCategory     = $this->Master_m->getChildCategory('women');
-    $kidsCategory       = $this->Master_m->getChildCategory('kids');
+    $mensCategory       = $this->Master_m->getChildCategory('men',null);
+    $womensCategory     = $this->Master_m->getChildCategory('women',null);
+    $kidsCategory       = $this->Master_m->getChildCategory('kids',null);
 ?>
 
 <div id="nt_wrapper">
@@ -84,6 +90,13 @@
                                             <a class="lh__1 flex al_center pr"
                                                 href="<?php echo base_url('about-us');?>">
                                                 About
+                                            </a>
+                                        </li>
+                                        <li
+                                            class="type_mega menu_wid_cus menu-item has-children menu_has_offsets menu_center pos_center">
+                                            <a class="lh__1 flex al_center pr"
+                                                href="<?php echo base_url('shop');?>">
+                                                Shop
                                             </a>
                                         </li>
                                         <li
@@ -191,7 +204,7 @@
                                     <a class="icon_like cb chp position-relative dn db_md js_link_wis"
                                         href="<?php echo base_url('whishlist')?>">
                                         <i class="iccl iccl-heart pr">
-                                            <?php  if(!empty($this->session->userdata[CUSTOMER_SESSION])){ ?>
+                                            <?php  if(!empty($this->session->userdata[CUSTOMER_SESSION]) && $totalWishlist > 0){ ?>
                                             <span class="op__0 ts_op pa tcount bgb br__50 cw tc total-whishlist">
                                                 <?php echo $totalWishlist;?>
                                             </span>
@@ -202,13 +215,13 @@
                                         <a class="push_side position-relative cb chp db" href="#"
                                             data-id="#nt_cart_canvas">
                                             <i class="iccl iccl-cart pr">
-                                                <?php  if(!empty($this->session->userdata[CUSTOMER_SESSION])){                                                    
+                                                <?php // if(!empty($this->session->userdata[CUSTOMER_SESSION]) && $totalCart > 0){                                                    
                                                    
                                                 ?>
                                                 <span class="op__0 ts_op pa tcount bgb br__50 cw tc">
                                                     <?php echo $totalCart; ?>
                                                 </span>
-                                                <?php } ?>
+                                                <?php //} ?>
                                             </i>
                                         </a>
                                     </div>

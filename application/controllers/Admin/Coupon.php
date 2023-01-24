@@ -38,10 +38,10 @@ class Coupon extends CI_Controller
 			// 	$where    = array("is_active != 2");
 			// }
 			$table         	= "coupon";
-			$select_column 	= array("coupon_id","coupon_code","coupon_amount","start_date","expiry_date","is_active","created_by");
+			$select_column 	= array("coupon_id","coupon_title","coupon_code","coupon_amount","start_date","expiry_date","is_active","created_by");
 			$join_column 	= "";
-			$order_column	= array(NULL,"coupon_code","start_date","expiry_date","is_active",NULL);
-			$search_column 	= array("coupon_code","start_date","expiry_date","is_active");
+			$order_column	= array(NULL,"coupon_title","start_date","expiry_date","is_active",NULL);
+			$search_column 	= array("coupon_code","coupon_title","start_date","expiry_date","is_active");
 			$group_by 		= "";
 			$order_by 		= "coupon_id  DESC";
 			$where    		= array("is_active != 2");
@@ -125,8 +125,8 @@ class Coupon extends CI_Controller
 				
 				$sub_array = array();
 				$sub_array[] = '<div class="userDatatable-content">'.$i++.'</div>';
-				$sub_array[] = '<div class="userDatatable-content">'.$row->coupon_code.'</div>';
-				$sub_array[] = '<div class="userDatatable-content">₹'.$row->coupon_amount.'</div>';
+				$sub_array[] = '<div class="userDatatable-content">'.$row->coupon_title.'<p class="sub-title text-primary"><small>Coupon Code : '.$row->coupon_code.'</small></p></div>';
+				// $sub_array[] = '<div class="userDatatable-content">₹'.$row->coupon_amount.'</div>';
 				$sub_array[] = '<div class="userDatatable-content">'.date('d-M-Y',strtotime($row->start_date)).'</div>';
 				$sub_array[] = '<div class="userDatatable-content">'.date('d-M-Y',strtotime($row->expiry_date)).'</div>';
 				$sub_array[] = $expire_status;
@@ -184,7 +184,9 @@ class Coupon extends CI_Controller
 	{
 		$user_id 			= $this->session->userdata[ADMIN_SESSION]['user_id'];		
 		$coupon_code 		= trim($this->input->post('text_coupon_code'));
+		$coupon_title 		= trim($this->input->post('text_coupon_title'));
 		$coupon_amt 		= trim($this->input->post('text_coupon_amt'));
+		$purchase_amount 	= $this->input->post('text_purchase_amt');
 		$coupon_desc 		= trim($this->input->post('text_coupon_desc'));
 		$from_date 			= date('Y-m-d',strtotime($this->input->post('from_date')));
 		$to_date 			= date('Y-m-d',strtotime($this->input->post('to_date')));
@@ -194,7 +196,9 @@ class Coupon extends CI_Controller
 			$id = $this->input->post('text_coupon_id');
 			
 			$updatedata['coupon_code'] 		= $coupon_code;
+			$updatedata['coupon_title'] 	= $coupon_title;
 			$updatedata['coupon_amount'] 	= $coupon_amt;
+			$updatedata['purchase_amount'] 	= $purchase_amount;
 			$updatedata['description'] 		= $coupon_desc;
 			$updatedata['start_date'] 		= $from_date;
 			$updatedata['expiry_date'] 		= $to_date;
@@ -216,7 +220,9 @@ class Coupon extends CI_Controller
 		}
 		
 		$insertdata['coupon_code'] 		= $coupon_code;
+		$insertdata['coupon_title'] 	= $coupon_title;
 		$insertdata['coupon_amount'] 	= $coupon_amt;
+		$insertdata['purchase_amount'] 	= $purchase_amount;
 		$insertdata['description'] 		= $coupon_desc;
 		$insertdata['start_date'] 		= $from_date;
 		$insertdata['expiry_date'] 		= $to_date;

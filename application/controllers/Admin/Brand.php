@@ -165,13 +165,13 @@ class Brand extends CI_Controller
 	public function submitBrand()
 	{
 		$user_id 	= $this->session->userdata[ADMIN_SESSION]['user_id'];		
+		$role_id 	= $this->session->userdata[ADMIN_SESSION]['role_id'];		
 		$brand_name = trim($this->input->post('text_brand_name'));
 		
-		$short_code 	= strtolower($brand_name);
-		$rep_char 		=  array(" ",",","/","[","]","(",")","--","---");
-		$short_code 	= str_replace($rep_char,"-",$short_code);
-		$rep_char1 		=  array("--","---","----","----");
-		$short_code 	= str_replace($rep_char1,"-",$short_code);
+		$short_code 	= generateShortcode(strtolower($brand_name));
+		$is_brand 		= $this->Master_m->ischeckBrand($brand_name); 
+		$last_page_url 	= $_SERVER['HTTP_REFERER'];
+		
 		
 		$last_char = substr($short_code, -1);
 		if($last_char == '-'){
@@ -205,24 +205,48 @@ class Brand extends CI_Controller
 			else{
 				$updatedata['is_active'] = 0;
 			}
+
+			if(!empty($is_brand)){ 
+				if($role_id == 1){
+					$where['brand_id'] = $id;
+					$update_result = update('brand',$updatedata,$where);
+					logThis($update_result->query, date('Y-m-d'),'Brand');
+					$this->session->set_flashdata('success','Successfully Update Record.');
+					redirect('brand');
+				}else{
+					if($user_id == $is_brand[0]['created_by']){
+						$where['brand_id'] = $id;
+						$update_result = update('brand',$updatedata,$where);
+						logThis($update_result->query, date('Y-m-d'),'Brand');
+						$this->session->set_flashdata('success','Successfully Update Record.');
+						redirect('brand');
+					}
+					else{
+						$this->session->set_flashdata('error', 'Brand Already Exsist !!');
+						redirect($last_page_url);
+					}
+				}
+				
+			}
 			
-			$where['brand_id'] = $id;
-			$update_result = update('brand',$updatedata,$where);
-			logThis($update_result->query, date('Y-m-d'),'Brand');
-			$this->session->set_flashdata('success','Successfully Update Record.');
-			redirect('brand');
 		}
 		
-		$insertdata['brand_name'] = $brand_name;
-		$insertdata['short_code'] = $short_code;
-		$insertdata['brand_logo'] = $brand_logo;
-		$insertdata['created_by'] = $user_id;
-		$insertdata['created'] = date('Y-m-d H:i:s');
+		if(empty($is_brand)){
+			$insertdata['brand_name'] = $brand_name;
+			$insertdata['short_code'] = $short_code;
+			$insertdata['brand_logo'] = $brand_logo;
+			$insertdata['created_by'] = $user_id;
+			$insertdata['created'] = date('Y-m-d H:i:s');
+			
+			$insert_result = insert('brand',$insertdata,'');
+			logThis($insert_result->query, date('Y-m-d'),'Brand');
+			$this->session->set_flashdata('success', 'Successfully Insert Record.');
+			redirect('brand');
+		}else{
+			$this->session->set_flashdata('error', 'Brand Already Exsist !!');
+			redirect($last_page_url);
+		}
 		
-		$insert_result = insert('brand',$insertdata,'');
-		logThis($insert_result->query, date('Y-m-d'),'Brand');
-		$this->session->set_flashdata('success', 'Successfully Insert Record.');
-		redirect('brand');
 	}
 
 	public function updateStatus()

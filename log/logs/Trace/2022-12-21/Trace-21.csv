@@ -1,0 +1,2 @@
+"2022-12-21 21:48:48pm "," update "," UPDATE product_details SET `view_count` = 42 WHERE 1=1  and product_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/product-detail/men-white-pure-cotton-t-shirt-s-white-vnky8c75-1 "," R: http://localhost/MultiVendor/shop"
+"2022-12-21 21:54:14pm "," update "," UPDATE product_details SET `view_count` = 43 WHERE 1=1  and product_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/api/MultivendorApi/productDetails "," R: "

@@ -16,6 +16,8 @@
     <link rel="stylesheet" href="<?php echo ADMIN_ASSETS ?>css/plugin.min.css">
 
     <link rel="stylesheet" href="<?php echo ADMIN_ASSETS ?>css/style.css">
+    <link href="<?php echo ADMIN_ASSETS ?>js/pnotify/css/jquery.pnotify.css" media="screen" rel="stylesheet"
+        type="text/css">
     <link rel="stylesheet" href="<?php echo ADMIN_ASSETS ?>css/application/custom.css">
 
     <!-- endinject -->
@@ -172,8 +174,31 @@
     <script src="<?php echo ADMIN_ASSETS ?>js/script.min.js"></script>
 
     <script type="text/javascript" src="<?php echo ADMIN_ASSETS ?>js/jquery/jquery.validate.min.js"></script>
-
+    <script type="text/javascript" src="<?php echo ADMIN_ASSETS ?>js/pnotify/js/jquery.pnotify.min.js"></script>
+    <script src="<?php echo ADMIN_ASSETS ?>js/application/script.js"></script>
     <script type="text/javascript" src="<?php echo ADMIN_ASSETS ?>js/application/Login.js"></script>
+
+    <?php
+	if($this->session->flashdata('success')){?>
+    <script type="text/javascript">
+    setTimeout(function() {
+        notification("topright", "success", "fa fa-check-circle vd_green", "MultiVendor",
+            "<?php echo $this->session->flashdata('success') ?> ");
+    }, 300);
+    </script>
+    <?php
+	} 
+?>
+    <?php
+	if($this->session->flashdata('error')) {?>
+    <script type="text/javascript">
+    setTimeout(function() {
+        notification("topright", "error", "fa fa-exclamation-circle vd_red", "MultiVendor",
+            "<?php echo $this->session->flashdata('error') ?> ");
+    }, 300);
+    </script>
+    <?php } 
+?>
     <!-- endinject-->
 </body>
 

@@ -6,7 +6,19 @@ jQuery(document).ready(function()
 	target = [0,6];
 
 	toDataTable(table_name,url,target);
+	
+	table_name = 'specialofferDatatable';
+	url = base_url + "Admin/Offer/bindSpecialOfferDataTable";
+	target = [0,6];
+
+	toDataTable(table_name,url,target);
 	$('#text_offer_category').select2();
+
+	new FroalaEditor('#text_description',
+		{
+			key: "1C%kZV[IX)_SL}UJHAEFZMUJOYGYQE[\\ZJ]RAe(+%$==",
+			attribution: false // to hide "Powered by Froala"
+		});
 	
 });
 
@@ -59,7 +71,7 @@ $("form[id='offer-form']").validate(
 		{
 			form.submit();
 		}
-	});
+});
 
 //Update Brand Status
 function updateOffer(id,is_active)
@@ -161,3 +173,51 @@ function deleteOffer(id)
 			}
 		})
 }
+
+
+$("form[id='special-offer-form']").validate(
+	{
+		// Specify validation rules
+		ignore: ".ignore",
+		rules:
+		{
+			from_date :{
+				required :true,
+			},
+			to_date :{
+				required :true,
+				greaterStart: "#from_date"
+			}
+		},
+		// Specify validation error messages
+		messages: {
+			text_offer_keyword		: {required: "Please select offer keyword"},
+			text_title				: {required: "Please enter offer title"},
+			text_offer_element		: {required: "Please select offer element"},
+			text_offer_amt			: {required: "Please enter amount"},
+			from_date				: {required: "Please select date"},
+			to_date					: {required: "Please select date"},
+		},
+		
+		errorPlacement: function(error, element) {
+			if (element.attr("name") == "from_date" || element.attr("name") == "to_date" ){
+        		error.insertAfter(element.parent());
+			}else {
+				error.insertAfter(element);
+			}
+		}, 
+
+		highlight: function (element) {
+			$(element).addClass('vd_bd-red');
+		},
+
+		unhighlight: function (element) {
+			$(element).closest('.control-group').removeClass('error');
+		},
+
+		submitHandler: function(form)
+		{
+			form.submit();
+		}
+});
+

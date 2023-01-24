@@ -1047,6 +1047,9 @@ function send_email($mailData)
 	$ci->email->bcc($bcc_email);
 	$ci->email->subject($mailData['subject']);
 	$ci->email->message($mailData['message']);
+	if(isset($mailData['attachFile']) && !empty($mailData['attachFile'])){
+		$ci->email->attach($mailData['attachFile']);	
+	}
 	if($ci->email->send())
 	{
 		return TRUE;
@@ -1258,12 +1261,15 @@ function getAllElementBycategory($id,$productid=null){
 							
 							if(!empty($attributes))
 							{
-								$attributes_id = explode(',',$attributes);
-								
-								$ele_id = $result1[0]['element_id'];
-								$ele_name = $result1[0]['element_name'];
+								$attributes_id 		= explode(',',$attributes);
+								$class_name 		= "";
+								$ele_id 			= $result1[0]['element_id'];
+								$ele_name 			= $result1[0]['element_name'];
 								if(strtolower($ele_name) == "quantity"){
 									$class_name	=	"elements_attributes";
+								}
+								if(strtolower($ele_name) == "color"){
+									$class_name	=	"elements_color";
 								}
 								$elements_html .='<div class="col-md-4 mb-10">
 													<div class="form-group tagSelect-ltr">
@@ -1277,27 +1283,32 @@ function getAllElementBycategory($id,$productid=null){
 											
 								foreach($attributes_id as $attr)
 								{
-									$attr_id['attributes_id'] = $attr;
-									$result2 	= $ci->Master_m->where('attributes',$attr_id);
-									$attributes_id = $result2[0]['attributes_id'];
-									$attributes_name = $result2[0]['attributes_name'];
-									$attr_arr[$j]['attributes_id'] = $attributes_id;
-									$attr_arr[$j]['attributes_name'] = $attributes_name;
+									$attr_id['attributes_id'] 			= $attr;
+									$result2 							= $ci->Master_m->where('attributes',$attr_id);
+									$attributes_id 						= $result2[0]['attributes_id'];
+									$attributes_name 					= $result2[0]['attributes_name'];
+									$attribute_code 					= $result2[0]['attribute_code'];
+									$attr_arr[$j]['attributes_id'] 		= $attributes_id;
+									$attr_arr[$j]['attributes_name'] 	= $attributes_name;
 									$j++;
-									$selected = "";
+									$selected 							= "";
 									if(in_array($attr,$product_attributes))	{
 										$selected = "selected";
-									}							
+									}	
+									$data_attr = "";
+									if(strtolower($ele_name) == "color"){
+										$data_attr	=	"data-color='$attribute_code'";
+									}
 									
-									$elements_html .='<option value="'.$attributes_id.'" '.$selected.'>'.$attributes_name.'</option>';
+									$elements_html .='<option value="'.$attributes_id.'" '.$data_attr.' '.$selected.'>'.$attributes_name.'</option>';
 								}
 								$elements_html .='</select>
 														</div>
 													</div>
 												</div>';						
 							}
-							$ele_name = $result1[0]['element_name'];
-							$element_arr[$ele_name] = $attr_arr;
+							$ele_name 					= $result1[0]['element_name'];
+							$element_arr[$ele_name] 	= $attr_arr;
 							$i++;
 						}
 					}			
@@ -1325,12 +1336,23 @@ function getAllElementBycategory($id,$productid=null){
 		return $attr_name;
 	}
 
+	/*** GET ATTRIBUTE NAME BY ID */
+	function getAttributeData($attributes_id){
+		$ci     =& get_instance();
+		$where['attributes_id'] 	= $attributes_id;
+		$result 					= $ci->Master_m->where('attributes',$where);
+		return $result;
+	}
+
+
+
 	/*** GET CATEGORY NAME BY ID */
 	function getCateforyNameByID($category_id)
 	{
 		$ci     =& get_instance();
 		$where['category_id'] 	= $category_id;
 		$result 					= $ci->Master_m->where('category',$where);
+		
 		$category_name 	= $result[0]['category_name']; 
 		return $category_name;		
 	}
@@ -1339,9 +1361,9 @@ function getAllElementBycategory($id,$productid=null){
 	function getBrandNameByID($brand_id)
 	{
 		$ci     =& get_instance();
-		$where['brand_id'] 	= $brand_id;
+		$where['brand_id'] 			= $brand_id;
 		$result 					= $ci->Master_m->where('brand',$where);
-		$brand_name 	= $result[0]['brand_name']; 
+		$brand_name 				= $result[0]['brand_name']; 
 		return $brand_name;		
 	}
 
@@ -1445,7 +1467,7 @@ function getAllElementBycategory($id,$productid=null){
 		$ci->pdf->render();
 		
 		// ob_end_clean();      
-		// $this->pdf->stream("welcome.pdf", array("Attachment"=>0));  // Output the generated PDF (1 = download and 0 = preview)
+		// $ci->pdf->stream($file_name, array("Attachment"=>1));  // Output the generated PDF (1 = download and 0 = preview)
 		
 		$file = $ci->pdf->output();
 		file_put_contents($filepath.$file_name, $file);  
@@ -1547,6 +1569,37 @@ function getAllElementBycategory($id,$productid=null){
 		$str = trim($str);
 		$str = str_replace( array("\r\n","\r","\n"),"",$str);
 		return $str;	
+	}
+
+	/**** CONVERT IMG IMG TO WEBP  */
+	function compressAndConvertToWebpImage($source, $destination)
+	{
+		$info = getimagesize($source);
+
+		if($info['mime'] == 'image/jpeg')
+		{
+			$image = imagecreatefromjpeg($source);
+			$quality = 10;
+		}
+		elseif($info['mime'] == 'image/gif'){
+			$image = imagecreatefromgif($source);
+			$quality = 10;
+		}
+		elseif($info['mime'] == 'image/png')
+		{
+			$image = imagecreatefrompng($source);
+			$quality = 1;
+		}
+			
+		$w=imagesx($image);
+		$h=imagesy($image);
+		$webp=imagecreatetruecolor($w,$h);
+		imagecopy($webp,$image,0,0,0,0,$w,$h);
+		imagewebp($webp, $destination, $quality);
+		imagedestroy($image);
+		imagedestroy($webp);
+
+		return;
 	}
 
 ?>

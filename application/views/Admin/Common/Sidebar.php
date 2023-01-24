@@ -82,7 +82,7 @@
 					}					
 				}
 				?>
-                <li class="has-child">
+                <!-- <li class="has-child">
                     <a href="#" class="">
                         <span data-feather="mail" class="nav-icon">
                         </span>
@@ -108,7 +108,7 @@
                             </a>
                         </li>
                     </ul>
-                </li>
+                </li> -->
 				<?php
 					if(!empty($this->session->userdata[ADMIN_SESSION])){
 						$uid 		= $this->session->userdata[ADMIN_SESSION]['user_id'];
@@ -134,6 +134,13 @@
 										Export DataBase
 									</a>
 								</li>
+								<li>
+									<a class="" href="<?php echo base_url('export-mail-database')?>">
+									<span data-feather="chevrons-right" class="nav-icon">
+										</span>
+										Mail DataBase
+									</a>
+								</li>								
 								<li>
 									<a class="" href="<?php echo base_url('import-sql')?>">
 									<span data-feather="chevrons-right" class="nav-icon">

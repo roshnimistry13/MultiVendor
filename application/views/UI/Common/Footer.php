@@ -18,7 +18,7 @@
 			                                    <p>
 			                                        <a class="d-block" href="<?php echo base_url();?>">
 			                                            <img class="w-100" src="<?php echo UI_ASSETS ?>images/mv-logo.png" alt=""
-			                                                data-src="<?php echo UI_ASSETS ?>images/svg/kalles.svg">			                                            
+			                                                data-src="<?php echo UI_ASSETS ?>images/svg/kalles.svg">
 			                                        </a>
 			                                    </p>
 			                                    <p>
@@ -216,7 +216,7 @@
 			                                            </div>
 			                                        </div>
 			                                    </div>
-			                                </form>			                                
+			                                </form>
 			                            </div>
 			                        </div>
 			                    </div>
@@ -280,7 +280,7 @@
 			            <div class="modal-body">
 			                <form method="post" action="<?php echo base_url('add-cust-address')?>" id="customer_address"
 			                    class="py-3 add-customer-address">
-								<input type="hidden" id="txtaddressid" name="txtaddressid" value="">
+			                    <input type="hidden" id="txtaddressid" name="txtaddressid" value="">
 			                    <div class="form-row mb-3">
 			                        <div class="col-md-6 col-12">
 			                            <label for="fname">
@@ -333,7 +333,8 @@
 			                                    *
 			                                </span>
 			                            </label>
-			                            <textarea class="form-control" name="txtaddress" id="txtaddress" rows="2" required></textarea>
+			                            <textarea class="form-control" name="txtaddress" id="txtaddress" rows="2"
+			                                required></textarea>
 			                        </div>
 			                    </div>
 			                    <div class="form-row mb-3">
@@ -502,10 +503,10 @@
 			                </button>
 			            </div>
 			            <div class="modal-body">
-			                    <div class="all-address-list mb-5">
+			                <div class="all-address-list mb-5">
 
-			                    </div>		                    
-			               
+			                </div>
+
 			                <div class="text-center">
 			                    <p class="one"><span>OR</span></p>
 			                </div>
@@ -528,9 +529,68 @@
 			    </div>
 			</div>
 
+
+			<!-- Modal : PRODUCT REVIEW -->
+			<div class="modal fade" id="productReviewModal" tabindex="-1" role="dialog" aria-labelledby="productReviewModalTitle"
+			    aria-hidden="true">
+			    <div class="modal-dialog modal-dialog-centered" role="document">
+			        <div class="modal-content">
+			            <div class="modal-header">
+			                <h5 class="modal-title" id="exampleModalLongTitle">Rate Us</h5>
+			                <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+			                    <span aria-hidden="true">&times;</span>
+			                </button>
+			            </div>
+			            <div class="modal-body">
+						<div class="r--write-review r--desktop mfp-with-anim review-popup__content pb-3">
+			        <div class="r--write-wrapper">		            
+			            
+			            <form id="review_form" name="reviewform" class="r--form-write" method="post" action="<?php echo base_url('submit-rating-reviews')?>">
+							<input type="hidden" id="txtProductID" name="txtProductID" value="" >
+			                <div class="r--write-input r--flex-center r--rate-review">
+			                    <label class="r--label-quality">Ratings</label>
+			                    <div class="rate">
+			                        <input type="radio" id="star1" name="rate" value="1">
+			                        <label for="star1" title="text">1 star</label>
+			                        <input type="radio" id="star2" name="rate" value="2">
+			                        <label for="star2" title="text">2 stars</label>
+			                        <input type="radio" id="star3" name="rate" value="3">
+			                        <label for="star3" title="text">3 stars</label>
+			                        <input type="radio" id="star4" name="rate" value="4">
+			                        <label for="star4" title="text">4 stars</label>
+			                        <input type="radio" id="star5" name="rate" value="5" checked>
+			                        <label for="star5" title="text">5 stars</label>
+			                    </div>
+			                </div>			                
+			                
+			                <div class="r--write-input">
+			                    <label for="review_customer_title">Review Title</label>
+								<div class="r--input">
+			                    <input name="review_customer_title" type="text" placeholder="Look great"
+			                        id="review_customer_title">
+									</div>
+			                </div>
+			                <div class="r--write-input">
+			                    <label for="review_customer_content">Review Content</label>
+			                    <div class="r--input">
+			                        <textarea name="review_customer_content" placeholder="Write something" 
+			                            id="review_customer_content"></textarea>
+			                    </div>
+			                </div>
+			                <div class="r--write-submit">
+			                    <button type="submit" class="r--submit-form1 r--button1">
+			                        <span class="">Submit Your Review</span></button>
+			                </div>
+			            </form>
+			        </div>
+			    </div>
+			            </div>
+			        </div>
+			    </div>
+			</div>
 			<div class="mask-overlay ntpf t__0 r__0 l__0 b__0 op__0 pe_none">
 			</div>
-		
+
 			<!-- CART ITEM   -->
 			<div id="nt_cart_canvas" class="nt_fk_canvas dn">
 			    <div class="nt_mini_cart nt_js_cart flex column h__100 btns_cart_1">
@@ -547,34 +607,60 @@
 							$display_class = "dn";
 							$customer_id =  $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
 							$where['customer_id'] 		= $customer_id;
-							$cart_items 				= $this->Master_m->getCustomerCartItems($customer_id);
-							if(empty($cart_items)){
-								$display_class = "";
+							$cart_items 				= $this->Master_m->getCustomerCartItems($customer_id);							
+						}else{
+							if(isset($_COOKIE["temp_cart"])){
+								$cart_item 		    = json_decode(stripslashes($_COOKIE["temp_cart"]),true); 
+								$totalCart 				= count($cart_item); 
+								$display_class 			= "dn";
+								$cart_data 	 			= array();
+								foreach($cart_item as $item){
+									$productid 			= $item['product_id'];
+									$pqty 				= $item['quantity'];
+									$whr['product_id']  = $productid;
+									$res 				= $this->Master_m->where('product_details',$whr);
+									
+									$data['product_id'] 	= $res[0]['product_id'];
+									$data['product_name'] 	= $res[0]['product_name'];
+									$data['net_price ']		= $res[0]['net_price'];
+									$data['mrp_price']		= $res[0]['mrp_price'];
+									$data['discount'] 		= $res[0]['discount'];
+									$data['cover_img'] 		= $res[0]['cover_img'];
+									$data['quantity'] 		= $pqty ;											
+									$data['net_price']      =  $res[0]['net_price'];
+									$cart_data[] 			= $data;
+								}
+								$cart_items = $cart_data;
 							}
 						}
+
+						if(empty($cart_items)){
+							$display_class = "";
+						}
+						
 					
 					?>
 			        <div class="mini_cart_wrap">
 			            <div class="mini_cart_content fixcl-scroll">
-			                <div class="fixcl-scroll-content">
+			                <div class="fixcl-scroll-content cart_product_list">
 			                    <div class="empty tc mt__40 <?php echo $display_class; ?>">
 			                        <i class="las la-shopping-bag pr mb__10">
 			                        </i>
 			                        <p>
 			                            Your cart is empty.
 			                        </p>
-									<?php if(empty($this->session->userdata[CUSTOMER_SESSION])){?>
+			                        <?php if(empty($this->session->userdata[CUSTOMER_SESSION])){?>
 			                        <p class="return-to-shop mb__15">
 			                            <a class="button button_primary tu js_add_ld btnToLogin" href="javascript:void(0)">
 			                                Login
 			                            </a>
 			                        </p>
-									<?php } ?>
+			                        <?php } ?>
 			                    </div>
-			                    <div class="mini_cart_items js_cat_items lazyload cart_product_list">
-			                        <?php  if(!empty($this->session->userdata[CUSTOMER_SESSION])){ 																		
+			                    <div class="mini_cart_items js_cat_items lazyload">
+			                        <?php  //if(!empty($this->session->userdata[CUSTOMER_SESSION])){ 																		
 									$total_cart_amt = 0;
-									if(!empty($cart_items)){
+									if(!empty($cart_items)){ 
 										$total_cart_amt = 0;
 										foreach($cart_items as $row){
 											$product_id 	= $row['product_id'];
@@ -589,15 +675,13 @@
 											$total_cart_amt =  $final_price + $total_cart_amt;
 											
 									?>
-			                        <!-- <div class="mini_cart_items js_cat_items lazyload cart_product_list"> -->
 			                        <div class="mini_cart_item js_cart_item flex al_center pr oh">
 			                            <div class="ld_cart_bar">
 			                            </div>
 			                            <a href="<?php echo base_url('product-detail/1')?>" class="mini_cart_img mr-0">
 			                                <img class="lazyload"
 			                                    data-src="<?php echo base_url().PRODUCT_IMAGE_PATH.$product_id.'/'.$image ?>"
-			                                    width="70" height="120" alt=""
-			                                    src="">
+			                                    width="70" height="120" alt="" src="">
 			                            </a>
 			                            <div class="mini_cart_info">
 			                                <a href="<?php echo base_url('product-detail/1')?>" class="mini_cart_title truncate">
@@ -611,10 +695,10 @@
 													</p> -->
 			                                    <div class="cart_meta_price price">
 			                                        <div class="cart_price">
-			                                            <i class="fa fa-inr cr"></i><ins> <?php echo $net_price; ?> </ins>
+			                                            <i class="fa fa-inr cr"></i><ins> <?php echo $final_price; ?> </ins>
 			                                            <?php if($discount > 0 && $discount != "" && $discount != null){ ?>
 			                                            <small><del>
-			                                                    <i class="fa fa-inr"></i> <?php echo $mrp;?>
+			                                                    <i class="fa fa-inr"></i> <?php echo ($quantity * $mrp);?>
 			                                                </del></small>
 			                                            <small>(<?php echo $discount; ?> %)</small>
 			                                            <?php } ?>
@@ -633,11 +717,11 @@
 			                            </div>
 			                            <!-- </div> -->
 			                        </div>
-			                        <?php } } } ?>
+			                        <?php } } //} ?>
 			                    </div>
 			                </div>
 			            </div>
-			            <?php  if(!empty($this->session->userdata[CUSTOMER_SESSION])){ ?>
+			            <?php  //if(!empty($this->session->userdata[CUSTOMER_SESSION])){ ?>
 			            <div class="mini_cart_footer js_cart_footer">
 			                <div class="js_cat_dics">
 			                </div>
@@ -658,13 +742,13 @@
 			                    View
 			                    cart
 			                </a>
-			                <a href="<?php echo base_url('checkout');?>"
-			                    class="button btn-checkout mt__10 mb__10 js_add_ld d-inline-flex justify-content-center align-items-center text-white">
+			                <a href="javascript:void(0)"
+			                    class="button btn-checkout btn_checkout mt__10 mb__10 js_add_ld d-inline-flex justify-content-center align-items-center text-white">
 			                    Check
 			                    Out
 			                </a>
 			            </div>
-			            <?php } ?>
+			            <?php //} ?>
 			        </div>
 			    </div>
 			</div>
@@ -1267,7 +1351,7 @@
 			    </span>
 			</a>
 
-			<div id="kalles-section-promo_pr_pp" class="kalles-section mfp-hide dn">
+			<!-- <div id="kalles-section-promo_pr_pp" class="kalles-section mfp-hide dn">
 			    <div class="js_lz_pppr popup_prpr_wrap container bgw mfp-with-anim" data-stt='{ "pp_version": 1,"day_next": 1 }'>
 			        <div class="wrap_title">
 			            <h3 class="section-title tc pr flex fl_center al_center fs__24 title_2">
@@ -1929,19 +2013,24 @@
 			            </div>
 			        </div>
 			    </div>
-			</div>
+			</div> -->
 			
+			<!-- PRODUCT REVIEW MODEL -->
+
+			
+
+			<!-- PRODUCT REVIEW MODEL -->
 			<script>
-				var base_url 					= "<?php echo base_url(); ?>";
-				var PRODUCT_IMAGE_PATH 			= "<?php echo PRODUCT_IMAGE_PATH ?>";
-				var UI_ASSETS 					= "<?php echo UI_ASSETS ?>";
+				var base_url 				= "<?php echo base_url(); ?>";
+				var PRODUCT_IMAGE_PATH 		= "<?php echo PRODUCT_IMAGE_PATH ?>";
+				var UI_ASSETS 				= "<?php echo UI_ASSETS ?>";
 			</script>
 
 			<script type="text/javascript" src="<?php echo ASSETS ?>jquery/jquery.js"></script>
 			<script type="text/javascript" src="<?php echo ASSETS ?>jquery/jquery.validate.min.js"></script>
 			<script type="text/javascript" src="<?php echo UI_ASSETS ?>js/jquery-ui.min.js"></script>
 			<script type="text/javascript" src="<?php echo UI_ASSETS ?>js/popper.min.js"></script>
-			<script type="text/javascript" src="<?php echo UI_ASSETS ?>js/bootstrap.min.js"></script>			
+			<script type="text/javascript" src="<?php echo UI_ASSETS ?>js/bootstrap.min.js"></script>
 			<script type="text/javascript" src="<?php echo UI_ASSETS ?>js/select2.min.js"></script>
 			<script type="text/javascript" src="<?php echo UI_ASSETS ?>js/nouislider.min.js"></script>
 
@@ -1968,4 +2057,5 @@
 			<script src="<?php echo UI_ASSETS ?>js/toastify-js.js"></script>
 			<script src="<?php echo UI_ASSETS ?>js/application/ui.js"></script>
 			</body>
+
 			</html>

@@ -1,0 +1,1 @@
+"2022-12-31 04:45:32am "," update "," UPDATE product_details SET `view_count` = 43 WHERE 1=1  and product_id = '14' "," ::1 "," URL: http://localhost/MultiVendor/product-detail/men-teal-green-slim-fit-tropical-printed-pure-cotton-t-shirt-s-teal-vnky8c75-14 "," R: http://localhost/MultiVendor/shop?category=men"

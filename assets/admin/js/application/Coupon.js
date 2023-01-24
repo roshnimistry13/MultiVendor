@@ -3,9 +3,9 @@ jQuery(document).ready(function()
 {
 	table_name = 'couponDatatable';
 	url = base_url + "Admin/Coupon/bindDataTable";
-	target = [0,5,6,7];
+	target = [0,4,5,6];
 
-	toDataTable(table_name,url,target);
+	toDataTable(table_name,url,target,true);
 	
 });
 
@@ -25,6 +25,7 @@ $("form[id='coupon-form']").validate(
 			from_date				: {required: "Please select date"},
 			to_date					: {required: "Please select date"},
 			text_coupon_amt			: {required: "Please enter amount"},
+			text_purchase_amt		: {required: "Please enter amount"},
 		},
 		
 		errorPlacement: function(error, element) {

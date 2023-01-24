@@ -1,0 +1,3 @@
+"2022-12-23 23:09:41pm "," update "," UPDATE user SET `last_login` = '2022-12-23 23:09:41' WHERE 1=1  and user_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/login-check "," R: http://localhost/MultiVendor/admin"
+"2022-12-23 23:56:36pm "," update "," UPDATE orders SET `delivery_status_id` = '4' WHERE 1=1  and order_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/update-delivery-status "," R: http://localhost/MultiVendor/order"
+"2022-12-23 23:56:36pm "," update "," UPDATE order_details SET `deliver_date` = '2022-12-23' WHERE 1=1  and order_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/update-delivery-status "," R: http://localhost/MultiVendor/order"

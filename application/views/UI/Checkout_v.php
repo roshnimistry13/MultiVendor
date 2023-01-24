@@ -11,7 +11,8 @@
         </div>
     </div>
     <?php if(!empty($cart)){
-       $checkitemStock      = $this->Master_m->checkCartItemStock(); // 0 :instock , <0 :outofstock
+        $customer_id 				= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
+       $checkitemStock              = $this->Master_m->checkCartItemStock($customer_id); // 0 :instock , <0 :outofstock
     ?>
     <div class="kalles-section cart_page_section container mt__60 mb__60">
         <div class="frm_cart_page check-out_calculator">

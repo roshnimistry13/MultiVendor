@@ -1,0 +1,6 @@
+"2022-12-16 02:41:46am "," update "," UPDATE customer_address SET `set_default` = 0 WHERE 1=1  and customer_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/change-delivery-address "," R: http://localhost/MultiVendor/checkout"
+"2022-12-16 02:41:46am "," update "," UPDATE customer_address SET `set_default` = 1 WHERE 1=1  and address_id = '21' and customer_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/change-delivery-address "," R: http://localhost/MultiVendor/checkout"
+"2022-12-16 02:43:37am "," update "," UPDATE customer_address SET `set_default` = 0 WHERE 1=1  and customer_id = '1' "," ::1 "," URL: http://localhost/MultiVendor/add-cust-address "," R: http://localhost/MultiVendor/checkout"
+"2022-12-16 02:43:37am "," insert "," INSERT INTO customer_address(`customer_id`, `first_name`, `last_name`, `email`, `mobile`, `address`, `city`, `state`, `pincode`, `country`, `address_type`, `set_default`, `created_by`, `created`, `is_active`) VALUES('1', 'Sagar', 'vslsix', 'sagarvsl6@gmail.com', '78945612388', 'test
+Apt', 'City', 'Gujarat', '396001', 'India', 'test
+Apt'_type, NULL, '1', '2022_12-16', 1) "," ::1 "," URL: http://localhost/MultiVendor/add-cust-address "," R: http://localhost/MultiVendor/checkout"

@@ -2585,6 +2585,7 @@
 	body.on("click", ".ajax_pp_js", function (e) {
 		e.preventDefault();
 		e.stopPropagation();
+		
 		const $this = $(this),
 			content_id = $this.data("id"),
 			html = content_id !== undefined ? $(content_id).html() : null;
@@ -2720,6 +2721,7 @@
 
 function filter(pagno){
 	var filter_category = $('#filterCategoryId').val();
+	var filter_subcategory = $('#filterSubCategoryId').val();
 	var filter_color 	= $('#filterColorId').val();
 	var filter_brand 	= $('#filterBrandId').val();
 	var min_price 		= $('#min_price').val();
@@ -2734,6 +2736,7 @@ function filter(pagno){
 			data:
 			{
 				category 	: filter_category,
+				subcategory : filter_subcategory,
 				color 		: filter_color,
 				brand 		: filter_brand,
 				min_price 	: min_price,
@@ -2761,16 +2764,7 @@ function filter(pagno){
 				// 	var cat_filter = '<a href="javascript:void(0)" class="clear_filter dib category_tag">'+data.category_name+'</a>';					
 				// 	$('.result_clear').append(cat_filter);
 				// }
-
-				/*** COLOR FILTER TAG */
-				if(filter_color == null || filter_color == '')
-				{	
-					$('.color_tag').addClass('d-none');
-				}else{
-					$('.color_tag').remove();
-					var color_filter = '<a href="javascript:void(0)" class="clear_filter dib color_tag">'+data.color_name+'</a>';					
-					$('.result_clear').append(color_filter);
-				}
+	
 
 				/*** BRAND FILTER TAG */
 				if(filter_brand == null || filter_brand == '')
@@ -2781,14 +2775,39 @@ function filter(pagno){
 					var brand_filter = '<a href="javascript:void(0)" class="clear_filter dib brand_tag">'+data.brand_name+'</a>';					
 					$('.result_clear').append(brand_filter);
 				}
+
+				/*** BRAND FILTER TAG */
+				if(filter_subcategory == null || filter_subcategory == '')
+				{	
+					$('.subcat_tag').addClass('d-none');
+				}else{
+					$('.subcat_tag').remove();
+					var subcat_filter = '<a href="javascript:void(0)" class="clear_filter dib subcat_tag">'+data.category_name+'</a>';					
+					$('.result_clear').append(subcat_filter);
+				}
+
+				/*** COLOR FILTER TAG */
+				if(filter_color == null || filter_color == '')
+				{	
+					$('.color_tag').addClass('d-none');
+				}else{
+					$('.color_tag').remove();
+					var color_filter = '<a href="javascript:void(0)" class="clear_filter dib color_tag">'+data.color_name+'</a>';					
+					$('.result_clear').append(color_filter);
+				}
 				
 				if(data.result.length >= 1 ){
+					$('.result_count').removeClass('dn');
+					$('.result_count').addClass('dib');
 					createProductGrid(data.result,data.sno,whishList);
 				}
 				else
 				{
+					$('.result_count').addClass('dn');
 					$('#productList').empty();
-					var div = '<h5>No Product found</h5>';
+					var img_url 		= UI_ASSETS + "images/no-product-1.png";
+					var div = "<div class='col-12 text-center py-5'><img src="+ img_url +"></div>";
+					// var div = '<h5>No Product found</h5>';
 					$('#productList').append(div);	
 				}
 			},

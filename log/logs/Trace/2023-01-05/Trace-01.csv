@@ -1,0 +1,3 @@
+"2023-01-05 01:41:37am "," insert "," INSERT INTO recent_search(`keyword`, `customer_id`, `category`, `created_at`) VALUES('Tunics', '1', 'women', '2023-01-05') "," ::1 "," URL: https://localhost/MultiVendor/api/MultivendorApi/searchBykeywords "," R: "
+"2023-01-05 01:45:18am "," insert "," INSERT INTO recent_search(`keyword`, `customer_id`, `category`, `created_at`) VALUES('Tunics', '1', 'women', '2023-01-05') "," ::1 "," URL: https://localhost/MultiVendor/api/MultivendorApi/searchBykeywords "," R: "
+"2023-01-05 01:48:45am "," insert "," INSERT INTO recent_search(`keyword`, `customer_id`, `category`, `created_at`) VALUES('tshirt', '1', 'women', '2023-01-05') "," ::1 "," URL: https://localhost/MultiVendor/api/MultivendorApi/searchBykeywords "," R: "

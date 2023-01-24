@@ -124,12 +124,15 @@
                                                                 if(!empty($category)){
                                                                     foreach($category as $row)
                                                                     {
+                                                                        $parent_cat = "";
+                                                                        if($row['parent_category_id'] != 0)
+                                                                        $parent_cat = getCateforyNameByID($row['parent_category_id']).' -> ';
                                                             ?>
                                                             <option
                                                                 <?php if($row['category_id'] == $parent_category_id) { ?>
                                                                 selected="selected" <?php }?>
                                                                 value="<?php echo $row['category_id'] ?>">
-                                                                <?php echo $row['category_name'] ?>
+                                                                <?php echo $parent_cat.$row['category_name'] ?>
                                                             </option>
                                                             <?php
                                                                 }
