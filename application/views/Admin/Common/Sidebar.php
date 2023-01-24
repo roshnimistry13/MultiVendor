@@ -135,6 +135,13 @@
 									</a>
 								</li>
 								<li>
+									<a class="" href="<?php echo base_url('export-mail-database')?>">
+									<span data-feather="chevrons-right" class="nav-icon">
+										</span>
+										Mail DataBase
+									</a>
+								</li>								
+								<li>
 									<a class="" href="<?php echo base_url('import-sql')?>">
 									<span data-feather="chevrons-right" class="nav-icon">
 										</span>

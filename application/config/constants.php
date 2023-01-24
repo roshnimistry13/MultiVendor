@@ -90,7 +90,7 @@ define("DBTYPE",'mysql');
 define("DBHOST",'localhost');
 define("DBUSER",'root');
 define("DBPASS",'');
-define("DBNAME",'multivendor');
+define("DBNAME",'ethnicwear');
 
 define('DEBUGGING', true);
 
@@ -100,7 +100,7 @@ $protocol = isset($_SERVER["HTTPS"]) ? 'https://' : 'http://';
 define('protocol', $protocol);
 define('domain', $domain);
 
-$CurURL    = isset($_SERVER['REQUEST_URI'])?$protocol . $domain . $_SERVER['REQUEST_URI']:'http://localhost/MultiVendor/';
+$CurURL    = isset($_SERVER['REQUEST_URI'])?$protocol . $domain . $_SERVER['REQUEST_URI']:'http://localhost/EthnicWear/';
 DEFINE('CurURL', $CurURL);
 
 $docRoot   = $_SERVER['DOCUMENT_ROOT'];
@@ -126,6 +126,8 @@ $SCRIPT_NAME = $_SERVER['SCRIPT_NAME'];
 define('SCRIPT_NAME', $SCRIPT_NAME);
 
 
+
+
 /*************Session define*/
 define("ADMIN_SESSION" ,"admin_session");
 define("CUSTOMER_SESSION" ,"customer_session");
@@ -143,6 +145,7 @@ define("BLOG_IMAGE_PATH" ,"upload_data/images/Blog/");
 define("TESTIMONIAL_IMAGE_PATH" ,"upload_data/images/Testimonial/");
 define("INVOICE_PDF_PATH" ,"upload_data/Invoice/");
 define("PROFILE_IMG_PATH" ,"upload_data/images/Profile/");
+define("DB_BACKUP_URL" ,"log/DB Backup/");
 
 /**************Image Path setting*************************/
 define("ALLOW_TYPES" ,"*");
@@ -175,6 +178,7 @@ define("COPY_ICON" ,'<svg xmlns="http://www.w3.org/2000/svg" width="24" height="
 define("DOWNARROW_ICON" ,'<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-chevron-down"><polyline points="6 9 12 15 18 9"></polyline></svg>');
 define("DELETE_ICON" ,'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path><line x1="10" y1="11" x2="10" y2="17"></line><line x1="14" y1="11" x2="14" y2="17"></line></svg>');
 define("INVOICE_ICON" ,'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><!--! Font Awesome Pro 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M64 0C28.7 0 0 28.7 0 64V448c0 35.3 28.7 64 64 64H320c35.3 0 64-28.7 64-64V160H256c-17.7 0-32-14.3-32-32V0H64zM256 0V128H384L256 0zM80 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm0 64h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H80c-8.8 0-16-7.2-16-16s7.2-16 16-16zm16 96H288c17.7 0 32 14.3 32 32v64c0 17.7-14.3 32-32 32H96c-17.7 0-32-14.3-32-32V256c0-17.7 14.3-32 32-32zm0 32v64H288V256H96zM240 416h64c8.8 0 16 7.2 16 16s-7.2 16-16 16H240c-8.8 0-16-7.2-16-16s7.2-16 16-16z"/></svg>');
+define("REVIEW_ICON" ,'<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-message-circle"><path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path></svg>');
 
-define('ENCRYPTKEY1','z9NAGmPa7yBcbRs5n8e5IsY8K5kYP5exDj2bm5hIr9s='); //32 bit
-define('ENCRYPTKEY2','3/7Ml7SuF8r6RN6sqLUhfwsOnL45kdOVK9Cm+3BC9iHB1/P1biQObQj2kk4W5VSJxC0gZ++l2bCuQ0FSXQ2ayw=='); //64bit
+/****** Version for css and js file****/
+define("VERSION" ,"1.0");

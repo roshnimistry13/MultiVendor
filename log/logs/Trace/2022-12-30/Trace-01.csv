@@ -1,0 +1,2 @@
+"2022-12-30 01:52:44am "," update "," UPDATE product_details SET `view_count` = 1 WHERE 1=1  and product_id = '133' "," ::1 "," URL: http://localhost/EthnicWear/product-detail/lavender-art-silk-saree-pastel-pink-vne98q7y-133 "," R: http://localhost/EthnicWear/shop"
+"2022-12-30 01:57:22am "," update "," UPDATE product_details SET `view_count` = 2 WHERE 1=1  and product_id = '133' "," ::1 "," URL: http://localhost/EthnicWear/product-detail/lavender-art-silk-saree-pastel-pink-vne98q7y-133 "," R: http://localhost/EthnicWear/shop"

@@ -1,0 +1,2 @@
+"2022-11-27 01:48:29am "," update "," UPDATE product_details SET `view_count` = 1 WHERE 1=1  and product_id = '7' "," ::1 "," URL: http://localhost/MultiVendor/product-detail/dennis-lingo-men-shirt-xl-blue-vnky8c75-7 "," R: http://localhost/MultiVendor/shop?category=men"
+"2022-11-27 01:49:02am "," update "," UPDATE product_details SET `view_count` = 2 WHERE 1=1  and product_id = '7' "," ::1 "," URL: http://localhost/MultiVendor/product-detail/dennis-lingo-men-shirt-xl-blue-vnky8c75-7 "," R: http://localhost/MultiVendor/shop?category=men"

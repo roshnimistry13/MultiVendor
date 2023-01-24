@@ -99,10 +99,11 @@ class Master_m extends CI_Model{
 	// All child Category list : parent_category_id !=0
 	public function AllChildCategoryList()
 	{
-		$this->db->select('category_id, category_name, description, category_image');
-		$this->db->from('category');
-		$this->db->where('parent_category_id != 0');
-		$this->db->where('is_active',1);
+		$this->db->select('c.category_id, c.category_name,p.category_id as parent_id');
+		$this->db->from('product_details p');
+		$this->db->join('category c','c.category_id=p.child_category');		
+		$this->db->where('c.is_active',1);
+		$this->db->group_by('p.child_category');
 		$query = $this->db->get()->result_array();
 		return $query;
 	}
@@ -228,75 +229,6 @@ class Master_m extends CI_Model{
 		$this->db->where('p.brand_id',$brand_id);
 		$this->db->where('c.is_active',1);
 		$this->db->group_by('p.category_id');
-		$query=$this->db->get()->result_array();
-		return $query;
-	}
-	
-	//get latest product 
-	public function getLatestProduct(){
-		$this->db->select('p.product_id, p.product_name, p.short_code, p.image, gu.unit, p.net_price');
-		$this->db->from('product_details p');
-		$this->db->join('group_unit gu','gu.group_unit_id = p.group_unit_id');
-		$this->db->where('p.is_active',1);
-		$this->db->order_by('p.product_id','desc');
-		$this->db->limit('6');
-		$query=$this->db->get()->result_array();
-		return $query;
-	}
-	
-	//get related product 
-	public function getRelatedProduct($brand_id,$product_id){
-		$this->db->select('p.product_id, p.product_name, p.short_code, p.image, gu.unit, p.net_price');
-		$this->db->from('product_details p');
-		$this->db->join('group_unit gu','gu.group_unit_id = p.group_unit_id');
-		$this->db->where('p.brand_id',$brand_id);
-		//$this->db->where("p.product_id != $product_id");
-		$this->db->where('p.is_active',1);
-		$this->db->order_by('p.product_id','desc');
-		$this->db->limit('4');
-		$query=$this->db->get()->result_array();
-		return $query;
-	}
-	
-	//product details get 
-	public function getProductDetails($product_short_code){
-		$this->db->select('p.product_id, p.product_name, p.product_code, p.short_code, p.short_description, p.description, c.category_name, p.brand_id, b.brand_name, gu.unit, p.reach_in, p.mrp_price, p.discount, p.net_price, p.tax, p.image, p.meta_title, p.meta_description, p.meta_keyword, s.stock_id, s.onhand_quantity');
-		$this->db->from('product_details p');
-		$this->db->join('category c','c.category_id = p.category_id');
-		$this->db->join('brand b','b.brand_id = p.brand_id');
-		$this->db->join('group_unit gu','gu.group_unit_id = p.group_unit_id');
-		$this->db->join('stock s','s.product_id = p.product_id');
-		$this->db->where('p.short_code',$product_short_code);
-		$query=$this->db->get()->result_array();
-		return $query;
-	}
-	
-	//get all product 
-	public function getAllProduct($category_id){
-		$this->db->select('p.product_id, p.product_name, p.short_code, p.image, gu.unit, p.net_price');
-		$this->db->from('product_details p');
-		$this->db->join('group_unit gu','gu.group_unit_id = p.group_unit_id');
-		
-		if(isset($category_id) && strlen(trim($category_id))>0)
-		{
-   			$this->db->where("p.category_id", $category_id);
-   		}
-		
-		$this->db->where('p.is_active',1);
-		$this->db->order_by('p.product_id','desc');
-		$query=$this->db->get()->result_array();
-		return $query;
-	}
-	
-	//get cart details  
-	public function getCartDetails(){
-		$this->db->select('c.cart_id, p.product_id, p.product_name, p.image, p.quantity, p.net_price');
-		$this->db->from('customer_cart p');
-		$this->db->from('product_details p');
-		$this->db->join('group_unit gu','gu.group_unit_id = p.group_unit_id');
-		$this->db->where('p.is_active',1);
-		$this->db->order_by('p.product_id','desc');
-		$this->db->limit('6');
 		$query=$this->db->get()->result_array();
 		return $query;
 	}
@@ -453,11 +385,24 @@ class Master_m extends CI_Model{
 	}
 
 	public function getTotalCategoryCount($category_id = null){
+		$child = array();
+		$category_id;
 		if($category_id != "" || $category_id != null){
-			$this->db->group_start();
-			$this->db->where("p.category_id", $category_id);
-   			$this->db->or_where("p.child_category", $category_id);
-			$this->db->group_end();
+
+			$cat_cond['category_id'] 	= $category_id;		
+			$catresult					= $this->where('category',$cat_cond);
+			$parent_cat 				= $catresult[0]['parent_category_id'];
+			if($catresult[0]['child_category'] != null || $catresult[0]['child_category'] != "")
+			$child 						= explode(',',$catresult[0]['child_category']);
+
+			if(!empty($child) && $parent_cat > 0){
+				$this->db->where_in("p.child_category", $child);
+			}else{
+				$this->db->group_start();
+				$this->db->where("p.category_id", $category_id);
+				$this->db->or_where("p.child_category", $category_id);
+				$this->db->group_end();
+			}			
 		}
 		$this->db->select('p.product_id,p.category_id,p.variant_code, c.category_name');
 		$this->db->from('product_details p');
@@ -476,6 +421,48 @@ class Master_m extends CI_Model{
 				
 				$product_id 		= $row['product_id'];
 				$cat_id 			= $row['category_id'];
+				$category_name 		= $row['category_name'];
+				$variant_code 		= $row['variant_code'];		
+				
+				if(!empty($varient_arr) && !empty($varient_arr[$cat_id]) && $variant_code !=""){
+					if(in_array($variant_code,$varient_arr[$cat_id])){
+					
+					}else{
+						$varient_arr[$cat_id][] = $variant_code;
+					}
+				}
+				else{
+					$varient_arr[$cat_id][] = $variant_code;
+				}			
+				
+			}
+		}
+		
+		return $varient_arr;
+	}
+	public function getTotalSubCategoryCount($category_id = null){
+		if($category_id != "" || $category_id != null){
+			
+   			$this->db->or_where("p.child_category", $category_id);
+			
+		}
+		$this->db->select('p.product_id,p.category_id,p.child_category,p.variant_code, c.category_name');
+		$this->db->from('product_details p');
+		$this->db->join('category c','c.category_id = p.child_category');
+		$this->db->where('p.is_active', 1);
+		$this->db->where('c.is_active', 1);
+		$this->db->order_by('c.category_name','ASC');
+		$query=$this->db->get()->result_array();
+		
+		$cat_arr = array();
+		$varient_arr = array();
+		$i = 1;
+		$j = 1;
+		if(!empty($query)){
+			foreach($query as $row){
+				
+				$product_id 		= $row['product_id'];
+				$cat_id 			= $row['child_category'];
 				$category_name 		= $row['category_name'];
 				$variant_code 		= $row['variant_code'];		
 				
@@ -608,6 +595,16 @@ class Master_m extends CI_Model{
 		return $query->result_array();
 	}
 
+	/*** FETCH CART ITEM DETAIL SET IN COOKIES*/
+	public function getCookieItemDetail($product_id){
+		$this->db->select('p.*,ca.return_or_replace,ca.return_replace_validity,v.name as vendor_name');
+		$this->db->from('product_details p');
+		$this->db->join('category ca','ca.category_id = p.category_id');
+		$this->db->join('vendor v','v.vendor_id = p.vendor_id');
+		$this->db->where('p.product_id',$product_id);
+		$query = $this->db->get()->result_array();
+		return $query;
+	}
 	/*** generate New Order number */
 	public function getLatestOrderNumber(){
 		$this->db->select('max(order_id) as orderid');
@@ -639,6 +636,16 @@ class Master_m extends CI_Model{
 		$this->db->join('product_details p','p.product_id=od.product_id');
 		$this->db->join('vendor v','v.vendor_id = p.vendor_id');
 		$this->db->where('od.order_id',$order_id);
+		$this->db->order_by('o.order_id','desc');
+		$result = $this->db->get()->result_array();
+		return $result;
+	}
+
+	/*** GET PRODUCT REVIEWS RATING BY CUSTOMER */
+	public function getCustomerProductReview($customer_id){
+		$this->db->select('product_id,star_rate');
+		$this->db->from('product_review');
+		$this->db->where('customer_id',$customer_id);
 		$result = $this->db->get()->result_array();
 		return $result;
 	}
@@ -660,11 +667,20 @@ class Master_m extends CI_Model{
 	
 	//get Product filter data
 	public function getFilterData($filter,$rowperpage, $rowno){
-		
+		$child = array();
+		if(isset($filter['category']) && strlen(trim($filter['category']))>0)
+		{
+   			$cat_cond['category_id'] 	= $filter['category'];		
+			$catresult					= $this->where('category',$cat_cond);
+			$parent_cat 				= $catresult[0]['parent_category_id'];
+			if($catresult[0]['child_category'] != null || $catresult[0]['child_category'] != "")
+			$child 						= explode(',',$catresult[0]['child_category']);
+		}
+
 		$sort_by = "ORDER BY net_price ASC";
 		/***** 	QUERY : #1 */
 		
-		$this->db->select('DISTINCT(p.product_id) as product_ids, p.product_name as product_name, p.short_code, p.short_description, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,pe.product_id');
+		$this->db->select('DISTINCT(p.product_id) as product_id, p.product_name as product_name, p.short_code, p.short_description, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,pe.product_id');
 		$this->db->from('product_details p');
 		$this->db->join('product_elements_attributes pe','pe.product_id=p.product_id');
 		//for color
@@ -677,10 +693,15 @@ class Master_m extends CI_Model{
 		//For category
 		if(isset($filter['category']) && strlen(trim($filter['category']))>0)
 		{
-			$this->db->group_start();
-			$this->db->where("p.category_id", $filter['category']);
-   			$this->db->or_where("p.child_category", $filter['category']);
-			$this->db->group_end();
+			if(!empty($child) && $parent_cat > 0){
+				$this->db->where_in("p.child_category", $child);
+			}else{
+				$this->db->group_start();
+				$this->db->where("p.category_id", $filter['category']);
+				$this->db->or_where("p.child_category", $filter['category']);
+				$this->db->group_end();
+			}
+			
    		}
    		
    		//for brand
@@ -737,7 +758,7 @@ class Master_m extends CI_Model{
 
 		/***** 	QUERY : #2 */
 
-		$this->db->select('DISTINCT(p1.product_id) as product_ids, p1.product_name as product_name, p1.short_code, p1.short_description, p1.net_price as net_price, p1.cover_img,p1.mrp_price,p1.discount,p1.variant_code,pe1.product_id');
+		$this->db->select('DISTINCT(p1.product_id) as product_id, p1.product_name as product_name, p1.short_code, p1.short_description, p1.net_price as net_price, p1.cover_img,p1.mrp_price,p1.discount,p1.variant_code,pe1.product_id');
 		$this->db->from('product_details p1');
 		$this->db->join('product_elements_attributes pe1','pe1.product_id=p1.product_id');
 		
@@ -751,10 +772,15 @@ class Master_m extends CI_Model{
 		//For category
 		if(isset($filter['category']) && strlen(trim($filter['category']))>0)
 		{
-   			$this->db->group_start();
-   			$this->db->where("p1.category_id", $filter['category']);
-   			$this->db->or_where("p1.child_category", $filter['category']);
-   			$this->db->group_end();
+   			
+			if(!empty($child) && $parent_cat > 0){
+				$this->db->where_in("p1.child_category", $child);
+			}else{
+				$this->db->group_start();
+				$this->db->where("p1.category_id", $filter['category']);
+				$this->db->or_where("p1.child_category", $filter['category']);
+				$this->db->group_end();
+			}
    		}
    		
    		//for brand
@@ -812,7 +838,8 @@ class Master_m extends CI_Model{
 			$query = $this->db->query($query1 . ' UNION ALL ' . $query2 .' '. $sort_by );
 		}		  
 		
-		$result = $query->result_array();	
+		$result = $query->result_array();
+		// echo $this->db->last_query();die;	
 		
 		return $result;
 	}
@@ -828,7 +855,8 @@ class Master_m extends CI_Model{
 			foreach($child_hierarchy as $row){
 				$cat['category_id'] 	= $row;
 				$res 					= $this->Master_m->where('category',$cat);
-				$cat_name[$i] 				= $res[0]['category_name'];	
+				$cat_name[$i]['name'] 				= $res[0]['category_name'];	
+				$cat_name[$i]['shortcode'] 			= $res[0]['short_code'];	
 				$i++;		
 			}
 			$data = $cat_name;
@@ -837,10 +865,17 @@ class Master_m extends CI_Model{
 	}
 
 	/*** GET CHILD CATEGORY FROM PARENT CATEGORY : clothing*/
-	public function getChildCategory($short_code = null){
+	public function getChildCategory($short_code = null,$category_id = null){
+		$data = array();
+		if($short_code != null || $short_code != ""){
+			$cat_cond['short_code'] 	= $short_code;		
+		}
+
+		if($category_id != null || $category_id != ""){
+			$cat_cond['category_id'] 	= $category_id;				
+		}
 		
-		//$cat_cond['category_id'] 	= $category_id;		
-		$cat_cond['short_code'] 	= $short_code;		
+		
 		$result						= $this->where('category',$cat_cond);	
 		$child_category				= $result[0]['child_category'];
 		if(!empty($child_category && $child_category != null && $child_category != "")){
@@ -887,13 +922,15 @@ class Master_m extends CI_Model{
 						$whr['attributes_id'] 	= $attr;
 						$attr_res 				= $this->where('attributes',$whr);
 						$attr_name 				= $attr_res[0]['attributes_name'];
+						$attr_code 				= $attr_res[0]['attribute_code']; 
 						// $attr_arr[] 			= $attr_name;	
 						
 						$attr_arr[$attr_name]['element_id'] 		= $element_id;
 						$attr_arr[$attr_name]['attr_id'] 			= $attr;				
+						$attr_arr[$attr_name]['attr_code'] 			= $attr_code;				
 						$attr_arr[$attr_name]['p_id'][] 			= $product_id;
 						$attr_arr[$attr_name]['enable'] 			= 'enable'; 
-						$attr_arr[$attr_name]['is_selected'] 		= 'is-selected';															
+						$attr_arr[$attr_name]['is_selected'] 		= 'active';															
 					}					
 				}
 				
@@ -904,6 +941,23 @@ class Master_m extends CI_Model{
 		return $elements;
 	}
 
+	/**** GET ELEMENT ATTRIBUTE OF SINGLE PRODUCT IN JSON STRING FORMATE*/
+	public function getElememtAttributeForSingleProduct($product_id){
+		$this->db->select('pea.element_id,pea.attributes_id');
+		$this->db->from('product_elements_attributes pea');
+		$this->db->where('pea.product_id', $product_id);
+		$query		= $this->db->get()->result_array();
+		$eleattr 	= array();
+		if(!empty($query)){
+			foreach($query as $row){
+				$element_id 			= $row['element_id'];
+				$attributes_id 			= $row['attributes_id'];
+				$eleattr[$element_id] 	= $attributes_id;
+			}
+		}
+		return json_encode($eleattr,true);
+	}
+	
 	public function getProductVariants($product_id){
 
 		$this->db->select('pea.element_id,pea.attributes_id,pe.element_name,pe.element_id');
@@ -1037,12 +1091,17 @@ class Master_m extends CI_Model{
 	}
 
 	/***get whishlist product detail */
-	public function getWishListItem($customer_id){
+	public function getWishListItem($customer_id,$rowperpage, $rowno){
 		$this->db->select('w.*,p.product_name,short_code,p.net_price,p.mrp_price,p.discount,p.cover_img');
 		$this->db->from('whish_list w');
 		$this->db->join('product_details p','p.product_id = w.product_id');
-		$this->db->where('customer_id',$customer_id);
+		$this->db->where('w.customer_id',$customer_id);
+		if(strlen(trim($rowperpage))>0 && strlen(trim($rowno))>0)
+		{
+			$this->db->limit($rowperpage,$rowno);
+		}
 		$query = $this->db->get()->result_array();
+		
 		return $query;
 	}
 
@@ -1298,7 +1357,7 @@ class Master_m extends CI_Model{
 	}
 	
 	/**** GENERATE INVOICE PDF AFTER ORDER OLACE*/
-	public function generateInvoice($order_id){
+	public function generateInvoice($order_id,$product_id){
 		// ORDER DATA
 		$this->db->select('*');
 		$this->db->from('orders');
@@ -1307,13 +1366,14 @@ class Master_m extends CI_Model{
 		
 		$customer_id 	= $orderdata[0]['customer_id'];
 		$order_number 	= $orderdata[0]['order_number'];
-		$file_path 		= INVOICE_PDF_PATH.'/'.$customer_id.'/';
-		$file_name 		= $order_number.'.pdf';
+		$file_path 		= INVOICE_PDF_PATH.$customer_id.'/'.$order_number.'/';
+		$file_name 		= $order_number.'-'.$product_id.'.pdf';
 
 		// ORDER PRODUCT DETAIL
 		$this->db->select('*');
 		$this->db->from('order_details');
 		$this->db->where('order_id',$order_id);
+		$this->db->where('product_id',$product_id);
 		$orderproductDetail = $this->db->get()->result_array();
 
 		$data['orderdata'] 	= $orderdata;
@@ -1323,7 +1383,7 @@ class Master_m extends CI_Model{
 		// $html1 = $this->load->view('UI/Invoice_v');
 		// $html = $this->output->get_output($html1);
 		createPdf($file_path,$file_name,$html);
-		return true;
+		return $file_path.$file_name;
 	}
 
 	/*** SEND ORDER CONFIRMATION MAIL TO CUNSTOMER*/
@@ -1367,153 +1427,48 @@ class Master_m extends CI_Model{
 		$this->db->from('offer');
 		$this->db->where('is_active',1);
 		$this->db->where('to_date >=',$date1);
-		$result 			= $this->db->get()->result_array();
+		$result 			= $this->db->get()->result_array(); 
 		$p_array 			= array();	
-		if(!empty($result)){
 			
-			$j = 0;
+		if(!empty($result)){			
+			$i = 0;
 			foreach($result as $row){
-				
+				$cat_array 				= array();
 				$title 					= $row['title'];
 				$keywords 				= $row['keywords'];
 				$offer_on_element 		= $row['offer_on_element'];
 				$offer_value 			= $row['offer_value'];
 				$category_id 			= $row['category_id'];
 				$symbol 				= $row['symbol'];
-				
-				if(!empty($category_id)){
-					$cat = explode(',',$category_id);
-					if($parent_cat_id != "" && !empty($parent_cat_id)){
-						//$parent_cat_id = 60; // women,men,kids
-						$res_child_cat 	= $this->getCateforyNameByID($parent_cat_id);
-						$child_arr		= explode(',',$res_child_cat[0]['child_category']);
-						$cat = array_intersect($child_arr, $cat);
-					}				
-					if(!empty($cat)){
-						
-						$this->db->select('c.category_name,c.category_id');
-						$this->db->from('category c');
-						$this->db->where_in('c.category_id', $cat );
-						$this->db->group_by('c.category_id');
-						$query = $this->db->get()->result_array();
-
-						// if(!empty($query)){
-						// 	$sub_arr = array();
-						// 	$k = 0;
-						// 	foreach($query as $key=>$val){
-								
-						// 		if(!empty($val)){
-									
-						// 			foreach($val as $key1=>$val1){
-						// 				$sub_arr[$k][$key1] = $val1;
-										
-						// 			}
-						// 		}
-								
-						// 		$sub_arr[$k]['keywords'] 			= $keywords;
-						// 		$sub_arr[$k]['offer_value'] 		= $offer_value;
-						// 		$sub_arr[$k]['offer_element'] 		= $offer_on_element;
-						// 		$k++;
-						// 	}
-						// }
-
-						// $p_array[$title] = $sub_arr;
-						
-						$p_array['offer'][$j]['offer_desc']['keywords'] 			= ucwords($keywords);
-						$p_array['offer'][$j]['offer_desc']['offer_value'] 		= $offer_value;
-						$p_array['offer'][$j]['offer_desc']['offer_element'] 	= $offer_on_element;
-						$p_array['offer'][$j]['offer_desc']['symbol'] 			= $symbol;
-						$p_array['offer'][$j]['category_list'] = $query;
-						
-					}
+				$j = 0;
+				if($category_id !="" || $category_id != null){
+					$category_ids = explode(',',$category_id);
+					foreach($category_ids as $row1){					
+						$cat_cond['category_id'] 	= $row1; 
+						$cat_res 					= $this->where('category',$cat_cond); 
+						$cat_hierarchy 				= explode(',',$cat_res[0]['hierarchy']);
+						$cat_parent					= $cat_hierarchy[0];
+						$cat_img					= $cat_res[0]['category_image'];
+						if($cat_parent == $parent_cat_id){
+							$cat_array[$j]['name'] = getCateforyNameByID($row1);
+							$cat_array[$j]['id'] 	= $row1;
+							$cat_array[$j]['image'] = base_url().CATEGORY_IMAGE_PATH.$cat_img;
+						}
+						$j++;
+					} 
 					
-				}else{				
-
-					if(strtolower($offer_on_element) == "price"){
-						if(strtolower($keywords) == "under"){
-							$this->db->where('p.net_price <=',$offer_value);
-						}
-						else if(strtolower($keywords) == "upto"){
-							$this->db->where('p.net_price <=',$offer_value);
-						}
-						else if(strtolower($keywords) == "from"){
-							$this->db->where('p.net_price >=',$offer_value);
-						}
-						else if(strtolower($keywords) == "flat"){
-							$this->db->where('p.net_price',$offer_value);
-						}
-						else if(strtolower($keywords) == "starting at"){
-							$this->db->where('p.net_price <=',$offer_value);
-						}
-						else if(strtolower($keywords) == "min"){
-							$this->db->where('p.net_price <=',$offer_value);
-						}
-					}
-					else if(strtolower($offer_on_element) == "discount"){
-						if(strtolower($keywords) == "upto"){
-							$this->db->where('p.discount <=',$offer_value);
-						}
-						else if(strtolower($keywords) == "from"){
-							$this->db->where('p.discount >=',$offer_value);
-						}
-						else if(strtolower($keywords) == "flat"){
-							$this->db->where('p.discount',$offer_value);
-						}
-						else if(strtolower($keywords) == "min"){
-							$this->db->where('p.discount >=',$offer_value);
-						}
-					}
-				
-					$this->db->select('p.child_category');
-					$this->db->from('product_details p');
-					$this->db->group_by('p.child_category');
-					$query = $this->db->get()->result_array();
-					
-					if(!empty($query)){
-						
-						$c_array =array();
-						$i = 0;
-						
-						foreach($query as $row){
-							
-							$child_category = $row['child_category'];
-							
-							if($parent_cat_id != "" && !empty($parent_cat_id)){
-								
-								if (in_array($child_category, $child_arr)){
-									$cat_name		= $this->getCateforyNameByID($child_category);
-									$c_array[$i]['category_name'] 		= $cat_name[0]['category_name'];
-									$c_array[$i]['category_id'] 		= $row['child_category'];
-									// $c_array[$i]['keywords'] 			= $keywords;
-									// $c_array[$i]['offer_value'] 		= $offer_value;
-									// $c_array[$i]['offer_element'] 		= $offer_on_element;
-								}
-							}
-							else{
-
-								$cat_name							= $this->getCateforyNameByID($child_category);
-								$c_array[$i]['category_name'] 		= $cat_name[0]['category_name'];
-								$c_array[$i]['category_id'] 		= $row['child_category'];
-								// $c_array[$i]['keywords'] 			= $keywords;
-								// $c_array[$i]['offer_value'] 		= $offer_value;
-								// $c_array[$i]['offer_element'] 		= $offer_on_element;
-							}
-							$i++;
-						}
-						$offer_arr = array() ;
-						$offer_arr['keywords'] 			= ucwords($keywords);
-						$offer_arr['offer_value'] 		= $offer_value;
-						$offer_arr['offer_element'] 	= $offer_on_element;
-						$offer_arr['symbol'] 			= $symbol;
-						
-						//$p_array[$title] = $c_array;						
-						$p_array['offer'][$j]['offer_desc'] 			= $offer_arr;
-						$p_array['offer'][$j]['category_list'] 		= $c_array;
-					}					
 				}
-				$j++;			
+				if(!empty($cat_array)){				
+					$p_array[$i]['keywords'] 			= ucwords($keywords);
+					$p_array[$i]['offer_value'] 		= $offer_value;
+					$p_array[$i]['offer_element'] 		= $offer_on_element;
+					$p_array[$i]['symbol'] 				= $symbol;
+					$p_array[$i]['category_list'] 		= $cat_array;
+					$i++;	
+				}		
 			}
-		}		
+		}
+		
 		return $p_array;
 	}
 
@@ -1534,6 +1489,7 @@ class Master_m extends CI_Model{
 		if($category_id != "" || $category_id != null){
 			$this->db->select('product_id');
 			$this->db->from('product_details');
+			$this->db->where("is_active",1);
 			$this->db->group_start();
 			$this->db->where("category_id", $category_id);
    			$this->db->or_where("child_category", $category_id);
@@ -1568,12 +1524,22 @@ class Master_m extends CI_Model{
 					$product_id 				= $row['product_id'];
 					if(!empty($product_arr)){
 						if (in_array($product_id, $product_arr)){
-							$color_name 				= getAttributeNameByID($attributes_id);;
-							$color_arr[$attributes_id] 	= $color_name;
+							$whr['attributes_id'] 	= $attributes_id;
+							$attr_res 				= $this->Master_m->where('attributes',$whr); 
+							//$color_name 				= getAttributeNameByID($attributes_id);;
+							$color_name 				= $attr_res[0]['attributes_name'];
+							$color_code 				= $attr_res[0]['attribute_code'];
+							$color_arr[$attributes_id]['name'] 	= $color_name;
+							$color_arr[$attributes_id]['code'] 	= $color_code;
 						}
 					}else{
-						$color_name 				= getAttributeNameByID($attributes_id);;
-						$color_arr[$attributes_id] 	= $color_name;
+						$whr['attributes_id'] 	= $attributes_id;
+						$attr_res 				= $this->Master_m->where('attributes',$whr); 
+						// $color_name 				= getAttributeNameByID($attributes_id);;
+						$color_name 				= $attr_res[0]['attributes_name'];
+						$color_code 				= $attr_res[0]['attribute_code'];
+						$color_arr[$attributes_id]['name'] 	= $color_name;
+						$color_arr[$attributes_id]['code'] 	= $color_code;
 					}					
 														
 				}
@@ -1593,6 +1559,7 @@ class Master_m extends CI_Model{
 		$txt_phone_no 		= $this->input->post('txt_phone_no');
 		$product_id 		= $this->input->post('txt_product_id');
 		$order_id 			= $this->input->post('txt_order_id');
+		$request_type 		= $this->input->post('request_type');
 
 		$cond['order_id'] 		= $order_id;
 		$cond['product_id'] 	= $product_id;
@@ -1614,7 +1581,7 @@ class Master_m extends CI_Model{
 			$bank_dtail['account_name'] = $txt_account_name;
 			$bank_dtail['phone_no'] 	= $txt_phone_no;
 
-			$insertdata['request_type'] 		= "return";
+			$insertdata['request_type'] 		= $request_type;
 			$insertdata['customer_id'] 			= $customer_id;
 			$insertdata['order_id']				= $order_id;
 			$insertdata['order_no']				= $order_no;
@@ -1654,6 +1621,7 @@ class Master_m extends CI_Model{
 		$txtcoment 			= $this->input->post('txtcoment');
 		$product_id 		= $this->input->post('txt_product_id');
 		$order_id 			= $this->input->post('txt_order_id');
+		$request_type 		= $this->input->post('request_type');
 
 		$cond['order_id'] 		= $order_id;
 		$cond['product_id'] 	= $product_id;
@@ -1668,7 +1636,7 @@ class Master_m extends CI_Model{
 			$order_date 			= $res[0]['order_date'];
 			$shipping_address 		= $res[0]['shipping_address'];
 
-			$insertdata['request_type'] 		= "replace";
+			$insertdata['request_type'] 		= $request_type;
 			$insertdata['customer_id'] 			= $customer_id;
 			$insertdata['order_id']				= $order_id;
 			$insertdata['order_no']				= $order_no;
@@ -1987,5 +1955,411 @@ class Master_m extends CI_Model{
 		$query = $this->db->get()->result_array();
 		return $query;
 	}
+
+	/**** SUBMIR PRODUCT RATING REVIEWS */
+	public function submitRatingReviews($data){
+		$product_id 				= $data['product_id'];
+		$rate 						= $data['rate'];
+		$review_title				= $data['review_title'];
+		$review_content 			= $data['review_content'];
+		$customer_id 				= $data['customer_id'];
+		$customer_name 				= $data['customer_name'];
+		$email 						= $data['email'];
+
+		$insertdata['product_id'] 				= $product_id;
+		$insertdata['star_rate'] 				= $rate;
+		$insertdata['review_title'] 			= $review_title;
+		$insertdata['review_content'] 			= $review_content;
+		$insertdata['customer_id'] 				= $customer_id;
+		$insertdata['customer_name'] 			= $customer_name;
+		$insertdata['customer_email'] 			= $email;
+		$insertdata['review_date'] 				= date('Y-m-d');
+
+		$insert_result = insert('product_review',$insertdata,'');
+		
+		logThis($insert_result->query, date('Y-m-d'),'Product Rating Reviews');
+		
+		if($insert_result->status = 'success'){
+			$response['success'] = "suceess";
+			$response['message'] = "Review Added Successfull";
+			return $response;
+		}else{
+			return false;
+		}		
+	}
+
+	/*** ALL REVIWES BY PRODUCT ID */
+	public function getProductAllReviews($product_id){
+		$this->db->select('*');
+		$this->db->from('product_review');
+		$this->db->where('product_id',$product_id);
+		$result = $this->db->get()->result_array();
+		return $result;
+	}
+
+	/***** GET SIMILER PRODUCTS FROM CATEGORY */
+	public function getSimilerProducts($child_category_id,$product_id){
+		$sort_by = "ORDER BY net_price ASC";
+		/***** 	QUERY : #1 */
+		
+		$this->db->select('DISTINCT(p.product_id) as product_id, p.product_name as product_name,p.child_category, p.short_code, p.short_description, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code');
+		$this->db->from('product_details p');
+		$this->db->where('p.is_active', 1);
+   		$this->db->where('p.variant_code IS NOT NULL'); 
+   		$this->db->where('p.child_category',$child_category_id); 
+   		$this->db->where('p.product_id !=',$product_id); 
+		$this->db->group_by('p.variant_code');	
+		
+		$query1	= $this->db->get_compiled_select();
+
+		/***** 	QUERY : #2 */
+
+		$this->db->select('DISTINCT(p1.product_id) as product_id, p1.product_name as product_name,p1.child_category, p1.short_code, p1.short_description, p1.net_price as net_price, p1.cover_img,p1.mrp_price,p1.discount,p1.variant_code');
+		$this->db->from('product_details p1');		
+   		$this->db->where('p1.is_active', 1);
+		$this->db->where('p1.variant_code IS NULL'); 
+		$this->db->where('p1.child_category',$child_category_id); 
+		$this->db->where('p1.product_id !=',$product_id); 
+		$query2=$this->db->get_compiled_select();
+
+		
+		$query = $this->db->query($query1 . ' UNION ALL ' . $query2 .' '. $sort_by );
+		$result = $query->result_array();
+		$product_data = $this->createVarientList($result);
+		
+		return $product_data;
+	}
+
+	/*** GET VARIENT LIST OF PRODUCT*/
+	public function createVarientList($products){
+		$elearr 			= array();$i=0;
+		foreach($products as $product){
+			$attr_arr 					= array();
+			$variant_code 				= $product['variant_code']; 
+			
+			if($variant_code != "" && $variant_code !=null && !empty($variant_code)){
+				$variant_list 				= $this->Master_m->getVariationListByCode($variant_code,null);
+			}
+			else{
+				$variant_list 				= $this->Master_m->getVariationListByCode(null,$product['product_id']);
+			}
+				//print_r($variant_list);
+			if(!empty($variant_list)){
+				array_multisort(array_column($variant_list, 'attributes_id'), SORT_ASC, $variant_list);
+				foreach($variant_list as $item)
+				{
+					$pid 					= $item['product_id']; 
+					$element_id 			= $item['element_id']; 
+					$ele_name 				= getElementNameByID($element_id);
+					$attributes_id 			= $item['attributes_id']; 
+					$attr_name				= getAttributeNameByID($attributes_id);
+					$attr_arr[$ele_name][$attr_name]		= $attr_name;		
+				}
+				
+				$varients_arr = array();
+				foreach($attr_arr as $ekey=>$evalue)
+				{
+					$varients_arr[$ekey]		= implode(', ',$evalue);;				
+				}
+				$elearr[$i] 				=  $product;
+				$elearr[$i]['variants'] 	=  $varients_arr;	
+			}
+			$i++;
+		}
+		return $elearr;
+	}
+
+	/*** BEST SELLING PRODUCTS : TOP 10 */
+	public function getBestSellingProducts(){
+		$this->db->select('p.product_id,p.product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,SUM(o.quantity) as qtyCnt');
+		$this->db->from('product_details p');
+		$this->db->join('order_details o','o.product_id=p.product_id');
+		$this->db->order_by('qtyCnt','desc');
+		$this->db->group_by('o.product_id');
+		$this->db->limit(10);	
+		$result = $this->db->get()->result_array();
+		$product_data = array();
+		if(!empty($result)){
+			$product_data = $this->createVarientList($result);
+		}
+		return $product_data;
+	}
+
+	/*** RECENT VIEWED PRODUCTS OF CUSTOMER */
+	public function getRecentviewedProducts($customer_id){
+		$this->db->select('p.product_id,p.product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code');
+		$this->db->from('recent_view r');
+		$this->db->join('product_details p','p.product_id=r.product_id');
+		$this->db->where('r.customer_id',$customer_id);
+		$result = $this->db->get()->result_array();
+		
+		return $result;
+	}
+
+	/*** GET TOTAL VIEWS COUNT OF PRODUCTS */
+	public function getProductTotalViewsCount($product_id){
+		$this->db->select('view_count');
+		$this->db->from('product_details');
+		$this->db->where('product_id',$product_id);
+		$result = $this->db->get()->row();		
+		return $result->view_count;
+	}
+
+	/***** UPDATE VIEWS COUNT OF PRODUCT  */
+	public function  updateProductViews($product_id){
+		$current_views 	= $this->getProductTotalViewsCount($product_id);
+		$update_count 	= (int)$current_views + 1;
+
+		$updatedata['view_count'] 	= $update_count;
+		$where['product_id'] 		= $product_id;
+		$update_query = update('product_details',$updatedata,$where);	
+		logThis($update_query->query, date('Y-m-d'),'Product Details');
+		return true;
+	}
+
+	/***** FREQUENT/TOP SEARCH/VIEWED PRODUCTS LIST */
+	public function getFrequentViewProduct(){
+		$this->db->select('p.product_id,p.product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code');
+		$this->db->from('product_details p');		
+		$this->db->where('p.view_count >',0);
+		$this->db->order_by('p.view_count','desc');
+		$this->db->limit(20);
+		$result = $this->db->get()->result_array();		
+		return $result;
+	}
+
+	/**** GET NEW LAUNCH PRODUCTS LIST */
+	public function getNewLaunchelist($short_code){
+		
+		if($short_code != null || $short_code != ""){
+			$cat_cond['short_code'] 	= $short_code;
+			$result						= $this->where('category',$cat_cond);
+			$category_id				= $result[0]['category_id'];	
+			$this->db->where('p.category_id',$category_id);	
+		}
+		$this->db->select('p.product_id,p.product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,p.image');
+		$this->db->from('product_details p');
+		$this->db->order_by('p.product_id','desc');		
+		$this->db->group_by('p.variant_code');
+		$this->db->LIMIT('10');
+		$result = $this->db->get()->result_array();
+		return $result;
+	}
+
+
+
+
+
+/*********************************** API FUNCTION *************************************************** */
+	function getAllProductInGrid($category_id){
+		$sort_by = "ORDER BY net_price ASC";
+		/***** 	QUERY : #1 */
+		
+		$this->db->select('DISTINCT(p.product_id) as product_id, p.product_name as product_name, p.short_code, p.short_description, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,pe.product_id,v.name,b.brand_name,p.is_new_product');
+		$this->db->from('product_details p');
+		$this->db->join('product_elements_attributes pe','pe.product_id=p.product_id');
+		$this->db->join('vendor v','v.vendor_id = p.vendor_id');
+		// $this->db->join('category c','c.category_id = p.category_id');
+		$this->db->join('brand b','b.brand_id = p.brand_id');
+		$this->db->where('p.is_active', 1);
+   		$this->db->where('p.variant_code IS NOT NULL'); 
+		$this->db->where("p.child_category", $category_id);
+		$this->db->group_by('p.variant_code');		
+		$query1	= $this->db->get_compiled_select();
+
+		/***** 	QUERY : #2 */
+
+		$this->db->select('DISTINCT(p1.product_id) as product_id, p1.product_name as product_name, p1.short_code, p1.short_description, p1.net_price as net_price, p1.cover_img,p1.mrp_price,p1.discount,p1.variant_code,pe1.product_id,v1.name,b1.brand_name,p1.is_new_product');
+		$this->db->from('product_details p1');
+		$this->db->join('product_elements_attributes pe1','pe1.product_id=p1.product_id');
+		$this->db->join('vendor v1','v1.vendor_id = p1.vendor_id');
+		// $this->db->join('category c1','c1.category_id = p1.category_id');
+		$this->db->join('brand b1','b1.brand_id = p1.brand_id');		
+   		$this->db->where('p1.is_active', 1);
+		$this->db->where('p1.variant_code IS NULL');
+		$this->db->where("p1.child_category", $category_id); 
+		$query2=$this->db->get_compiled_select();
+
+		$query = $this->db->query($query1 . ' UNION ALL ' . $query2 .' '. $sort_by );
+		$result = $query->result_array();	
+		
+		return $result;
+	}
+
+	/*** TOP BRANDS : TRENDINGS */
+	public function getBrandTrendingslist($short_code){
+		if($short_code != null || $short_code != ""){
+			$cat_cond['short_code'] 	= $short_code;		
+		}		
+		
+		$result						= $this->where('category',$cat_cond);
+		$category_id				= $result[0]['category_id'];
+
+		$this->db->select('p.brand_id,b.brand_name,b.short_code,b.brand_logo,SUM(o.quantity) as qtyCnt');
+		$this->db->from('order_details o');
+		$this->db->join('product_details p','p.product_id=o.product_id');
+		$this->db->join('brand b','b.brand_id=p.brand_id');
+		$this->db->where('p.category_id',$category_id);
+		$this->db->order_by('qtyCnt','desc');
+		$this->db->group_by('p.brand_id');
+		$this->db->limit(20);	
+		$result = $this->db->get()->result_array();		
+		return $result;
+	}
+
+	/*** GET CHILD CATEGORY FROM PARENT CATEGORY : clothing*/
+	public function getChildCategoryAPI($short_code = null,$category_id = null){
+		$data = array();
+		if($short_code != null || $short_code != ""){
+			$cat_cond['short_code'] 	= $short_code;		
+		}
+
+		if($category_id != null || $category_id != ""){
+			$cat_cond['category_id'] 	= $category_id;				
+		}	
+		
+		$result						= $this->where('category',$cat_cond);
+		$category_id				= $result[0]['category_id'];
+
+		$this->db->select('c.category_name');
+		$this->db->from('product_details p');
+		$this->db->join('category c','c.category_id=p.child_category');
+		$this->db->where('p.category_id',$category_id);
+		$this->db->group_by('p.child_category');
+		$child = $this->db->get()->result_array();
+		
+		return $child;
+	}
+
+	/*** BEST SELLING PRODUCTS : TOP 10 */
+	public function getBestSellingProductsForCategory($short_code){
+		if($short_code != null || $short_code != ""){
+			$cat_cond['short_code'] 	= $short_code;
+			$result						= $this->where('category',$cat_cond);
+			$category_id				= $result[0]['category_id'];	
+			$this->db->where('p.category_id',$category_id);	
+		}		
+		
+		
+		$this->db->select('p.product_id,p.product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code,SUM(o.quantity) as qtyCnt');
+		$this->db->from('product_details p');
+		$this->db->join('order_details o','o.product_id=p.product_id');
+		
+		$this->db->order_by('qtyCnt','desc');
+		$this->db->group_by('o.product_id');
+		$this->db->limit(10);	
+		$result = $this->db->get()->result_array();
+		$product_data = array();
+		if(!empty($result)){
+			$product_data = $this->createVarientList($result);
+		}
+		return $product_data;
+	}
+
+	/**** GET ALL PRODUCT COLOR FOR FILTER */
+	public function allProductFilterColorAPI($short_code){
+
+		if($short_code != null || $short_code != ""){
+			$cat_cond['short_code'] 	= $short_code;
+			$result						= $this->where('category',$cat_cond);
+			$category_id				= $result[0]['category_id'];				
+		}	
+		$product_arr = array();
+		if($category_id != "" || $category_id != null){
+			$this->db->select('product_id');
+			$this->db->from('product_details');			
+			$this->db->where("category_id", $category_id);   			
+			$product_res  = $this->db->get()->result_array();
+			if(!empty($product_res)){				
+				foreach($product_res as $key=>$val){
+					$product_arr[] = $val['product_id'];
+				}
+			}
+			
+		}
+
+		$this->db->select('element_id');
+		$this->db->from('product_elements');
+		$this->db->like('element_name',"color");
+		$result = $this->db->get()->row();
+		$color_arr 		= array();
+		$color_arr1 		= array();
+		if(!empty($result)){
+			$color_id = $result->element_id;
+
+			$this->db->select('attributes_id,product_id');
+			$this->db->from('product_elements_attributes');
+			$this->db->where('element_id',$color_id);
+			//$this->db->group_by('attributes_id');
+			$color_res 		= $this->db->get()->result_array();
+			
+			$i = 0;
+			if(!empty($color_res)){
+				foreach($color_res as $row){
+					$attributes_id 				= $row['attributes_id'];					
+					$product_id 				= $row['product_id'];
+					if(!empty($product_arr)){
+						if (in_array($product_id, $product_arr)){
+							$whr['attributes_id'] 	= $attributes_id;
+							$attr_res 				= $this->Master_m->where('attributes',$whr); 
+							//$color_name 				= getAttributeNameByID($attributes_id);;
+							$color_name 				= $attr_res[0]['attributes_name'];
+							$color_code 				= $attr_res[0]['attribute_code'];
+							if (array_search($color_name, array_column($color_arr, 'name')) === FALSE) {								
+								$color_arr[$i]['name'] 	= $color_name;
+								$color_arr[$i]['code'] 	= $color_code;
+								$color_arr[$i]['id'] 	= $attributes_id;
+								$i++;
+							}						
+						}
+					}	
+														
+				}
+			}
+		}
+		return $color_arr;
+	}
+
+	/**** GET PRODUCTS LIST BY CATEGORY AND ATTRIBUTES ID */
+	public function getProductByAttributeAndCategory($short_code,$attribute_id){
+		
+		if($short_code != null || $short_code != ""){
+			$cat_cond['short_code'] 	= $short_code;
+			$result						= $this->where('category',$cat_cond);
+			$category_id				= $result[0]['category_id'];	
+			$this->db->where('p.category_id',$category_id);	
+		}
+		$this->db->select('p.product_id,p.product_name, p.short_code, p.net_price as net_price, p.cover_img,p.mrp_price,p.discount,p.variant_code');
+		$this->db->from('product_details p');
+		$this->db->join('product_elements_attributes pe','pe.product_id=p.product_id');
+		$this->db->where('pe.attributes_id',$attribute_id);	
+		$this->db->group_by('p.variant_code');
+		$result = $this->db->get()->result_array();
+		return $result;		
+	}
+
+	/*** POPULER CATEGORY : TOP 10 */
+	public function getPopularCtegory(){
+		$this->db->select('p.child_category,c.category_name,SUM(o.quantity) as qtyCnt,c.category_image');
+		$this->db->from('product_details p');
+		$this->db->join('order_details o','o.product_id=p.product_id');
+		$this->db->join('category c','c.category_id=p.child_category');
+		$this->db->order_by('qtyCnt','desc');
+		$this->db->group_by('p.child_category');	
+		$result = $this->db->get()->result_array();
+		
+		if(empty($result) || count($result) < 6){
+			$this->db->select('p.child_category,c.category_name,c.category_image');
+			$this->db->from('product_details p');
+			$this->db->join('category c','c.category_id=p.child_category');
+			$this->db->where('p.is_active',1);
+			$this->db->order_by('p.product_id','desc');
+			$this->db->group_by('p.child_category');	
+			$result = $this->db->get()->result_array();
+		}
+		return $result;
+	}
+
+	
 }
 

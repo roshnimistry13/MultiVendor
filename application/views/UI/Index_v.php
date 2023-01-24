@@ -1,1834 +1,2050 @@
-<div id="nt_content">
-	<!-- Start Home Slider  -->
-	<div class="nt_section type_slideshow type_carousel ">
-		<div class="slideshow-wrapper nt_full se_height_cus_h nt_first">
-			<div class="fade_flick_1 slideshow row no-gutters equal_nt nt_slider js_carousel prev_next_0 btn_owl_1 dot_owl_2 dot_color_1 btn_vi_2"
-                        data-flickity='{ "fade":0,"cellAlign": "center","imagesLoaded": 0,"lazyLoad": 0,"freeScroll": 0,"wrapAround": true,"autoPlay" : 0,"pauseAutoPlayOnHover" : true, "rightToLeft": false, "prevNextButtons": false,"pageDots": true, "contain" : 1,"adaptiveHeight" : 1,"dragThreshold" : 5,"percentPosition": 1 }'>
+<main class="main">
+    <section class="home-slider position-relative pt-25 pb-20">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-9">
+                    <div class="position-relative">
+                        <div class="hero-slider-1 style-3 dot-style-1 dot-style-1-position-1">
+                            <div class="single-hero-slider single-animation-wrap">
+                                <div class="container">
+                                    <div class="slider-1-height-3 slider-animated-1">
+                                        <div class="hero-slider-content-2">
+                                            <h4 class="animated">Trade-In Offer</h4>
+                                            <h2 class="animated fw-900">Supper Value Deals</h2>
+                                            <h1 class="animated fw-900 text-brand">On All Products</h1>
+                                            <p class="animated">Save more with coupons & up to 70% off</p>
+                                            <a class="animated btn btn-brush btn-brush-3"
+                                                href="shop-product-right.html"> Shop Now </a>
+                                        </div>
+                                        <div class="slider-img">
+                                            <img src="<?php echo UI_ASSETS ?>imgs/slider/slider-4.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="single-hero-slider single-animation-wrap">
+                                <div class="container">
+                                    <div class="slider-1-height-3 slider-animated-1">
+                                        <div class="hero-slider-content-2">
+                                            <h4 class="animated">Tech Promotions</h4>
+                                            <h2 class="animated fw-900">Tech Trending</h2>
+                                            <h1 class="animated fw-900 text-brand">Great Collection</h1>
+                                            <p class="animated">Save more with coupons & up to 20% off</p>
+                                            <a class="animated btn btn-brush btn-brush-3"
+                                                href="shop-product-right.html"> Shop Now </a>
+                                        </div>
+                                        <div class="slider-img">
+                                            <img src="<?php echo UI_ASSETS ?>imgs/slider/slider-5.png" alt="">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slider-arrow hero-slider-1-arrow style-3"></div>
+                    </div>
+                </div>
+                <div class="col-lg-3 d-md-none d-lg-block">
+                    <div class="banner-img banner-1 wow fadeIn  animated home-3">
+                        <img class="border-radius-10" src="<?php echo UI_ASSETS ?>imgs/banner/banner-5.jpg" alt="">
+                        <div class="banner-text">
+                            <span>Accessories</span>
+                            <h4>Save 17% on <br>Autumn Hat</h4>
+                            <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                        </div>
+                    </div>
+                    <div class="banner-img banner-2 wow fadeIn  animated mb-0">
+                        <img class="border-radius-10" src="<?php echo UI_ASSETS ?>imgs/banner/banner-7.jpg" alt="">
+                        <div class="banner-text">
+                            <span>Smart Offer</span>
+                            <h4>Save 20% on <br>Eardrop</h4>
+                            <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="featured section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+                    <div class="banner-features wow fadeIn animated hover-up animated">
+                        <img src="<?php echo UI_ASSETS ?>imgs/theme/icons/feature-1.png" alt="">
+                        <h4 class="bg-1">Free Shipping</h4>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+                    <div class="banner-features wow fadeIn animated hover-up animated">
+                        <img src="<?php echo UI_ASSETS ?>imgs/theme/icons/feature-2.png" alt="">
+                        <h4 class="bg-3">Online Order</h4>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+                    <div class="banner-features wow fadeIn animated hover-up animated">
+                        <img src="<?php echo UI_ASSETS ?>imgs/theme/icons/feature-3.png" alt="">
+                        <h4 class="bg-2">Save Money</h4>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+                    <div class="banner-features wow fadeIn animated hover-up animated">
+                        <img src="<?php echo UI_ASSETS ?>imgs/theme/icons/feature-4.png" alt="">
+                        <h4 class="bg-4">Promotions</h4>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+                    <div class="banner-features wow fadeIn animated hover-up animated">
+                        <img src="<?php echo UI_ASSETS ?>imgs/theme/icons/feature-5.png" alt="">
+                        <h4 class="bg-5">Happy Sell</h4>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-md-3 mb-lg-0">
+                    <div class="banner-features wow fadeIn animated hover-up animated">
+                        <img src="<?php echo UI_ASSETS ?>imgs/theme/icons/feature-6.png" alt="">
+                        <h4 class="bg-6">24/7 Support</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="product-tabs section-padding wow fadeIn animated">
+        <div class="container">
+            <div class="tab-header">
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="nav-tab-one" data-bs-toggle="tab" data-bs-target="#tab-one"
+                            type="button" role="tab" aria-controls="tab-one" aria-selected="true">Featured</button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="nav-tab-two" data-bs-toggle="tab" data-bs-target="#tab-two"
+                            type="button" role="tab" aria-controls="tab-two" aria-selected="false">Popular</button>
+                    </li>
+                    <!-- <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="nav-tab-three" data-bs-toggle="tab" data-bs-target="#tab-three"
+                            type="button" role="tab" aria-controls="tab-three" aria-selected="false">New added</button>
+                    </li> -->
+                </ul>
+                <a href="#" class="view-more d-none d-md-flex">View More<i
+                        class="fi-rs-angle-double-small-right"></i></a>
+            </div>
+            <!--End nav-tabs-->
+            <div class="tab-content wow fadeIn animated" id="myTabContent">
+                <div class="tab-pane fade show active" id="tab-one" role="tabpanel" aria-labelledby="tab-one">
+                    <div class="row product-grid-4">
+                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap mb-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="shop-product-right.html">
+                                            <img class="default-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-1-1.jpg" alt="">
+                                            <img class="hover-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-1-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                                            data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
+                                                class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="hot">Hot</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="shop-grid-right.html">Clothing</a>
+                                    </div>
+                                    <h2><a href="shop-product-right.html">Colorful Pattern Shirts</a></h2>
+                                    <div class="rating-result" title="90%">
+                                        <span>
+                                            <span>90%</span>
+                                        </span>
+                                    </div>
+                                    <div class="product-price">
+                                        <span>$238.85 </span>
+                                        <span class="old-price">$245.8</span>
+                                    </div>
+                                    <div class="product-action-1 show">
+                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i
+                                                class="fi-rs-shopping-bag-add"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap mb-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="shop-product-right.html">
+                                            <img class="default-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-2-1.jpg" alt="">
+                                            <img class="hover-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-2-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                                            data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
+                                                class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="new">New</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="shop-grid-right.html">Clothing</a>
+                                    </div>
+                                    <h2><a href="shop-product-right.html">Plain Color Pocket Shirts</a></h2>
+                                    <div class="rating-result" title="90%">
+                                        <span>
+                                            <span>50%</span>
+                                        </span>
+                                    </div>
+                                    <div class="product-price">
+                                        <span>$138.85 </span>
+                                        <span class="old-price">$255.8</span>
+                                    </div>
+                                    <div class="product-action-1 show">
+                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i
+                                                class="fi-rs-shopping-bag-add"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap mb-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="shop-product-right.html">
+                                            <img class="default-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-3-1.jpg" alt="">
+                                            <img class="hover-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-3-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                                            data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
+                                                class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="best">Best Sell</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="shop-grid-right.html">Shirts</a>
+                                    </div>
+                                    <h2><a href="shop-product-right.html">Vintage Floral Oil Shirts</a></h2>
+                                    <div class="rating-result" title="90%">
+                                        <span>
+                                            <span>95%</span>
+                                        </span>
+                                    </div>
+                                    <div class="product-price">
+                                        <span>$338.85 </span>
+                                        <span class="old-price">$445.8</span>
+                                    </div>
+                                    <div class="product-action-1 show">
+                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i
+                                                class="fi-rs-shopping-bag-add"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap mb-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="shop-product-right.html">
+                                            <img class="default-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-4-1.jpg" alt="">
+                                            <img class="hover-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-4-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                                            data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
+                                                class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="sale">Sale</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="shop-grid-right.html">Clothing</a>
+                                    </div>
+                                    <h2><a href="shop-product-right.html">Colorful Hawaiian Shirts</a></h2>
+                                    <div class="rating-result" title="90%">
+                                        <span>
+                                            <span>70%</span>
+                                        </span>
+                                    </div>
+                                    <div class="product-price">
+                                        <span>$123.85 </span>
+                                        <span class="old-price">$235.8</span>
+                                    </div>
+                                    <div class="product-action-1 show">
+                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i
+                                                class="fi-rs-shopping-bag-add"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap mb-xs-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="shop-product-right.html">
+                                            <img class="default-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-5-1.jpg" alt="">
+                                            <img class="hover-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-5-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                                            data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
+                                                class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="hot">-30%</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="shop-grid-right.html">Shirt</a>
+                                    </div>
+                                    <h2><a href="shop-product-right.html">Flowers Sleeve Lapel Shirt</a></h2>
+                                    <div class="rating-result" title="90%">
+                                        <span>
+                                            <span>70%</span>
+                                        </span>
+                                    </div>
+                                    <div class="product-price">
+                                        <span>$28.85 </span>
+                                        <span class="old-price">$45.8</span>
+                                    </div>
+                                    <div class="product-action-1 show">
+                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i
+                                                class="fi-rs-shopping-bag-add"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap mb-xs-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="shop-product-right.html">
+                                            <img class="default-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-6-1.jpg" alt="">
+                                            <img class="hover-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-6-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                                            data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
+                                                class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="hot">-22%</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="shop-grid-right.html">Shirts</a>
+                                    </div>
+                                    <h2><a href="shop-product-right.html">Ethnic Floral Casual Shirts</a></h2>
+                                    <div class="rating-result" title="90%">
+                                        <span>
+                                            <span>70%</span>
+                                        </span>
+                                    </div>
+                                    <div class="product-price">
+                                        <span>$238.85 </span>
+                                        <span class="old-price">$245.8</span>
+                                    </div>
+                                    <div class="product-action-1 show">
+                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i
+                                                class="fi-rs-shopping-bag-add"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap mb-xs-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="shop-product-right.html">
+                                            <img class="default-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-7-1.jpg" alt="">
+                                            <img class="hover-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-7-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                                            data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
+                                                class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="new">New</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="shop-grid-right.html">Shoes</a>
+                                    </div>
+                                    <h2><a href="shop-product-right.html">Stitching Hole Sandals</a></h2>
+                                    <div class="rating-result" title="90%">
+                                        <span>
+                                            <span>98%</span>
+                                        </span>
+                                    </div>
+                                    <div class="product-price">
+                                        <span>$1275.85 </span>
+                                    </div>
+                                    <div class="product-action-1 show">
+                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i
+                                                class="fi-rs-shopping-bag-add"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap mb-xs-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="shop-product-right.html">
+                                            <img class="default-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-8-1.jpg" alt="">
+                                            <img class="hover-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-8-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                                            data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
+                                                class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="shop-grid-right.html">Shirt</a>
+                                    </div>
+                                    <h2><a href="shop-product-right.html">Mens Porcelain Shirt</a></h2>
+                                    <div class="rating-result" title="90%">
+                                        <span>
+                                            <span>70%</span>
+                                        </span>
+                                    </div>
+                                    <div class="product-price">
+                                        <span>$238.85 </span>
+                                        <span class="old-price">$245.8</span>
+                                    </div>
+                                    <div class="product-action-1 show">
+                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i
+                                                class="fi-rs-shopping-bag-add"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End product-grid-4-->
+                </div>
+                <!--En tab one (Featured)-->
+                <div class="tab-pane fade" id="tab-two" role="tabpanel" aria-labelledby="tab-two">
+                    <div class="row product-grid-4">
+                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap mb-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="shop-product-right.html">
+                                            <img class="default-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-9-1.jpg" alt="">
+                                            <img class="hover-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-9-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                                            data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
+                                                class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="hot">Hot</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="shop-grid-right.html">Donec </a>
+                                    </div>
+                                    <h2><a href="shop-product-right.html">Lorem ipsum dolor</a></h2>
+                                    <div class="rating-result" title="90%">
+                                        <span>
+                                            <span>90%</span>
+                                        </span>
+                                    </div>
+                                    <div class="product-price">
+                                        <span>$238.85 </span>
+                                        <span class="old-price">$245.8</span>
+                                    </div>
+                                    <div class="product-action-1 show">
+                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i
+                                                class="fi-rs-shopping-bag-add"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap mb-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="shop-product-right.html">
+                                            <img class="default-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-10-1.jpg" alt="">
+                                            <img class="hover-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-10-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                                            data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
+                                                class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="new">New</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="shop-grid-right.html">Music</a>
+                                    </div>
+                                    <h2><a href="shop-product-right.html">Sed tincidunt interdum</a></h2>
+                                    <div class="rating-result" title="90%">
+                                        <span>
+                                            <span>50%</span>
+                                        </span>
+                                    </div>
+                                    <div class="product-price">
+                                        <span>$138.85 </span>
+                                        <span class="old-price">$255.8</span>
+                                    </div>
+                                    <div class="product-action-1 show">
+                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i
+                                                class="fi-rs-shopping-bag-add"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap mb-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="shop-product-right.html">
+                                            <img class="default-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-11-1.jpg" alt="">
+                                            <img class="hover-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-11-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                                            data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
+                                                class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="best">Best Sell</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="shop-grid-right.html">Watch</a>
+                                    </div>
+                                    <h2><a href="shop-product-right.html">Fusce metus orci</a></h2>
+                                    <div class="rating-result" title="90%">
+                                        <span>
+                                            <span>95%</span>
+                                        </span>
+                                    </div>
+                                    <div class="product-price">
+                                        <span>$338.85 </span>
+                                        <span class="old-price">$445.8</span>
+                                    </div>
+                                    <div class="product-action-1 show">
+                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i
+                                                class="fi-rs-shopping-bag-add"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap mb-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="shop-product-right.html">
+                                            <img class="default-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-12-1.jpg" alt="">
+                                            <img class="hover-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-12-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                                            data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
+                                                class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="sale">Sale</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="shop-grid-right.html">Music</a>
+                                    </div>
+                                    <h2><a href="shop-product-right.html">Integer venenatis libero</a></h2>
+                                    <div class="rating-result" title="90%">
+                                        <span>
+                                            <span>70%</span>
+                                        </span>
+                                    </div>
+                                    <div class="product-price">
+                                        <span>$123.85 </span>
+                                        <span class="old-price">$235.8</span>
+                                    </div>
+                                    <div class="product-action-1 show">
+                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i
+                                                class="fi-rs-shopping-bag-add"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap mb-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="shop-product-right.html">
+                                            <img class="default-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-13-1.jpg" alt="">
+                                            <img class="hover-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-13-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                                            data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
+                                                class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="hot">-30%</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="shop-grid-right.html">Speaker</a>
+                                    </div>
+                                    <h2><a href="shop-product-right.html">Cras tempor orci id</a></h2>
+                                    <div class="rating-result" title="90%">
+                                        <span>
+                                            <span>70%</span>
+                                        </span>
+                                    </div>
+                                    <div class="product-price">
+                                        <span>$28.85 </span>
+                                        <span class="old-price">$45.8</span>
+                                    </div>
+                                    <div class="product-action-1 show">
+                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i
+                                                class="fi-rs-shopping-bag-add"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap mb-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="shop-product-right.html">
+                                            <img class="default-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-14-1.jpg" alt="">
+                                            <img class="hover-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-14-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                                            data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
+                                                class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="hot">-22%</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="shop-grid-right.html">Camera</a>
+                                    </div>
+                                    <h2><a href="shop-product-right.html">Nullam cursus mi qui</a></h2>
+                                    <div class="rating-result" title="90%">
+                                        <span>
+                                            <span>70%</span>
+                                        </span>
+                                    </div>
+                                    <div class="product-price">
+                                        <span>$238.85 </span>
+                                        <span class="old-price">$245.8</span>
+                                    </div>
+                                    <div class="product-action-1 show">
+                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i
+                                                class="fi-rs-shopping-bag-add"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap mb-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="shop-product-right.html">
+                                            <img class="default-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-15-1.jpg" alt="">
+                                            <img class="hover-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-15-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                                            data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
+                                                class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                    <div class="product-badges product-badges-position product-badges-mrg">
+                                        <span class="new">New</span>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="shop-grid-right.html">Phone</a>
+                                    </div>
+                                    <h2><a href="shop-product-right.html">Fusce fringilla ultrices</a></h2>
+                                    <div class="rating-result" title="90%">
+                                        <span>
+                                            <span>98%</span>
+                                        </span>
+                                    </div>
+                                    <div class="product-price">
+                                        <span>$1275.85 </span>
+                                    </div>
+                                    <div class="product-action-1 show">
+                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i
+                                                class="fi-rs-shopping-bag-add"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 col-md-4 col-12 col-sm-6">
+                            <div class="product-cart-wrap mb-30">
+                                <div class="product-img-action-wrap">
+                                    <div class="product-img product-img-zoom">
+                                        <a href="shop-product-right.html">
+                                            <img class="default-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-1-1.jpg" alt="">
+                                            <img class="hover-img"
+                                                src="<?php echo UI_ASSETS ?>imgs/shop/product-1-2.jpg" alt="">
+                                        </a>
+                                    </div>
+                                    <div class="product-action-1">
+                                        <a aria-label="Quick view" class="action-btn hover-up" data-bs-toggle="modal"
+                                            data-bs-target="#quickViewModal"><i class="fi-rs-eye"></i></a>
+                                        <a aria-label="Add To Wishlist" class="action-btn hover-up"
+                                            href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                        <a aria-label="Compare" class="action-btn hover-up" href="shop-compare.html"><i
+                                                class="fi-rs-shuffle"></i></a>
+                                    </div>
+                                </div>
+                                <div class="product-content-wrap">
+                                    <div class="product-category">
+                                        <a href="shop-grid-right.html">Accessories </a>
+                                    </div>
+                                    <h2><a href="shop-product-right.html">Sed sollicitudin est</a></h2>
+                                    <div class="rating-result" title="90%">
+                                        <span>
+                                            <span>70%</span>
+                                        </span>
+                                    </div>
+                                    <div class="product-price">
+                                        <span>$238.85 </span>
+                                        <span class="old-price">$245.8</span>
+                                    </div>
+                                    <div class="product-action-1 show">
+                                        <a aria-label="Add To Cart" class="action-btn hover-up" href="shop-cart.html"><i
+                                                class="fi-rs-shopping-bag-add"></i></a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End product-grid-4-->
+                </div>
+                <!--En tab two (Popular)-->
+                
+                <!--En tab three (New added)-->
+            </div>
+            <!--End tab-content-->
+        </div>
+    </section>
+    <section class="banner-2 section-padding pb-0">
+        <div class="container">
+            <div class="banner-img banner-big wow fadeIn animated f-none">
+                <img src="<?php echo UI_ASSETS ?>imgs/banner/banner-4.png" alt="">
+                <div class="banner-text d-md-block d-none">
+                    <h4 class="mb-15 mt-40 text-brand">Repair Services</h4>
+                    <h1 class="fw-600 mb-20">We're an Apple <br>Authorised Service Provider</h1>
+                    <a href="shop-grid-right.html" class="btn">Learn More <i class="fi-rs-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="popular-categories section-padding mt-15">
+        <div class="container wow fadeIn animated">
+            <h3 class="section-title mb-20"><span>Popular</span> Categories</h3>
+            <div class="carausel-6-columns-cover position-relative">
+                <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-arrows"></div>
+                <div class="carausel-6-columns" id="carausel-6-columns">
+                    
+                    <?php if(!empty($popular_category)){
+                        foreach($popular_category as $cat){ 
+                            $category_name = $cat['category_name'];
+                            $category_image = $cat['category_image'];
+                            $img_path = base_url().CATEGORY_IMAGE_PATH.$category_image;
+                        ?>
+                        <div class="card-1">
+                            <figure class=" img-hover-scale overflow-hidden">
+                                <a href="shop-grid-right.html">
+                                    <img src="<?php echo $img_path;?>" alt="">
+                                </a>
+                            </figure>
+                            <h5><a href="shop-grid-right.html"><?php echo $category_name;?></a></h5>
+                        </div>  
+                    <?php } }?>                  
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="banners mb-20">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 col-md-6">
+                    <div class="banner-img wow fadeIn animated">
+                        <img src="<?php echo UI_ASSETS ?>imgs/banner/banner-1.png" alt="">
+                        <div class="banner-text">
+                            <span>Smart Offer</span>
+                            <h4>Save 20% on <br>Woman Bag</h4>
+                            <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="banner-img wow fadeIn animated">
+                        <img src="<?php echo UI_ASSETS ?>imgs/banner/banner-2.png" alt="">
+                        <div class="banner-text">
+                            <span>Sale off</span>
+                            <h4>Great Summer <br>Collection</h4>
+                            <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 d-md-none d-lg-flex">
+                    <div class="banner-img wow fadeIn animated  mb-sm-0">
+                        <img src="<?php echo UI_ASSETS ?>imgs/banner/banner-3.png" alt="">
+                        <div class="banner-text">
+                            <span>New Arrivals</span>
+                            <h4>Shop Today’s <br>Deals & Offers</h4>
+                            <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 
-				<div class="col-12 slideshow__slide">
-					<div class="oh position-relative nt_img_txt bg-black--transparent">
-						<div class="js_full_ht4 img_slider_block kalles-slide-element__pdb-600">
-							<div class="bg_rp_norepeat bg_sz_cover lazyload item__position center center img_tran_ef pa l__0 t__0 r__0 b__0"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/slide/slider-01.jpg">
-							</div>
-						</div>
-						<div class="caption-wrap caption-w-1 pe_none z_100 tl_md tl">
-							<div class="pa_txts caption kalles-caption-layout-01 kalles-caption--midle-left">
-								<div class="left_right">
-									<h4 class="kalles-caption-layout-01__subtitle mg__0 lh__1">
-										SUMMER 2020
-									</h4>
-									<h3 class="kalles-caption-layout-01__title mg__0 lh__1">
-										New Arrival
-										Collection
-									</h3>
-									<a class="kalles-caption-layout-01__button kalles-button--square slt4_btn button pe_auto round_false btn_icon_false"
-                                                href="javascript:void()">
-										Explore Now
-									</a>
-								</div>
-							</div>
-						</div>
-						<a href="javascript:void()" class="pa t__0 l__0 b__0 r__0 pe_none">
-						</a>
-					</div>
-				</div>
+    <!-- NEW ARRIVALS SECTION  -->
+    <?php if(!empty($new_arrivals)){?>
+    <section class="pt-25 pb-20">
+        <div class="container wow fadeIn animated">
+            <h3 class="section-title mb-20"><span>New</span> Arrivals</h3>
+            <div class="carausel-6-columns-cover position-relative">
+                <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-2-arrows">
+                </div>
+                <div class="carausel-6-columns carausel-arrow-center carausel-slider-product" id="carausel-6-columns-2">
+                    <?php 
+                        foreach($new_arrivals as $row){
+                            $product_id         = $row['product_id'];
+                            $product_name       = $row['product_name'];
+                            $short_code         = $row['short_code'];
+                            $net_price          = $row['net_price'];
+                            $mrp_price          = $row['mrp_price'];
+                            $cover_img          = $row['cover_img'];
+                            $discount           = $row['discount'];                            
+                            $image              = explode ("|", $row['image']); 
+                            $hoverimg           = $image[1];                           
+                            $imgurl             = base_url().PRODUCT_IMAGE_PATH.$product_id.'/'.$cover_img;
+                            $hoverimgurl        = base_url().PRODUCT_IMAGE_PATH.$product_id.'/'.$hoverimg;
+                            $detailurl          = base_url('product-detail/').$short_code;      
+                    ?>
+                    <div class="product-cart-wrap small hover-up">
+                        <div class="product-img-action-wrap">
+                            <div class="product-img product-img-zoom">
+                                <a href="shop-product-right.html">
+                                    <img class="default-img" src="<?php echo $imgurl; ?>" alt="">
+                                    <img class="hover-img" src="<?php echo $hoverimgurl; ?>" alt="">
+                                </a>
+                            </div>
 
+                            <div class="product-badges product-badges-position product-badges-mrg">
+                                <span class="hot">Hot</span>
+                            </div>
+                        </div>
+                        <div class="product-content-wrap">
+                            <h5 class="truncate"><a href="shop-product-right.html"><?php echo $product_name; ?></a></h5>                            
+                            
+                            <div class="product-price">
+                                <span>₹<?php echo $net_price;?></span>
+                                <?php if($discount != "" || $discount != null || $discount > 0){?>
+                                    <span class="old-price">₹<?php echo $mrp_price;?></span>
+                                <?php } ?>
+                            </div>
+                        </div>
+                    </div>
+                    <?php } ?>
+                </div>
+            </div>
+        </div>
+    </section>
+    <?php } ?>
+    <!-- / NEW ARRIVALS SECTION  -->
 
-				<div class="col-12 slideshow__slide">
-					<div class="oh position-relative nt_img_txt bg-black--transparent">
-						<div class="js_full_ht4 img_slider_block kalles-slide-element__pdb-600">
-							<div class="bg_rp_norepeat bg_sz_cover lazyload item__position center center img_zoom pa l__0 t__0 r__0 b__0"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/slide/slider-02.jpg">
-							</div>
-						</div>
-						<div class="caption-wrap caption-w-1 pe_none z_100 tr_md tl">
-							<div class="pa_txts caption kalles-caption-layout-01 kalles-caption--midle-right">
-								<div class="right_left">
-									<h4 class="kalles-caption-layout-01__subtitle mg__0 lh__1">
-										NEW SEASON
-									</h4>
-									<h3 class="kalles-caption-layout-01__title mg__0 lh__1">
-										Lookbook Collection
-									</h3>
-									<a class="kalles-caption-layout-01__button kalles-button--square slt4_btn button pe_auto round_false btn_icon_false"
-                                                href="javascript:void()">
-										Explore Now
-									</a>
-								</div>
-							</div>
-						</div>
-						<a href="javascript:void()" class="pa t__0 l__0 b__0 r__0 pe_none">
-						</a>
-					</div>
-				</div>
-
-
-				<div class="col-12 slideshow__slide">
-					<div class="oh position-relative nt_img_txt bg-black--transparent">
-						<div class="js_full_ht4 img_slider_block kalles-slide-element__pdb-600">
-							<div class="bg_rp_norepeat bg_sz_cover lazyload item__position center center img_tran_ef pa l__0 t__0 r__0 b__0"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/slide/slider-03.jpg">
-							</div>
-						</div>
-						<div class="caption-wrap caption-w-1 pe_none z_100 tl_md tl">
-							<div class="pa_txts caption kalles-caption-layout-01 kalles-caption--midle-left">
-								<div class="left_right">
-									<h4 class="kalles-caption-layout-01__subtitle mg__0 lh__1">
-										SUMMER SALE
-									</h4>
-									<h3 class="kalles-caption-layout-01__title mg__0 lh__1">
-										Save up to 70%
-									</h3>
-									<a class="kalles-caption-layout-01__button kalles-button--square slt4_btn button pe_auto round_false btn_icon_false"
-                                                href="javascript:void(0)">
-										Explore Now
-									</a>
-								</div>
-							</div>
-						</div>
-						<a href="javascript:void(0)" class="pa t__0 l__0 b__0 r__0 pe_none">
-						</a>
-					</div>
-				</div>
-
-			</div>
-		</div>
-	</div>
-	<!-- End Home Slider  -->
-
-	<!-- Start type_collection_list  -->
-	<div class="nt_section type_collection_list">
-		<div class="container">
-			<div
-                        class="mt__30 nt_cats_holder row equal_nt hoverz_true cat_size_4 cat_lay4_1 cat_lay5_3 cat_space_30 cat_design_1">
-				<div class="cat_grid_item cat_space_item cat_grid_item_1 col-md-6 col-12">
-					<div class="cat_grid_item__content position-relative oh">
-						<a href="javascript:void(0)" class="db cat_grid_item__link">
-							<div class="cat_grid_item__overlay item__position nt_bg_lz lazyload top"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-01/bn-01.jpg">
-							</div>
-						</a>
-						<div class="cat_grid_item__wrapper pe_none">
-							<div class="cat_grid_item__title">
-								Women
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-lg-3 col-md-3 col-6">
-					<div class="row">
-						<div class="cat_grid_item cat_space_item cat_grid_item_2 col-12">
-							<div class="cat_grid_item__content position-relative oh">
-								<a href="javascript:void(0)" class="db cat_grid_item__link">
-									<div class="cat_grid_item__overlay item__position nt_bg_lz lazyload center"
-                                                data-bgset="<?php echo UI_ASSETS ?>images/home-01/bn-02.jpg">
-									</div>
-								</a>
-								<div class="cat_grid_item__wrapper pe_none">
-									<div class="cat_grid_item__title">
-										Accessories
-									</div>
-								</div>
-							</div>
-						</div>
-						<div class="cat_grid_item cat_space_item cat_grid_item_3 col-12">
-							<div class="cat_grid_item__content position-relative oh">
-								<a href="javascript:void(0)" class="db cat_grid_item__link">
-									<div class="cat_grid_item__overlay item__position nt_bg_lz lazyload center"
-                                                data-bgset="<?php echo UI_ASSETS ?>images/home-01/bn-03.jpg">
-									</div>
-								</a>
-								<div class="cat_grid_item__wrapper pe_none">
-									<div class="cat_grid_item__title">
-										Footwear
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="cat_grid_item cat_space_item cat_grid_item_4  col-md-3 col-6">
-					<div class="cat_grid_item__content position-relative oh">
-						<a href="javascript:void(0)" class="db cat_grid_item__link">
-							<div class="cat_grid_item__overlay item__position nt_bg_lz lazyload center"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-01/bn-04.jpg">
-							</div>
-						</a>
-						<div class="cat_grid_item__wrapper pe_none">
-							<div class="cat_grid_item__title">
-								Watches
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End type_collection_list  -->
-
-	<!-- Start TRENDING collection  -->
-	<div class="nt_section type_featured_collection tp_se_cdt">
-		<div class="kalles-otp-01__feature container">
-			<div class="wrap_title des_title_2">
-				<h3 class="section-title tc position-relative flex fl_center al_center fs__24 title_2">
-					<span class="mr__10 ml__10">
-						TRENDING
-					</span>
-				</h3>
-				<span class="dn tt_divider">
-					<span>
-					</span>
-					<i class="dn clprfalse title_2 la-gem">
-					</i>
-					<span>
-					</span>
-				</span>
-				<span class="section-subtitle db tc sub-title">
-					Top view in this week
-				</span>
-			</div>
-			<div
-                        class="products nt_products_holder row fl_center row_pr_1 cdt_des_5 round_cd_true nt_cover ratio_nt position_8 space_30">
-				<div
-                            class="col-lg-3 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
-					<div class="product-inner pr">
-						<div class="product-image position-relative oh lazyload">
-							<span class="tc nt_labels pa pe_none cw">
-								<span class="nt_label new">
-									New
-								</span>
-							</span>
-							<a class="d-block" href="<?php echo base_url('product-detail/1')?>">
-								<div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-01.jpg">
-								</div>
-							</a>
-							<div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-								<div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-02.jpg">
-								</div>
-							</div>
-							<div class="nt_add_w ts__03 pa ">
-								<a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-									<span class="tt_txt">
-										Add to Wishlist
-									</span>
-									<i class="facl facl-heart-o">
-									</i>
-								</a>
-							</div>
-							<div class="hover_button op__0 tc pa flex column ts__03">
-								<a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#">
-									<span class="tt_txt">
-										Quick view
-									</span>
-									<i class="iccl iccl-eye">
-									</i>
-									<span>
-										Quick view
-									</span>
-								</a>
-								<a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js__qs cb chp ttip_nt tooltip_top_left">
-									<span class="tt_txt">
-										Quick Shop
-									</span>
-									<i class="iccl iccl-cart">
-									</i>
-									<span>
-										Quick Shop
-									</span>
-								</a>
-							</div>
-							<div class="product-attr pa ts__03 cw op__0 tc">
-								<p class="truncate mg__0 w__100">
-									XS, S, M, L, XL
-								</p>
-							</div>
-						</div>
-						<div class="product-info mt__15">
-							<h3 class="product-title position-relative fs__14 mg__0 fwm">
-								<a class="cd chp" href="<?php echo base_url('product-detail/1')?>">
-									Analogue Resin Strap
-								</a>
-							</h3>
-							<span class="price dib mb__5">
-								$30.00
-							</span>
-						</div>
-					</div>
-				</div>
-				<div
-                            class="col-lg-3 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
-					<div class="product-inner pr">
-						<div class="product-image position-relative oh lazyload">
-							<a class="d-block" href="<?php echo base_url('product-detail/1')?>">
-								<div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571 "
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-33.jpg">
-								</div>
-							</a>
-							<div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-								<div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571 "
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-33.jpg">
-								</div>
-							</div>
-							<div class="nt_add_w ts__03 pa ">
-								<a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-									<span class="tt_txt">
-										Add to Wishlist
-									</span>
-									<i class="facl facl-heart-o">
-									</i>
-								</a>
-							</div>
-							<div class="hover_button op__0 tc pa flex column ts__03">
-								<a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#">
-									<span class="tt_txt">
-										Quick view
-									</span>
-									<i class="iccl iccl-eye">
-									</i>
-									<span>
-										Quick view
-									</span>
-								</a>
-								<a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js__qs cb chp ttip_nt tooltip_top_left">
-									<span class="tt_txt">
-										Quick Shop
-									</span>
-									<i class="iccl iccl-cart">
-									</i>
-									<span>
-										Quick Shop
-									</span>
-								</a>
-							</div>
-							<div class="product-attr pa ts__03 cw op__0 tc">
-								<p class="truncate mg__0 w__100">
-									S, M, L
-								</p>
-							</div>
-						</div>
-						<div class="product-info mt__15">
-							<h3 class="product-title position-relative fs__14 mg__0 fwm">
-								<a class="cd chp" href="<?php echo base_url('product-detail/1')?>">
-									Ridley High Waist
-								</a>
-							</h3>
-							<span class="price dib mb__5">
-								$36.00
-							</span>
-						</div>
-					</div>
-				</div>
-				<div
-                            class="col-lg-3 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
-					<div class="product-inner pr">
-						<div class="product-image position-relative oh lazyload">
-							<a class="d-block" href="<?php echo base_url('product-detail/1')?>">
-								<div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-04.jpg">
-								</div>
-							</a>
-							<div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-								<div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-05.jpg">
-								</div>
-							</div>
-							<div class="nt_add_w ts__03 pa ">
-								<a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-									<span class="tt_txt">
-										Add to Wishlist
-									</span>
-									<i class="facl facl-heart-o">
-									</i>
-								</a>
-							</div>
-							<div class="hover_button op__0 tc pa flex column ts__03">
-								<a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#">
-									<span class="tt_txt">
-										Quick view
-									</span>
-									<i class="iccl iccl-eye">
-									</i>
-									<span>
-										Quick view
-									</span>
-								</a>
-								<a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js__qs cb chp ttip_nt tooltip_top_left">
-									<span class="tt_txt">
-										Quick Shop
-									</span>
-									<i class="iccl iccl-cart">
-									</i>
-									<span>
-										Quick Shop
-									</span>
-								</a>
-							</div>
-							<div class="product-attr pa ts__03 cw op__0 tc">
-								<p class="truncate mg__0 w__100">
-									S, M, L
-								</p>
-							</div>
-						</div>
-						<div class="product-info mt__15">
-							<h3 class="product-title position-relative fs__14 mg__0 fwm">
-								<a class="cd chp" href="<?php echo base_url('product-detail/1')?>">
-									Blush Beanie
-								</a>
-							</h3>
-							<span class="price dib mb__5">
-								$15.00
-							</span>
-							<div class="swatch__list_js swatch__list lh__1 nt_swatches_on_grid">
-								<span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-05.jpg"
-                                            class="lazyload nt_swatch_on_bg swatch__list--item position-relative ttip_nt tooltip_top_right">
-									<span
-                                                class="tt_txt">
-										Grey
-									</span>
-									<span
-                                                class="swatch__value bg_color_grey">
-									</span>
-								</span>
-								<span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-31.jpg"
-                                            class="lazyload nt_swatch_on_bg swatch__list--item position-relative ttip_nt tooltip_top_right">
-									<span
-                                                class="tt_txt">
-										Pink
-									</span>
-									<span
-                                                class="swatch__value bg_color_pink">
-									</span>
-								</span>
-								<span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-32.jpg"
-                                            class="lazyload nt_swatch_on_bg swatch__list--item position-relative ttip_nt tooltip_top_right">
-									<span
-                                                class="tt_txt">
-										Black
-									</span>
-									<span
-                                                class="swatch__value bg_color_black">
-									</span>
-								</span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div
-                            class="col-lg-3 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
-					<div class="product-inner pr">
-						<div class="product-image position-relative oh lazyload">
-							<span class="tc nt_labels pa pe_none cw">
-								<span class="onsale nt_label">
-									<span>
-										-25%
-									</span>
-								</span>
-							</span>
-							<a class="d-block" href="<?php echo base_url('product-detail/1')?>">
-								<div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-06.jpg">
-								</div>
-							</a>
-							<div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-								<div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-07.jpg">
-								</div>
-							</div>
-							<div class="nt_add_w ts__03 pa ">
-								<a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-									<span class="tt_txt">
-										Add to Wishlist
-									</span>
-									<i class="facl facl-heart-o">
-									</i>
-								</a>
-							</div>
-							<div class="hover_button op__0 tc pa flex column ts__03">
-								<a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#">
-									<span class="tt_txt">
-										Quick view
-									</span>
-									<i class="iccl iccl-eye">
-									</i>
-									<span>
-										Quick view
-									</span>
-								</a>
-								<a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js__qs cb chp ttip_nt tooltip_top_left">
-									<span class="tt_txt">
-										Quick Shop
-									</span>
-									<i class="iccl iccl-cart">
-									</i>
-									<span>
-										Quick Shop
-									</span>
-								</a>
-							</div>
-							<div class="product-attr pa ts__03 cw op__0 tc">
-								<p class="truncate mg__0 w__100">
-									XS, S, M
-								</p>
-							</div>
-						</div>
-						<div class="product-info mt__15">
-							<h3 class="product-title position-relative fs__14 mg__0 fwm">
-								<a class="cd chp" href="<?php echo base_url('product-detail/1')?>">
-									Cluse La Boheme Rose
-									Gold
-								</a>
-							</h3>
-							<span class="price dib mb__5">
-								<del>
-									$60.00
-								</del>
-								<ins>
-									$45.00
-								</ins>
-							</span>
-							<div class="swatch__list_js swatch__list lh__1 nt_swatches_on_grid">
-								<span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-07.jpg"
-                                            class="nt_swatch_on_bg swatch__list--item position-relative ttip_nt tooltip_top_right">
-									<span
-                                                class="tt_txt">
-										Green
-									</span>
-									<span
-                                                class="swatch__value bg_color_green">
-									</span>
-								</span>
-								<span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-08.jpg"
-                                            class="nt_swatch_on_bg swatch__list--item position-relative ttip_nt tooltip_top_right">
-									<span
-                                                class="tt_txt">
-										Grey
-									</span>
-									<span
-                                                class="swatch__value bg_color_grey">
-									</span>
-								</span>
-								<span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-06.jpg"
-                                            class="nt_swatch_on_bg swatch__list--item position-relative ttip_nt tooltip_top_right">
-									<span
-                                                class="tt_txt">
-										Blue
-									</span>
-									<span
-                                                class="swatch__value bg_color_blue">
-									</span>
-								</span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div
-                            class="col-lg-3 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
-					<div class="product-inner pr">
-						<div class="product-image position-relative oh lazyload">
-							<a class="d-block" href="<?php echo base_url('product-detail/1')?>">
-								<div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-15.jpg">
-								</div>
-							</a>
-							<div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-								<div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-16.jpg">
-								</div>
-							</div>
-							<div class="nt_add_w ts__03 pa ">
-								<a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-									<span class="tt_txt">
-										Add to Wishlist
-									</span>
-									<i class="facl facl-heart-o">
-									</i>
-								</a>
-							</div>
-							<div class="hover_button op__0 tc pa flex column ts__03">
-								<a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#">
-									<span class="tt_txt">
-										Quick view
-									</span>
-									<i class="iccl iccl-eye">
-									</i>
-									<span>
-										Quick view
-									</span>
-								</a>
-								<a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js__qs cb chp ttip_nt tooltip_top_left">
-									<span class="tt_txt">
-										Quick Shop
-									</span>
-									<i class="iccl iccl-cart">
-									</i>
-									<span>
-										Quick Shop
-									</span>
-								</a>
-							</div>
-							<div class="product-attr pa ts__03 cw op__0 tc">
-								<p class="truncate mg__0 w__100">
-									S, M
-								</p>
-							</div>
-						</div>
-						<div class="product-info mt__15">
-							<h3 class="product-title position-relative fs__14 mg__0 fwm">
-								<a class="cd chp" href="<?php echo base_url('product-detail/1')?>">
-									Mercury Tee
-								</a>
-							</h3>
-							<span class="price dib mb__5">
-								$68.00
-							</span>
-							<div class="swatch__list_js swatch__list lh__1 nt_swatches_on_grid">
-								<span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-15.jpg"
-                                            class="nt_swatch_on_bg swatch__list--item position-relative ttip_nt tooltip_top_right">
-									<span
-                                                class="tt_txt">
-										White Cream
-									</span>
-									<span
-                                                class="swatch__value bg_color_white-cream lazyload"
-                                                data-bgset="<?php echo UI_ASSETS ?>images/products/dot-01.jpg">
-									</span>
-								</span>
-								<span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-14.jpg"
-                                            class="nt_swatch_on_bg swatch__list--item position-relative ttip_nt tooltip_top_right">
-									<span
-                                                class="tt_txt">
-										Heart Dotted
-									</span>
-									<span
-                                                class="swatch__value bg_color_heart-dotted lazyload"
-                                                data-bgset="<?php echo UI_ASSETS ?>images/products/dot-02.jpg">
-									</span>
-								</span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div
-                            class="col-lg-3 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
-					<div class="product-inner pr">
-						<div class="pr_wr_dcimg position-relative oh">
-							<div class="product-image position-relative oh lazyload">
-								<span class="tc nt_labels pa pe_none cw">
-									<span class="onsale nt_label">
-										<span>
-											-34%
-										</span>
-									</span>
-								</span>
-								<a class="d-block" href="<?php echo base_url('product-detail/1')?>">
-									<div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                                data-bgset="<?php echo UI_ASSETS ?>images/products/pr-27.jpg">
-									</div>
-								</a>
-								<div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-									<div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                                data-bgset="<?php echo UI_ASSETS ?>images/products/pr-28.jpg">
-									</div>
-								</div>
-								<div class="nt_add_w ts__03 pa ">
-									<a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-										<span class="tt_txt">
-											Add to Wishlist
-										</span>
-										<i class="facl facl-heart-o">
-										</i>
-									</a>
-								</div>
-								<div class="hover_button op__0 tc pa flex column ts__03">
-									<a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                                href="#">
-										<span class="tt_txt">
-											Quick view
-										</span>
-										<i class="iccl iccl-eye">
-										</i>
-										<span>
-											Quick view
-										</span>
-									</a>
-									<a href="#" data-id="4540967714955"
-                                                class="pr pr_atc cd br__40 bgw tc dib js__qs cb chp ttip_nt tooltip_top_left">
-										<span class="tt_txt">
-											Quick Shop
-										</span>
-										<i class="iccl iccl-cart">
-										</i>
-										<span>
-											Quick Shop
-										</span>
-									</a>
-								</div>
-							</div>
-							<div class="pr_deal_dt pa pe_none op__0">
-								<span class="pr_title_dt">
-									Offer Ends In:
-								</span>
-								<span class="pr_coun_dt" data-date="2021/08/19">
-								</span>
-							</div>
-						</div>
-						<div class="product-info mt__15">
-							<h3 class="product-title position-relative fs__14 mg__0 fwm">
-								<a class="cd chp" href="<?php echo base_url('product-detail/1')?>">
-									La Bohème Rose Gold
-								</a>
-							</h3>
-							<span class="price dib mb__5">
-								<del>
-									$60.00
-								</del>
-								<ins>
-									$40.00
-								</ins>
-							</span>
-							<div class="swatch__list_js swatch__list lh__1 nt_swatches_on_grid">
-								<span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-27.jpg"
-                                            class="nt_swatch_on_bg swatch__list--item position-relative ttip_nt tooltip_top_right">
-									<span
-                                                class="tt_txt">
-										Pink
-									</span>
-									<span
-                                                class="swatch__value bg_color_pink lazyload">
-									</span>
-								</span>
-								<span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-35.jpg"
-                                            class="nt_swatch_on_bg swatch__list--item position-relative ttip_nt tooltip_top_right">
-									<span
-                                                class="tt_txt">
-										Black
-									</span>
-									<span
-                                                class="swatch__value bg_color_black lazyload">
-									</span>
-								</span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div
-                            class="col-lg-3 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
-					<div class="product-inner pr">
-						<div class="product-image position-relative oh lazyload">
-							<a class="d-block" href="<?php echo base_url('product-detail/1')?>">
-								<div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-18.jpg">
-								</div>
-							</a>
-							<div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-								<div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-17.jpg">
-								</div>
-							</div>
-							<div class="nt_add_w ts__03 pa ">
-								<a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-									<span class="tt_txt">
-										Add to Wishlist
-									</span>
-									<i class="facl facl-heart-o">
-									</i>
-								</a>
-							</div>
-							<div class="hover_button op__0 tc pa flex column ts__03">
-								<a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#">
-									<span class="tt_txt">
-										Quick view
-									</span>
-									<i class="iccl iccl-eye">
-									</i>
-									<span>
-										Quick view
-									</span>
-								</a>
-								<a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js_addtc cb chp ttip_nt tooltip_top_left">
-									<span class="tt_txt">
-										Add to cart
-									</span>
-									<i class="iccl iccl-cart">
-									</i>
-									<span>
-										Add to cart
-									</span>
-								</a>
-							</div>
-						</div>
-						<div class="product-info mt__15">
-							<h3 class="product-title position-relative fs__14 mg__0 fwm">
-								<a class="cd chp" href="<?php echo base_url('product-detail/1')?>">
-									Cream women pants
-								</a>
-							</h3>
-							<span class="price dib mb__5">
-								$35.00
-							</span>
-						</div>
-					</div>
-				</div>
-				<div
-                            class="col-lg-3 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
-					<div class="product-inner pr">
-						<div class="product-image pr oh lazyload">
-							<a class="d-block" href="<?php echo base_url('product-detail/1')?>">
-								<div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-25.png">
-								</div>
-							</a>
-							<div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-								<div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-26.png">
-								</div>
-							</div>
-							<div class="nt_add_w ts__03 pa ">
-								<a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-									<span class="tt_txt">
-										Add to Wishlist
-									</span>
-									<i class="facl facl-heart-o">
-									</i>
-								</a>
-							</div>
-							<div class="hover_button op__0 tc pa flex column ts__03">
-								<a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#">
-									<span class="tt_txt">
-										Quick view
-									</span>
-									<i class="iccl iccl-eye">
-									</i>
-									<span>
-										Quick view
-									</span>
-								</a>
-								<a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js_addtc cb chp ttip_nt tooltip_top_left">
-									<span class="tt_txt">
-										Add to cart
-									</span>
-									<i class="iccl iccl-cart">
-									</i>
-									<span>
-										Add to cart
-									</span>
-								</a>
-							</div>
-						</div>
-						<div class="product-info mt__15">
-							<h3 class="product-title pr fs__14 mg__0 fwm">
-								<a class="cd chp" href="<?php echo base_url('product-detail/1')?>">
-									Black mountain hat
-								</a>
-							</h3>
-							<span class="price dib mb__5">
-								$50.00
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-			<div class="products-footer tc mt__40">
-				<a class="se_cat_lm pr nt_cat_lm button button_default br_rd_true btn_icon_false" href="#">
-					Load
-					More
-				</a>
-			</div>
-		</div>
-	</div>
-	<!-- End TRENDING collection  -->
-
-	<!-- Start Ad's type_banner -->
-	<div class="kalles-section nt_section type_banner">
-		<div class="kalles-otp-01__promotion container">
-			<div class="mt__30 nt_banner_holder row equal_nt auto hoverz_true cat_space_30 txt_shadow_false">
-				<div class="cat_space_item col-lg-6 col-md-6 col-12">
-					<div class="nt_promotion oh pr middle center banner_design_1">
-						<a href="#" class="d-block">
-							<div class="nt_bg_lz lazyload item__position center"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-01/bn-05.jpg">
-							</div>
-						</a>
-						<div class="pa t__0 l__0 b__0 r__0 flex column shadow_wrap tc fl_center pe_none">
-							<h3 class="fwm fs__24 mg__0 mb__5 ls__1 lh__1">
-								LOOKBOOK 2021
-							</h3>
-							<h4 class="mg__0 fs__14">
-								MAKE LOVE THIS LOOK
-							</h4>
-						</div>
-					</div>
-				</div>
-				<div class="cat_space_item col-lg-6 col-md-6 col-12">
-					<div class="nt_promotion oh pr middle center banner_design_2">
-						<a href="#" class="d-block">
-							<div class="nt_bg_lz lazyload item__position center"
-                                        data-bgset="<?php echo UI_ASSETS ?>images/home-01/bn-06.jpg">
-							</div>
-						</a>
-						<div class="pa t__0 l__0 b__0 r__0 flex column shadow_wrap tc fl_center pe_none">
-							<h3 class="fwm fs__18 mg__0 mb__5 ls__1">
-								SUMMER SALE
-							</h3>
-							<h4 class="mg__0 fs__50 lh__1">
-								UP TO 70%
-							</h4>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End Ad's type_banner -->
-
-	<!-- Start BEST SELLER -->
-	<div class="kalles-section nt_section type_featured_collection tp_se_cdt">
-		<div class="kalles-otp-01__featured-collection-2 container">
-			<div class="wrap_title  des_title_2">
-				<h3 class="section-title tc pr flex fl_center al_center fs__24 title_2">
-					<span class="mr__10 ml__10">
-						BEST SELLER
-					</span>
-				</h3>
-				<span class="dn tt_divider">
-					<span>
-					</span>
-					<i class="dn clprfalse title_2 la-gem">
-					</i>
-					<span>
-					</span>
-				</span>
-				<span class="section-subtitle db tc sub-title">
-					Top sale in this week
-				</span>
-			</div>
-			<div
-                        class="products nt_products_holder row fl_center row_pr_1 cdt_des_1 round_cd_false nt_cover ratio_nt position_8 space_30">
-				<div
-                            class="col-lg-3 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
-					<div class="product-inner pr">
-						<div class="product-image pr oh">
-							<a class="d-block" href="<?php echo base_url('product-detail/1')?>">
-								<div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_586"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-29.jpg">
-								</div>
-							</a>
-							<div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-								<div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_586"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-30.jpg">
-								</div>
-							</div>
-							<div class="nt_add_w ts__03 pa ">
-								<a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-									<span class="tt_txt">
-										Add to Wishlist
-									</span>
-									<i class="facl facl-heart-o">
-									</i>
-								</a>
-							</div>
-							<div class="hover_button op__0 tc pa flex column ts__03">
-								<a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#">
-									<span class="tt_txt">
-										Quick view
-									</span>
-									<i class="iccl iccl-eye">
-									</i>
-									<span>
-										Quick view
-									</span>
-								</a>
-								<a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js_addtc cb chp ttip_nt tooltip_top_left">
-									<span class="tt_txt">
-										Add to cart
-									</span>
-									<i class="iccl iccl-cart">
-									</i>
-									<span>
-										Add to cart
-									</span>
-								</a>
-							</div>
-						</div>
-						<div class="product-info mt__15">
-							<h3 class="product-title pr fs__14 mg__0 fwm">
-								<a class="cd chp" href="<?php echo base_url('product-detail/1')?>">
-									City Backpack Black
-								</a>
-							</h3>
-							<span class="price dib mb__5">
-								$55.00
-							</span>
-						</div>
-					</div>
-				</div>
-				<div
-                            class="col-lg-3 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
-					<div class="product-inner pr">
-						<div class="product-image pr oh lazyload">
-							<a class="d-block" href="<?php echo base_url('product-detail/1')?>">
-								<div class="pr_lazy_img main-img padding-top__127_586 nt_img_ratio nt_bg_lz lazyload"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-11.jpg">
-								</div>
-							</a>
-							<div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-								<div class="pr_lazy_img back-img padding-top__127_586 pa nt_bg_lz lazyload"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-10.jpg">
-								</div>
-							</div>
-							<div class="nt_add_w ts__03 pa ">
-								<a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-									<span class="tt_txt">
-										Add to Wishlist
-									</span>
-									<i class="facl facl-heart-o">
-									</i>
-								</a>
-							</div>
-							<div class="hover_button op__0 tc pa flex column ts__03">
-								<a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#">
-									<span class="tt_txt">
-										Quick view
-									</span>
-									<i class="iccl iccl-eye">
-									</i>
-									<span>
-										Quick view
-									</span>
-								</a>
-								<a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js_addtc cb chp ttip_nt tooltip_top_left">
-									<span class="tt_txt">
-										Add to cart
-									</span>
-									<i class="iccl iccl-cart">
-									</i>
-									<span>
-										Add to cart
-									</span>
-								</a>
-							</div>
-						</div>
-						<div class="product-info mt__15">
-							<h3 class="product-title pr fs__14 mg__0 fwm">
-								<a class="cd chp" href="<?php echo base_url('product-detail/1')?>">
-									Women Black Pants
-								</a>
-							</h3>
-							<span class="price dib mb__5">
-								$100.00
-							</span>
-						</div>
-					</div>
-				</div>
-				<div
-                            class="col-lg-3 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
-					<div class="product-inner pr">
-						<div class="product-image pr oh lazyload">
-							<a class="d-block" href="<?php echo base_url('product-detail/1')?>">
-								<div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_586"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-15.jpg">
-								</div>
-							</a>
-							<div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-								<div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_586"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-16.jpg">
-								</div>
-							</div>
-							<div class="nt_add_w ts__03 pa ">
-								<a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-									<span class="tt_txt">
-										Add to Wishlist
-									</span>
-									<i class="facl facl-heart-o">
-									</i>
-								</a>
-							</div>
-							<div class="hover_button op__0 tc pa flex column ts__03">
-								<a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#">
-									<span class="tt_txt">
-										Quick view
-									</span>
-									<i class="iccl iccl-eye">
-									</i>
-									<span>
-										Quick view
-									</span>
-								</a>
-								<a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js__qs cb chp ttip_nt tooltip_top_left">
-									<span class="tt_txt">
-										Quick Shop
-									</span>
-									<i class="iccl iccl-cart">
-									</i>
-									<span>
-										Quick Shop
-									</span>
-								</a>
-							</div>
-							<div class="product-attr pa ts__03 cw op__0 tc">
-								<p class="truncate mg__0 w__100">
-									S, M
-								</p>
-							</div>
-						</div>
-						<div class="product-info mt__15">
-							<h3 class="product-title pr fs__14 mg__0 fwm">
-								<a class="cd chp" href="<?php echo base_url('product-detail/1')?>">
-									Mercury Tee
-								</a>
-							</h3>
-							<span class="price dib mb__5">
-								$68.00
-							</span>
-							<div class="swatch__list_js swatch__list lh__1 nt_swatches_on_grid">
-								<span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-15.jpg"
-                                            class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right">
-									<span
-                                                class="tt_txt">
-										White Cream
-									</span>
-									<span
-                                                class="swatch__value bg_color_white-cream lazyload"
-                                                data-bgset="<?php echo UI_ASSETS ?>images/products/dot-01.jpg">
-									</span>
-								</span>
-								<span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-14.jpg"
-                                            class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right">
-									<span
-                                                class="tt_txt">
-										Heart Dotted
-									</span>
-									<span
-                                                class="swatch__value bg_color_heart-dotted lazyload"
-                                                data-bgset="<?php echo UI_ASSETS ?>images/products/dot-02.jpg">
-									</span>
-								</span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div
-                            class="col-lg-3 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
-					<div class="product-inner pr">
-						<div class="product-image pr oh lazyload">
-							<a class="d-block" href="<?php echo base_url('product-detail/1')?>">
-								<div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_586"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-12.jpg">
-								</div>
-							</a>
-							<div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-								<div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_586"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-12.jpg">
-								</div>
-							</div>
-							<div class="nt_add_w ts__03 pa ">
-								<a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-									<span class="tt_txt">
-										Add to Wishlist
-									</span>
-									<i class="facl facl-heart-o">
-									</i>
-								</a>
-							</div>
-							<div class="hover_button op__0 tc pa flex column ts__03">
-								<a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#">
-									<span class="tt_txt">
-										Quick view
-									</span>
-									<i class="iccl iccl-eye">
-									</i>
-									<span>
-										Quick view
-									</span>
-								</a>
-								<a href="#" data-id="4540579250315"
-                                            class="pr pr_atc cd br__40 bgw tc dib js__qs cb chp ttip_nt tooltip_top_left">
-									<span class="tt_txt">
-										Quick Shop
-									</span>
-									<i class="iccl iccl-cart">
-									</i>
-									<span>
-										Quick Shop
-									</span>
-								</a>
-							</div>
-						</div>
-						<div class="product-info mt__15">
-							<h3 class="product-title pr fs__14 mg__0 fwm">
-								<a class="cd chp" href="<?php echo base_url('product-detail/1')?>">
-									Men pants
-								</a>
-							</h3>
-							<span class="price dib mb__5">
-								$49.00 – $56.00
-							</span>
-							<div class="swatch__list_js swatch__list lh__1 nt_swatches_on_grid">
-								<span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-12.jpg"
-                                            class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right">
-									<span
-                                                class="tt_txt">
-										Blue
-									</span>
-									<span
-                                                class="swatch__value bg_color_blue">
-									</span>
-								</span>
-								<span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-34.jpg"
-                                            class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right">
-									<span
-                                                class="tt_txt">
-										Black
-									</span>
-									<span
-                                                class="swatch__value bg_color_black">
-									</span>
-								</span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div
-                            class="col-lg-3 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
-					<div class="product-inner pr">
-						<div class="product-image pr oh lazyload">
-							<span class="tc nt_labels pa pe_none cw">
-								<span class="onsale nt_label">
-									<span>
-										-34%
-									</span>
-								</span>
-							</span>
-							<a class="d-block" href="<?php echo base_url('product-detail/1')?>">
-								<div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_586"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-21.jpg">
-								</div>
-							</a>
-							<div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-								<div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_586"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-22.jpg">
-								</div>
-							</div>
-							<div class="nt_add_w ts__03 pa ">
-								<a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-									<span class="tt_txt">
-										Add to Wishlist
-									</span>
-									<i class="facl facl-heart-o">
-									</i>
-								</a>
-							</div>
-							<div class="hover_button op__0 tc pa flex column ts__03">
-								<a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#">
-									<span class="tt_txt">
-										Quick view
-									</span>
-									<i class="iccl iccl-eye">
-									</i>
-									<span>
-										Quick view
-									</span>
-								</a>
-								<a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js__qs cb chp ttip_nt tooltip_top_left">
-									<span class="tt_txt">
-										Quick Shop
-									</span>
-									<i class="iccl iccl-cart">
-									</i>
-									<span>
-										Quick Shop
-									</span>
-								</a>
-							</div>
-							<div class="product-attr pa ts__03 cw op__0 tc">
-								<p class="truncate mg__0 w__100">
-									S, M, L
-								</p>
-							</div>
-						</div>
-						<div class="product-info mt__15">
-							<h3 class="product-title pr fs__14 mg__0 fwm">
-								<a class="cd chp" href="<?php echo base_url('product-detail/1')?>">
-									Short Sleeved Hoodie
-								</a>
-							</h3>
-							<span class="price dib mb__5">
-								<del>
-									$45.00
-								</del>
-								<ins>
-									$30.00
-								</ins>
-							</span>
-						</div>
-					</div>
-				</div>
-				<div
-                            class="col-lg-3 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
-					<div class="product-inner pr">
-						<div class="product-image pr oh lazyload">
-							<a class="d-block" href="<?php echo base_url('product-detail/1')?>">
-								<div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_586"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-33.jpg">
-								</div>
-							</a>
-							<div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-								<div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_586"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-34.jpg">
-								</div>
-							</div>
-							<div class="nt_add_w ts__03 pa ">
-								<a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-									<span class="tt_txt">
-										Add to Wishlist
-									</span>
-									<i class="facl facl-heart-o">
-									</i>
-								</a>
-							</div>
-							<div class="hover_button op__0 tc pa flex column ts__03">
-								<a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#">
-									<span class="tt_txt">
-										Quick view
-									</span>
-									<i class="iccl iccl-eye">
-									</i>
-									<span>
-										Quick view
-									</span>
-								</a>
-								<a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js__qs cb chp ttip_nt tooltip_top_left">
-									<span class="tt_txt">
-										Quick Shop
-									</span>
-									<i class="iccl iccl-cart">
-									</i>
-									<span>
-										Quick Shop
-									</span>
-								</a>
-							</div>
-							<div class="product-attr pa ts__03 cw op__0 tc">
-								<p class="truncate mg__0 w__100">
-									S, M, L
-								</p>
-							</div>
-						</div>
-						<div class="product-info mt__15">
-							<h3 class="product-title pr fs__14 mg__0 fwm">
-								<a class="cd chp" href="<?php echo base_url('product-detail/1')?>">
-									Sweatshirt in Geometric
-									Print
-								</a>
-							</h3>
-							<span class="price dib mb__5">
-								$35.00
-							</span>
-							<div class="swatch__list_js swatch__list lh__1 nt_swatches_on_grid">
-								<span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-33.jpg"
-                                            class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right">
-									<span class="tt_txt">
-										Black
-									</span>
-									<span class="swatch__value bg_color_black lazyload">
-									</span>
-								</span>
-								<span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-34.jpg"
-                                            class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right">
-									<span class="tt_txt">
-										Blue
-									</span>
-									<span class="swatch__value bg_color_blue lazyload">
-									</span>
-								</span>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div
-                            class="col-lg-3 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
-					<div class="product-inner pr">
-						<div class="product-image pr oh lazyload">
-							<a class="d-block" href="<?php echo base_url('product-detail/1')?>">
-								<div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_586"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-23.jpg">
-								</div>
-							</a>
-							<div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-								<div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_586"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-24.jpg">
-								</div>
-							</div>
-							<div class="nt_add_w ts__03 pa ">
-								<a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-									<span class="tt_txt">
-										Add to Wishlist
-									</span>
-									<i class="facl facl-heart-o">
-									</i>
-								</a>
-							</div>
-							<div class="hover_button op__0 tc pa flex column ts__03">
-								<a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#">
-									<span class="tt_txt">
-										Quick view
-									</span>
-									<i class="iccl iccl-eye">
-									</i>
-									<span>
-										Quick view
-									</span>
-								</a>
-								<a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js_addtc cb chp ttip_nt tooltip_top_left">
-									<span class="tt_txt">
-										Add to cart
-									</span>
-									<i class="iccl iccl-cart">
-									</i>
-									<span>
-										Add to cart
-									</span>
-								</a>
-							</div>
-						</div>
-						<div class="product-info mt__15">
-							<h3 class="product-title pr fs__14 mg__0 fwm">
-								<a class="cd chp" href="<?php echo base_url('product-detail/1')?>">
-									Dusk Pom Beanie
-								</a>
-							</h3>
-							<span class="price dib mb__5">
-								$25.00
-							</span>
-						</div>
-					</div>
-				</div>
-				<div
-                            class="col-lg-3 col-md-3 col-6 pr_animated done mt__30 pr_grid_item product nt_pr desgin__1">
-					<div class="product-inner pr">
-						<div class="product-image pr oh lazyload">
-							<a class="d-block" href="<?php echo base_url('product-detail/1')?>">
-								<div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_586"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-19.jpg">
-								</div>
-							</a>
-							<div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-								<div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_586"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-20.jpg">
-								</div>
-							</div>
-							<div class="nt_add_w ts__03 pa ">
-								<a href="#" class="wishlistadd cb chp ttip_nt tooltip_right">
-									<span class="tt_txt">
-										Add to Wishlist
-									</span>
-									<i class="facl facl-heart-o">
-									</i>
-								</a>
-							</div>
-							<div class="hover_button op__0 tc pa flex column ts__03">
-								<a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#">
-									<span class="tt_txt">
-										Quick view
-									</span>
-									<i class="iccl iccl-eye">
-									</i>
-									<span>
-										Quick view
-									</span>
-								</a>
-								<a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js_addtc cb chp ttip_nt tooltip_top_left">
-									<span class="tt_txt">
-										Add to cart
-									</span>
-									<i class="iccl iccl-cart">
-									</i>
-									<span>
-										Add to cart
-									</span>
-								</a>
-							</div>
-						</div>
-						<div class="product-info mt__15">
-							<h3 class="product-title pr fs__14 mg__0 fwm">
-								<a class="cd chp" href="<?php echo base_url('product-detail/1')?>">
-									Circle Snapback Cap
-								</a>
-							</h3>
-							<span class="price dib mb__5">
-								$25.00
-							</span>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End BEST SELLER -->
-
-	<!-- Start Blog  -->
-	<div class="kalles-section kalles-section_type_featured_blog nt_section type_featured_blog type_carousel">
-		<div class="container">
-			<div class="wrap_title mb__30 des_title_2">
-				<h3 class="section-title tc pr flex fl_center al_center fs__24 title_2">
-					<span class="mr__10 ml__10">
-						LATES FROM BLOG
-					</span>
-				</h3>
-				<span class="dn tt_divider">
-					<span>
-					</span>
-					<i class="dn clprfalse title_2 la-pencil-alt">
-					</i>
-					<span>
-					</span>
-				</span>
-				<span class="section-subtitle db tc sub-title">
-					The freshest and most exciting news
-				</span>
-			</div>
-			<div class="articles art_des1 nt_products_holder row nt_cover ratio4_3 position_8 equal_nt js_carousel nt_slider prev_next_1 btn_owl_1 dot_owl_1 dot_color_1 btn_vi_1"
-                        data-flickity='{"imagesLoaded": 0,"adaptiveHeight": 1, "contain": 1, "groupCells": "100%", "dragThreshold" : 5, "cellAlign": "left","wrapAround": false,"prevNextButtons": true,"percentPosition": 1,"pageDots": false, "autoPlay" : 0, "pauseAutoPlayOnHover" : true, "rightToLeft": false }'>
-				<article class="post_nt_loop post_1 col-lg-4 col-md-4 col-12 pr_animated done mb__40">
-					<a class="mb__15 db pr oh" href="javascript:void(0)">
-						<div class="lazyload nt_bg_lz pr_lazy_img" data-bgset="<?php echo UI_ASSETS ?>images/blog/blog-01.jpg">
-						</div>
-					</a>
-					<div class="post-info mb__10">
-						<h4 class="mg__0 fs__16 mb__5 ls__0">
-							<a class="cd chp open" href="blog-post-with-instagram-javascript:void()">
-								Spring – Summer
-								Trending 2020
-							</a>
-						</h4>
-						<span class="post-author mr__5">
-							By
-							<span class="cd">
-								admin
-							</span>
-						</span>
-						<span
-                                    class="post-time">
-							on
-							<span class="cd">
-								<time datetime="2020-04-06T02:22:00Z">
-									April 6,
-									2020
-								</time>
-							</span>
-						</span>
-					</div>
-					<div class="post-content">
-						Typography is the work of typesetters, compositors, typographers,
-						graphic designers, art directors, manga artists, ...
-					</div>
-				</article>
-				<article class="post_nt_loop post_1 col-lg-4 col-md-4 col-12 pr_animated done mb__40">
-					<a class="mb__15 db pr oh" href="javascript:void(0)">
-						<div class="lazyload nt_bg_lz pr_lazy_img" data-bgset="<?php echo UI_ASSETS ?>images/blog/blog-02.jpg">
-						</div>
-					</a>
-					<div class="post-info mb__10">
-						<h4 class="mg__0 fs__16 mb__5 ls__0">
-							<a class="cd chp open" href="blog-post-with-instagram-javascript:void()">
-								The Easiest Way to
-								Break Out on Top
-							</a>
-						</h4>
-						<span class="post-author mr__5">
-							By
-							<span class="cd">
-								admin
-							</span>
-						</span>
-						<span
-                                    class="post-time">
-							on
-							<span class="cd">
-								<time datetime="2020-04-06T02:22:00Z">
-									April 6,
-									2020
-								</time>
-							</span>
-						</span>
-					</div>
-					<div class="post-content">
-						Typography is the work of typesetters, compositors, typographers,
-						graphic designers, art directors, manga artists, ...
-					</div>
-				</article>
-				<article class="post_nt_loop post_1 col-lg-4 col-md-4 col-12 pr_animated done mb__40">
-					<a class="mb__15 db pr oh" href="javascript:void(0)">
-						<div class="lazyload nt_bg_lz pr_lazy_img" data-bgset="<?php echo UI_ASSETS ?>images/blog/blog-03.jpg">
-						</div>
-					</a>
-					<div class="post-info mb__10">
-						<h4 class="mg__0 fs__16 mb__5 ls__0">
-							<a class="cd chp open" href="blog-post-with-instagram-javascript:void()">
-								Style for couple in
-								Weeding season
-							</a>
-						</h4>
-						<span class="post-author mr__5">
-							By
-							<span class="cd">
-								admin
-							</span>
-						</span>
-						<span
-                                    class="post-time">
-							on
-							<span class="cd">
-								<time datetime="2020-04-06T02:22:00Z">
-									April 6,
-									2020
-								</time>
-							</span>
-						</span>
-					</div>
-					<div class="post-content">
-						Typography is the work of typesetters, compositors, typographers,
-						graphic designers, art directors, manga artists, ...
-					</div>
-				</article>
-			</div>
-		</div>
-	</div>
-	<!-- End blog  -->
-
-	<!-- Start FOLLOW US ON INSTAGRAM  -->
-	<div class="kalles-section nt_section kalles-section__type_instagram_shop type_instagram_shop type_pin_owl">
-		<div class="nt_full">
-			<div class="wrap_title mb__20 des_title_2">
-				<h3 class="section-title tc pr flex fl_center al_center fs__24 title_2">
-					<span class="mr__10 ml__10">
-						@ FOLLOW US ON INSTAGRAM
-					</span>
-				</h3>
-				<span class="dn tt_divider">
-					<span>
-					</span>
-					<i class="dn clprfalse title_2 la-gem">
-					</i>
-					<span>
-					</span>
-				</span>
-				<span class="section-subtitle db tc sub-title">
-				</span>
-			</div>
-			<div class="ins_shop_wrap row ins_rounded_0 ins_spaces_0 nt_cover ratio1_1 position_8 equal_nt js_carousel nt_slider prev_next_0 btn_owl_1 dot_owl_1 dot_color_1 btn_vi_1"
-                        data-flickity='{"imagesLoaded": 0,"adaptiveHeight": 1, "contain": 1, "groupCells": "100%", "dragThreshold" : 5, "cellAlign": "left","wrapAround": false,"prevNextButtons": true,"percentPosition": 1,"pageDots": false, "autoPlay" : 0, "pauseAutoPlayOnHover" : true, "rightToLeft": false }'>
-				<div class="pin__wr_js col_ins col-lg-2 col-md-3 col-6 pr_animated done item pr oh">
-					<a href="#" class="js_add_qv hotspot_ins pa op__0 dark spin-position__01">
-						<span>
-							1
-						</span>
-					</a>
-					<div class="wrap_ins_img db pr oh">
-						<div class="lazyload nt_bg_lz pr_lazy_img"
-                                    data-bgset="<?php echo UI_ASSETS ?>images/instagram/ins1_14.jpg">
-						</div>
-					</div>
-				</div>
-				<div class="pin__wr_js col_ins col-lg-2 col-md-3 col-6 pr_animated done item pr oh">
-					<a href="#" class="js_add_qv hotspot_ins pa op__0 dark spin-position__02">
-						<span>
-							1
-						</span>
-					</a>
-					<div class="wrap_ins_img db pr oh">
-						<div class="lazyload nt_bg_lz pr_lazy_img"
-                                    data-bgset="<?php echo UI_ASSETS ?>images/instagram/ins1_8.jpg">
-						</div>
-					</div>
-				</div>
-				<div class="pin__wr_js col_ins col-lg-2 col-md-3 col-6 pr_animated done item pr oh">
-					<a href="#" class="js_add_qv hotspot_ins pa op__0 dark spin-position__03">
-						<span>
-							1
-						</span>
-					</a>
-					<a href="#" class="js_add_qv hotspot_ins pa op__0 dark spin-position__04">
-						<span>
-							2
-						</span>
-					</a>
-					<div class="wrap_ins_img db pr oh">
-						<div class="lazyload nt_bg_lz pr_lazy_img"
-                                    data-bgset="<?php echo UI_ASSETS ?>images/instagram/ins1_1.jpg">
-						</div>
-					</div>
-				</div>
-				<div class="pin__wr_js col_ins col-lg-2 col-md-3 col-6 pr_animated done item pr oh">
-					<a href="#" class="js_add_qv hotspot_ins pa op__0 dark spin-position__05">
-						<span>
-							1
-						</span>
-					</a>
-					<div class="wrap_ins_img db pr oh">
-						<div class="lazyload nt_bg_lz pr_lazy_img"
-                                    data-bgset="<?php echo UI_ASSETS ?>images/instagram/ins1_6.jpg">
-						</div>
-					</div>
-				</div>
-				<div class="pin__wr_js col_ins col-lg-2 col-md-3 col-6 pr_animated done item pr oh">
-					<a href="#" class="js_add_qv hotspot_ins pa op__0 dark spin-position__06">
-						<span>
-							1
-						</span>
-					</a>
-					<div class="wrap_ins_img db pr oh">
-						<div class="lazyload nt_bg_lz pr_lazy_img"
-                                    data-bgset="<?php echo UI_ASSETS ?>images/instagram/ins1_5.jpg">
-						</div>
-					</div>
-				</div>
-				<div class="pin__wr_js col_ins col-lg-2 col-md-3 col-6 pr_animated done item pr oh">
-					<a href="#" class="js_add_qv hotspot_ins pa op__0 dark spin-position__07">
-						<span>
-							1
-						</span>
-					</a>
-					<div class="wrap_ins_img db pr oh">
-						<div class="lazyload nt_bg_lz pr_lazy_img"
-                                    data-bgset="<?php echo UI_ASSETS ?>images/instagram/ins1_4.jpg">
-						</div>
-					</div>
-				</div>
-				<div class="pin__wr_js col_ins col-lg-2 col-md-3 col-6 pr_animated done item pr oh">
-					<a href="#" class="js_add_qv hotspot_ins pa op__0 dark spin-position__08">
-						<span>
-							1
-						</span>
-					</a>
-					<div class="wrap_ins_img db pr oh">
-						<div class="lazyload nt_bg_lz pr_lazy_img"
-                                    data-bgset="<?php echo UI_ASSETS ?>images/instagram/ins1_2.jpg">
-						</div>
-					</div>
-				</div>
-				<div class="pin__wr_js col_ins col-lg-2 col-md-3 col-6 pr_animated done item pr oh">
-					<a href="#" class="js_add_qv hotspot_ins pa op__0 dark spin-position__09">
-						<span>
-							1
-						</span>
-					</a>
-					<div class="wrap_ins_img db pr oh">
-						<div class="lazyload nt_bg_lz pr_lazy_img"
-                                    data-bgset="<?php echo UI_ASSETS ?>images/instagram/ins1_13.jpg">
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End FOLLOW US ON INSTAGRAM -->
-
-
-	<!-- Start shipping steps  -->
-	<div class="kalles-section nt_section type_shipping kalles-section__type_shipping">
-		<div class="container">
-			<div class="row fl_wrap fl_wrap_md oah use_border_false">
-				<div class="col-12 col-md-6 col-lg-3 mb__25 bl_1581530479619-0">
-					<div class="nt_shipping nt_icon_deafult tl row no-gutters al_center_">
-						<div class="col-auto icon medium csi">
-							<i class="pegk pe-7s-car">
-							</i>
-						</div>
-						<div class="col content">
-							<h3 class="title cd fs__14 mg__0 mb__5">
-								FREE SHIPPING
-							</h3>
-							<p class="mg__0">
-								Free shipping on all US order or order above $100
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-md-6 col-lg-3 mb__25 bl_1581530479619-1">
-					<div class="nt_shipping nt_icon_deafult tl row no-gutters al_center_">
-						<div class="col-auto icon medium csi">
-							<i class="pegk pe-7s-help2">
-							</i>
-						</div>
-						<div class="col content">
-							<h3 class="title cd fs__14 mg__0 mb__5">
-								SUPPORT 24/7
-							</h3>
-							<p class="mg__0">
-								Contact us 24 hours a day, 7 days a week
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-md-6 col-lg-3 mb__25 bl_1581530479619-2">
-					<div class="nt_shipping nt_icon_deafult tl row no-gutters al_center_">
-						<div class="col-auto icon medium csi">
-							<i class="pegk pe-7s-refresh">
-							</i>
-						</div>
-						<div class="col content">
-							<h3 class="title cd fs__14 mg__0 mb__5">
-								30 DAYS RETURN
-							</h3>
-							<p class="mg__0">
-								Simply return it within 30 days for an exchange.
-							</p>
-						</div>
-					</div>
-				</div>
-				<div class="col-12 col-md-6 col-lg-3 mb__25 bl_1581530479619-3">
-					<div class="nt_shipping nt_icon_deafult tl row no-gutters al_center_">
-						<div class="col-auto icon medium csi">
-							<i class="pegk pe-7s-door-lock">
-							</i>
-						</div>
-						<div class="col content">
-							<h3 class="title cd fs__14 mg__0 mb__5">
-								100% PAYMENT SECURE
-							</h3>
-							<p class="mg__0">
-								We ensure secure payment with PEV
-							</p>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</div>
-	<!-- End shipping steps  -->
-
-</div>
-
+    <section class="deals section-padding">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-6 deal-co">
+                    <div class="deal wow fadeIn animated mb-md-4 mb-sm-4 mb-lg-0"
+                        style="background-image: url('<?php echo UI_ASSETS ?>imgs/banner/menu-banner-7.jpg');">
+                        <div class="deal-top">
+                            <h2 class="text-brand">Deal of the Day.</h2>
+                            <h5>Limited quantities.</h5>
+                        </div>
+                        <div class="deal-content">
+                            <h6 class="product-title"><a href="shop-product-right.html">Summer Collection New Morden
+                                    Design</a></h6>
+                            <div class="product-price"><span class="new-price">$139.00</span><span
+                                    class="old-price">$160.99</span></div>
+                        </div>
+                        <div class="deal-bottom">
+                            <p>Hurry Up! Offer End In:</p>
+                            <div class="deals-countdown" data-countdown="2025/03/25 00:00:00"></div>
+                            <a href="shop-grid-right.html" class="btn hover-up">Shop Now <i
+                                    class="fi-rs-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 deal-co">
+                    <div class="deal wow fadeIn animated"
+                        style="background-image: url('<?php echo UI_ASSETS ?>imgs/banner/menu-banner-8.jpg');">
+                        <div class="deal-top">
+                            <h2 class="text-success">Men Clothing</h2>
+                            <h5>Shirt & Bag</h5>
+                        </div>
+                        <div class="deal-content">
+                            <h6 class="product-title"><a href="shop-product-right.html">Try something new on
+                                    vacation</a></h6>
+                            <div class="product-price"><span class="new-price">$178.00</span><span
+                                    class="old-price">$256.99</span></div>
+                        </div>
+                        <div class="deal-bottom">
+                            <p>Hurry Up! Offer End In:</p>
+                            <div class="deals-countdown" data-countdown="2026/03/25 00:00:00"></div>
+                            <a href="shop-grid-right.html" class="btn hover-up">Shop Now <i
+                                    class="fi-rs-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section-padding">
+        <div class="container pb-20">
+            <h3 class="section-title mb-20 wow fadeIn animated"><span>Featured</span> Brands</h3>
+            <div class="carausel-6-columns-cover position-relative wow fadeIn animated">
+                <div class="slider-arrow slider-arrow-2 carausel-6-columns-arrow" id="carausel-6-columns-3-arrows">
+                </div>
+                <div class="carausel-6-columns text-center" id="carausel-6-columns-3">
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="<?php echo UI_ASSETS ?>imgs/banner/brand-1.png" alt="">
+                    </div>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="<?php echo UI_ASSETS ?>imgs/banner/brand-2.png" alt="">
+                    </div>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="<?php echo UI_ASSETS ?>imgs/banner/brand-3.png" alt="">
+                    </div>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="<?php echo UI_ASSETS ?>imgs/banner/brand-4.png" alt="">
+                    </div>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="<?php echo UI_ASSETS ?>imgs/banner/brand-5.png" alt="">
+                    </div>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="<?php echo UI_ASSETS ?>imgs/banner/brand-6.png" alt="">
+                    </div>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="<?php echo UI_ASSETS ?>imgs/banner/brand-3.png" alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="bg-grey-9 section-padding">
+        <div class="container pt-15 pb-25">
+            <div class="heading-tab d-flex">
+                <div class="heading-tab-left wow fadeIn animated">
+                    <h3 class="section-title mb-20"><span>Monthly</span> Best Sell</h3>
+                </div>
+                <div class="heading-tab-right wow fadeIn animated">
+                    <ul class="nav nav-tabs right no-border" id="myTab-1" role="tablist">
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link active" id="nav-tab-one-1" data-bs-toggle="tab"
+                                data-bs-target="#tab-one-1" type="button" role="tab" aria-controls="tab-one"
+                                aria-selected="true">Featured</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="nav-tab-two-1" data-bs-toggle="tab" data-bs-target="#tab-two-1"
+                                type="button" role="tab" aria-controls="tab-two" aria-selected="false">Popular</button>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <button class="nav-link" id="nav-tab-three-1" data-bs-toggle="tab"
+                                data-bs-target="#tab-three-1" type="button" role="tab" aria-controls="tab-three"
+                                aria-selected="false">New added</button>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-3 d-none d-lg-flex">
+                    <div class="banner-img style-2 wow fadeIn animated">
+                        <img src="<?php echo UI_ASSETS ?>imgs/banner/banner-9.jpg" alt="">
+                        <div class="banner-text">
+                            <span>Woman Area</span>
+                            <h4 class="mt-5">Save 17% on <br>Clothing</h4>
+                            <a href="shop-grid-right.html" class="text-white">Shop Now <i
+                                    class="fi-rs-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-9 col-md-12">
+                    <div class="tab-content wow fadeIn animated" id="myTabContent-1">
+                        <div class="tab-pane fade show active" id="tab-one-1" role="tabpanel"
+                            aria-labelledby="tab-one-1">
+                            <div class="carausel-4-columns-cover arrow-center position-relative">
+                                <div class="slider-arrow slider-arrow-2 carausel-4-columns-arrow"
+                                    id="carausel-4-columns-arrows"></div>
+                                <div class="carausel-4-columns carausel-arrow-center" id="carausel-4-columns">
+                                    <div class="product-cart-wrap">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="shop-product-right.html">
+                                                    <img class="default-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-1-1.jpg" alt="">
+                                                    <img class="hover-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-1-2.jpg" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Quick view" class="action-btn small hover-up"
+                                                    data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                    <i class="fi-rs-eye"></i></a>
+                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                <a aria-label="Compare" class="action-btn small hover-up"
+                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                            </div>
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="hot">Hot</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="shop-grid-right.html">Nulla</a>
+                                            </div>
+                                            <h2><a href="shop-product-right.html">Maecenas eget</a></h2>
+                                            <div class="rating-result" title="90%">
+                                                <span>
+                                                    <span>70%</span>
+                                                </span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span>$238.85 </span>
+                                                <span class="old-price">$245.8</span>
+                                            </div>
+                                            <div class="product-action-1 show">
+                                                <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                    href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-cart-wrap">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="shop-product-right.html">
+                                                    <img class="default-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-2-1.jpg" alt="">
+                                                    <img class="hover-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-2-2.jpg" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Quick view" class="action-btn small hover-up"
+                                                    data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                    <i class="fi-rs-eye"></i></a>
+                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                <a aria-label="Compare" class="action-btn small hover-up"
+                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                            </div>
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="new">New</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="shop-grid-right.html">Duis </a>
+                                            </div>
+                                            <h2><a href="shop-product-right.html">Luctus suscipit</a></h2>
+                                            <div class="rating-result" title="90%">
+                                                <span>
+                                                    <span>70%</span>
+                                                </span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span>$138.85 </span>
+                                                <span class="old-price">$145.8</span>
+                                            </div>
+                                            <div class="product-action-1 show">
+                                                <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                    href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-cart-wrap">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="shop-product-right.html">
+                                                    <img class="default-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-3-1.jpg" alt="">
+                                                    <img class="hover-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-3-2.jpg" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Quick view" class="action-btn small hover-up"
+                                                    data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                    <i class="fi-rs-eye"></i></a>
+                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                <a aria-label="Compare" class="action-btn small hover-up"
+                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                            </div>
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="best">Best Sell</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="shop-grid-right.html">Fusce </a>
+                                            </div>
+                                            <h2><a href="shop-product-right.html">Aliquam ac</a></h2>
+                                            <div class="rating-result" title="90%">
+                                                <span>
+                                                    <span>70%</span>
+                                                </span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span>$152.85 </span>
+                                                <span class="old-price">$156.8</span>
+                                            </div>
+                                            <div class="product-action-1 show">
+                                                <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                    href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-cart-wrap">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="shop-product-right.html">
+                                                    <img class="default-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-4-1.jpg" alt="">
+                                                    <img class="hover-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-4-2.jpg" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Quick view" class="action-btn small hover-up"
+                                                    data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                    <i class="fi-rs-eye"></i></a>
+                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                <a aria-label="Compare" class="action-btn small hover-up"
+                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                            </div>
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="hot">-12%</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="shop-grid-right.html">Nunc </a>
+                                            </div>
+                                            <h2><a href="shop-product-right.html">Fusce et ligula</a></h2>
+                                            <div class="rating-result" title="90%">
+                                                <span>
+                                                    <span>70%</span>
+                                                </span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span>$238.85 </span>
+                                                <span class="old-price">$245.8</span>
+                                            </div>
+                                            <div class="product-action-1 show">
+                                                <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                    href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-cart-wrap">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="shop-product-right.html">
+                                                    <img class="default-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-11-1.jpg" alt="">
+                                                    <img class="hover-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-11-2.jpg" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Quick view" class="action-btn small hover-up"
+                                                    data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                    <i class="fi-rs-eye"></i></a>
+                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                <a aria-label="Compare" class="action-btn small hover-up"
+                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                            </div>
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="sale">Sale</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="shop-grid-right.html">Aliquam</a>
+                                            </div>
+                                            <h2><a href="shop-product-right.html">Morbi lacinia</a></h2>
+                                            <div class="rating-result" title="90%">
+                                                <span>
+                                                    <span>70%</span>
+                                                </span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span>$238.85 </span>
+                                                <span class="old-price">$245.8</span>
+                                            </div>
+                                            <div class="product-action-1 show">
+                                                <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                    href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--End tab-pane-->
+                        <div class="tab-pane fade" id="tab-two-1" role="tabpanel" aria-labelledby="tab-two-1">
+                            <div class="carausel-4-columns-cover arrow-center position-relative">
+                                <div class="slider-arrow slider-arrow-2 carausel-4-columns-arrow"
+                                    id="carausel-4-columns-2-arrows"></div>
+                                <div class="carausel-4-columns carausel-arrow-center" id="carausel-4-columns-2">
+                                    <div class="product-cart-wrap">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="shop-product-right.html">
+                                                    <img class="default-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-6-1.jpg" alt="">
+                                                    <img class="hover-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-6-2.jpg" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Quick view" class="action-btn small hover-up"
+                                                    data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                    <i class="fi-rs-eye"></i></a>
+                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                <a aria-label="Compare" class="action-btn small hover-up"
+                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                            </div>
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="hot">Hot</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="shop-grid-right.html">Watch</a>
+                                            </div>
+                                            <h2><a href="shop-product-right.html">Cotton Leaf Printed 2</a></h2>
+                                            <div class="rating-result" title="90%">
+                                                <span>
+                                                    <span>70%</span>
+                                                </span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span>$238.85 </span>
+                                                <span class="old-price">$245.8</span>
+                                            </div>
+                                            <div class="product-action-1 show">
+                                                <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                    href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-cart-wrap">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="shop-product-right.html">
+                                                    <img class="default-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-7-1.jpg" alt="">
+                                                    <img class="hover-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-7-2.jpg" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Quick view" class="action-btn small hover-up"
+                                                    data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                    <i class="fi-rs-eye"></i></a>
+                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                <a aria-label="Compare" class="action-btn small hover-up"
+                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                            </div>
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="new">New</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="shop-grid-right.html">Watch</a>
+                                            </div>
+                                            <h2><a href="shop-product-right.html">Smart Speaker</a></h2>
+                                            <div class="rating-result" title="90%">
+                                                <span>
+                                                    <span>70%</span>
+                                                </span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span>$138.85 </span>
+                                                <span class="old-price">$145.8</span>
+                                            </div>
+                                            <div class="product-action-1 show">
+                                                <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                    href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-cart-wrap">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="shop-product-right.html">
+                                                    <img class="default-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-5-1.jpg" alt="">
+                                                    <img class="hover-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-5-1.jpg" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Quick view" class="action-btn small hover-up"
+                                                    data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                    <i class="fi-rs-eye"></i></a>
+                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                <a aria-label="Compare" class="action-btn small hover-up"
+                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                            </div>
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="best">Best Sell</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="shop-grid-right.html">Watch</a>
+                                            </div>
+                                            <h2><a href="shop-product-right.html">Hugy Speaker</a></h2>
+                                            <div class="rating-result" title="90%">
+                                                <span>
+                                                    <span>70%</span>
+                                                </span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span>$152.85 </span>
+                                                <span class="old-price">$156.8</span>
+                                            </div>
+                                            <div class="product-action-1 show">
+                                                <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                    href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-cart-wrap">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="shop-product-right.html">
+                                                    <img class="default-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-10-1.jpg" alt="">
+                                                    <img class="hover-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-10-2.jpg" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Quick view" class="action-btn small hover-up"
+                                                    data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                    <i class="fi-rs-eye"></i></a>
+                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                <a aria-label="Compare" class="action-btn small hover-up"
+                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                            </div>
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="hot">-12%</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="shop-grid-right.html">Watch</a>
+                                            </div>
+                                            <h2><a href="shop-product-right.html">Smart Speaker</a></h2>
+                                            <div class="rating-result" title="90%">
+                                                <span>
+                                                    <span>70%</span>
+                                                </span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span>$238.85 </span>
+                                                <span class="old-price">$245.8</span>
+                                            </div>
+                                            <div class="product-action-1 show">
+                                                <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                    href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-cart-wrap">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="shop-product-right.html">
+                                                    <img class="default-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-12-1.jpg" alt="">
+                                                    <img class="hover-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-12-2.jpg" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Quick view" class="action-btn small hover-up"
+                                                    data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                    <i class="fi-rs-eye"></i></a>
+                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                <a aria-label="Compare" class="action-btn small hover-up"
+                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                            </div>
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="sale">Sale</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="shop-grid-right.html">Watch</a>
+                                            </div>
+                                            <h2><a href="shop-product-right.html">Cotton Leaf Printed</a></h2>
+                                            <div class="rating-result" title="90%">
+                                                <span>
+                                                    <span>70%</span>
+                                                </span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span>$238.85 </span>
+                                                <span class="old-price">$245.8</span>
+                                            </div>
+                                            <div class="product-action-1 show">
+                                                <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                    href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="tab-three-1" role="tabpanel" aria-labelledby="tab-three-1">
+                            <div class="carausel-4-columns-cover arrow-center position-relative">
+                                <div class="slider-arrow slider-arrow-2 carausel-4-columns-arrow"
+                                    id="carausel-4-columns-3-arrows"></div>
+                                <div class="carausel-4-columns carausel-arrow-center" id="carausel-4-columns-3">
+                                    <div class="product-cart-wrap">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="shop-product-right.html">
+                                                    <img class="default-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-8-1.jpg" alt="">
+                                                    <img class="hover-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-8-2.jpg" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Quick view" class="action-btn small hover-up"
+                                                    data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                    <i class="fi-rs-eye"></i></a>
+                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                <a aria-label="Compare" class="action-btn small hover-up"
+                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                            </div>
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="hot">Hot</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="shop-grid-right.html">Watch</a>
+                                            </div>
+                                            <h2><a href="shop-product-right.html">Cotton Leaf Printed</a></h2>
+                                            <div class="rating-result" title="90%">
+                                                <span>
+                                                    <span>70%</span>
+                                                </span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span>$238.85 </span>
+                                                <span class="old-price">$245.8</span>
+                                            </div>
+                                            <div class="product-action-1 show">
+                                                <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                    href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-cart-wrap">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="shop-product-right.html">
+                                                    <img class="default-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-13-1.jpg" alt="">
+                                                    <img class="hover-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-13-2.jpg" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Quick view" class="action-btn small hover-up"
+                                                    data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                    <i class="fi-rs-eye"></i></a>
+                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                <a aria-label="Compare" class="action-btn small hover-up"
+                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                            </div>
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="new">New</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="shop-grid-right.html">Watch</a>
+                                            </div>
+                                            <h2><a href="shop-product-right.html">Smart Speaker</a></h2>
+                                            <div class="rating-result" title="90%">
+                                                <span>
+                                                    <span>70%</span>
+                                                </span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span>$138.85 </span>
+                                                <span class="old-price">$145.8</span>
+                                            </div>
+                                            <div class="product-action-1 show">
+                                                <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                    href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-cart-wrap">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="shop-product-right.html">
+                                                    <img class="default-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-14-1.jpg" alt="">
+                                                    <img class="hover-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-14-2.jpg" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Quick view" class="action-btn small hover-up"
+                                                    data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                    <i class="fi-rs-eye"></i></a>
+                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                <a aria-label="Compare" class="action-btn small hover-up"
+                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                            </div>
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="best">Best Sell</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="shop-grid-right.html">Watch</a>
+                                            </div>
+                                            <h2><a href="shop-product-right.html">Hugy Speaker</a></h2>
+                                            <div class="rating-result" title="90%">
+                                                <span>
+                                                    <span>70%</span>
+                                                </span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span>$152.85 </span>
+                                                <span class="old-price">$156.8</span>
+                                            </div>
+                                            <div class="product-action-1 show">
+                                                <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                    href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-cart-wrap">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="shop-product-right.html">
+                                                    <img class="default-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-15-1.jpg" alt="">
+                                                    <img class="hover-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-15-2.jpg" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Quick view" class="action-btn small hover-up"
+                                                    data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                    <i class="fi-rs-eye"></i></a>
+                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                <a aria-label="Compare" class="action-btn small hover-up"
+                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                            </div>
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="hot">-12%</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="shop-grid-right.html">Watch</a>
+                                            </div>
+                                            <h2><a href="shop-product-right.html">Smart Speaker</a></h2>
+                                            <div class="rating-result" title="90%">
+                                                <span>
+                                                    <span>70%</span>
+                                                </span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span>$238.85 </span>
+                                                <span class="old-price">$245.8</span>
+                                            </div>
+                                            <div class="product-action-1 show">
+                                                <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                    href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="product-cart-wrap">
+                                        <div class="product-img-action-wrap">
+                                            <div class="product-img product-img-zoom">
+                                                <a href="shop-product-right.html">
+                                                    <img class="default-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-11-1.jpg" alt="">
+                                                    <img class="hover-img"
+                                                        src="<?php echo UI_ASSETS ?>imgs/shop/product-11-2.jpg" alt="">
+                                                </a>
+                                            </div>
+                                            <div class="product-action-1">
+                                                <a aria-label="Quick view" class="action-btn small hover-up"
+                                                    data-bs-toggle="modal" data-bs-target="#quickViewModal">
+                                                    <i class="fi-rs-eye"></i></a>
+                                                <a aria-label="Add To Wishlist" class="action-btn small hover-up"
+                                                    href="shop-wishlist.html"><i class="fi-rs-heart"></i></a>
+                                                <a aria-label="Compare" class="action-btn small hover-up"
+                                                    href="shop-compare.html"><i class="fi-rs-shuffle"></i></a>
+                                            </div>
+                                            <div class="product-badges product-badges-position product-badges-mrg">
+                                                <span class="sale">Sale</span>
+                                            </div>
+                                        </div>
+                                        <div class="product-content-wrap">
+                                            <div class="product-category">
+                                                <a href="shop-grid-right.html">Watch</a>
+                                            </div>
+                                            <h2><a href="shop-product-right.html">Cotton Leaf Printed</a></h2>
+                                            <div class="rating-result" title="90%">
+                                                <span>
+                                                    <span>70%</span>
+                                                </span>
+                                            </div>
+                                            <div class="product-price">
+                                                <span>$238.85 </span>
+                                                <span class="old-price">$245.8</span>
+                                            </div>
+                                            <div class="product-action-1 show">
+                                                <a aria-label="Add To Cart" class="action-btn hover-up"
+                                                    href="shop-cart.html"><i class="fi-rs-shopping-bag-add"></i></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--End tab-content-->
+                </div>
+                <!--End Col-lg-9-->
+            </div>
+        </div>
+    </section>
+    <section class="section-padding">
+        <div class="container pt-25 pb-20">
+            <div class="row">
+                <div class="col-lg-6">
+                    <h3 class="section-title mb-20"><span>From</span> blog</h3>
+                    <div class="post-list mb-4 mb-lg-0">
+                        <article class="wow fadeIn animated">
+                            <div class="d-md-flex d-block">
+                                <div class="post-thumb d-flex mr-15">
+                                    <a class="color-white" href="blog-post-fullwidth.html">
+                                        <img src="<?php echo UI_ASSETS ?>imgs/blog/blog-2.jpg" alt="">
+                                    </a>
+                                </div>
+                                <div class="post-content">
+                                    <div class="entry-meta mb-10 mt-10">
+                                        <a class="entry-meta meta-2" href="blog-category-fullwidth.html"><span
+                                                class="post-in font-x-small">Fashion</span></a>
+                                    </div>
+                                    <h4 class="post-title mb-25 text-limit-2-row">
+                                        <a href="blog-post-fullwidth.html">Qualcomm is developing a Nintendo Switch-like
+                                            console, report says</a>
+                                    </h4>
+                                    <div class="entry-meta meta-1 font-xs color-grey mt-10 pb-10">
+                                        <div>
+                                            <span class="post-on">14 April 2022</span>
+                                            <span class="hit-count has-dot">12M Views</span>
+                                        </div>
+                                        <a href="blog-post-right.html">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="wow fadeIn animated">
+                            <div class="d-md-flex d-block">
+                                <div class="post-thumb d-flex mr-15">
+                                    <a class="color-white" href="blog-post-fullwidth.html">
+                                        <img src="<?php echo UI_ASSETS ?>imgs/blog/blog-1.jpg" alt="">
+                                    </a>
+                                </div>
+                                <div class="post-content">
+                                    <div class="entry-meta mb-10 mt-10">
+                                        <a class="entry-meta meta-2" href="blog-category-fullwidth.html"><span
+                                                class="post-in font-x-small">Healthy</span></a>
+                                    </div>
+                                    <h4 class="post-title mb-25 text-limit-2-row">
+                                        <a href="blog-post-fullwidth.html">Not even the coronavirus can derail 5G's
+                                            global momentum</a>
+                                    </h4>
+                                    <div class="entry-meta meta-1 font-xs color-grey mt-10 pb-10">
+                                        <div>
+                                            <span class="post-on">14 April 2022</span>
+                                            <span class="hit-count has-dot">12M Views</span>
+                                        </div>
+                                        <a href="blog-post-right.html">Read More</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="banner-img banner-1 wow fadeIn animated">
+                                <img src="<?php echo UI_ASSETS ?>imgs/banner/banner-5.jpg" alt="">
+                                <div class="banner-text">
+                                    <span>Accessories</span>
+                                    <h4>Save 17% on <br>Autumn Hat</h4>
+                                    <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="banner-img mb-15 wow fadeIn animated">
+                                <img src="<?php echo UI_ASSETS ?>imgs/banner/banner-6.jpg" alt="">
+                                <div class="banner-text">
+                                    <span>Big Offer</span>
+                                    <h4>Save 20% on <br>Women's socks</h4>
+                                    <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                                </div>
+                            </div>
+                            <div class="banner-img banner-2 wow fadeIn animated mb-0">
+                                <img src="<?php echo UI_ASSETS ?>imgs/banner/banner-7.jpg" alt="">
+                                <div class="banner-text">
+                                    <span>Smart Offer</span>
+                                    <h4>Save 20% on <br>Eardrop</h4>
+                                    <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="mb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="banner-bg wow fadeIn animated"
+                        style="background-image: url('<?php echo UI_ASSETS ?>imgs/banner/banner-8.jpg')">
+                        <div class="banner-content">
+                            <h5 class="text-grey-4 mb-15">Shop Today’s Deals</h5>
+                            <h2 class="fw-600">Happy <span class="text-brand">Mother's Day</span>. Big Sale Up to 40%
+                            </h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="mb-45">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-sm-5 mb-md-0">
+                    <div class="banner-img wow fadeIn animated mb-md-4 mb-lg-0">
+                        <img src="<?php echo UI_ASSETS ?>imgs/banner/banner-10.jpg" alt="">
+                        <div class="banner-text">
+                            <span>Shoes Zone</span>
+                            <h4>Save 17% on <br>All Items</h4>
+                            <a href="shop-grid-right.html">Shop Now <i class="fi-rs-arrow-right"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-sm-5 mb-md-0">
+                    <h4 class="section-title style-1 mb-30 wow fadeIn animated">Deals & Outlet</h4>
+                    <div class="product-list-small wow fadeIn animated">
+                        <article class="row align-items-center">
+                            <figure class="col-md-4 mb-0">
+                                <a href="shop-product-right.html"><img
+                                        src="<?php echo UI_ASSETS ?>imgs/shop/thumbnail-3.jpg" alt=""></a>
+                            </figure>
+                            <div class="col-md-8 mb-0">
+                                <h4 class="title-small">
+                                    <a href="shop-product-right.html">Fish Print Patched T-shirt</a>
+                                </h4>
+                                <div class="product-price">
+                                    <span>$238.85 </span>
+                                    <span class="old-price">$245.8</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="row align-items-center">
+                            <figure class="col-md-4 mb-0">
+                                <a href="shop-product-right.html"><img
+                                        src="<?php echo UI_ASSETS ?>imgs/shop/thumbnail-4.jpg" alt=""></a>
+                            </figure>
+                            <div class="col-md-8 mb-0">
+                                <h4 class="title-small">
+                                    <a href="shop-product-right.html">Vintage Floral Print Dress</a>
+                                </h4>
+                                <div class="product-price">
+                                    <span>$238.85 </span>
+                                    <span class="old-price">$245.8</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="row align-items-center">
+                            <figure class="col-md-4 mb-0">
+                                <a href="shop-product-right.html"><img
+                                        src="<?php echo UI_ASSETS ?>imgs/shop/thumbnail-5.jpg" alt=""></a>
+                            </figure>
+                            <div class="col-md-8 mb-0">
+                                <h4 class="title-small">
+                                    <a href="shop-product-right.html">Multi-color Stripe Circle Print T-Shirt</a>
+                                </h4>
+                                <div class="product-price">
+                                    <span>$238.85 </span>
+                                    <span class="old-price">$245.8</span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 mb-sm-5 mb-md-0">
+                    <h4 class="section-title style-1 mb-30 wow fadeIn animated">Top Selling</h4>
+                    <div class="product-list-small wow fadeIn animated">
+                        <article class="row align-items-center">
+                            <figure class="col-md-4 mb-0">
+                                <a href="shop-product-right.html"><img
+                                        src="<?php echo UI_ASSETS ?>imgs/shop/thumbnail-6.jpg" alt=""></a>
+                            </figure>
+                            <div class="col-md-8 mb-0">
+                                <h4 class="title-small">
+                                    <a href="shop-product-right.html">Geometric Printed Long Sleeve Blosue</a>
+                                </h4>
+                                <div class="product-price">
+                                    <span>$238.85 </span>
+                                    <span class="old-price">$245.8</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="row align-items-center">
+                            <figure class="col-md-4 mb-0">
+                                <a href="shop-product-right.html"><img
+                                        src="<?php echo UI_ASSETS ?>imgs/shop/thumbnail-7.jpg" alt=""></a>
+                            </figure>
+                            <div class="col-md-8 mb-0">
+                                <h4 class="title-small">
+                                    <a href="shop-product-right.html">Print Patchwork Maxi Dress</a>
+                                </h4>
+                                <div class="product-price">
+                                    <span>$238.85 </span>
+                                    <span class="old-price">$245.8</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="row align-items-center">
+                            <figure class="col-md-4 mb-0">
+                                <a href="shop-product-right.html"><img
+                                        src="<?php echo UI_ASSETS ?>imgs/shop/thumbnail-8.jpg" alt=""></a>
+                            </figure>
+                            <div class="col-md-8 mb-0">
+                                <h4 class="title-small">
+                                    <a href="shop-product-right.html">Daisy Floral Print Straps Jumpsuit</a>
+                                </h4>
+                                <div class="product-price">
+                                    <span>$238.85 </span>
+                                    <span class="old-price">$245.8</span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <h4 class="section-title style-1 mb-30 wow fadeIn animated">Hot Releases</h4>
+                    <div class="product-list-small wow fadeIn animated">
+                        <article class="row align-items-center">
+                            <figure class="col-md-4 mb-0">
+                                <a href="shop-product-right.html"><img
+                                        src="<?php echo UI_ASSETS ?>imgs/shop/thumbnail-9.jpg" alt=""></a>
+                            </figure>
+                            <div class="col-md-8 mb-0">
+                                <h4 class="title-small">
+                                    <a href="shop-product-right.html">Floral Print Casual Cotton Dress</a>
+                                </h4>
+                                <div class="product-price">
+                                    <span>$238.85 </span>
+                                    <span class="old-price">$245.8</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="row align-items-center">
+                            <figure class="col-md-4 mb-0">
+                                <a href="shop-product-right.html"><img
+                                        src="<?php echo UI_ASSETS ?>imgs/shop/thumbnail-1.jpg" alt=""></a>
+                            </figure>
+                            <div class="col-md-8 mb-0">
+                                <h4 class="title-small">
+                                    <a href="shop-product-right.html">Ruffled Solid Long Sleeve Blouse</a>
+                                </h4>
+                                <div class="product-price">
+                                    <span>$238.85 </span>
+                                    <span class="old-price">$245.8</span>
+                                </div>
+                            </div>
+                        </article>
+                        <article class="row align-items-center">
+                            <figure class="col-md-4 mb-0">
+                                <a href="shop-product-right.html"><img
+                                        src="<?php echo UI_ASSETS ?>imgs/shop/thumbnail-2.jpg" alt=""></a>
+                            </figure>
+                            <div class="col-md-8 mb-0">
+                                <h4 class="title-small">
+                                    <a href="shop-product-right.html">Multi-color Print V-neck T-Shirt</a>
+                                </h4>
+                                <div class="product-price">
+                                    <span>$238.85 </span>
+                                    <span class="old-price">$245.8</span>
+                                </div>
+                            </div>
+                        </article>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>

@@ -33,130 +33,7 @@ require_once('Common/totp.class.php');
 
 /*sanitizeRequest();*/
 
-if(!function_exists('sendEMail')){
-	function sendEMail($Head , $to, $subject , $body,$useTemplate = true){
-		if($to=='' || is_null($to))
-		//throwErrr('Please enter valid email!!',104);
-		$mail = new PHPMailer(true); // the true param means it will throw exceptions on errors, which we need to catch
-		if(in_array($Head ,['DNHPDCL : Consumer Acknowledgement','DNHPDCL : PDApplication','DNHPDCL : ContractorApplication','DNHPDCL : DGSetApplication','DNHPDCL : PowerApplication'])){
 
-			$from     = OEMAIL_ID;//"jagdish1230@gmail.com";
-			$password = OEMAIL_PASSWORD;
-		}
-		else{
-
-			$from     = EMAIL_ID;//"jagdish1230@gmail.com";
-			$password = EMAIL_PASSWORD;
-		}
-
-		if((DEBUGGING || session('isDev'))){
-			$to = [];
-			if(!is_null(session("devEmailId")) &&
-				!startsWith(session("devEmailId"),"ed-"))
-			$to[] = session("devEmailId");
-			$to[] = "hktest47@gmail.com";
-			$to[] = "hksofttronix@yahoo.com";
-			$to[] = HKEMAIL;
-		}
-		try{
-			//$mail->SMTPDebug = 0;
-			$mail->SMTPDebug = EMAIL_SMTPDEBUG;
-			if(DEBUGGING) $mail->Debugoutput = 'echo';
-			else $mail->Debugoutput = 'error_log ';
-			$mail->isSMTP();
-			$mail->SMTPAuth = true;
-			$mail->Host = EMAIL_HOST;
-			$mail->Username = $from;//EMAIL_ID;        // GMAIL username
-			$mail->Password = $password;
-			$mail->SMTPSecure = EMAIL_SMTPSECURE;
-			$mail->Port = EMAIL_PORT;
-			$mail->IsHTML(true);
-			$mail->CharSet = "utf-8";
-			/*
-			$mail->SMTPOptions = array(
-			'ssl' => array(
-			'verify_peer' => false,
-			'verify_peer_name' => false,
-			'allow_self_signed' => true
-			)
-			);
-			*/
-			if(!(isset($Head) && $Head != '')){
-				$Head = '';
-			}
-			if(!(isset($from) && $from != '')){
-				$from = '';
-			}
-			$mail->SetFrom($from, $Head);
-			$mail->Subject = "<NO-Reply> $subject";//'PHPMailer Test Subject via mail(), advanced';
-			$i = 0;
-			if(is_array($to) && (!empty($to))){
-				foreach($to as $value){
-					$mailto = strtolower(trim($value));
-					if($i == 0)
-					$mail->AddAddress($mailto, '');
-					else
-					$mail->AddCC($mailto);
-					$i++;
-				}
-			}
-			else{
-				$mailto = strtolower(trim($to));
-				$mail->AddAddress($mailto, '');
-			}
-			if((!is_null($cc_to))){
-				if(is_array($cc_to)){
-					foreach($cc_to as $i){
-						$i = strtolower($i);
-						$mail->AddCC($i);
-					}
-				}
-				else
-				if($cc_to != ''){
-					$cc_to = strtolower($cc_to);
-					$mail->AddCC($cc_to);
-				}
-			}
-
-			//if (startsWith($Head, "DNHPDCL") && !startsWith($_SERVER['HTTP_HOST'] , 'localhost'))
-			//$mail->AddBCC("ed - jetech - dd@nic.in");
-			$mail->AddBCC($from);
-
-			if(isset($replyto) || $replyto != ''){
-				$mail->AddReplyTo($replyto, $name_replyto);
-			}
-			else{
-				//$mail->AddReplyTo('', '');
-			}
-			if($useTemplate)
-			$body = PopulateBody($body);
-
-			$mail->MsgHTML($body);//"This is a Test");
-			if(!(isset($attr) && ($attr != ''))){
-				$attr = NULL;
-			}
-			else{
-				foreach($attr as $i){
-					$mail->AddAttachment($i);
-				}
-			}
-			
-			return $mail->Send();
-		}
-		catch(phpmailerException $e){
-			logThis($e->errorMessage(),now(),'EmailFailure');
-			//return $e->errorMessage(); //Pretty error messages from PHPMailer
-			return false;
-		}
-		catch(Exception $e){
-			logThis($e->errorMessage(),now(),'EmailFailure');
-			//return $e->getMessage(); //Boring error messages from anything else!
-			return false;
-		}
-
-	}
-
-}
 
 function utf8ize($d){
 	if(is_array($d)){
@@ -1047,6 +924,9 @@ function send_email($mailData)
 	$ci->email->bcc($bcc_email);
 	$ci->email->subject($mailData['subject']);
 	$ci->email->message($mailData['message']);
+	if(isset($mailData['attachFile']) && !empty($mailData['attachFile'])){
+		$ci->email->attach($mailData['attachFile']);	
+	}
 	if($ci->email->send())
 	{
 		return TRUE;
@@ -1258,12 +1138,15 @@ function getAllElementBycategory($id,$productid=null){
 							
 							if(!empty($attributes))
 							{
-								$attributes_id = explode(',',$attributes);
-								
-								$ele_id = $result1[0]['element_id'];
-								$ele_name = $result1[0]['element_name'];
+								$attributes_id 		= explode(',',$attributes);
+								$class_name 		= "";
+								$ele_id 			= $result1[0]['element_id'];
+								$ele_name 			= $result1[0]['element_name'];
 								if(strtolower($ele_name) == "quantity"){
 									$class_name	=	"elements_attributes";
+								}
+								if(strtolower($ele_name) == "color"){
+									$class_name	=	"elements_color";
 								}
 								$elements_html .='<div class="col-md-4 mb-10">
 													<div class="form-group tagSelect-ltr">
@@ -1277,27 +1160,32 @@ function getAllElementBycategory($id,$productid=null){
 											
 								foreach($attributes_id as $attr)
 								{
-									$attr_id['attributes_id'] = $attr;
-									$result2 	= $ci->Master_m->where('attributes',$attr_id);
-									$attributes_id = $result2[0]['attributes_id'];
-									$attributes_name = $result2[0]['attributes_name'];
-									$attr_arr[$j]['attributes_id'] = $attributes_id;
-									$attr_arr[$j]['attributes_name'] = $attributes_name;
+									$attr_id['attributes_id'] 			= $attr;
+									$result2 							= $ci->Master_m->where('attributes',$attr_id);
+									$attributes_id 						= $result2[0]['attributes_id'];
+									$attributes_name 					= $result2[0]['attributes_name'];
+									$attribute_code 					= $result2[0]['attribute_code'];
+									$attr_arr[$j]['attributes_id'] 		= $attributes_id;
+									$attr_arr[$j]['attributes_name'] 	= $attributes_name;
 									$j++;
-									$selected = "";
+									$selected 							= "";
 									if(in_array($attr,$product_attributes))	{
 										$selected = "selected";
-									}							
+									}	
+									$data_attr = "";
+									if(strtolower($ele_name) == "color"){
+										$data_attr	=	"data-color='$attribute_code'";
+									}
 									
-									$elements_html .='<option value="'.$attributes_id.'" '.$selected.'>'.$attributes_name.'</option>';
+									$elements_html .='<option value="'.$attributes_id.'" '.$data_attr.' '.$selected.'>'.$attributes_name.'</option>';
 								}
 								$elements_html .='</select>
 														</div>
 													</div>
 												</div>';						
 							}
-							$ele_name = $result1[0]['element_name'];
-							$element_arr[$ele_name] = $attr_arr;
+							$ele_name 					= $result1[0]['element_name'];
+							$element_arr[$ele_name] 	= $attr_arr;
 							$i++;
 						}
 					}			
@@ -1445,7 +1333,7 @@ function getAllElementBycategory($id,$productid=null){
 		$ci->pdf->render();
 		
 		// ob_end_clean();      
-		// $this->pdf->stream("welcome.pdf", array("Attachment"=>0));  // Output the generated PDF (1 = download and 0 = preview)
+		// $ci->pdf->stream($file_name, array("Attachment"=>1));  // Output the generated PDF (1 = download and 0 = preview)
 		
 		$file = $ci->pdf->output();
 		file_put_contents($filepath.$file_name, $file);  
@@ -1547,6 +1435,13 @@ function getAllElementBycategory($id,$productid=null){
 		$str = trim($str);
 		$str = str_replace( array("\r\n","\r","\n"),"",$str);
 		return $str;	
+	}
+
+	function getCustomerAllAddress($customer_id){
+		$ci     =& get_instance();
+		$where['customer_id'] 		= $customer_id;
+		$result 					= $ci->Master_m->where('customer_address',$where);
+		return $result;
 	}
 
 ?>

@@ -54,14 +54,16 @@
 </body>
 <script>
 function format_select2_add_color_preview(value) {
-    console.log(value.element);
+      
     if (!value.id) return value.text; // to exclude optgroups
     return "<strong class='color-preview "+ value.id +"-bg'></strong>" + value.text;
 }
 $("#color-body-select").select2({
     formatResult: format_select2_add_color_preview,
     formatSelection: format_select2_add_color_preview,
-    escapeMarkup: function(m) { return m; }
+    escapeMarkup: function(m) { 
+      console.log(m);
+      return m; }
 });
 </script>
  

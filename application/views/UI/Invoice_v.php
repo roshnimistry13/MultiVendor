@@ -1,6 +1,6 @@
 <?php 
 
-        $logo_path = UI_ASSETS.'images/mv-logo.png';
+        $logo_path = UI_ASSETS.'imgs/mv-logo.png';
 	    $logo_type = pathinfo($logo_path, PATHINFO_EXTENSION);
 		$logo_data = file_get_contents($logo_path);
 		$logo_base64 = 'data:image/' . $logo_type . ';base64,' . base64_encode($logo_data);

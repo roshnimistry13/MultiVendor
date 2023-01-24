@@ -45,13 +45,29 @@ jQuery(document).ready(function()
 		$('#txt_elements').select2();
 		$('#txt_Attributes').select2();
 		$('.select2').select2();
+		
 
 		if($('.elements_attributes').length){
 			$('.elements_attributes').trigger('change');
 		}
-		
+
+		if($('.elements_color').length){			
+				$(".elements_color").select2({
+					templateResult: formatState,
+					templateSelection: formatState
+				});
+		}		
 		
 });
+
+function formatState (state) {
+	if (!state.id) { return state.text; }
+	var bgcolor = $(state.element).attr('data-color'); 
+	var $state = $(
+	 '<span ><strong class="color-preview" style="background-color:'+bgcolor+'"></strong>' + state.text + '</span>'
+	);
+	return $state;
+   }
 
 //product validation form
 $("form[id='product-form']").validate(
@@ -352,6 +368,10 @@ function bindElements(id){
 					$('.qty-ele-attr').removeClass('d-none');
 				}
 				$('.select2').select2();
+				$(".elements_color").select2({
+					templateResult: formatState,
+					templateSelection: formatState
+				});
 				
 			}else{
 				Swal.fire("Error", "No Data Found!!", "error");
@@ -398,27 +418,36 @@ function calculateSellingprice(){
 	var unit_price 		= $('#text_unit_price').val();
 	var gst 			= $('#text_tax').val();
 	var discount 		= $('#text_discount').val();
+	var gst_type 		= $("input[name='gst-type']:checked").val();
 	var mrp_price		= 0
 	var selling_price	= 0
 
-	if(gst != "" && gst != NaN && gst != undefined && gst > 0){
-		var gst_rs = (parseFloat(unit_price) * parseFloat(gst)) / 100;	
-		mrp_price = (parseFloat(unit_price) + parseFloat(gst_rs)); 
-		$('#text_mrp_price').val(Math.round(mrp_price));
-		$('#text_net_price').val(Math.round(mrp_price));
-	}else{
-		$('#text_mrp_price').val(unit_price);
-		$('#text_net_price').val(unit_price);
-		mrp_price = $('#text_mrp_price').val();
+	if(gst_type == "exclusive"){
+		if(gst != "" && gst != NaN && gst != undefined && gst > 0){
+			var gst_rs 		= (parseFloat(unit_price) * parseFloat(gst)) / 100;	
+			mrp_price 		= (parseFloat(unit_price) + parseFloat(gst_rs)); 
+			$('#text_mrp_price').val(Math.round(mrp_price));
+			$('#text_net_price').val(Math.round(mrp_price));
+		}else{
+			$('#text_mrp_price').val(unit_price);
+			$('#text_net_price').val(unit_price);
+			mrp_price 		= $('#text_mrp_price').val();
+		}
 	}
+	else if(gst_type == "inclusive"){
+		mrp_price = unit_price;
+		$('#text_mrp_price').val(mrp_price);
+		$('#text_net_price').val(mrp_price);
+	}
+
+	
 
 	if(discount != "" && discount != NaN && discount != undefined && discount > 0){
-		var discount_rs = (parseFloat(mrp_price) * parseFloat(discount)) / 100;	console.log(discount_rs);
-		selling_price = parseFloat(mrp_price) - discount_rs;		
-		selling_price = Math.round(selling_price);
+		var discount_rs 		= (parseFloat(mrp_price) * parseFloat(discount)) / 100;
+		selling_price 			= parseFloat(mrp_price) - discount_rs;		
+		selling_price 			= Math.round(selling_price);
 		$('#text_net_price').val(selling_price);	
 	}
-
 }
 
 
@@ -428,7 +457,7 @@ $('.cal-discount').on('change', function(){
 });
 
 /** calculate Gst on  */
-$('#text_tax, #text_unit_price').on('change', function(){
+$('#text_tax, #text_unit_price, input[type=radio][name=gst-type]').on('change', function(){
 	calculateSellingprice();
 });
 
@@ -545,4 +574,15 @@ function removeVarientProduct(product_id){
 					});
 			}
 		})
+}
+
+/**** VIEW PRODUCT REVIEWS & RATINGS */
+function viewProductRrviews(product_id,product_name){
+	table_name 		= 'productReviewDatatable';
+	url 			= base_url + "Admin/Product/bindProductReviews?product_id="+product_id;
+	target = [0,1,2];
+
+	toDataTable(table_name,url,target);
+	$('.product-name').text(product_name);
+	$('#product_review_modal').modal('show');
 }

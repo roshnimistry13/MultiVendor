@@ -637,7 +637,8 @@ a.disabled {
 #product_stock_detail_modal .dataTables_filter {
   display: none !important;
 }
-#product_stock_detail_modal .dataTables_scrollHeadInner {
+#product_stock_detail_modal .dataTables_scrollHeadInner,
+#product_review_modal .dataTables_scrollHeadInner {
   width: 100% !important;
 }
 #product_stock_detail_modal .dataTables_info {
@@ -681,3 +682,35 @@ a.disabled {
 .color-span{
   color: red !important;
 }
+.color-preview {
+  display: inline-block;
+  position: relative;
+  height: 15px;
+  width: 15px;
+  margin-right: 6px;
+  box-shadow: 1px 1px 5px rgb(0 0 0 / 30%);
+  border-radius: 25%;
+  top: 3px;
+}
+
+.bootstrap-tagsinput 
+{
+  font-size: 12px !important;
+  display: block;
+  max-width: 100%;
+  cursor: text;
+}
+.bootstrap-tagsinput input {
+  width: auto;
+  max-width: inherit;
+}
+
+.bootstrap-tagsinput .tag 
+{
+  background: #337ab7 !important;
+  border-radius: 5px !important;
+  padding: 2px 5px !important;
+  line-height: 30px !important;
+  font-size: 12px !important;
+}
+

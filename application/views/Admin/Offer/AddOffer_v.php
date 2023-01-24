@@ -155,6 +155,10 @@
                                                             <option value="">Select Element</option>
                                                             <?php 
                                                                 foreach($category as $row){ 
+                                                                    $fullhierarchy = "";
+                                                                    $parent_id      = $row['parent_id'];
+                                                                    $parent_name    = getCateforyNameByID($parent_id);
+                                                                    $fullhierarchy  .= $parent_name. '->'.$row['category_name'];
                                                                     $selected = "";
                                                                     if(!empty($category_id)){
                                                                         if(in_array($row['category_id'],
@@ -165,7 +169,7 @@
                                                                 ?>
                                                             <option value="<?php echo $row['category_id']; ?>"
                                                                 <?php echo $selected;?>>
-                                                                <?php echo $row['category_name']; ?></option>
+                                                                <?php echo $row['category_name'].' ('. $fullhierarchy .')'; ?></option>
                                                             <?php } ?>
                                                         </select>
                                                     </div>

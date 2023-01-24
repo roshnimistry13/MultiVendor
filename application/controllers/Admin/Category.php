@@ -182,15 +182,16 @@ class Category extends CI_Controller
 		$parent_category_id 	= $this->input->post('text_parent_category');		
 		$p_cond['category_id'] 	= $parent_category_id;
 		$p_result 				= $this->Master_m->where('category',$p_cond);
-		
+		$p_cat_name 			= ''; 
 		$hierarchy = '';
 		$child = '';
 		
 		if(!empty($p_result) && ($p_result[0]['hierarchy'] != NULL || $p_result[0]['child_category'] != '')){
-			$hierarchy 	= $p_result[0]['hierarchy'];
-			$child 		= $p_result[0]['child_category'];
+			$hierarchy 				= $p_result[0]['hierarchy'];
+			$child 					= $p_result[0]['child_category'];
+			$p_cat_name 			= $p_result[0]['category_name'].'-'; 
 		}	
-		$short_code 		= strtolower($category_name);
+		$short_code 		= strtolower($p_cat_name.$category_name);
 		$rep_char 			= array(" ",",","/","[","]","(",")","--","---","&","--");
 		$short_code 		= str_replace($rep_char,"-",$short_code);
 		$rep_char1 			= array("--","---","----","----","--");

@@ -1,0 +1,2 @@
+"2022-12-22 02:25:57am "," update "," UPDATE customer_cart SET `quantity` = '2' WHERE 1=1  and customer_id = '1' and product_id = '118' "," ::1 "," URL: http://localhost/EthnicWear/Home/updateItemQuantity "," R: http://localhost/EthnicWear/cart"
+"2022-12-22 02:25:59am "," update "," UPDATE customer_cart SET `quantity` = '1' WHERE 1=1  and customer_id = '1' and product_id = '118' "," ::1 "," URL: http://localhost/EthnicWear/Home/updateItemQuantity "," R: http://localhost/EthnicWear/cart"

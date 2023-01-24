@@ -1199,7 +1199,7 @@ class MultivendorApi extends REST_Controller
 		if($key == SECRETKEY)
 		{
 			$short_code 		= $this->post('cat_short_code');
-			$categoryList 		= $this->Master_m->getChildCategory($short_code);
+			$categoryList 		= $this->Master_m->getChildCategoryAPI($short_code);
 			//$remove 			= array_pop($categoryList);;
 			if(!empty($categoryList))
 			{
@@ -1406,8 +1406,8 @@ class MultivendorApi extends REST_Controller
 		//Secret key
 		if($key == SECRETKEY)
 		{
-			$results = $this->Master_m->getProductsList($category_id = NULL, $brand_id = NULL, $new_product = NULL, $best_seller = NULL);
-				
+			$category_id 				= $this->input->post('category_id');
+			$results 					= $this->Master_m->getAllProductInGrid($category_id); 
 			if(!empty($results))
 			{
 				$product = $this->setProductList($results);
@@ -1458,7 +1458,10 @@ class MultivendorApi extends REST_Controller
 				$results = $this->Master_m->getAllProductDetails($product_id);				
 				if(!empty($results))
 				{
-					$product_element = $this->getProductElemetsAttributes($product_id);
+					$product_element 			= $this->getProductElemetsAttributes($product_id);					
+					
+					//UPDATE PRODUCT VIEWS COUNT
+					$views_count 				= $this->Master_m->updateProductViews($product_id);
 					$product = $this->setProductList($results);
 					$this->response([
 							'status' => TRUE,
@@ -1536,8 +1539,10 @@ class MultivendorApi extends REST_Controller
 		//Secret key
 		if($key == SECRETKEY)
 		{
-			$best_seller = 1;
-			$results = $this->Master_m->getProductsList($category_id = NULL, $brand_id = NULL, $new_product = NULL, $best_seller);
+			//$best_seller = 1;
+			// $results = $this->Master_m->getProductsList($category_id = NULL, $brand_id = NULL, $new_product = NULL, $best_seller);
+			$short_code 		= $this->post('cat_short_code');
+			$results 			= $this->Master_m->getBestSellingProductsForCategory($short_code);
 			
 			if(!empty($results))
 			{
@@ -1547,7 +1552,7 @@ class MultivendorApi extends REST_Controller
 						'status' => TRUE,
 						'message' => 'New product list .',
 						'image_url' => base_url().PRODUCT_IMAGE_PATH,
-						'data' => $product,
+						'data' => $results,
 					], REST_Controller::HTTP_OK);
 			}
 			else
@@ -1591,6 +1596,73 @@ class MultivendorApi extends REST_Controller
 				$this->response([
 					'status' => FALSE,
 					'message' => 'Products not found or null.'
+				], REST_Controller::HTTP_OK);
+			}			
+		}
+		else
+		{
+			$this->response([
+					'status' => FALSE,
+					'message' => SECRETKEY_MESSAGE
+				], REST_Controller::HTTP_OK);
+		}
+	}
+
+	/***** RECENT SEARCH PRODUCT LIST*/
+
+	public function getRecentSearchCategory_post(){
+
+		$key         = $this->post('secretkey');
+
+		if($key == SECRETKEY) {
+
+			$customer_id 				= $this->input->post('customer_id');
+			$result 					= $this->Master_m->getRecentSearchCategory($customer_id);			
+			if(!empty($result)){
+
+				$this->response([
+					'status' => TRUE,
+					'message' => 'recently view product list .',
+					'image_url' => base_url().PRODUCT_IMAGE_PATH,
+					'data' => $result,
+				], REST_Controller::HTTP_OK);
+			}
+			else{
+
+				$this->response([
+					'status' => FALSE,
+					'message' => 'Products not found or null.'
+				], REST_Controller::HTTP_OK);
+			}			
+		}
+		else
+		{
+			$this->response([
+					'status' => FALSE,
+					'message' => SECRETKEY_MESSAGE
+				], REST_Controller::HTTP_OK);
+		}
+	}
+	/***** FREQUENT SEARCH PRODUCT LIST*/
+
+	public function getFrequentSearch_post(){
+		$key         = $this->post('secretkey');
+		if($key == SECRETKEY) {			
+			$result 					= $this->Master_m->getFrequentViewProduct();			
+			if(!empty($result)){
+
+				$this->response([
+					'status' => TRUE,
+					'message' => 'frequent search product',
+					'image_url' => base_url().PRODUCT_IMAGE_PATH,
+					'data' => $result,
+				], REST_Controller::HTTP_OK);
+			}
+			else{
+
+				$this->response([
+					'status' => FALSE,
+					'message' => 'no product found'
 				], REST_Controller::HTTP_OK);
 			}			
 		}
@@ -2441,7 +2513,8 @@ class MultivendorApi extends REST_Controller
 		$key = $this->post('secretkey');
 
 		if($key == SECRETKEY){
-			$result   					= $this->Master_m->allProductFilterColor();
+			$short_code 				= $this->post('cat_short_code');
+			$result   					= $this->Master_m->allProductFilterColorAPI($short_code);
 			
 			if(!empty($result)){	
 				$this->response([
@@ -2472,6 +2545,74 @@ class MultivendorApi extends REST_Controller
 		}
 	}
 
+	/***** TOP BRAND : TRENDING BRANDS  */
+	public function getTrendingBrands_post(){
+		$key = $this->post('secretkey');
+		if($key == SECRETKEY){
+			$short_code 				= $this->post('cat_short_code');
+			$result   					= $this->Master_m->getBrandTrendingslist($short_code);			
+			if(!empty($result)){	
+				$this->response([
+					'status' 		=> TRUE,
+					'data' 			=> $result,
+					'message' 		=> 'Brand Trending'
+				], REST_Controller::HTTP_OK);
+
+			}else{				
+				$this->response([
+					'status' 		=> FALSE,
+					'data' 			=> '',
+					'message' 		=> 'No Item Found !!'
+				], REST_Controller::HTTP_OK);
+
+			}			
+		}
+		else
+		{
+			//Secret key invalid
+			$this->response([
+					'status' => FALSE,
+					'data' => 'null',
+					'message' => SECRETKEY_MESSAGE
+				], REST_Controller::HTTP_OK);
+
+		}
+	}
+	
+	/***** PRODUCT LIST BY ATTRIBUTE ID, CATEGORY  */
+	public  function getProductByAttributeAndCategory_post(){
+		$key = $this->post('secretkey');
+		if($key == SECRETKEY){
+			$short_code 				= $this->post('cat_short_code');
+			$attribute_id 				= $this->post('attribute_id');
+			$result   					= $this->Master_m->getProductByAttributeAndCategory($short_code,$attribute_id);			
+			if(!empty($result)){	
+				$this->response([
+					'status' 		=> TRUE,
+					'data' 			=> $result,
+					'message' 		=> 'Product List'
+				], REST_Controller::HTTP_OK);
+
+			}else{				
+				$this->response([
+					'status' 		=> FALSE,
+					'data' 			=> '',
+					'message' 		=> 'No Item Found !!'
+				], REST_Controller::HTTP_OK);
+
+			}			
+		}
+		else
+		{
+			//Secret key invalid
+			$this->response([
+					'status' => FALSE,
+					'data' => 'null',
+					'message' => SECRETKEY_MESSAGE
+				], REST_Controller::HTTP_OK);
+
+		}
+	}
 
 
 

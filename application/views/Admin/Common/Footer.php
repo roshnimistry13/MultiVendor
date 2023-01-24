@@ -31,8 +31,7 @@
 <script type="text/javascript" src="<?php echo ADMIN_ASSETS ?>js/jquery/jquery.js"></script>
 <script src="<?php echo ADMIN_ASSETS ?>js/plugins.min.js">
 </script>
-<script src="<?php echo ADMIN_ASSETS ?>js/script.min.js">
-</script>
+<script src="<?php echo ADMIN_ASSETS ?>js/script.min.js"></script>
 <script type="text/javascript" src="<?php echo ADMIN_ASSETS ?>js/jquery/jquery.validate.min.js"></script>
 <!-- endinject-->
 
@@ -46,20 +45,14 @@
 </script>
 
 <!--Export table buttons-->
-<script src="<?php echo ADMIN_ASSETS ?>js/dataTable/buttons.flash.min.js">
-</script>
-<script src="<?php echo ADMIN_ASSETS ?>js/dataTable/pdfmake.min.js">
-</script>
-<script src="<?php echo ADMIN_ASSETS ?>js/dataTable/vfs_fonts.js">
-</script>
-<script src="<?php echo ADMIN_ASSETS ?>js/dataTable/buttons.html5.min.js">
-</script>
-<script src="<?php echo ADMIN_ASSETS ?>js/dataTable/buttons.print.min.js">
-</script>
-<script src="<?php echo ADMIN_ASSETS ?>js/dataTable/jszip.min.js">
-</script>
-<script src="<?php echo ADMIN_ASSETS ?>js/bootstrap-select.min.js">
-</script>
+<script src="<?php echo ADMIN_ASSETS ?>js/dataTable/buttons.flash.min.js"></script>
+<script src="<?php echo ADMIN_ASSETS ?>js/dataTable/pdfmake.min.js"></script>
+<script src="<?php echo ADMIN_ASSETS ?>js/dataTable/vfs_fonts.js"></script>
+<script src="<?php echo ADMIN_ASSETS ?>js/dataTable/buttons.html5.min.js"></script>
+<script src="<?php echo ADMIN_ASSETS ?>js/dataTable/buttons.print.min.js"></script>
+<script src="<?php echo ADMIN_ASSETS ?>js/dataTable/jszip.min.js"></script>
+<script src="<?php echo ADMIN_ASSETS ?>js/bootstrap-select.min.js"></script>
+<script src="<?php echo ADMIN_ASSETS ?>js/bootstrap-tagsinput.min.js"></script>
 
 <!--Datatable.js-->
 
@@ -73,7 +66,7 @@
 var base_url = "<?php echo base_url() ?>";
 </script>
 
-<script src="<?php echo ADMIN_ASSETS ?>js/application/script.js"></script>
+<script src="<?php echo ADMIN_ASSETS ?>js/application/script.js?v=<?php echo VERSION; ?>"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <?php

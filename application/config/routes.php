@@ -194,15 +194,17 @@ $route['update-password']            = "Admin/Profile/updatePassword";
 $route['send-otp']                   = "Admin/Profile/sendOtp";
 
 /*** */
-$route['admin-logout']      = 'Admin/login/logout';
-$route['error-page']        = 'Admin/login/error_page';
-$route['sql-operation']     = 'Admin/Operation/AddSql';
-$route['submit-sql']        = 'Admin/Operation/alterDBTableFiled';
-$route['export-database']   = 'Admin/Operation/databaseBackUp';
-$route['fetch-query']       = 'Admin/Operation/fetchResult';
-$route['fetch-result']      = 'Admin/Operation/fetchSqlResult';
-$route['import-sql']        = 'Admin/Operation/importSql';
-$route['import-database']   = 'Admin/Operation/importDatabase';
+$route['admin-logout']          = 'Admin/login/logout';
+$route['error-page']            = 'Admin/login/error_page';
+$route['sql-operation']         = 'Admin/Operation/AddSql';
+$route['submit-sql']            = 'Admin/Operation/alterDBTableFiled';
+$route['export-database']       = 'Admin/Operation/databaseBackUp';
+$route['fetch-query']           = 'Admin/Operation/fetchResult';
+$route['fetch-result']          = 'Admin/Operation/fetchSqlResult';
+$route['import-sql']            = 'Admin/Operation/importSql';
+$route['import-database']       = 'Admin/Operation/importDatabase';
+$route['export-mail-database']  = 'Admin/Operation/databaseBackUpAndMail';
+$route['drop-all-tables']       = 'Admin/Operation/dropAllTables';
 
 /* **************UI route ******************** */
 $route['/']                         = "Home/index";
@@ -218,7 +220,9 @@ $route['whishlist']                 = "Home/whishlist";
 $route['checkout']                  = "Home/checkout";
 $route['register-customer']         = "Home/registerCustomer";
 $route['customer-login']            = "Home/customerLogin";
+$route['login']                     = "Home/login";
 $route['logout']                    = "Home/logout";
+$route['register']                  = "Home/register";
 $route['change-password']           = "Home/changePassword";
 $route['subscribe-newsletter']      = "Home/subscribeNewsletter";
 $route['add-cust-address']          = "Home/submitCustomerAddress";
@@ -230,5 +234,12 @@ $route['order-history']             = "Home/myOrders";
 $route['order-detail']              = "Home/orderDetail";
 $route['createPdf']                 = "Home/createPdf";
 $route['404-error']                 = "Home/errorPage";
-$route['submit-return']            = "Home/submitReturn";
-$route['submit-replace']            = "Home/submitReplace";
+// $route['submit-return']             = "Home/submitReturn";
+// $route['submit-replace']            = "Home/submitReplace";
+$route['submit-return-replace']     = "Home/submitReturnReplace";
+$route['submit-rating-reviews']     = "Home/submitProductRatingReview";
+
+$route['termsandcondition']      = "Home/termsandcondition";
+$route['privacy-policy']         = "Home/privacyPolicy";
+$route['search']                 = "Home/privacyPolicy";
+

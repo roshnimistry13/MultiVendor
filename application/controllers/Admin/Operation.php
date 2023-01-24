@@ -297,4 +297,140 @@ class Operation extends CI_Controller
 		$this->output->set_content_type('application/json', 'utf-8');
 		$this->output->set_output(json_encode($json));
 	}
+
+	function databaseBackUpAndMail()
+	{
+		//ENTER THE RELEVANT INFO BELOW
+		$mysqlUserName = DBUSER;
+		$mysqlPassword = DBPASS;
+		$mysqlHostName = DBHOST;
+		$DbName        = DBNAME;
+		$backup_name   = "mybackup.sql";
+		$tables        = "";
+	
+		//or add 5th parameter(array) of specific tables:    array("mytable1","mytable2","mytable3") for multiple table
+		$this->exportDatabaseForMail($mysqlHostName,$mysqlUserName,$mysqlPassword,$DbName,  $tables        = false, $backup_name = false );
+	}
+	function exportDatabaseForMail($host,$user,$pass,$name,  $tables = false, $backup_name = false )
+	{
+		$mysqli      = new mysqli($host,$user,$pass,$name);
+		$mysqli->select_db($name);
+		$mysqli->query("SET NAMES 'utf8'");
+		
+		$queryTables = $mysqli->query('SHOW TABLES');
+		while($row = $queryTables->fetch_row())
+		{
+			$target_tables[] = $row[0];
+		}
+		if($tables !== false)
+		{
+			$target_tables = array_intersect( $target_tables, $tables);
+		}
+		foreach($target_tables as $table)
+		{
+			$result        = $mysqli->query('SELECT * FROM '.$table);
+			$fields_amount = $result->field_count;
+			$rows_num      = $mysqli->affected_rows;
+			$res           = $mysqli->query('SHOW CREATE TABLE '.$table);
+			$TableMLine    = $res->fetch_row();
+			$content       = (!isset($content) ?  '' : $content) . "\n\n".$TableMLine[1].";\n\n";
+
+			for($i = 0, $st_counter = 0; $i < $fields_amount;   $i++, $st_counter = 0)
+			{
+				while($row = $result->fetch_row())
+				{
+					//when started (and every after 100 command cycle):
+					if($st_counter % 100 == 0 || $st_counter == 0 )
+					{
+						$content .= "\nINSERT INTO ".$table." VALUES";
+					}
+					$content .= "\n(";
+					for($j = 0; $j < $fields_amount; $j++)
+					{
+						$row[$j] = str_replace("\n","\\n", addslashes($row[$j]) );
+						if(isset($row[$j]))
+						{
+							$content .= '"'.$row[$j].'"' ;
+						}
+						else
+						{
+							$content .= '""';
+						}
+						if($j < ($fields_amount - 1))
+						{
+							$content .= ',';
+						}
+					}
+					$content .= ")";
+					//every after 100 command cycle [or at last line] ....p.s. but should be inserted 1 cycle eariler
+					if( (($st_counter + 1) % 100 == 0 && $st_counter != 0) || $st_counter + 1 == $rows_num)
+					{
+						$content .= ";";
+					}
+					else
+					{
+						$content .= ",";
+					}
+					$st_counter = $st_counter + 1;
+				}
+			} $content .= "\n\n\n";
+		}
+		
+		$fileName = time();
+		$dir = date('d-m-Y');
+		//$query    = $msg;
+		$path     = DATAPATH."DB Backup/$dir/";
+		$fileName = str_replace("/", "_",$fileName) . ".sql";
+		if(!is_dir($path))
+		mkdir($path,0777,true);
+		
+		$filepath = $path.$fileName;
+		
+		if(!file_exists($filepath)){
+			$handle = fopen($filepath, "a+");
+			$sql    = $content;
+			fwrite($handle, $sql . "\n\n");
+			fclose($handle);
+		}
+		$attachFile = DB_BACKUP_URL.$dir.'/'.$fileName;
+		
+		//$smtp_data    = $this->Master_m->getSmtpDetails();
+
+		$mailData['subject'] = "Hello Your AIC db backup ".date('d-m-Y H:i:s');
+		$mailData['from_name'] = "Multivendor";
+		$mailData['fromID'] = 'devloperproactii@gmail.com';
+		$mailData['attachFile'] = $attachFile;
+		$mailData['toID'] = 'dainik.tandel@proactii.com';
+		$mailData['message'] = "Test";
+		$send = send_email($mailData);
+		if($send){
+			$this->session->set_flashdata('success','Mail Send Succesfully.');
+		}
+		redirect('dashboard');
+	}
+
+	public function dropAllTables(){
+		$user = DBUSER;
+		$pass = DBPASS;
+		$host = DBHOST;
+		$name = DBNAME;
+
+		$mysqli      = new mysqli($host,$user,$pass,$name);
+		$mysqli->query('SET foreign_key_checks = 0');
+		if ($result = $mysqli->query("SHOW TABLES"))
+		{
+			while($row = $result->fetch_array(MYSQLI_NUM))
+			{
+				$mysqli->query('DROP TABLE IF EXISTS '.$row[0]);
+			}
+		}
+		$mysqli->query('SET foreign_key_checks = 1');
+		
+		if($mysqli -> error){
+			$this->session->set_flashdata('error',$conn -> error);
+		}else{
+			redirect('import-sql');
+		}
+		$mysqli->close();
+	}
 }

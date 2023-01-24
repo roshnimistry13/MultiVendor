@@ -1,0 +1,2 @@
+"2022-12-15 01:53:16am "," update "," UPDATE product_details SET `view_count` = 46 WHERE 1=1  and product_id = '1' "," ::1 "," URL: http://localhost/EthnicWear/product-detail/men-white-pure-cotton-t-shirt-s-white-vnky8c75-1 "," R: http://localhost/EthnicWear/shop"
+"2022-12-15 01:53:58am "," update "," UPDATE product_details SET `view_count` = 25 WHERE 1=1  and product_id = '129' "," ::1 "," URL: http://localhost/EthnicWear/product-detail/boys-pack-of-3-mickey-mouse-donald-duck-goofy-printed-t-shirts-4y-5y-vnky8c75-129 "," R: http://localhost/EthnicWear/shop"

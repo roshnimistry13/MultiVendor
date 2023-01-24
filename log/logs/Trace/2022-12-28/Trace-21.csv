@@ -1,0 +1,1 @@
+"2022-12-28 21:26:47pm "," update "," UPDATE product_details SET `view_count` = 31 WHERE 1=1  and product_id = '115' "," ::1 "," URL: http://localhost/EthnicWear/product-detail/womens-casual-digital-printed-shirt-ruffle-sleeve-tops-s-black-vnky8c75-115 "," R: http://localhost/EthnicWear/shop"

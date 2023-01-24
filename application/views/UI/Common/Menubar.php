@@ -35,9 +35,9 @@
         $totalCart          =   $this->Master_m->getTotalCountCartProdut($customer_id);
         $totalWishlist      =   $this->Master_m->getTotalWhishList($customer_id);
     }
-    $mensCategory       = $this->Master_m->getChildCategory('men');
-    $womensCategory     = $this->Master_m->getChildCategory('women');
-    $kidsCategory       = $this->Master_m->getChildCategory('kids');
+    $mensCategory       = $this->Master_m->getChildCategory('men',null);
+    $womensCategory     = $this->Master_m->getChildCategory('women',null);
+    $kidsCategory       = $this->Master_m->getChildCategory('kids',null);
 ?>
 
 <div id="nt_wrapper">
@@ -84,6 +84,13 @@
                                             <a class="lh__1 flex al_center pr"
                                                 href="<?php echo base_url('about-us');?>">
                                                 About
+                                            </a>
+                                        </li>
+                                        <li
+                                            class="type_mega menu_wid_cus menu-item has-children menu_has_offsets menu_center pos_center">
+                                            <a class="lh__1 flex al_center pr"
+                                                href="<?php echo base_url('shop');?>">
+                                                Shop
                                             </a>
                                         </li>
                                         <li

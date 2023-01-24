@@ -1,0 +1,2 @@
+"2022-12-20 21:38:24pm "," update "," UPDATE product_details SET `view_count` = 49 WHERE 1=1  and product_id = '1' "," ::1 "," URL: http://localhost/EthnicWear/product-detail/men-white-pure-cotton-t-shirt-s-white-vnky8c75-1 "," R: http://localhost/EthnicWear/shop"
+"2022-12-20 21:40:37pm "," update "," UPDATE product_details SET `view_count` = 3 WHERE 1=1  and product_id = '107' "," ::1 "," URL: http://localhost/EthnicWear/product-detail/women-rust-orange-embroidered-a-line-longline-top-s-orange-red-vnky8c75-107 "," R: http://localhost/EthnicWear/shop"
