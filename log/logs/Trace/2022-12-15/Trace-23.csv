@@ -1,0 +1,1 @@
+"2022-12-15 23:21:23pm "," update "," UPDATE product_details SET `view_count` = 108 WHERE 1=1  and product_id = '118' "," ::1 "," URL: http://localhost/EthnicWear/product-detail/allen-solly-womens-regular-fit-t-shirt-m-red-vnky8c75-118 "," R: http://localhost/EthnicWear/shop"

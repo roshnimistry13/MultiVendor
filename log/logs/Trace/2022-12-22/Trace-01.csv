@@ -1,0 +1,2 @@
+"2022-12-22 01:41:54am "," update "," UPDATE customer_detail SET `password` = 'e10adc3949ba59abbe56e057f20f883e' WHERE 1=1  and customer_id = '1' "," ::1 "," URL: http://localhost/EthnicWear/change-password "," R: http://localhost/EthnicWear/my-account"
+"2022-12-22 01:44:01am "," update "," UPDATE customer_detail SET `password` = '4297f44b13955235245b2497399d7a93' WHERE 1=1  and customer_id = '1' "," ::1 "," URL: http://localhost/EthnicWear/change-password "," R: http://localhost/EthnicWear/my-account"

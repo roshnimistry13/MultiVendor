@@ -1,0 +1,1 @@
+"2022-12-21 02:09:31am "," update "," UPDATE product_details SET `view_count` = 50 WHERE 1=1  and product_id = '1' "," ::1 "," URL: http://localhost/EthnicWear/product-detail/men-white-pure-cotton-t-shirt-s-white-vnky8c75-1 "," R: http://localhost/EthnicWear/shop"

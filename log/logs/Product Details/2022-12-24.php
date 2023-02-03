@@ -3,6 +3,7 @@
 
 
 #Begin*****************************************************************************************************
+<<<<<<< HEAD
 #Time : 24-12-2022 00:48:02 #Timeend
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/shop #ReferrerEnd
@@ -11,10 +12,21 @@
 #Operation : UPDATE #Operationend
 #Message: 
 UPDATE product_details SET `view_count` = 23 WHERE 1=1  and product_id = '14';
+=======
+#Time : 24-12-2022 22:47:20 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/EthnicWear/shop #ReferrerEnd
+#Current URL: http://localhost/EthnicWear/product-detail/coral-white-floral-print-mandarin-collar-pure-cotton-empire-top-s-sky-vnky8c75-92 #CurrentURLEnd
+#Request : [] #Requestend
+#Operation : UPDATE #Operationend
+#Message: 
+UPDATE product_details SET `view_count` = 14 WHERE 1=1  and product_id = '92';
+>>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612
 #End*******************************************************************************************************
 
 
 #Begin*****************************************************************************************************
+<<<<<<< HEAD
 #Time : 24-12-2022 00:48:20 #Timeend
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/ #ReferrerEnd
@@ -23,10 +35,21 @@ UPDATE product_details SET `view_count` = 23 WHERE 1=1  and product_id = '14';
 #Operation : UPDATE #Operationend
 #Message: 
 UPDATE product_details SET `view_count` = 24 WHERE 1=1  and product_id = '14';
+=======
+#Time : 24-12-2022 22:51:45 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/EthnicWear/shop #ReferrerEnd
+#Current URL: http://localhost/EthnicWear/product-detail/coral-white-floral-print-mandarin-collar-pure-cotton-empire-top-s-sky-vnky8c75-92 #CurrentURLEnd
+#Request : [] #Requestend
+#Operation : UPDATE #Operationend
+#Message: 
+UPDATE product_details SET `view_count` = 15 WHERE 1=1  and product_id = '92';
+>>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612
 #End*******************************************************************************************************
 
 
 #Begin*****************************************************************************************************
+<<<<<<< HEAD
 #Time : 24-12-2022 00:48:23 #Timeend
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/product-detail/men-teal-green-slim-fit-tropical-printed-pure-cotton-t-shirt-s-teal-vnky8c75-14 #ReferrerEnd
@@ -690,5 +713,15 @@ UPDATE product_details SET `view_count` = 24 WHERE 1=1  and product_id = '118';
 #Operation : UPDATE #Operationend
 #Message: 
 UPDATE product_details SET `view_count` = 42 WHERE 1=1  and product_id = '5';
+=======
+#Time : 24-12-2022 22:55:09 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/EthnicWear/shop #ReferrerEnd
+#Current URL: http://localhost/EthnicWear/product-detail/coral-white-floral-print-mandarin-collar-pure-cotton-empire-top-s-sky-vnky8c75-92 #CurrentURLEnd
+#Request : [] #Requestend
+#Operation : UPDATE #Operationend
+#Message: 
+UPDATE product_details SET `view_count` = 16 WHERE 1=1  and product_id = '92';
+>>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612
 #End*******************************************************************************************************
 

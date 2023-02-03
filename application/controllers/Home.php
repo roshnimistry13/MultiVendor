@@ -31,6 +31,7 @@ class Home extends CI_Controller
 		$this->load->view('UI/Common/Footer');
 	}
 
+	/*** ABOUT US PAGE */
 	public function aboutUs()
 	{
 		//Meta Data
@@ -40,8 +41,39 @@ class Home extends CI_Controller
 		$meta_data['active_menu']			= "About Us";
 		
 		$this->load->view('UI/Common/Header',$meta_data);
-		$this->load->view('UI/Common/Menubar');
+		// $this->load->view('UI/Common/Menubar');
 		$this->load->view('UI/About_v');
+		$this->load->view('UI/Common/Footer');
+	}
+
+	/*** LOGIN / REGISTER PAGE */
+	public function login()
+	{
+		$last_page_url 		=  $_SERVER['HTTP_REFERER'];
+		$this->session->set_userdata('last_page_url', $last_page_url);
+		//Meta Data
+		$meta_data['meta_title']			= "Login | ".UI_THEME;
+		$meta_data['meta_description']		= "Login | ".UI_THEME;
+		$meta_data['meta_keyword']			= "Login | ".UI_THEME;
+		$meta_data['active_menu']			= "Login";
+		
+		$this->load->view('UI/Common/Header',$meta_data);
+		// $this->load->view('UI/Common/Menubar');
+		$this->load->view('UI/Login_v');
+		$this->load->view('UI/Common/Footer');
+	}
+	/*** REGISTER PAGE */
+	public function register()
+	{
+		//Meta Data
+		$meta_data['meta_title']			= "Register | ".UI_THEME;
+		$meta_data['meta_description']		= "Register | ".UI_THEME;
+		$meta_data['meta_keyword']			= "Register | ".UI_THEME;
+		$meta_data['active_menu']			= "Register";
+		
+		$this->load->view('UI/Common/Header',$meta_data);
+		// $this->load->view('UI/Common/Menubar');
+		$this->load->view('UI/Register_v');
 		$this->load->view('UI/Common/Footer');
 	}
 
@@ -56,16 +88,15 @@ class Home extends CI_Controller
 		$meta_data['active_menu']			= "Contact Us";
 		
 		$this->load->view('UI/Common/Header',$meta_data);
-		$this->load->view('UI/Common/Menubar');
+		// $this->load->view('UI/Common/Menubar');
 		$this->load->view('UI/Contact_v');
 		$this->load->view('UI/Common/Footer');
 	}
 
 	/*** SHOP / PRODUCT LIST */
-	public function product()
-	{
+	public function product() {
 		$this->session->unset_userdata('filter_sess');
-		$short_code 			= $this->input->get('category'); 
+		$short_code 			= "women"; //$this->input->get('category'); 
 		$category_id 			= ''; 
 		$data['breadcrumbs'] 	= '';
 
@@ -162,7 +193,7 @@ class Home extends CI_Controller
 		$meta_data['active_menu']			= "Shop";
 		
 		$this->load->view('UI/Common/Header',$meta_data);
-		$this->load->view('UI/Common/Menubar');
+		// $this->load->view('UI/Common/Menubar');
 		$this->load->view('UI/Product_v',$data);
 		$this->load->view('UI/Common/Footer');
 	}
@@ -191,16 +222,22 @@ class Home extends CI_Controller
 					$element_id 			= $item['element_id']; 
 					$ele_name 				= getElementNameByID($element_id);
 					$attributes_id 			= $item['attributes_id']; 
-					$attr_name				= getAttributeNameByID($attributes_id);
+
+					$where['attributes_id'] 	= $attributes_id;
+					$attr_result 				= $this->Master_m->where('attributes',$where);
+					$attr_name 					= $attr_result[0]['attributes_name']; 
+					$attr_code 					= $attr_result[0]['attribute_code']; 
+					//$attr_name				= getAttributeNameByID($attributes_id);
 					$is_selected 			= "";
 					$enable 				= "";
 
 					$elearr[$element_id][$attr_name]['element_id'] 		= $element_id;
 					$elearr[$element_id][$attr_name]['attr_id'] 		= $attributes_id;
+					$elearr[$element_id][$attr_name]['attr_code'] 		= $attr_code;
 					
 					$elearr[$element_id][$attr_name]['p_id'][] 			= $pid;	
 					if(in_array($product_id,$elearr[$element_id][$attr_name]['p_id'])){					
-						$is_selected 		= "is-selected";
+						$is_selected 		= "active";
 					}				
 					$elearr[$element_id][$attr_name]['is_selected'] 		= $is_selected;
 				}
@@ -243,7 +280,7 @@ class Home extends CI_Controller
 				$wh['customer_id'] 		= $customer_id;
 				$result 				= $this->Master_m->where('whish_list',$wh);
 				if(!empty($result)){
-					$data['wish_list_class'] = "wis_added";
+					$data['wish_list_class'] = 1;
 				}
 
 				$addToRecent 					= $this->Master_m->addToRecentView($customer_id,$product_id);
@@ -269,7 +306,7 @@ class Home extends CI_Controller
 			$meta_data['active_menu']				= "Shop";
 			// print_r($data);
 			$this->load->view('UI/Common/Header',$meta_data);
-			$this->load->view('UI/Common/Menubar');
+			// $this->load->view('UI/Common/Menubar');
 			$this->load->view('UI/ProductDetails_v',$data);
 			$this->load->view('UI/Common/Footer');
 		}
@@ -278,22 +315,14 @@ class Home extends CI_Controller
 	/*** CART PAGE */
 	public function cart()
 	{
+		$data = array();
 		if(!empty($this->session->userdata[CUSTOMER_SESSION])){
 			$customer_id 						= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
 			$data['cart'] 						= $this->Master_m->getCustomerCartItems($customer_id);
-			//Meta Data
-			$meta_data['meta_title']			= "Cart | ".UI_THEME;
-			$meta_data['meta_description']		= "Cart | ".UI_THEME;
-			$meta_data['meta_keyword']			= "Cart | ".UI_THEME;
-			$meta_data['active_menu']			= "Cart";
 			
-			$this->load->view('UI/Common/Header',$meta_data);
-			$this->load->view('UI/Common/Menubar');
-			$this->load->view('UI/Cart_v',$data);
-			$this->load->view('UI/Common/Footer');
 		}
-		else if(isset($_COOKIE["temp_cart"])){
-            $cart_item 		    		= json_decode(stripslashes($_COOKIE["temp_cart"]),true); 
+		else if(isset($_COOKIE["ethnic_temp_cart"])){
+            $cart_item 		    		= json_decode(stripslashes($_COOKIE["ethnic_temp_cart"]),true); 
 			$cart_data 	 				= array();
 			foreach($cart_item as $item){
 				$productid 			= $item['product_id'];
@@ -315,20 +344,19 @@ class Home extends CI_Controller
 				$cart_data[] 					= $data;
 			}
 			$data['cart'] 						= $cart_data;
+        }
 			$meta_data['meta_title']			= "Cart | ".UI_THEME;
 			$meta_data['meta_description']		= "Cart | ".UI_THEME;
 			$meta_data['meta_keyword']			= "Cart | ".UI_THEME;
 			$meta_data['active_menu']			= "Cart";
 			
 			$this->load->view('UI/Common/Header',$meta_data);
-			$this->load->view('UI/Common/Menubar');
+			// $this->load->view('UI/Common/Menubar');
 			$this->load->view('UI/Cart_v',$data);
 			$this->load->view('UI/Common/Footer');
-        }
-		else{
-			redirect('404-error');
-		}
 	}
+
+	
 
 	/*** WHISHLIST PAGE */
 	public function whishlist()
@@ -344,10 +372,59 @@ class Home extends CI_Controller
 		$meta_data['meta_keyword']			= "Cart | ".UI_THEME;
 		$meta_data['active_menu']			= "Cart";
 		
-		$this->load->view('UI/Common/Header',$meta_data);
-		$this->load->view('UI/Common/Menubar');
-		$this->load->view('UI/WhishList_v',$data);
-		$this->load->view('UI/Common/Footer');
+		if(!empty($this->session->userdata[CUSTOMER_SESSION])){
+			$customer_id 				= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];			
+			if($rowno != 0){  
+				$rowno = ($rowno-1) * ROW_PER_PAGE;  
+			}  
+		
+			$per_page 				= '';
+			$rNo 					= '';
+			$products_result 		= $this->Master_m->getWishListItem($customer_id,$per_page,$rNo);
+			$allcount 				= count(array_filter($products_result));  
+			$products 				= $this->Master_m->getWishListItem($customer_id,ROW_PER_PAGE,$rowno);
+			if(!empty($products)){
+				 
+				$this->load->library('pagination');
+				$config['base_url'] 				= base_url().'Home/loadWishListProducts'; 
+				$config['use_page_numbers'] 		= TRUE;  
+				$config['total_rows'] 				= $allcount;  
+				$config['per_page'] 				= ROW_PER_PAGE;  
+			
+				$config['full_tag_open']    		= '<nav aria-label="Page navigation example"><ul class="pagination justify-content-start">';  
+				$config['full_tag_close']   		= '</ul></nav>';  
+				$config['num_tag_open']     		= '<li class="page-item">';  
+				$config['num_tag_close']    		= '</li>';  
+				$config['cur_tag_open']     		= '<li class="page-item active"><a class="page-link" href="#">';  
+				$config['cur_tag_close']    		= '</a></li>';
+				$config['next_tag_open']    		= '<li class="page-item">';  
+				$config['next_tag_close']  			= '</li>';  
+				$config['prev_tag_open']    		= '<li class="page-item">';  
+				$config['prev_tag_close']  			= '</li>';  
+				//$config['prev_link'] 				= FALSE;
+				$config['last_link'] 				= FALSE;
+				$config['first_link'] 				= FALSE;
+				
+				
+				$config['first_tag_open']   		= '<li class="page-item">';  
+				$config['first_tag_close'] 			= '</li>';  
+				$config['last_tag_open']    		= '<li class="page-item">';  
+				$config['last_tag_close']  			= '</li>';  
+			
+				$this->pagination->initialize($config);
+				$data['success'] 			= "success"; 
+				$data['pagination'] 		= $this->pagination->create_links();  
+				
+				$data['result'] 			= $products;  
+				$data['row'] 				= $rowno; 
+			}
+			else{
+				$data['error'] 				= "error";  
+			}
+		}else{
+			$data['error'] 				= "error";  
+		}
+		  echo json_encode($data); 
 	}
 
 	/******* LOAD WISHLIST PRODUCTS WITH PAGINATION*/
@@ -430,11 +507,11 @@ class Home extends CI_Controller
 			$meta_data['active_menu']			= "Checkout";
 			
 			$this->load->view('UI/Common/Header',$meta_data);
-			$this->load->view('UI/Common/Menubar');
+			// $this->load->view('UI/Common/Menubar');
 			$this->load->view('UI/Checkout_v',$data);
 			$this->load->view('UI/Common/Footer');
 		}else{
-			redirect('home');
+			redirect('login');
 		}
 	}
 
@@ -448,7 +525,7 @@ class Home extends CI_Controller
 		$meta_data['active_menu']			= "Blog";
 		
 		$this->load->view('UI/Common/Header',$meta_data);
-		$this->load->view('UI/Common/Menubar');
+		// $this->load->view('UI/Common/Menubar');
 		$this->load->view('UI/Blog_v');
 		$this->load->view('UI/Common/Footer');
 	}
@@ -478,6 +555,7 @@ class Home extends CI_Controller
 				if($insert_result->status == "success"){
 					$json['success']	=	"success";
 					$json['message']	=	"Register Succesfull !";
+					$json['redirect'] 	= base_url('login');
 				}
 				else{
 					$json['error']	=	"error";
@@ -509,7 +587,7 @@ class Home extends CI_Controller
 	
 					$this->session->set_userdata(CUSTOMER_SESSION, $session_data);
 					$json['success']	=	"success";
-					$json['redirect'] 	= base_url('/');
+					//$json['redirect'] 	= 	base_url('/');
 					$json['message']	=	"Profile update Successfully !";
 				}
 				else{
@@ -580,8 +658,9 @@ class Home extends CI_Controller
 			$new_password 		= $this->input->post('new_password');
 			$confrim_password 	= $this->input->post('confrim_password');
 
-			$where['password'] 	= md5($current_pswd);
-			$result 			= $this->Master_m->where('customer_detail',$where);
+			$where['customer_id'] 	= $customer_id;
+			$where['password'] 		= md5($current_pswd);
+			$result 				= $this->Master_m->where('customer_detail',$where);
 			if(!empty($result)){
 				$updateData['password'] 	= md5($new_password);
 				$cust['customer_id'] 		= $customer_id;
@@ -589,7 +668,7 @@ class Home extends CI_Controller
 				logThis($update_result->query, date('Y-m-d'),'Customer Detail');
 
 				$json['success'] 	= "Update succesfully";
-				$json['redirect'] 	= base_url('/');
+				//$json['redirect'] 	= base_url('/');
 			}else{
 				$json['error'] = "Enter Correct Current Password";
 			}			
@@ -601,7 +680,7 @@ class Home extends CI_Controller
 	/*** LOGOUT */
 	public function logout(){
 		$this->session->unset_userdata(CUSTOMER_SESSION);
-		redirect('/');
+		redirect('login');
 	}
 
 	public function subscribeNewsletter(){
@@ -691,29 +770,33 @@ class Home extends CI_Controller
 					}
 				}
 		}
- 
+		$this->load->library('pagination');
 		  $config['base_url'] 				= base_url().'Home/loadProductRecord';  
 		  $config['use_page_numbers'] 		= TRUE;  
 		  $config['total_rows'] 			= $allcount;  
 		  $config['per_page'] 				= ROW_PER_PAGE;  
 	 
-		  $config['full_tag_open']    		= '<div class="products-footer tc mt__40"><nav class="nt-pagination w__100 tc paginate_ajax"><ul class="pagination-page page-numbers">';  
-		  $config['full_tag_close']   		= '</ul></nav></div>';  
-		  $config['num_tag_open']     		= '<li><a class="page-numbers" href="#">';  
-		  $config['num_tag_close']    		= '</a></li>';  
-		  $config['cur_tag_open']     		= '<li><span class="page-numbers current">';  
-		  $config['cur_tag_close']    		= '</span></li>';
-		  $config['next_tag_open']    		= '<li><a class="next page-numbers" href="#">';  
-		  $config['next_tag_close']  		= '</a></li>';  
-		  $config['prev_tag_open']    		= '<li><a class="next page-numbers" href="#">';  
-		  $config['prev_tag_close']  		= '</a></li>';  
-		 // $config['prev_link'] 				= FALSE;
+		  $config['full_tag_open']    		= '<nav aria-label="Page navigation example"><ul class="pagination justify-content-start">';  
+		  $config['full_tag_close']   		= '</ul></nav>';  
+		  $config['num_tag_open']     		= '<li class="page-item">';  
+		  $config['num_tag_close']    		= '</li>';  
+		  $config['cur_tag_open']     		= '<li class="page-item active"><a class="page-link" href="#">';  
+		  $config['cur_tag_close']    		= '</a></li>';
+		  $config['next_tag_open']    		= '<li class="page-item">';  
+		  $config['next_tag_close']  		= '</li>';  
+		  $config['prev_tag_open']    		= '<li class="page-item">';  
+		  $config['prev_tag_close']  		= '</li>';  
+		//  $config['prev_link'] 				= FALSE;
+		//  $config['next_link'] 				= FALSE;
+		 $config['last_link'] 				= FALSE;
+		 $config['first_link'] 				= FALSE;
+		 $config['num_links'] 				= 20;
 		 
 		 
-		  $config['first_tag_open']   		= '<li><a class="next page-numbers" href="#">';  
-		  $config['first_tag_close'] 		= '</a></li>';  
-		  $config['last_tag_open']    		= '<li><a class="next page-numbers" href="#">';  
-		  $config['last_tag_close']  		= '</a></li>';  
+		  $config['first_tag_open']   		= '<li class="page-item">';  
+		  $config['first_tag_close'] 		= '</li>';  
+		  $config['last_tag_open']    		= '<li class="page-item">';  
+		  $config['last_tag_close']  		= '</li>';  
 	 
 		  $this->pagination->initialize($config);  
 	 
@@ -730,6 +813,7 @@ class Home extends CI_Controller
 		$json = array();
 		if($this->input->is_ajax_request()){
 			if(!empty($this->session->userdata[CUSTOMER_SESSION])){
+
 				$data['product_id'] 	= $this->input->post('product_id');
 				$data['quantity'] 		= $this->input->post('quantity');
 				$customer_id 			= $data['customer_id'] 	= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
@@ -1107,6 +1191,7 @@ class Home extends CI_Controller
 	}
 
 	public function removeFromCart(){
+		
 		$json = array();
 		if($this->input->is_ajax_request()){
 			$product_id = $this->input->post('product_id');
@@ -1174,7 +1259,6 @@ class Home extends CI_Controller
 
 	/***UPDATE CART ITEM QUANITYT */
 	public function updateItemQuantity(){
-		
 		$json = array();
 		if($this->input->is_ajax_request()){
 			$product_id 		= $this->input->post('product_id');
@@ -1234,9 +1318,8 @@ class Home extends CI_Controller
 	public function submitCustomerAddress(){
 		$json = array();
 		if($this->input->is_ajax_request()){
+
 			$customer_id 		= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
-
-
 			$addressid 		= $this->input->post('txtaddressid');
 			$fname 			= $this->input->post('fname');
 			$lname 			= $this->input->post('lname');
@@ -1301,12 +1384,10 @@ class Home extends CI_Controller
 				logThis($insert_result->query, date('Y-m-d'),'Customer Address');
 				$json['success'] 			= 'success';
 				$json['message'] 			= 'address insert succesfully !';
-			}
-			
+			}			
 		}
 		$this->output->set_content_type('application/json', 'utf-8');
 		$this->output->set_output(json_encode($json));
-
 	}
 
 	/*** get customer delivery address list */
@@ -1317,7 +1398,7 @@ class Home extends CI_Controller
 			$result = $this->Master_m->where('customer_address',$where);
 			$address_list = '';
 			if(!empty($result)){
-				$address_list .= '<ul class="payment_methods">';
+				$address_list .= '';
 				foreach($result as $row){
 					$checked            = "";
 					$default 			= '';
@@ -1338,16 +1419,15 @@ class Home extends CI_Controller
 						$checked            = "";
 					}
 
-					$address_list .= '<li class="payment_method">
-											<input id="txtDeliveryAddress_'.$address_id.'" type="radio" class="input-radio"
-												name="delivery_address" value="'.$address_id.'" '.$checked.'>
-											<label for="txtDeliveryAddress_'.$address_id.'">'.$name.' '.$default.'<span class="badge badge-pill badge-info ml__5">'.$address_type.'</span></label>
-											<div class="payment_box payment_method_bacs">
-												<p>'.$address.'</p>
-												<p>'.$city_state.'</p>
-												<p>Contact No : '.$mobile.'</p>
-											</div>
-										</li>';	
+					$address_list .= '<div class="form-check border-bottom py-2">
+										<input class="form-check-input lbl-input" type="radio" name="delivery_address" id="txtDeliveryAddress_'.$address_id.'" value="'.$address_id.'" '.$checked.'>
+											<label class="form-check-label" for="txtDeliveryAddress_'.$address_id.'">
+												<strong>'.$name.' '.$default.'</strong><span class="badge bg-2 mx-2 text-dark">'.$address_type.'</span>
+											</label>
+											<p class="m-0 fs__14">'.$address.'</p>
+											<p class="m-0 fs__14">'.$city_state.'</p>
+											<p class="m-0 fs__14">Contact No : '.$mobile.'</p>					
+									</div> ';	
 									
 				}
 				$address_list .= '</ul>';	
@@ -1472,6 +1552,7 @@ class Home extends CI_Controller
 
 		// PLACE ORDER
 	public function placeOrder(){
+		
 		$json = array();
 		if($this->input->is_ajax_request()){
 			$customer_id 				= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
@@ -1529,7 +1610,9 @@ class Home extends CI_Controller
 	public function myAccount(){
 		if(!empty($this->session->userdata[CUSTOMER_SESSION])){
 			$customer_id 						= $this->session->userdata[CUSTOMER_SESSION]['customer_id'];
-		
+			$data['orders'] 					= $this->Master_m->getAllOrderList($customer_id);
+			$data['address']            		= getCustomerAllAddress($customer_id);
+			
 			//Meta Data
 			$meta_data['meta_title']			= "My Account | ".UI_THEME;
 			$meta_data['meta_description']		= "My Account | ".UI_THEME;
@@ -1537,8 +1620,8 @@ class Home extends CI_Controller
 			$meta_data['active_menu']			= "My Account";
 			
 			$this->load->view('UI/Common/Header',$meta_data);
-			$this->load->view('UI/Common/Menubar');
-			$this->load->view('UI/MyAccount_v');
+			// $this->load->view('UI/Common/Menubar');
+			$this->load->view('UI/MyAccount_v',$data);
 			$this->load->view('UI/Common/Footer');
 		}else{
 			redirect('home');
@@ -1580,7 +1663,7 @@ class Home extends CI_Controller
 			$meta_data['active_menu']			= "My Orders";
 
 			$this->load->view('UI/Common/Header',$meta_data);
-			$this->load->view('UI/Common/Menubar');
+			// $this->load->view('UI/Common/Menubar');
 			$this->load->view('UI/MyOrders_v',$data);
 			$this->load->view('UI/Common/Footer');
 		}else{
@@ -1604,7 +1687,7 @@ class Home extends CI_Controller
 			$meta_data['active_menu']			= "My Orders";
 
 			$this->load->view('UI/Common/Header',$meta_data);
-			$this->load->view('UI/Common/Menubar');
+			// $this->load->view('UI/Common/Menubar');
 			$this->load->view('UI/OrderDetails_v',$data);
 			$this->load->view('UI/Common/Footer');
 		}else{
@@ -1653,17 +1736,29 @@ class Home extends CI_Controller
 
 	/**** SUBMIT REQUEST FORM */
 
-	public function submitReturn(){
+	public function submitReturnReplace(){
+		
 		$json = array();		
 		if($this->input->is_ajax_request()){
-			if(!empty($this->session->userdata[CUSTOMER_SESSION])){				
-				$result = $this->Master_m->saveReturn();
-				if($result){
-					$json['success'] = "success";
-					$json['msg'] 	 = "Return Request sent successfully !!";
-				}else{
-					$json['error'] = "Request Not Sent , Please Try Again After Sometimes !!";
-				}
+			if(!empty($this->session->userdata[CUSTOMER_SESSION])){			
+				$request_type = $this->input->post('request_type');
+				if(strtolower($request_type) == "return"){
+					$result = $this->Master_m->saveReturn();
+					if($result){
+						$json['success'] = "success";
+						$json['msg'] 	 = "Return Request sent successfully !!";
+					}else{
+						$json['error'] = "Request Not Sent , Please Try Again After Sometimes !!";
+					}
+				}else if(strtolower($request_type) == "replace"){
+					$result = $this->Master_m->saveReplace();
+					if($result){
+						$json['success'] = "success";
+						$json['msg'] 	 = "Replace Request sent successfully !!";
+					}else{
+						$json['error'] = "Request Not Sent , Please Try Again After Sometimes !!";
+					}
+				}				
 			}
 			else{
 				$json['error'] = "Please Login";

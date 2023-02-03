@@ -1,110 +1,279 @@
-<div id="nt_content">
-    <div class="kalles-section page_section_heading">
-        <div class="page-head tc pr oh cat_bg_img page_head_">
-            <div class="parallax-inner nt_parallax_false lazyload nt_bg_lz pa t__0 l__0 r__0 b__0"
-                data-bgset="<?php echo UI_ASSETS ?>images/banner/shop-banner.jpg"></div>
-            <div class="container pr z_100">
-                <h1 class="mb__5 cw">About us</h1>
-                <p class="mg__0">Follow your passion, and success will follow you</p>
+<main class="main single-page">   
+    <section class="section-padding">
+        <div class="container pt-25">
+            <div class="row">
+                <div class="col-lg-6 align-self-center mb-lg-0 mb-4">
+                    <h6 class="mt-0 mb-15 text-uppercase font-sm text-brand wow fadeIn animated">Our Company</h6>
+                    <h1 class="font-heading mb-40">
+                        We are Building The Destination For Getting Things Done
+                    </h1>
+                    <p>Tempus ultricies augue luctus et ut suscipit. Morbi arcu, ultrices purus dolor erat bibendum
+                        sapien metus.</p>
+                    <p>Tempus ultricies augue luctus et ut suscipit. Morbi arcu, ultrices purus dolor erat bibendum
+                        sapien metus. Sit mi, pharetra, morbi arcu id. Pellentesque dapibus nibh augue senectus. </p>
+                </div>
+                <div class="col-lg-6">
+                    <img src="<?php echo UI_ASSETS ?>imgs/page/about-1.png" alt="">
+                </div>
             </div>
         </div>
-    </div>
-    <div class="kalles-section container mt__20 mb__60">
-        <div class="row fl_center cb">
-            <div class=" col-12 col-md-6 txtn mt__25">
-                <h3 class="fs__20">OUR MISSION</h3>
-                <p class="mg__0">
-                    Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium,
-                    <em>totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae</em>
-                    vitae dicta sunt explicabo
-                    nemo enim ipsam.
-                </p>
+    </section>
+    <section id="team" class="pt-25 wow fadeIn animated">
+        <div class="container">
+            <div class="row mb-50 align-items-center">
+                <div class="col-md-6">
+                    <h6 class="mt-0 mb-15 text-uppercase font-sm text-brand wow fadeIn animated">Our Team</h6>
+                    <h2 class="mb-15 wow fadeIn animated">Top team of experts</h2>
+                    <p class="text-grey-3 wow fadeIn animated">Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                        Ratione optio perferendis sequi mollitia quis autem ea cupiditate possimus!</p>
+                </div>
+                <div class="col-md-6 text-md-end mt-30">
+                    <a
+                        class="btn btn-outline btn-lg btn-brand-outline font-weight-bold text-brand text-hover-white border-radius-5 btn-shadow-brand hover-up">All
+                        Members</a>
+                </div>
             </div>
-            <div class="col-12 col-md-6 txtn mt__25">
-                <h3 class="fs__20">OUR STORIES</h3>
-                <p class="mg__0">
-                    Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla
-                    pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                    anim id est laborum.
-                </p>
+            <div class="position-relative">
+                <div class="row wow fadeIn animated">
+                    <div class="col-lg-3 col-md-6">
+                        <div class="blog-card border-radius-10 overflow-hidden text-center">
+                            <img src="<?php echo UI_ASSETS ?>imgs/page/avatar-1.jpg" alt="" class="border-radius-10 mb-30 hover-up">
+                            <h4 class="fw-500 mb-0">Patric Adams</h4>
+                            <p class="fw-400 text-brand mb-10">CEO & Co-Founder</p>
+                            <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0 animated">
+                                <a href="#"><img src="<?php echo UI_ASSETS ?>imgs/theme/icons/icon-facebook.svg" alt=""></a>
+                                <a href="#"><img src="<?php echo UI_ASSETS ?>imgs/theme/icons/icon-twitter.svg" alt=""></a>
+                                <a href="#"><img src="<?php echo UI_ASSETS ?>imgs/theme/icons/icon-instagram.svg" alt=""></a>
+                                <a href="#"><img src="<?php echo UI_ASSETS ?>imgs/theme/icons/icon-pinterest.svg" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--col-->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="blog-card border-radius-10 overflow-hidden text-center">
+                            <img src="<?php echo UI_ASSETS ?>imgs/page/avatar-2.jpg" alt="" class="border-radius-10 mb-30 hover-up">
+                            <h4 class="fw-500 mb-0">Dilan Specter</h4>
+                            <p class="fw-400 text-brand mb-10">Head Engineer</p>
+                            <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0 animated">
+                                <a href="#"><img src="<?php echo UI_ASSETS ?>imgs/theme/icons/icon-facebook.svg" alt=""></a>
+                                <a href="#"><img src="<?php echo UI_ASSETS ?>imgs/theme/icons/icon-twitter.svg" alt=""></a>
+                                <a href="#"><img src="<?php echo UI_ASSETS ?>imgs/theme/icons/icon-instagram.svg" alt=""></a>
+                                <a href="#"><img src="<?php echo UI_ASSETS ?>imgs/theme/icons/icon-pinterest.svg" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--col-->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="blog-card border-radius-10 overflow-hidden text-center">
+                            <img src="<?php echo UI_ASSETS ?>imgs/page/avatar-3.jpg" alt="" class="border-radius-10 mb-30 hover-up">
+                            <h4 class="fw-500 mb-0">Tomas Baker</h4>
+                            <p class="fw-400 text-brand mb-10">Senior Planner</p>
+                            <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0 animated">
+                                <a href="#"><img src="<?php echo UI_ASSETS ?>imgs/theme/icons/icon-facebook.svg" alt=""></a>
+                                <a href="#"><img src="<?php echo UI_ASSETS ?>imgs/theme/icons/icon-twitter.svg" alt=""></a>
+                                <a href="#"><img src="<?php echo UI_ASSETS ?>imgs/theme/icons/icon-instagram.svg" alt=""></a>
+                                <a href="#"><img src="<?php echo UI_ASSETS ?>imgs/theme/icons/icon-pinterest.svg" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--col-->
+                    <div class="col-lg-3 col-md-6">
+                        <div class="blog-card border-radius-10 overflow-hidden text-center">
+                            <img src="<?php echo UI_ASSETS ?>imgs/page/avatar-4.jpg" alt="" class="border-radius-10 mb-30 hover-up">
+                            <h4 class="fw-500 mb-0">Norton Mendos</h4>
+                            <p class="fw-400 text-brand mb-10">Project Manager</p>
+                            <div class="mobile-social-icon wow fadeIn animated mb-sm-5 mb-md-0 animated">
+                                <a href="#"><img src="<?php echo UI_ASSETS ?>imgs/theme/icons/icon-facebook.svg" alt=""></a>
+                                <a href="#"><img src="<?php echo UI_ASSETS ?>imgs/theme/icons/icon-twitter.svg" alt=""></a>
+                                <a href="#"><img src="<?php echo UI_ASSETS ?>imgs/theme/icons/icon-instagram.svg" alt=""></a>
+                                <a href="#"><img src="<?php echo UI_ASSETS ?>imgs/theme/icons/icon-pinterest.svg" alt=""></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!--col-->
+                </div>
             </div>
-            <div class="col-12 col-md-6 txtn mt__25">
-                <h3 class="fs__20">OUR APPROACH</h3>
-                <p class="mg__0">Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci
-                    velit, sed quia non numquam eius modi tempora incidunt ut labore et dolore magnam aliquam quaerat
-                    voluptatem.</p>
+        </div>
+    </section>
+    <section id="work" class="mt-40 pt-50 pb-50 section-border">
+        <div class="container">
+            <div class="row mb-50">
+                <div class="col-lg-12 col-md-12 text-center">
+                    <h6 class="mt-0 mb-5 text-uppercase  text-brand font-sm wow fadeIn animated">Evara Coporation</h6>
+                    <h2 class="mb-15 text-grey-1 wow fadeIn animated">Our main branches<br> around the world</h2>
+                    <p class="w-50 m-auto text-grey-3 wow fadeIn animated">At vero eos et accusamus et iusto odio
+                        dignissimos ducimus quiblanditiis praesentium. ebitis nesciunt voluptatum dicta reprehenderit
+                        accusamus</p>
+                </div>
             </div>
-            <div class="col-12 col-md-6 txtn mt__25">
-                <h3 class="fs__20">OUR PHILOSOPHY</h3>
-                <p class="mg__0">Quis autem vel eum iure reprehenderit qui in ea voluptate velit esse quam nihil
-                    molestiae consequatur, vel illum qui dolorem eum fugiat quo voluptas nulla pariatur? Quis nostrum
-                    exercitationem ullam.</p>
+            <div class="row">
+                <div class="col-md-4 text-center mb-md-0 mb-4">
+                    <img class="btn-shadow-brand hover-up border-radius-10 bg-brand-muted wow fadeIn animated"
+                        src="<?php echo UI_ASSETS ?>imgs/page/company-1.jpg" alt="">
+                    <h4 class="mt-30 mb-15 wow fadeIn animated">New York, USA</h4>
+                    <p class="text-grey-3 wow fadeIn animated">27 Division St, New York<br>NY 10002, USA</p>
+                </div>
+                <div class="col-md-4 text-center mb-md-0 mb-4">
+                    <img class="btn-shadow-brand hover-up border-radius-10 bg-brand-muted wow fadeIn animated"
+                        src="<?php echo UI_ASSETS ?>imgs/page/company-2.jpg" alt="">
+                    <h4 class="mt-30 mb-15 wow fadeIn animated">Paris, France</h4>
+                    <p class="text-grey-3 wow fadeIn animated">22 Rue des Carmes<br> 75005 Paris</p>
+                </div>
+                <div class="col-md-4 text-center">
+                    <img class="btn-shadow-brand hover-up border-radius-10 bg-brand-muted wow fadeIn animated"
+                        src="<?php echo UI_ASSETS ?>imgs/page/company-3.jpg" alt="">
+                    <h4 class="mt-30 mb-15 wow fadeIn animated">Jakarta, Indonesia</h4>
+                    <p class="text-grey-3 wow fadeIn animated">2476 Raya Yogyakarta,<br>89090 Indonesia</p>
+                </div>
             </div>
-            <div class="col-12 mt__35">
-                <blockquote>
-                    <p>
-                        I am text block. Click edit button to change this text. Lorem ipsum dolor sit amet, consectetur
-                        adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo. Quis autem
-                        vel eum iure reprehenderit
-                        qui in ea voluptate velit esse quam nihil molestiae consequatur, vel illum qui dolorem eum
-                        fugiat quo voluptas nulla pariatur? Quis nostrum exercitationem ullam.
+        </div>
+    </section>
+    <section id="testimonials" class="section-padding">
+        <div class="container pt-25">
+            <div class="row mb-50">
+                <div class="col-lg-12 col-md-12 text-center">
+                    <h6 class="mt-0 mb-10 text-uppercase  text-brand font-sm wow fadeIn animated">some facts</h6>
+                    <h2 class="mb-15 text-grey-1 wow fadeIn animated">Take a look what<br> our clients say about us</h2>
+                    <p class="w-50 m-auto text-grey-3 wow fadeIn animated">At vero eos et accusamus et iusto odio
+                        dignissimos ducimus quiblanditiis praesentium. ebitis nesciunt voluptatum dicta reprehenderit
+                        accusamus</p>
+                </div>
+            </div>
+            <div class="row align-items-center">
+                <div class="col-md-6 col-lg-4">
+                    <div class="hero-card box-shadow-outer-6 wow fadeIn animated mb-30 hover-up d-flex">
+                        <div class="hero-card-icon icon-left-2 hover-up ">
+                            <img class="btn-shadow-brand hover-up border-radius-5 bg-brand-muted"
+                                src="<?php echo UI_ASSETS ?>imgs/page/avatar-1.jpg" alt="">
+                        </div>
+                        <div class="pl-30">
+                            <h5 class="mb-5 fw-500">
+                                J. Bezos
+                            </h5>
+                            <p class="font-sm text-grey-5">Adobe Jsc</p>
+                            <p class="text-grey-3">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+                                nesciunt voluptatum dicta reprehenderit accusamus voluptatibus voluptas."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="hero-card box-shadow-outer-6 wow fadeIn animated mb-30 hover-up d-flex">
+                        <div class="hero-card-icon icon-left-2 hover-up ">
+                            <img class="btn-shadow-brand hover-up border-radius-5 bg-brand-muted"
+                                src="<?php echo UI_ASSETS ?>imgs/page/avatar-3.jpg" alt="">
+                        </div>
+                        <div class="pl-30">
+                            <h5 class="mb-5 fw-500">
+                                B.Gates
+                            </h5>
+                            <p class="font-sm text-grey-5">Adobe Jsc</p>
+                            <p class="text-grey-3">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+                                nesciunt voluptatum dicta reprehenderit accusamus voluptatibus voluptas."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="hero-card box-shadow-outer-6 wow fadeIn animated mb-30 hover-up d-flex">
+                        <div class="hero-card-icon icon-left-2 hover-up ">
+                            <img class="btn-shadow-brand hover-up border-radius-5 bg-brand-muted"
+                                src="<?php echo UI_ASSETS ?>imgs/page/avatar-2.jpg" alt="">
+                        </div>
+                        <div class="pl-30">
+                            <h5 class="mb-5 fw-500">
+                                B. Meyers
+                            </h5>
+                            <p class="font-sm text-grey-5">Adobe Jsc</p>
+                            <p class="text-grey-3">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+                                nesciunt voluptatum dicta reprehenderit accusamus voluptatibus voluptas."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="hero-card box-shadow-outer-6 wow fadeIn animated mb-30 hover-up d-flex">
+                        <div class="hero-card-icon icon-left-2 hover-up ">
+                            <img class="btn-shadow-brand hover-up border-radius-5 bg-brand-muted"
+                                src="<?php echo UI_ASSETS ?>imgs/page/avatar-4.jpg" alt="">
+                        </div>
+                        <div class="pl-30">
+                            <h5 class="mb-5 fw-500">
+                                J. Bezos
+                            </h5>
+                            <p class="font-sm text-grey-5">Adobe Jsc</p>
+                            <p class="text-grey-3">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+                                nesciunt voluptatum dicta reprehenderit accusamus voluptatibus voluptas."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="hero-card box-shadow-outer-6 wow fadeIn animated mb-30 hover-up d-flex">
+                        <div class="hero-card-icon icon-left-2 hover-up ">
+                            <img class="btn-shadow-brand hover-up border-radius-5 bg-brand-muted"
+                                src="<?php echo UI_ASSETS ?>imgs/page/avatar-5.jpg" alt="">
+                        </div>
+                        <div class="pl-30">
+                            <h5 class="mb-5 fw-500">
+                                B.Gates
+                            </h5>
+                            <p class="font-sm text-grey-5">Adobe Jsc</p>
+                            <p class="text-grey-3">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+                                nesciunt voluptatum dicta reprehenderit accusamus voluptatibus voluptas."</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-4">
+                    <div class="hero-card box-shadow-outer-6 wow fadeIn animated mb-30 hover-up d-flex">
+                        <div class="hero-card-icon icon-left-2 hover-up ">
+                            <img class="btn-shadow-brand hover-up border-radius-5 bg-brand-muted"
+                                src="<?php echo UI_ASSETS ?>imgs/page/avatar-1.jpg" alt="">
+                        </div>
+                        <div class="pl-30">
+                            <h5 class="mb-5 fw-500">
+                                B. Meyers
+                            </h5>
+                            <p class="font-sm text-grey-5">Adobe Jsc</p>
+                            <p class="text-grey-3">"Lorem ipsum dolor sit amet consectetur adipisicing elit. Debitis
+                                nesciunt voluptatum dicta reprehenderit accusamus voluptatibus voluptas."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row mt-30">
+                <div class="col-12 text-center">
+                    <p class="wow fadeIn animated">
+                        <a class="btn btn-brand text-white btn-shadow-brand hover-up btn-lg">View More</a>
                     </p>
-                </blockquote>
-            </div>
-            <div class="col-12 col-md-4 mt__30">
-                <div class="jas-member tc pr pb__15">
-                    <div class="nt_img_ratio lazyload nt_bg_lz padding-top__127_586"
-                        data-bgset="<?php echo UI_ASSETS ?>images/about-us/mem-01.jpg"></div>
-                    <h4 class="mt__15 fwsb">Lisa John</h4>
-                    <span>Fashion Design</span>
-                    <div class="social pa w__100 ts__03">
-                        <a class="facebook" href="javascript:void(0)"><i
-                                class="lab la-facebook la-facebook-f"></i></a>
-                        <a class="twitter" href="javascript:void(0)"><i
-                                class="lab la-twitter la-twitter-f"></i></a>
-                        <a class="dribbble" href="javascript:void(0)"><i
-                                class="lab la-dribble la-dribble-f"></i></a>
-                        <a class="behance" href="javascript:void(0)"><i
-                                class="lab la-behance la-behance-f"></i></a>
-                    </div>
                 </div>
             </div>
-            <div class="col-12 col-md-4 mt__30">
-                <div class="jas-member tc pr pb__15">
-                    <div class="nt_img_ratio lazyload nt_bg_lz padding-top__127_586"
-                        data-bgset="<?php echo UI_ASSETS ?>images/about-us/mem-02.jpg"></div>
-                    <h4 class="mt__15 fwsb">Jane Doe</h4>
-                    <span>Director</span>
-                    <div class="social pa w__100 ts__03">
-                        <a class="facebook" href="javascript:void(0)"><i
-                                class="lab la-facebook la-facebook-f"></i></a>
-                        <a class="twitter" href="javascript:void(0)"><i
-                                class="lab la-twitter la-twitter-f"></i></a>
-                        <a class="dribbble" href="javascript:void(0)"><i
-                                class="lab la-dribble la-dribble-f"></i></a>
-                        <a class="behance" href="javascript:void(0)"><i
-                                class="lab la-behance la-behance-f"></i></a>
+        </div>
+    </section>
+    <section class="section-padding">
+        <div class="container pb-25">
+            <h3 class="section-title mb-20 wow fadeIn animated text-center"><span>Featured</span> Clients</h3>
+            <div class="carausel-6-columns-cover position-relative wow fadeIn animated">
+                <div class="carausel-6-columns text-center" id="carausel-6-columns-3">
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="<?php echo UI_ASSETS ?>imgs/banner/brand-1.png" alt="">
                     </div>
-                </div>
-            </div>
-            <div class="col-12 col-md-4 mt__30">
-                <div class="jas-member tc pr pb__15">
-                    <div class="nt_img_ratio lazyload nt_bg_lz padding-top__127_586"
-                        data-bgset="<?php echo UI_ASSETS ?>images/about-us/mem-03.jpg"></div>
-                    <h4 class="mt__15 fwsb">Cartherin Forres</h4>
-                    <span>Marketing Director</span>
-                    <div class="social pa w__100 ts__03">
-                        <a class="facebook" href="javascript:void(0)"><i
-                                class="lab la-facebook la-facebook-f"></i></a>
-                        <a class="twitter" href="javascript:void(0)"><i
-                                class="lab la-twitter la-twitter-f"></i></a>
-                        <a class="dribbble" href="javascript:void(0)"><i
-                                class="lab la-dribble la-dribble-f"></i></a>
-                        <a class="behance" href="javascript:void(0)"><i
-                                class="lab la-behance la-behance-f"></i></a>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="<?php echo UI_ASSETS ?>imgs/banner/brand-2.png" alt="">
+                    </div>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="<?php echo UI_ASSETS ?>imgs/banner/brand-3.png" alt="">
+                    </div>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="<?php echo UI_ASSETS ?>imgs/banner/brand-4.png" alt="">
+                    </div>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="<?php echo UI_ASSETS ?>imgs/banner/brand-5.png" alt="">
+                    </div>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="<?php echo UI_ASSETS ?>imgs/banner/brand-6.png" alt="">
+                    </div>
+                    <div class="brand-logo">
+                        <img class="img-grey-hover" src="<?php echo UI_ASSETS ?>imgs/banner/brand-3.png" alt="">
                     </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+</main>

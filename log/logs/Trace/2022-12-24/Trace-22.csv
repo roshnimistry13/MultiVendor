@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 "2022-12-24 22:24:22pm "," update "," UPDATE product_details SET `view_count` = 41 WHERE 1=1  and product_id = '5' "," ::1 "," URL: http://localhost/MultiVendor/api/MultivendorApi/productDetails "," R: "
 "2022-12-24 22:26:36pm "," update "," UPDATE product_details SET `view_count` = 8 WHERE 1=1  and product_id = '9' "," ::1 "," URL: http://localhost/MultiVendor/product-detail/men-navy-blue-white-placement-striped-pure-cotton-slim-fit-t-shirt-s-blue-slim-fit-vnky8c75-9 "," R: http://localhost/MultiVendor/shop"
 "2022-12-24 22:26:43pm "," update "," UPDATE product_details SET `view_count` = 24 WHERE 1=1  and product_id = '118' "," ::1 "," URL: http://localhost/MultiVendor/product-detail/allen-solly-womens-regular-fit-t-shirt-m-red-vnky8c75-118 "," R: http://localhost/MultiVendor/shop"
 "2022-12-24 22:30:46pm "," update "," UPDATE product_details SET `view_count` = 42 WHERE 1=1  and product_id = '5' "," ::1 "," URL: http://localhost/MultiVendor/api/MultivendorApi/productDetails "," R: "
+=======
+"2022-12-24 22:47:20pm "," update "," UPDATE product_details SET `view_count` = 14 WHERE 1=1  and product_id = '92' "," ::1 "," URL: http://localhost/EthnicWear/product-detail/coral-white-floral-print-mandarin-collar-pure-cotton-empire-top-s-sky-vnky8c75-92 "," R: http://localhost/EthnicWear/shop"
+"2022-12-24 22:51:45pm "," update "," UPDATE product_details SET `view_count` = 15 WHERE 1=1  and product_id = '92' "," ::1 "," URL: http://localhost/EthnicWear/product-detail/coral-white-floral-print-mandarin-collar-pure-cotton-empire-top-s-sky-vnky8c75-92 "," R: http://localhost/EthnicWear/shop"
+"2022-12-24 22:55:09pm "," update "," UPDATE product_details SET `view_count` = 16 WHERE 1=1  and product_id = '92' "," ::1 "," URL: http://localhost/EthnicWear/product-detail/coral-white-floral-print-mandarin-collar-pure-cotton-empire-top-s-sky-vnky8c75-92 "," R: http://localhost/EthnicWear/shop"
+>>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612

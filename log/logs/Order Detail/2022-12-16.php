@@ -3,6 +3,7 @@
 
 
 #Begin*****************************************************************************************************
+<<<<<<< HEAD
 #Time : 16-12-2022 04:05:22 #Timeend
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/checkout #ReferrerEnd
@@ -47,5 +48,15 @@ INSERT INTO order_details(`order_id`, `product_id`, `product_name`, `quantity`, 
 #Operation : INSERT #Operationend
 #Message: 
 INSERT INTO order_details(`order_id`, `product_id`, `product_name`, `quantity`, `net_price`, `mrp_price`, `total_amt`, `discount`, `return_or_replace`, `return_replace_validity`, `discount_amt`, `gst`, `gst_amt`, `vendor_id`, `elements_attributes`) VALUES('5', '5', 'Men Green Solid Regular Fit Round-neck T-shirt', '1', '392', '392', 392, '', 'return,replace', '7', ''_amt, '12', '12'_amt, '1', '{"Size":"XL","Color":"GREEN"}');
+=======
+#Time : 16-12-2022 22:19:39 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/EthnicWear/checkout #ReferrerEnd
+#Current URL: http://localhost/EthnicWear/place-order #CurrentURLEnd
+#Request : {"payment_type":"cod"} #Requestend
+#Operation : INSERT #Operationend
+#Message: 
+INSERT INTO order_details(`order_id`, `product_id`, `product_name`, `quantity`, `net_price`, `mrp_price`, `total_amt`, `discount`, `return_or_replace`, `return_replace_validity`, `discount_amt`, `gst`, `gst_amt`, `vendor_id`, `elements_attributes`) VALUES('2', '121', 'Allen Solly Womens Regular Fit T-Shirt', '1', '250', '250', 250, '', 'return,replace', '7', ''_amt, '0', '0'_amt, '1', '{"Size":"XL","Color":"RED"}');
+>>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612
 #End*******************************************************************************************************
 

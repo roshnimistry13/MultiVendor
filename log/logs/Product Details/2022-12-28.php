@@ -3,6 +3,7 @@
 
 
 #Begin*****************************************************************************************************
+<<<<<<< HEAD
 #Time : 28-12-2022 02:45:12 #Timeend
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/shop #ReferrerEnd
@@ -11,10 +12,21 @@
 #Operation : UPDATE #Operationend
 #Message: 
 UPDATE product_details SET `view_count` = 5 WHERE 1=1  and product_id = '115';
+=======
+#Time : 28-12-2022 02:36:24 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/EthnicWear/shop #ReferrerEnd
+#Current URL: http://localhost/EthnicWear/product-detail/women-brown-floral-embroidered-regular-kurta-with-trousers-with-dupatta-s-brown-vnky8c75-84 #CurrentURLEnd
+#Request : [] #Requestend
+#Operation : UPDATE #Operationend
+#Message: 
+UPDATE product_details SET `view_count` = 2 WHERE 1=1  and product_id = '84';
+>>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612
 #End*******************************************************************************************************
 
 
 #Begin*****************************************************************************************************
+<<<<<<< HEAD
 #Time : 28-12-2022 02:46:45 #Timeend
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/product-detail/womens-casual-digital-printed-shirt-ruffle-sleeve-tops-s-black-vnky8c75-115 #ReferrerEnd
@@ -23,10 +35,21 @@ UPDATE product_details SET `view_count` = 5 WHERE 1=1  and product_id = '115';
 #Operation : UPDATE #Operationend
 #Message: 
 UPDATE product_details SET `view_count` = 1 WHERE 1=1  and product_id = '116';
+=======
+#Time : 28-12-2022 21:26:47 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/EthnicWear/shop #ReferrerEnd
+#Current URL: http://localhost/EthnicWear/product-detail/womens-casual-digital-printed-shirt-ruffle-sleeve-tops-s-black-vnky8c75-115 #CurrentURLEnd
+#Request : [] #Requestend
+#Operation : UPDATE #Operationend
+#Message: 
+UPDATE product_details SET `view_count` = 31 WHERE 1=1  and product_id = '115';
+>>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612
 #End*******************************************************************************************************
 
 
 #Begin*****************************************************************************************************
+<<<<<<< HEAD
 #Time : 28-12-2022 02:47:15 #Timeend
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/product-detail/womens-casual-digital-printed-shirt-ruffle-sleeve-tops-m-black-vnky8c75-116 #ReferrerEnd
@@ -35,10 +58,21 @@ UPDATE product_details SET `view_count` = 1 WHERE 1=1  and product_id = '116';
 #Operation : UPDATE #Operationend
 #Message: 
 UPDATE product_details SET `view_count` = 6 WHERE 1=1  and product_id = '115';
+=======
+#Time : 28-12-2022 22:59:47 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/EthnicWear/shop #ReferrerEnd
+#Current URL: http://localhost/EthnicWear/product-detail/women-green-mustard-ethnic-motifs-printed-a-line-kurta-s-mustard-vnky8c75-135 #CurrentURLEnd
+#Request : [] #Requestend
+#Operation : UPDATE #Operationend
+#Message: 
+UPDATE product_details SET `view_count` = 1 WHERE 1=1  and product_id = '135';
+>>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612
 #End*******************************************************************************************************
 
 
 #Begin*****************************************************************************************************
+<<<<<<< HEAD
 #Time : 28-12-2022 21:59:04 #Timeend
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/shop #ReferrerEnd
@@ -47,10 +81,21 @@ UPDATE product_details SET `view_count` = 6 WHERE 1=1  and product_id = '115';
 #Operation : UPDATE #Operationend
 #Message: 
 UPDATE product_details SET `view_count` = 56 WHERE 1=1  and product_id = '1';
+=======
+#Time : 28-12-2022 23:00:48 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/EthnicWear/shop #ReferrerEnd
+#Current URL: http://localhost/EthnicWear/product-detail/women-green-mustard-ethnic-motifs-printed-a-line-kurta-s-mustard-vnky8c75-135 #CurrentURLEnd
+#Request : [] #Requestend
+#Operation : UPDATE #Operationend
+#Message: 
+UPDATE product_details SET `view_count` = 2 WHERE 1=1  and product_id = '135';
+>>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612
 #End*******************************************************************************************************
 
 
 #Begin*****************************************************************************************************
+<<<<<<< HEAD
 #Time : 28-12-2022 23:10:55 #Timeend
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/shop #ReferrerEnd
@@ -59,10 +104,21 @@ UPDATE product_details SET `view_count` = 56 WHERE 1=1  and product_id = '1';
 #Operation : UPDATE #Operationend
 #Message: 
 UPDATE product_details SET `view_count` = 9 WHERE 1=1  and product_id = '9';
+=======
+#Time : 28-12-2022 23:14:18 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/EthnicWear/shop #ReferrerEnd
+#Current URL: http://localhost/EthnicWear/product-detail/women-beige-floral-yoke-design-straight-kurta-with-trousers-with-dupatta-s-beige-vnky8c75-76 #CurrentURLEnd
+#Request : [] #Requestend
+#Operation : UPDATE #Operationend
+#Message: 
+UPDATE product_details SET `view_count` = 2 WHERE 1=1  and product_id = '76';
+>>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612
 #End*******************************************************************************************************
 
 
 #Begin*****************************************************************************************************
+<<<<<<< HEAD
 #Time : 28-12-2022 23:12:12 #Timeend
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/shop #ReferrerEnd
@@ -240,5 +296,15 @@ UPDATE product_details SET `view_count` = 59 WHERE 1=1  and product_id = '5';
 #Operation : UPDATE #Operationend
 #Message: 
 UPDATE product_details SET `view_count` = 60 WHERE 1=1  and product_id = '5';
+=======
+#Time : 28-12-2022 23:24:18 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/EthnicWear/shop #ReferrerEnd
+#Current URL: http://localhost/EthnicWear/product-detail/allen-solly-womens-regular-fit-t-shirt-m-red-vnky8c75-118 #CurrentURLEnd
+#Request : [] #Requestend
+#Operation : UPDATE #Operationend
+#Message: 
+UPDATE product_details SET `view_count` = 130 WHERE 1=1  and product_id = '118';
+>>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612
 #End*******************************************************************************************************
 
