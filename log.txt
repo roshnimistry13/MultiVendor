@@ -1,0 +1,35 @@
+
+/*******  DATA BASE ********************/
+DB : proacoeg_multivendor
+User : proacoeg_multivendor_user
+Pwd : Admin@12_34
+
+---------------------------
+	ADMIN LOGIN
+---------------------------
+
+https://proactii.com/MultiVendor/admin
+U : devloperproactii@gmail.com
+P : admin
+
+---------------------------
+	DEVLOPER LOGIN
+---------------------------
+https://proactii.com/MultiVendor/dev-logon
+U : devloperproactii@gmail.com
+P : 654321
+
+
+---------------------------
+	VENDOR LOGIN
+---------------------------
+https://proactii.com/MultiVendor/admin
+
+U:dainik@gmail.com 
+P:123456
+
+nitin@gmail.com
+P:123456
+
+prachi@gmail.com
+P:123456
