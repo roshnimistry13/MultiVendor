@@ -3,6 +3,7 @@
 
 
 #Begin*****************************************************************************************************
+<<<<<<< HEAD
 #Time : 13-01-2023 03:10:19 #Timeend
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/shop?category=kids-girls&cid=38 #ReferrerEnd
@@ -11,10 +12,21 @@
 #Operation : UPDATE #Operationend
 #Message: 
 UPDATE product_details SET `view_count` = 1 WHERE 1=1  and product_id = '135';
+=======
+#Time : 13-01-2023 01:46:24 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/EthnicWear/shop #ReferrerEnd
+#Current URL: http://localhost/EthnicWear/product-detail/women-maroon-solid-straight-kurta-m-maroon-vnky8c75-118 #CurrentURLEnd
+#Request : [] #Requestend
+#Operation : UPDATE #Operationend
+#Message: 
+UPDATE product_details SET `view_count` = 154 WHERE 1=1  and product_id = '118';
+>>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612
 #End*******************************************************************************************************
 
 
 #Begin*****************************************************************************************************
+<<<<<<< HEAD
 #Time : 13-01-2023 03:10:25 #Timeend
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/shop?category=kids-girls&cid=38 #ReferrerEnd
@@ -23,10 +35,21 @@ UPDATE product_details SET `view_count` = 1 WHERE 1=1  and product_id = '135';
 #Operation : UPDATE #Operationend
 #Message: 
 UPDATE product_details SET `view_count` = 4 WHERE 1=1  and product_id = '134';
+=======
+#Time : 13-01-2023 01:46:35 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/EthnicWear/shop #ReferrerEnd
+#Current URL: http://localhost/EthnicWear/product-detail/women-yellow-embellished-high-low-longline-top-s-yellow-vnky8c75-103 #CurrentURLEnd
+#Request : [] #Requestend
+#Operation : UPDATE #Operationend
+#Message: 
+UPDATE product_details SET `view_count` = 7 WHERE 1=1  and product_id = '103';
+>>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612
 #End*******************************************************************************************************
 
 
 #Begin*****************************************************************************************************
+<<<<<<< HEAD
 #Time : 13-01-2023 03:10:28 #Timeend
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/shop?category=kids-girls&cid=38 #ReferrerEnd
@@ -83,5 +106,15 @@ UPDATE product_details SET `view_count` = 28 WHERE 1=1  and product_id = '129';
 #Operation : UPDATE #Operationend
 #Message: 
 UPDATE product_details SET `view_count` = 3 WHERE 1=1  and product_id = '132';
+=======
+#Time : 13-01-2023 01:46:51 #Timeend
+#IP : ::1 #IPend
+#Referrer : http://localhost/EthnicWear/shop #ReferrerEnd
+#Current URL: http://localhost/EthnicWear/product-detail/women-pink-floral-printed-kurta-with-trousers-with-dupatta-m-pink-vnky8c75-88 #CurrentURLEnd
+#Request : [] #Requestend
+#Operation : UPDATE #Operationend
+#Message: 
+UPDATE product_details SET `view_count` = 1 WHERE 1=1  and product_id = '88';
+>>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612
 #End*******************************************************************************************************
 

@@ -1,57 +1,68 @@
-<div id="nt_content">
-    <div class="kalles-section page_section_heading">
-        <div class="page-head tc pr oh cat_bg_img page_head_">
-            <div class="parallax-inner nt_parallax_false lazyload nt_bg_lz pa t__0 l__0 r__0 b__0"
-                data-bgset="<?php echo UI_ASSETS ?>images/banner/shop-banner.jpg"></div>
-            <div class="container pr z_100">
-                <h1 class="mb__5 cw">Contact Us</h1>
-                <p class="mg__0">Follow your passion, and success will follow you</p>
+<main class="main">    
+    <section class="hero-2 bg-green">
+        <div class="hero-content">
+            <div class="container">
+                <div class="text-center">
+                    <h4 class="text-brand mb-20">Get in touch</h4>
+                    <h1 class="mb-20 wow fadeIn animated font-xxl fw-900">
+                        Let's Talk About <br>Your <span class="text-style-1">Idea</span>
+                    </h1>
+                    <p class="w-50 m-auto mb-50 wow fadeIn animated">Lorem ipsum dolor sit amet consectetur adipisicing
+                        elit. Harum quam eius placeat, a quidem mollitia at accusantium reprehenderit pariatur provident
+                        nam ratione incidunt magnam sequi.</p>
+                    <p class="wow fadeIn animated">
+                        <a class="btn btn-brand btn-lg font-weight-bold text-white border-radius-5 btn-shadow-brand hover-up"
+                            href="<?php echo base_url('about-us')?>">About Us</a>
+                        <a
+                            class="btn btn-outline btn-lg btn-brand-outline font-weight-bold text-brand bg-white text-hover-white ml-15 border-radius-5 btn-shadow-brand hover-up">Support
+                            Center</a>
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
-    <div class="kalles-section container mb__50 cb">
-        <div class="row fl_center">
-            <div class="contact-form col-12 col-md-6 order-1 order-md-0">
-                <form method="post" action="#" class="contact-form" id="contact-form">
-                    <h3 class="mb__20 mt__40">DROP US A LINE</h3>
-                    <p>
-                        <label for="ct_name">Name</label>
-                        <input required="required" type="text" id="ct_name" name="ct_name" value="">
-                    </p>
-                    <p>
-                        <label for="ct_email">Email</label>
-                        <input required="required" type="email" id="ct_email" name="ct_email" value="">
-                    </p>
-                    <p>
-                        <label for="ct_phone">Phone Number</label>
-                        <input type="tel" id="ct_phone" name="ct_phone" pattern="[0-9\-]*" value="">
-                    </p>
-                    <p>
-                        <label for="ct_message">Message</label>
-                        <textarea rows="20" id="ct_message" name="ct_message" required="required"></textarea>
-                    </p>
-                    <input type="submit" class="button w__100" value="Send">
-                </form>
-            </div>
-            <div class="contact-content col-12 col-md-6 order-0 order-md-1">
-                <h3 class="mb__20 mt__40">CONTACT INFORMATION</h3>
-                <p>We love to hear from you on our customer service, merchandise, website or any topics you want to
-                    share with us. Your comments and suggestions will be appreciated. Please complete the form below.
-                </p>
-                <p class="mb__5 d-flex"><i class="las la-home fs__20 mr__10 text-primary"></i>
-                    206-A, Platinum Commercial Center, 
-					Via Char Rasta Rd, opp. 
-					VIA Ground, GIDC, Vapi, Gujarat-396195
-                </p>
-                <p class="mb__5 d-flex"><i class="las la-phone fs__20 mr__10 text-primary"></i> 
-					099247 03447
-				</p>
-                <p class="mb__5 d-flex"><i class="las la-envelope fs__20 mr__10 text-primary"></i>
-					mail@proactii.com
-				</p>
-                <p class="mb__5 d-flex"><i class="las la-clock fs__20 mr__10 text-primary"></i> Everyday 9:00-17:00</p>
+    </section>
+    
+    <section class="pt-50 pb-50">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-8 col-lg-10 m-auto">
+                    <div class="contact-from-area padding-20-row-col wow FadeInUp">
+                        <h3 class="mb-10 text-center">Drop Us a Line</h3>
+                        <p class="text-muted mb-30 text-center font-sm">Lorem ipsum dolor sit amet consectetur.</p>
+                        <form class="contact-form-style text-center" id="contact-form" action="#" method="post">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="input-style mb-20">
+                                        <input name="name" placeholder="First Name" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="input-style mb-20">
+                                        <input name="email" placeholder="Your Email" type="email">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="input-style mb-20">
+                                        <input name="telephone" placeholder="Your Phone" type="tel">
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6">
+                                    <div class="input-style mb-20">
+                                        <input name="subject" placeholder="Subject" type="text">
+                                    </div>
+                                </div>
+                                <div class="col-lg-12 col-md-12">
+                                    <div class="textarea-style mb-30">
+                                        <textarea name="message" placeholder="Message"></textarea>
+                                    </div>
+                                    <button class="submit submit-auto-width" type="submit">Send message</button>
+                                </div>
+                            </div>
+                        </form>
+                        <p class="form-messege"></p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-
-</div>
+    </section>
+</main>

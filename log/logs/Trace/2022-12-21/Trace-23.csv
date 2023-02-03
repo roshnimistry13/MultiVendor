@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 "2022-12-21 23:14:40pm "," insert "," INSERT INTO customer_cart(`customer_id`, `product_id`, `quantity`, `elements_attributes`) VALUES('1', '10', '2', ) "," ::1 "," URL: http://localhost/MultiVendor/api/MultivendorApi/addToCart "," R: "
 "2022-12-21 23:15:44pm "," update "," UPDATE customer_cart SET `quantity` = 4, `elements_attributes` = '' WHERE 1=1  and cart_id = '7' "," ::1 "," URL: http://localhost/MultiVendor/api/MultivendorApi/addToCart "," R: "
 "2022-12-21 23:15:47pm "," update "," UPDATE customer_cart SET `quantity` = 6, `elements_attributes` = '' WHERE 1=1  and cart_id = '7' "," ::1 "," URL: http://localhost/MultiVendor/api/MultivendorApi/addToCart "," R: "
@@ -5,3 +6,9 @@
 "2022-12-21 23:16:03pm "," update "," UPDATE customer_cart SET `quantity` = 10, `elements_attributes` = '' WHERE 1=1  and cart_id = '7' "," ::1 "," URL: http://localhost/MultiVendor/api/MultivendorApi/addToCart "," R: "
 "2022-12-21 23:16:17pm "," update "," UPDATE customer_cart SET `quantity` = 11, `elements_attributes` = '' WHERE 1=1  and cart_id = '7' "," ::1 "," URL: http://localhost/MultiVendor/api/MultivendorApi/addToCart "," R: "
 "2022-12-21 23:29:18pm "," update "," UPDATE product_details SET `view_count` = 22 WHERE 1=1  and product_id = '5' "," ::1 "," URL: http://localhost/MultiVendor/product-detail/men-green-solid-regular-fit-round-neck-t-shirt-xl-green-vnky8c75-5 "," R: http://localhost/MultiVendor/shop?category=men"
+=======
+"2022-12-21 23:51:04pm "," update "," UPDATE customer_detail SET `customer_name` = 'Roshni Mistryqq', `gender` = 'female', `mobile` = NULL, `email` = 'roshnimistry@gmail.com', `modified` = '2022-12-21 23:51:04' WHERE 1=1  and customer_id = '1' "," ::1 "," URL: http://localhost/EthnicWear/register-customer "," R: http://localhost/EthnicWear/my-account"
+"2022-12-21 23:57:34pm "," update "," UPDATE customer_detail SET `customer_name` = 'Roshni Mistryqq', `gender` = 'female', `mobile` = NULL, `email` = 'roshnimistry@gmail.com', `modified` = '2022-12-21 23:57:34' WHERE 1=1  and customer_id = '1' "," ::1 "," URL: http://localhost/EthnicWear/register-customer "," R: http://localhost/EthnicWear/my-account"
+"2022-12-21 23:58:54pm "," update "," UPDATE customer_detail SET `customer_name` = 'Roshni Mistry123', `gender` = 'female', `mobile` = '41414141414', `email` = 'roshnimistry@gmail.com', `modified` = '2022-12-21 23:58:54' WHERE 1=1  and customer_id = '1' "," ::1 "," URL: http://localhost/EthnicWear/register-customer "," R: http://localhost/EthnicWear/my-account"
+"2022-12-21 23:59:45pm "," update "," UPDATE customer_detail SET `customer_name` = 'Roshni Mistry', `gender` = 'female', `mobile` = '41414141414', `email` = 'roshnimistry@gmail.com', `modified` = '2022-12-21 23:59:45' WHERE 1=1  and customer_id = '1' "," ::1 "," URL: http://localhost/EthnicWear/register-customer "," R: http://localhost/EthnicWear/my-account"
+>>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612

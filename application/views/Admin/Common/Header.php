@@ -26,7 +26,7 @@
 	<link href="<?php echo ADMIN_ASSETS ?>css/bootstrap-select.min.css" media="screen" rel="stylesheet" type="text/css">
 	<link href="<?php echo ADMIN_ASSETS ?>css/bootstrap-tagsinput.min.css" media="screen" rel="stylesheet" type="text/css">
 	<!--Custome css-->
-	<link rel="stylesheet" href="<?php echo ADMIN_ASSETS ?>css/application/custom.css">
+	<link rel="stylesheet" href="<?php echo ADMIN_ASSETS ?>css/application/custom.css?v=<?php echo VERSION; ?>">
 	
 	<!-- endinject -->
 	<link rel="icon" type="image/png" sizes="16x16" href="<?php echo ADMIN_ASSETS ?>img/favicon.png">
