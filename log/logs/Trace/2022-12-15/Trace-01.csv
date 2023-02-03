@@ -1,7 +1,2 @@
-<<<<<<< HEAD
 "2022-12-15 01:38:48am "," delete "," DELETE FROM whish_list WHERE 1=1  and customer_id = '1' and product_id = '10' "," ::1 "," URL: http://localhost/MultiVendor/api/MultivendorApi/removeWishlistItem "," R: "
 "2022-12-15 01:46:01am "," update "," UPDATE product_details SET `view_count` = 6 WHERE 1=1  and product_id = '9' "," ::1 "," URL: http://localhost/MultiVendor/product-detail/men-navy-blue-white-placement-striped-pure-cotton-slim-fit-t-shirt-s-blue-slim-fit-vnky8c75-9 "," R: http://localhost/MultiVendor/shop?category=men-topwear&cid=4"
-=======
-"2022-12-15 01:53:16am "," update "," UPDATE product_details SET `view_count` = 46 WHERE 1=1  and product_id = '1' "," ::1 "," URL: http://localhost/EthnicWear/product-detail/men-white-pure-cotton-t-shirt-s-white-vnky8c75-1 "," R: http://localhost/EthnicWear/shop"
-"2022-12-15 01:53:58am "," update "," UPDATE product_details SET `view_count` = 25 WHERE 1=1  and product_id = '129' "," ::1 "," URL: http://localhost/EthnicWear/product-detail/boys-pack-of-3-mickey-mouse-donald-duck-goofy-printed-t-shirts-4y-5y-vnky8c75-129 "," R: http://localhost/EthnicWear/shop"
->>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612

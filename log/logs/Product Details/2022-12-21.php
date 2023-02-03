@@ -3,7 +3,6 @@
 
 
 #Begin*****************************************************************************************************
-<<<<<<< HEAD
 #Time : 21-12-2022 21:48:48 #Timeend
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/shop #ReferrerEnd
@@ -360,15 +359,5 @@ UPDATE product_details SET `view_count` = 3 WHERE 1=1  and product_id = '55';
 #Operation : UPDATE #Operationend
 #Message: 
 UPDATE product_details SET `view_count` = 22 WHERE 1=1  and product_id = '5';
-=======
-#Time : 21-12-2022 02:09:31 #Timeend
-#IP : ::1 #IPend
-#Referrer : http://localhost/EthnicWear/shop #ReferrerEnd
-#Current URL: http://localhost/EthnicWear/product-detail/men-white-pure-cotton-t-shirt-s-white-vnky8c75-1 #CurrentURLEnd
-#Request : [] #Requestend
-#Operation : UPDATE #Operationend
-#Message: 
-UPDATE product_details SET `view_count` = 50 WHERE 1=1  and product_id = '1';
->>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612
 #End*******************************************************************************************************
 

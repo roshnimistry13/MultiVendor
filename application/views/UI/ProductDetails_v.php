@@ -18,7 +18,7 @@
 ?>
 <div id="nt_content" class="product_detail_page" data-pid="<?php echo $product_id;?>">
     <div class="sp-single sp-single-1 des_pr_layout_1 mb__60">
-        <div class="bgbl pt__20 pb__20 lh__1">
+        <div class="bgbl pt__5 pb__5 lh__1">
             <div class="container">
                 <div class="row al_center">
                     <div class="col">
@@ -36,7 +36,7 @@
             <input type="hidden" id="txt_variant_code" name="txt_variant_code" value="<?php echo $variant_code;?>">
             <div class="row product mt__40">
                 <div class="col-md-12 col-12 thumb_left">
-                    <div class="row mb__50 pr_sticky_content">
+                    <div class="row  pr_sticky_content">
                         <div
                             class="col-md-6 col-12 pr product-images img_action_zoom pr_sticky_img kalles_product_thumnb_slide">
                             <div class="row theiaStickySidebar">
@@ -80,6 +80,8 @@
                         <div class="col-md-6 col-12 product-infors pr_sticky_su">
                             <div class="theiaStickySidebar">
                                 <div class="kalles-section-pr_summary kalles-section summary entry-summary mt__30">
+                                    <span
+                                        class="product_title entry-title fs__16"><?php echo ucwords($brand_name); ?></span>
                                     <h1 class="product_title entry-title fs__16"><?php echo ucwords($product_name); ?>
                                     </h1>
                                     <div class="flex wrap fl_between al_center price-review">
@@ -95,23 +97,40 @@
                                                 <?php } ?>
                                             </span>
                                         </p>
+                                        <?php if(!empty($product_review_list)) {
+                                            $totalReviewcount = count($product_review_list);
+                                            $total_rate     = 0;
+                                            $avg_rate       = 0;
+                                            $avg_rate_star  = 0;
+                                            foreach($product_review_list as $row2){
+                                                $total_rate += $row2['star_rate'];
+                                            }
+                                             if($total_rate > 0){
+                                                $avg_rate           = $total_rate / $totalReviewcount;
+                                                $avg_rate_star      =  round($avg_rate);
+                                             }
+                                            
+                                        ?>
                                         <a href="#tab_reviews_product" class="rating_sp_kl dib">
                                             <div class="kalles-rating-result">
                                                 <span class="kalles-rating-result__pipe">
                                                     <span
-                                                        class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                        class="kalles-rating-result__start kalles-rating-result__start--big <?php echo $class = ($avg_rate_star >0 && $avg_rate_star == 1) ? "active" : "" ?>"></span>
                                                     <span
-                                                        class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                        class="kalles-rating-result__start kalles-rating-result__start--big <?php echo $class = ($avg_rate_star >0 && $avg_rate_star == 2) ? "active" : "" ?>"></span>
                                                     <span
-                                                        class="kalles-rating-result__start kalles-rating-result__start--big active"></span>
+                                                        class="kalles-rating-result__start kalles-rating-result__start--big <?php echo $class = ($avg_rate_star >0 && $avg_rate_star == 3) ? "active" : "" ?>"></span>
                                                     <span
-                                                        class="kalles-rating-result__start kalles-rating-result__start--big "></span>
+                                                        class="kalles-rating-result__start kalles-rating-result__start--big <?php echo $class = ($avg_rate_star >0 && $avg_rate_star == 4) ? "active" : "" ?>"></span>
                                                     <span
-                                                        class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                        class="kalles-rating-result__start kalles-rating-result__start--big <?php echo $class = ($avg_rate_star >0 && $avg_rate_star == 5) ? "active" : "" ?>"></span>
                                                 </span>
-                                                <span class="kalles-rating-result__number">(12 reviews)</span>
+                                                <span
+                                                    class="kalles-rating-result__number">(<?php echo $totalReviewcount; ?>
+                                                    reviews)</span>
                                             </div>
                                         </a>
+                                        <?php } ?>
                                     </div>
                                     <div class="pr_short_des">
                                         <p class="mg__0"><?php echo $short_description; ?></p>
@@ -127,8 +146,7 @@
                                             <div class="variations mb__40 style__rectangle size_medium">
                                                 <?php if(!empty($elearr)){
                                                     foreach($elearr as $key => $val){
-                                                        $elementVal = $val;   
-                                                        
+                                                        $elementVal = $val;                                                           
                                                     ?>
                                                 <div class="swatch is-label kalles_swatch_js product-variants"
                                                     data-elename="<?php echo getElementNameByID($key)?>"
@@ -156,7 +174,6 @@
                                                             data-eleid="<?php echo $ele_id; ?>">
                                                             <span class="swatch__value_pr"><?php echo $key1;?></span>
                                                         </li>
-
                                                         <?php } } ?>
                                                     </ul>
                                                 </div>
@@ -177,7 +194,7 @@
                                                         <?php if($stock > 0 && $stock != "" && $stock != null){ ?>
                                                         <button type="submit" data-time="6000" data-ani="shake"
                                                             class="single_add_to_cart_button button truncate w__100 mt__20 order-4 d-inline-block animated btnAddToCart">
-                                                            <span class="txt_add ">Add to cart</span>
+                                                            <span class="txt_add ">ADD TO BAG</span>
                                                         </button>
                                                         <?php }else{?>
                                                         <a href="javascript:void(0)"
@@ -187,13 +204,51 @@
                                                     </div>
                                                 </div>
                                             </div>
+                                            <div class="py-3">
+                                                <h4 class="swatch__title">Available offers</h4>
+                                                <div class="d-flex">
+                                                    <span class="mr-2">
+                                                        <img src="<?php echo UI_ASSETS ?>images/tag.png"></span>
+                                                    <span>Bank Offer10% off on Citi Credit Card and EMI Transactions, up
+                                                        to ₹1,500. On orders of ₹5,000 and above <a class="tc_offers"
+                                                            href="#">T&C</a> </span>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <span class="mr-2">
+                                                        <img src="<?php echo UI_ASSETS ?>images/tag.png">
+                                                    </span>
+                                                    <span>Bank Offer10% off on Citi Credit Card and EMI Transactions, up
+                                                        to ₹1,500. On orders of ₹5,000 and above
+                                                        <a class="tc_offers" href="#">T&C</a>
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <span class="mr-2">
+                                                        <img src="<?php echo UI_ASSETS ?>images/tag.png">
+                                                    </span>
+                                                    <span>
+                                                        Bank Offer10% off on ICICI Bank Credit Card Transactions, up
+                                                        to ₹1250. On orders of ₹5000 and above
+                                                        <a class="tc_offers" href="#">T&C</a>
+                                                    </span>
+                                                </div>
+                                                <div class="d-flex">
+                                                    <span class="mr-2"> <img
+                                                            src="<?php echo UI_ASSETS ?>images/tag.png"></span>
+                                                    <span>Bank Offer10% off on ICICI Bank Credit Card EMI Transactions,
+                                                        up to ₹1250. On orders of ₹5000 and above
+                                                        <a class="tc_offers" href="#">T&C</a>
+                                                    </span>
+                                                </div>
+
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="extra-link mt__35 fwsb">
+                                    <!-- <div class="extra-link mt__35 fwsb">
                                         <h5>Best Offer : </h5>
-                                    </div>
+                                    </div> -->
 
-                                    <div class="product_meta">
+                                    <!-- <div class="product_meta">
                                         <p>Best Price : <span class=" cr"><i class="fa fa-inr cr fs__14"></i>
                                                 <?php echo moneyFormatIndia_ui($net_price); ?></span></p>
                                         <ul>
@@ -207,8 +262,8 @@
                                                 Coupon code: STEAL15
                                             </li>
                                         </ul>
-                                    </div>
-                                    <div class="social-share tc">
+                                    </div> -->
+                                    <div class="social-share tc dn">
                                         <div
                                             class="at-share-btn-elements kalles-social-media d-block text-left fs__0 lh__1">
                                             <a href="https://www.facebook.com/"
@@ -287,16 +342,19 @@
                         <li class="tab_title_block active">
                             <a class="db cg truncate pr" href="#tab_product_description">Product Detail</a>
                         </li>
+                        <?php if(!empty($categoryData) && ($categoryData[0]['return_or_replace'] != "" || $categoryData[0]['return_or_replace'] != null)){?>
                         <li class="tab_title_block ">
-                            <a class="db cg truncate pr" href="#tab_shipping_return">Shipping & Return
-                            </a>
+                            <a class="db cg truncate pr" href="#tab_shipping_return">Shipping & Return</a>
                         </li>
+                        <?php } ?>
                         <li class="tab_title_block">
                             <a class="db cg truncate pr" href="#tab_warranty_and_shipping">Warranty Detail</a>
                         </li>
+                        <?php if(!empty($product_review_list)) {?>
                         <li class="tab_title_block">
                             <a class="db cg truncate pr" href="#tab_reviews_product">Reviews</a>
                         </li>
+                        <?php } ?>
                     </ul>
 
                     <div class="panel entry-content sp-tab des_mb_2 des_style_1 active" id="tab_product_description"
@@ -310,6 +368,19 @@
                             <?php echo $description; ?>
                         </div>
                     </div>
+
+                    <?php if(!empty($categoryData) && ($categoryData[0]['return_or_replace'] != "" || $categoryData[0]['return_or_replace'] != null)){
+                        $return_replace                     = $categoryData[0]['return_or_replace'];
+                        $return_replace_validity            = $categoryData[0]['return_replace_validity'];
+                        $return_replace_text                = ""; 
+                        if($return_replace != "" || $return_replace != null){
+                            if(strtolower($return_replace) == "replace")
+                                $return_replace_text = $return_replace_validity. " DAYS EXCHANGE";
+                            else if(strtolower($return_replace) == "return")
+                                $return_replace_text = $return_replace_validity. " DAYS RETURN";
+                            else $return_replace_text = $return_replace_validity. " DAYS RETURN & EXCHANGE";
+                        }
+                    ?>
                     <div class="panel entry-content sp-tab des_mb_2 des_style_1 dn" id="tab_shipping_return"
                         style="display: none;">
                         <div class="js_ck_view"></div>
@@ -351,8 +422,11 @@
                                                     <i class="pegk pe-7s-refresh"></i>
                                                 </div>
                                                 <div class="col content">
-                                                    <h3 class="title cd fs__14 mg__0 mb__5">30 DAYS RETURN & EXCHANGE</h3>
-                                                    <p class="mg__0">Simply return it within 30 days for an exchange.
+                                                    <h3 class="title cd fs__14 mg__0 mb__5">
+                                                        <?php echo $return_replace_text; ?>
+                                                    </h3>
+                                                    <p class="mg__0">Simply return it within
+                                                        <?php echo $return_replace_validity; ?> days for an exchange.
                                                     </p>
                                                 </div>
                                             </div>
@@ -373,6 +447,7 @@
                             </div>
                         </div>
                     </div>
+                    <?php } ?>
                     <div class="panel entry-content sp-tab des_mb_2 des_style_1 dn" id="tab_warranty_and_shipping"
                         style="display: none;">
                         <div class="js_ck_view"></div>
@@ -384,7 +459,7 @@
 
                         </div>
                     </div>
-
+                    <?php if(!empty($product_review_list)) {?>
                     <div class="panel entry-content sp-tab des_mb_2 des_style_1 dn" id="tab_reviews_product"
                         style="display: none;">
                         <div class="js_ck_view"></div>
@@ -404,23 +479,25 @@
                                                         <div class="r--overview-left">
                                                             <div class="r--star-block r--star-850">
                                                                 <span class="r--title-average">Average</span>
-                                                                <span class="r--stars_average">4.8</span>
+                                                                <span
+                                                                    class="r--stars_average"><?php echo ($avg_rate >0) ?  round($avg_rate,1) : "" ?></span>
                                                                 <div class="r--stars cpl">
                                                                     <div class="kalles-rating-result">
                                                                         <span class="kalles-rating-result__pipe">
                                                                             <span
-                                                                                class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                                class="kalles-rating-result__start kalles-rating-result__start--big <?php echo $class = ($avg_rate_star >0 && $avg_rate_star == 1) ? "active" : "" ?>"></span>
                                                                             <span
-                                                                                class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                                class="kalles-rating-result__start kalles-rating-result__start--big <?php echo $class = ($avg_rate_star >0 && $avg_rate_star == 2) ? "active" : "" ?>"></span>
                                                                             <span
-                                                                                class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                                class="kalles-rating-result__start kalles-rating-result__start--big <?php echo $class = ($avg_rate_star >0 && $avg_rate_star == 3) ? "active" : "" ?>"></span>
                                                                             <span
-                                                                                class="kalles-rating-result__start kalles-rating-result__start--big active"></span>
+                                                                                class="kalles-rating-result__start kalles-rating-result__start--big <?php echo $class = ($avg_rate_star >0 && $avg_rate_star == 4) ? "active" : "" ?>"></span>
                                                                             <span
-                                                                                class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                                class="kalles-rating-result__start kalles-rating-result__start--big <?php echo $class = ($avg_rate_star >0 && $avg_rate_star == 5) ? "active" : "" ?>"></span>
                                                                         </span>
                                                                     </div>
-                                                                    <span class="r--total-view">13
+                                                                    <span
+                                                                        class="r--total-view"><?php echo $totalReviewcount; ?>
                                                                         <span>reviews</span></span>
                                                                 </div>
                                                             </div>
@@ -428,7 +505,7 @@
                                                                 <tbody>
                                                                     <tr class="">
                                                                         <td class="r--rate-name">
-                                                                            <div>Excellent</div>
+                                                                            <div>5</div>
                                                                         </td>
                                                                         <td class="r--rate-numeral">
                                                                             <span class="r--total-bar-default">
@@ -448,7 +525,7 @@
                                                                     </tr>
                                                                     <tr class="r--disable">
                                                                         <td class="r--rate-name">
-                                                                            <div>Very Good</div>
+                                                                            <div>4</div>
                                                                         </td>
                                                                         <td class="r--rate-numeral">
                                                                             <span class="r--total-bar-default">
@@ -469,7 +546,7 @@
                                                                     </tr>
                                                                     <tr class="">
                                                                         <td class="r--rate-name">
-                                                                            <div>Average</div>
+                                                                            <div>3</div>
                                                                         </td>
                                                                         <td class="r--rate-numeral">
                                                                             <span class="r--total-bar-default">
@@ -489,7 +566,7 @@
                                                                     </tr>
                                                                     <tr class="r--disable">
                                                                         <td class="r--rate-name">
-                                                                            <div>Poor</div>
+                                                                            <div>2</div>
                                                                         </td>
                                                                         <td class="r--rate-numeral">
                                                                             <span class="r--total-bar-default">
@@ -510,7 +587,7 @@
                                                                     </tr>
                                                                     <tr class="r--disable">
                                                                         <td class="r--rate-name">
-                                                                            <div>Terrible</div>
+                                                                            <div>1</div>
                                                                         </td>
                                                                         <td class="r--rate-numeral">
                                                                             <span class="r--total-bar-default">
@@ -532,94 +609,31 @@
                                                                 </tbody>
                                                             </table>
                                                         </div>
-                                                        <div class="r--overview-right">
-                                                            <div class="show-modal-mobile">
-                                                                <a class="r--button r--flex-center bg-yellow text-white ajax_pp_js"
-                                                                    href="#" data-id="#popup-leave-review">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                                                        width="18.37" height="17.8"
-                                                                        viewBox="0 0 21.682 21.602">
-                                                                        <g id="Symbol_32_2" data-name="Symbol 32 – 2"
-                                                                            transform="translate(-961.98 -374.155)">
-                                                                            <path d="M0,0H4V11.2L1.937,14h0L0,11.2Z"
-                                                                                transform="translate(979.891 381.756) rotate(40)"
-                                                                                fill="none" stroke="#ffffff"
-                                                                                stroke-linejoin="round"
-                                                                                stroke-width="1"></path>
-                                                                            <path d="M0,0H4"
-                                                                                transform="translate(972.692 390.335) rotate(40)"
-                                                                                fill="none" stroke="#ffffff"
-                                                                                stroke-width="1"></path>
-                                                                            <g transform="translate(981.126 380.964) rotate(40)"
-                                                                                fill="none" stroke="#ffffff"
-                                                                                stroke-width="1">
-                                                                                <rect width="3.128" height="1.4"
-                                                                                    stroke="none"></rect>
-                                                                                <rect x="0.5" y="0.5" width="2.128"
-                                                                                    height="0.4" fill="none"></rect>
-                                                                            </g>
-                                                                            <path d="M2858.324,3384.6h7.412"
-                                                                                transform="translate(-1891.1 -3003.987)"
-                                                                                fill="none" stroke="#ffffff"
-                                                                                stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                stroke-width="1"></path>
-                                                                            <path d="M2858.324,3384.6h7.412"
-                                                                                transform="translate(-1891.1 -2999.611)"
-                                                                                fill="none" stroke="#ffffff"
-                                                                                stroke-linecap="round" stroke-width="1">
-                                                                            </path>
-                                                                            <path
-                                                                                d="M8.952,0H15a2,2,0,0,1,2,2V15a2,2,0,0,1-2,2H2a2,2,0,0,1-2-2V12.162"
-                                                                                transform="translate(979.48 391.655) rotate(180)"
-                                                                                fill="none" stroke="#ffffff"
-                                                                                stroke-linecap="round"
-                                                                                stroke-linejoin="round"
-                                                                                stroke-width="1"></path>
-                                                                        </g>
-                                                                    </svg>
-                                                                    <span class="r--text-write">Write a
-                                                                        review</span>
-                                                                </a>
-                                                            </div>
-                                                        </div>
+
                                                     </div>
-                                                    <div class="r--filter-review">
-                                                        <div class="r--filter-wrapper">
-                                                            <div class="r--sortBy">
-                                                                <div
-                                                                    class="r--unset-select r--sort-button r--filter-link r--flex-center el-popover__reference">
-                                                                    <span class="r--select">Sort by: Latest
-                                                                    </span>
-                                                                    <img src="assets/images/single-product/icon-down.svg"
-                                                                        width="8" height="4"
-                                                                        class="r--select r--icon-down" alt="">
-                                                                </div>
-                                                            </div>
-                                                            <div class="r--filter">
-                                                                <div
-                                                                    class="r--unset-select r--sort-button r--filter-link r--flex-center el-popover__reference">
-                                                                    <span class="r--select">Filter</span>
-                                                                    <img src="assets/images/single-product/icon-down.svg"
-                                                                        width="8" height="4"
-                                                                        class="r--select r--icon-down" alt="">
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="r--showing r--f-left">
-                                                            <span class="r--text-showing">Showing 1 - 6 of 13
-                                                                reviews</span>
-                                                        </div>
-                                                    </div>
+
                                                 </div>
                                             </div>
                                             <div class="r--grid">
+                                                <?php foreach($product_review_list as $review){
+                                                    $rating         = $review['star_rate'];                                                                                                    
+
+                                                    $today 	= new DateTime(date('d-M-Y'));;
+                                                    $e_date 	= new DateTime(date('d-M-Y',strtotime($review['review_date'])));
+                                                    $days_diff 	= $today->diff($e_date);
+                                                    if($days_diff->d > 0){
+                                                        $days = $days_diff->d.' days ago';
+                                                    }else{
+                                                        $days = 'Today';
+                                                    }
+                                                ?>
                                                 <div class="r--grid-item">
                                                     <div class="r--author r--text-limit">
                                                         <div class="r--avatar-default text-center text-white">
-                                                            P
+                                                            <?php echo substr($review['customer_name'],0,1);?>
                                                         </div>
-                                                        <span class="r--author-review">Peter</span>
+                                                        <span
+                                                            class="r--author-review"><?php echo $review['customer_name']?></span>
                                                     </div>
                                                     <div class="r--item-body">
                                                         <div class="r--item-body-top">
@@ -628,1157 +642,227 @@
                                                                 <div class="kalles-rating-result">
                                                                     <span class="kalles-rating-result__pipe">
                                                                         <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big <?php echo $class = ($rating == 1) ? "active" : "" ?>"></span>
                                                                         <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big <?php echo $class = ($rating == 2) ? "active" : "" ?>"></span>
                                                                         <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big <?php echo $class = ($rating == 3) ? "active" : "" ?>"></span>
                                                                         <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big active"></span>
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big <?php echo $class = ($rating == 4) ? "active" : "" ?>"></span>
                                                                         <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
+                                                                            class="kalles-rating-result__start kalles-rating-result__start--big <?php echo $class = ($rating == 5) ? "active" : "" ?>"></span>
                                                                     </span>
                                                                 </div>
                                                             </div>
                                                         </div>
                                                         <p class="r--title-review r--body-item">
-                                                            Contrary to popular belief
+                                                            <?php echo $review['review_title']?>
                                                         </p>
                                                         <p class="r--content-review r--body-item">
-                                                            It is a long established fact that a reader
-                                                            will be distracted by the readable content
-                                                            of a page
+                                                            <?php echo $review['review_content']?>
                                                         </p>
                                                         <time datetime="2020-01-28T17:29:54Z"
-                                                            class="r--date-review r--top r--text-limit">15 days
-                                                            ago</time>
-                                                        <ul class="r--reply-helpul r--body-item r--flex-center">
-                                                            <li class="r--helpul-item">
-                                                                <div class="r--like">
-                                                                    <div class="r--like-icon like r--flex-center">
-                                                                        <svg width="14"
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 15.762 17.939"
-                                                                            class="r--icon-like">
-                                                                            <g transform="translate(-926.048 -414.43)">
-                                                                                <path
-                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
-                                                                                    transform="translate(929.463 415.021)"
-                                                                                    class="cls-1"></path>
-                                                                                <path
-                                                                                    d="M945.558,421.769v11.039l-2.9-.279V422.22Z"
-                                                                                    transform="translate(-16.112 -0.939)"
-                                                                                    class="cls-2"></path>
-                                                                            </g>
-                                                                        </svg>
-                                                                        <span class="r--like-count like_0">12</span>
-                                                                    </div>
-                                                                    <div class="r--like-icon dislike r--flex-center">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 15.762 17.659"
-                                                                            class="r--icon-dislike">
-                                                                            <g
-                                                                                transform="translate(956.922 435.325) rotate(180)">
-                                                                                <path
-                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
-                                                                                    transform="translate(944.575 418.257)"
-                                                                                    class="cls-1"></path>
-                                                                                <path
-                                                                                    d="M945.558,421.946v10.321l-2.9.261V421.777Z"
-                                                                                    transform="translate(-1 2.296)"
-                                                                                    class="cls-2"></path>
-                                                                            </g>
-                                                                        </svg>
-                                                                        <span class="r--like-count like_0">08</span>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li class="r--helpul-item r--reply-review r--flex-center ajax_pp_js"
-                                                                data-id="#popup-reply-review">
-                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 21.125 17.584" class="r--icon-reply">
-                                                                    <defs>
-                                                                        <clipPath>
-                                                                            <rect width="14.094" height="3.924"
-                                                                                class="cls-1"></rect>
-                                                                        </clipPath>
-                                                                    </defs>
-                                                                    <g transform="translate(-784.909 -833.715)">
-                                                                        <path
-                                                                            d="M4.01,12.938H2a2,2,0,0,1-2-2V2A2,2,0,0,1,2,0H18.125a2,2,0,0,1,2,2v8.937a2,2,0,0,1-2,2H8.78l-.667.923L6.4,16.232Z"
-                                                                            transform="translate(785.409 834.215)"
-                                                                            class="cls-2"></path>
-                                                                        <g transform="translate(788.554 839.127)"
-                                                                            class="cls-3">
-                                                                            <g transform="translate(-739 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                            <g transform="translate(-734 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                            <g transform="translate(-729 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                        </g>
-                                                                    </g>
-                                                                </svg>
-                                                                <span>02</span>
-                                                            </li>
-                                                        </ul>
+                                                            class="r--date-review r--top r--text-limit"><?php echo $days; ?>
+                                                        </time>
                                                     </div>
                                                 </div>
-                                                <div class="r--grid-item">
-                                                    <div class="r--author r--text-limit">
-                                                        <div
-                                                            class="r--avatar-default text-center text-white avatar--bg-red">
-                                                            K
-                                                        </div>
-                                                        <span class="r--author-review">Kodeman</span>
-                                                    </div>
-                                                    <div class="r--item-body">
-                                                        <div class="r--item-body-top">
-                                                            <div
-                                                                class="r--stars-author r--star-head r--body-item r--flex-center">
-                                                                <div class="kalles-rating-result">
-                                                                    <span class="kalles-rating-result__pipe">
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big active"></span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="r--title-review r--body-item">
-                                                            Contrary to popular belief
-                                                        </p>
-                                                        <p class="r--content-review r--body-item">
-                                                            It is a long established fact that a reader
-                                                            will be distracted by the readable content
-                                                            of a page
-                                                        </p>
-                                                        <time datetime="2020-01-28T17:29:54Z"
-                                                            class="r--date-review r--top r--text-limit">15 days
-                                                            ago</time>
-                                                        <ul class="r--reply-helpul r--body-item r--flex-center">
-                                                            <li class="r--helpul-item">
-                                                                <div class="r--like">
-                                                                    <div class="r--like-icon like r--flex-center">
-                                                                        <svg width="14"
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 15.762 17.939"
-                                                                            class="r--icon-like">
-                                                                            <g transform="translate(-926.048 -414.43)">
-                                                                                <path
-                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
-                                                                                    transform="translate(929.463 415.021)"
-                                                                                    class="cls-1"></path>
-                                                                                <path
-                                                                                    d="M945.558,421.769v11.039l-2.9-.279V422.22Z"
-                                                                                    transform="translate(-16.112 -0.939)"
-                                                                                    class="cls-2"></path>
-                                                                            </g>
-                                                                        </svg>
-                                                                        <span class="r--like-count like_0">12</span>
-                                                                    </div>
-                                                                    <div class="r--like-icon dislike r--flex-center">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 15.762 17.659"
-                                                                            class="r--icon-dislike">
-                                                                            <g
-                                                                                transform="translate(956.922 435.325) rotate(180)">
-                                                                                <path
-                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
-                                                                                    transform="translate(944.575 418.257)"
-                                                                                    class="cls-1"></path>
-                                                                                <path
-                                                                                    d="M945.558,421.946v10.321l-2.9.261V421.777Z"
-                                                                                    transform="translate(-1 2.296)"
-                                                                                    class="cls-2"></path>
-                                                                            </g>
-                                                                        </svg>
-                                                                        <span class="r--like-count like_0">08</span>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li class="r--helpul-item r--reply-review r--flex-center ajax_pp_js"
-                                                                data-id="#popup-reply-review">
-                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 21.125 17.584" class="r--icon-reply">
-                                                                    <defs>
-                                                                        <clipPath>
-                                                                            <rect width="14.094" height="3.924"
-                                                                                class="cls-1"></rect>
-                                                                        </clipPath>
-                                                                    </defs>
-                                                                    <g transform="translate(-784.909 -833.715)">
-                                                                        <path
-                                                                            d="M4.01,12.938H2a2,2,0,0,1-2-2V2A2,2,0,0,1,2,0H18.125a2,2,0,0,1,2,2v8.937a2,2,0,0,1-2,2H8.78l-.667.923L6.4,16.232Z"
-                                                                            transform="translate(785.409 834.215)"
-                                                                            class="cls-2"></path>
-                                                                        <g transform="translate(788.554 839.127)"
-                                                                            class="cls-3">
-                                                                            <g transform="translate(-739 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                            <g transform="translate(-734 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                            <g transform="translate(-729 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                        </g>
-                                                                    </g>
-                                                                </svg>
-                                                                <span>02</span>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="r--grid-item">
-                                                    <div class="r--author r--text-limit">
-                                                        <div
-                                                            class="r--avatar-default text-center text-white avatar--bg-purple">
-                                                            G
-                                                        </div>
-                                                        <span class="r--author-review">Glager</span>
-                                                    </div>
-                                                    <div class="r--item-body">
-                                                        <div class="r--item-body-top">
-                                                            <div
-                                                                class="r--stars-author r--star-head r--body-item r--flex-center">
-                                                                <div class="kalles-rating-result">
-                                                                    <span class="kalles-rating-result__pipe">
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big active"></span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="r--title-review r--body-item">
-                                                            Contrary to popular belief
-                                                        </p>
-                                                        <p class="r--content-review r--body-item">
-                                                            It is a long established fact that a reader
-                                                            will be distracted by the readable content
-                                                            of a page
-                                                        </p>
-                                                        <time datetime="2020-01-28T17:29:54Z"
-                                                            class="r--date-review r--top r--text-limit">15 days
-                                                            ago</time>
-                                                        <ul class="r--reply-helpul r--body-item r--flex-center">
-                                                            <li class="r--helpul-item">
-                                                                <div class="r--like">
-                                                                    <div class="r--like-icon like r--flex-center">
-                                                                        <svg width="14"
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 15.762 17.939"
-                                                                            class="r--icon-like">
-                                                                            <g transform="translate(-926.048 -414.43)">
-                                                                                <path
-                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
-                                                                                    transform="translate(929.463 415.021)"
-                                                                                    class="cls-1"></path>
-                                                                                <path
-                                                                                    d="M945.558,421.769v11.039l-2.9-.279V422.22Z"
-                                                                                    transform="translate(-16.112 -0.939)"
-                                                                                    class="cls-2"></path>
-                                                                            </g>
-                                                                        </svg>
-                                                                        <span class="r--like-count like_0">12</span>
-                                                                    </div>
-                                                                    <div class="r--like-icon dislike r--flex-center">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 15.762 17.659"
-                                                                            class="r--icon-dislike">
-                                                                            <g
-                                                                                transform="translate(956.922 435.325) rotate(180)">
-                                                                                <path
-                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
-                                                                                    transform="translate(944.575 418.257)"
-                                                                                    class="cls-1"></path>
-                                                                                <path
-                                                                                    d="M945.558,421.946v10.321l-2.9.261V421.777Z"
-                                                                                    transform="translate(-1 2.296)"
-                                                                                    class="cls-2"></path>
-                                                                            </g>
-                                                                        </svg>
-                                                                        <span class="r--like-count like_0">08</span>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li class="r--helpul-item r--reply-review r--flex-center ajax_pp_js"
-                                                                data-id="#popup-reply-review">
-                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 21.125 17.584" class="r--icon-reply">
-                                                                    <defs>
-                                                                        <clipPath>
-                                                                            <rect width="14.094" height="3.924"
-                                                                                class="cls-1"></rect>
-                                                                        </clipPath>
-                                                                    </defs>
-                                                                    <g transform="translate(-784.909 -833.715)">
-                                                                        <path
-                                                                            d="M4.01,12.938H2a2,2,0,0,1-2-2V2A2,2,0,0,1,2,0H18.125a2,2,0,0,1,2,2v8.937a2,2,0,0,1-2,2H8.78l-.667.923L6.4,16.232Z"
-                                                                            transform="translate(785.409 834.215)"
-                                                                            class="cls-2"></path>
-                                                                        <g transform="translate(788.554 839.127)"
-                                                                            class="cls-3">
-                                                                            <g transform="translate(-739 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                            <g transform="translate(-734 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                            <g transform="translate(-729 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                        </g>
-                                                                    </g>
-                                                                </svg>
-                                                                <span>02</span>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="r--grid-item">
-                                                    <div class="r--author r--text-limit">
-                                                        <div
-                                                            class="r--avatar-default text-center text-white avatar--bg-blue">
-                                                            C
-                                                        </div>
-                                                        <span class="r--author-review">Chaos</span>
-                                                    </div>
-                                                    <div class="r--item-body">
-                                                        <div class="r--item-body-top">
-                                                            <div
-                                                                class="r--stars-author r--star-head r--body-item r--flex-center">
-                                                                <div class="kalles-rating-result">
-                                                                    <span class="kalles-rating-result__pipe">
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big active"></span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="r--title-review r--body-item">
-                                                            Contrary to popular belief
-                                                        </p>
-                                                        <p class="r--content-review r--body-item">
-                                                            It is a long established fact that a reader
-                                                            will be distracted by the readable content
-                                                            of a page
-                                                        </p>
-                                                        <time datetime="2020-01-28T17:29:54Z"
-                                                            class="r--date-review r--top r--text-limit">15 days
-                                                            ago</time>
-                                                        <ul class="r--reply-helpul r--body-item r--flex-center">
-                                                            <li class="r--helpul-item">
-                                                                <div class="r--like">
-                                                                    <div class="r--like-icon like r--flex-center">
-                                                                        <svg width="14"
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 15.762 17.939"
-                                                                            class="r--icon-like">
-                                                                            <g transform="translate(-926.048 -414.43)">
-                                                                                <path
-                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
-                                                                                    transform="translate(929.463 415.021)"
-                                                                                    class="cls-1"></path>
-                                                                                <path
-                                                                                    d="M945.558,421.769v11.039l-2.9-.279V422.22Z"
-                                                                                    transform="translate(-16.112 -0.939)"
-                                                                                    class="cls-2"></path>
-                                                                            </g>
-                                                                        </svg>
-                                                                        <span class="r--like-count like_0">12</span>
-                                                                    </div>
-                                                                    <div class="r--like-icon dislike r--flex-center">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 15.762 17.659"
-                                                                            class="r--icon-dislike">
-                                                                            <g
-                                                                                transform="translate(956.922 435.325) rotate(180)">
-                                                                                <path
-                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
-                                                                                    transform="translate(944.575 418.257)"
-                                                                                    class="cls-1"></path>
-                                                                                <path
-                                                                                    d="M945.558,421.946v10.321l-2.9.261V421.777Z"
-                                                                                    transform="translate(-1 2.296)"
-                                                                                    class="cls-2"></path>
-                                                                            </g>
-                                                                        </svg>
-                                                                        <span class="r--like-count like_0">08</span>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li class="r--helpul-item r--reply-review r--flex-center ajax_pp_js"
-                                                                data-id="#popup-reply-review">
-                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 21.125 17.584" class="r--icon-reply">
-                                                                    <defs>
-                                                                        <clipPath>
-                                                                            <rect width="14.094" height="3.924"
-                                                                                class="cls-1"></rect>
-                                                                        </clipPath>
-                                                                    </defs>
-                                                                    <g transform="translate(-784.909 -833.715)">
-                                                                        <path
-                                                                            d="M4.01,12.938H2a2,2,0,0,1-2-2V2A2,2,0,0,1,2,0H18.125a2,2,0,0,1,2,2v8.937a2,2,0,0,1-2,2H8.78l-.667.923L6.4,16.232Z"
-                                                                            transform="translate(785.409 834.215)"
-                                                                            class="cls-2"></path>
-                                                                        <g transform="translate(788.554 839.127)"
-                                                                            class="cls-3">
-                                                                            <g transform="translate(-739 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                            <g transform="translate(-734 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                            <g transform="translate(-729 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                        </g>
-                                                                    </g>
-                                                                </svg>
-                                                                <span>02</span>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="r--grid-item">
-                                                    <div class="r--author r--text-limit">
-                                                        <div class="r--avatar-default text-center text-white">
-                                                            S
-                                                        </div>
-                                                        <span class="r--author-review">Sevenor</span>
-                                                    </div>
-                                                    <div class="r--item-body">
-                                                        <div class="r--item-body-top">
-                                                            <div
-                                                                class="r--stars-author r--star-head r--body-item r--flex-center">
-                                                                <div class="kalles-rating-result">
-                                                                    <span class="kalles-rating-result__pipe">
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big active"></span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="r--title-review r--body-item">
-                                                            Contrary to popular belief
-                                                        </p>
-                                                        <p class="r--content-review r--body-item">
-                                                            It is a long established fact that a reader
-                                                            will be distracted by the readable content
-                                                            of a page
-                                                        </p>
-                                                        <time datetime="2020-01-28T17:29:54Z"
-                                                            class="r--date-review r--top r--text-limit">15 days
-                                                            ago</time>
-                                                        <ul class="r--reply-helpul r--body-item r--flex-center">
-                                                            <li class="r--helpul-item">
-                                                                <div class="r--like">
-                                                                    <div class="r--like-icon like r--flex-center">
-                                                                        <svg width="14"
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 15.762 17.939"
-                                                                            class="r--icon-like">
-                                                                            <g transform="translate(-926.048 -414.43)">
-                                                                                <path
-                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
-                                                                                    transform="translate(929.463 415.021)"
-                                                                                    class="cls-1"></path>
-                                                                                <path
-                                                                                    d="M945.558,421.769v11.039l-2.9-.279V422.22Z"
-                                                                                    transform="translate(-16.112 -0.939)"
-                                                                                    class="cls-2"></path>
-                                                                            </g>
-                                                                        </svg>
-                                                                        <span class="r--like-count like_0">12</span>
-                                                                    </div>
-                                                                    <div class="r--like-icon dislike r--flex-center">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 15.762 17.659"
-                                                                            class="r--icon-dislike">
-                                                                            <g
-                                                                                transform="translate(956.922 435.325) rotate(180)">
-                                                                                <path
-                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
-                                                                                    transform="translate(944.575 418.257)"
-                                                                                    class="cls-1"></path>
-                                                                                <path
-                                                                                    d="M945.558,421.946v10.321l-2.9.261V421.777Z"
-                                                                                    transform="translate(-1 2.296)"
-                                                                                    class="cls-2"></path>
-                                                                            </g>
-                                                                        </svg>
-                                                                        <span class="r--like-count like_0">08</span>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li class="r--helpul-item r--reply-review r--flex-center ajax_pp_js"
-                                                                data-id="#popup-reply-review">
-                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 21.125 17.584" class="r--icon-reply">
-                                                                    <defs>
-                                                                        <clipPath>
-                                                                            <rect width="14.094" height="3.924"
-                                                                                class="cls-1"></rect>
-                                                                        </clipPath>
-                                                                    </defs>
-                                                                    <g transform="translate(-784.909 -833.715)">
-                                                                        <path
-                                                                            d="M4.01,12.938H2a2,2,0,0,1-2-2V2A2,2,0,0,1,2,0H18.125a2,2,0,0,1,2,2v8.937a2,2,0,0,1-2,2H8.78l-.667.923L6.4,16.232Z"
-                                                                            transform="translate(785.409 834.215)"
-                                                                            class="cls-2"></path>
-                                                                        <g transform="translate(788.554 839.127)"
-                                                                            class="cls-3">
-                                                                            <g transform="translate(-739 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                            <g transform="translate(-734 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                            <g transform="translate(-729 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                        </g>
-                                                                    </g>
-                                                                </svg>
-                                                                <span>02</span>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
-                                                <div class="r--grid-item">
-                                                    <div class="r--author r--text-limit">
-                                                        <div
-                                                            class="r--avatar-default text-center text-white avatar--bg-purple">
-                                                            D
-                                                        </div>
-                                                        <span class="r--author-review">Dranking</span>
-                                                    </div>
-                                                    <div class="r--item-body">
-                                                        <div class="r--item-body-top">
-                                                            <div
-                                                                class="r--stars-author r--star-head r--body-item r--flex-center">
-                                                                <div class="kalles-rating-result">
-                                                                    <span class="kalles-rating-result__pipe">
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big"></span>
-                                                                        <span
-                                                                            class="kalles-rating-result__start kalles-rating-result__start--big active"></span>
-                                                                    </span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <p class="r--title-review r--body-item">
-                                                            Contrary to popular belief
-                                                        </p>
-                                                        <p class="r--content-review r--body-item">
-                                                            It is a long established fact that a reader
-                                                            will be distracted by the readable content
-                                                            of a page
-                                                        </p>
-                                                        <time datetime="2020-01-28T17:29:54Z"
-                                                            class="r--date-review r--top r--text-limit">15 days
-                                                            ago</time>
-                                                        <ul class="r--reply-helpul r--body-item r--flex-center">
-                                                            <li class="r--helpul-item">
-                                                                <div class="r--like">
-                                                                    <div class="r--like-icon like r--flex-center">
-                                                                        <svg width="14"
-                                                                            xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 15.762 17.939"
-                                                                            class="r--icon-like">
-                                                                            <g transform="translate(-926.048 -414.43)">
-                                                                                <path
-                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
-                                                                                    transform="translate(929.463 415.021)"
-                                                                                    class="cls-1"></path>
-                                                                                <path
-                                                                                    d="M945.558,421.769v11.039l-2.9-.279V422.22Z"
-                                                                                    transform="translate(-16.112 -0.939)"
-                                                                                    class="cls-2"></path>
-                                                                            </g>
-                                                                        </svg>
-                                                                        <span class="r--like-count like_0">12</span>
-                                                                    </div>
-                                                                    <div class="r--like-icon dislike r--flex-center">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            viewBox="0 0 15.762 17.659"
-                                                                            class="r--icon-dislike">
-                                                                            <g
-                                                                                transform="translate(956.922 435.325) rotate(180)">
-                                                                                <path
-                                                                                    d="M0,14.842V6.033l.266.709S3.779,4.692,3.9,1.674s2.5-1.661,2.624.45-.095,2.192.517,3.909c1.392-.021,2.211-.013,2.59-.006H9.71q.06,0,.119,0l.056,0v0A1.532,1.532,0,0,1,10.923,8.5a1.533,1.533,0,0,1,.45,2.515,1.533,1.533,0,0,1-.387,2.485,1.859,1.859,0,0,1,.257.966c0,.847-.515,1.584-1.15,1.584L9.237,16c-.7.042-2.286.125-2.717.131H6.448A31.646,31.646,0,0,1,0,14.842Z"
-                                                                                    transform="translate(944.575 418.257)"
-                                                                                    class="cls-1"></path>
-                                                                                <path
-                                                                                    d="M945.558,421.946v10.321l-2.9.261V421.777Z"
-                                                                                    transform="translate(-1 2.296)"
-                                                                                    class="cls-2"></path>
-                                                                            </g>
-                                                                        </svg>
-                                                                        <span class="r--like-count like_0">08</span>
-                                                                    </div>
-                                                                </div>
-                                                            </li>
-                                                            <li class="r--helpul-item r--reply-review r--flex-center ajax_pp_js"
-                                                                data-id="#popup-reply-review">
-                                                                <svg xmlns="http://www.w3.org/2000/svg"
-                                                                    viewBox="0 0 21.125 17.584" class="r--icon-reply">
-                                                                    <defs>
-                                                                        <clipPath>
-                                                                            <rect width="14.094" height="3.924"
-                                                                                class="cls-1"></rect>
-                                                                        </clipPath>
-                                                                    </defs>
-                                                                    <g transform="translate(-784.909 -833.715)">
-                                                                        <path
-                                                                            d="M4.01,12.938H2a2,2,0,0,1-2-2V2A2,2,0,0,1,2,0H18.125a2,2,0,0,1,2,2v8.937a2,2,0,0,1-2,2H8.78l-.667.923L6.4,16.232Z"
-                                                                            transform="translate(785.409 834.215)"
-                                                                            class="cls-2"></path>
-                                                                        <g transform="translate(788.554 839.127)"
-                                                                            class="cls-3">
-                                                                            <g transform="translate(-739 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                            <g transform="translate(-734 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                            <g transform="translate(-729 -839)">
-                                                                                <g transform="translate(739 839)"
-                                                                                    class="cls-4">
-                                                                                    <circle cx="1.75" cy="1.75" r="1.75"
-                                                                                        class="cls-5">
-                                                                                    </circle>
-                                                                                    <circle cx="1.75" cy="1.75" r="1.25"
-                                                                                        class="cls-1">
-                                                                                    </circle>
-                                                                                </g>
-                                                                            </g>
-                                                                        </g>
-                                                                    </g>
-                                                                </svg>
-                                                                <span>02</span>
-                                                            </li>
-                                                        </ul>
-                                                    </div>
-                                                </div>
+                                                <?php } ?>
+
                                             </div>
-                                            <div class="r--load-more">
-                                                <a href="#" class="r--text-load-more">Load more</a>
-                                            </div>
+
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <?php } ?>
                 </div>
             </div>
         </div>
         <div class="clearfix"></div>
 
+        <!-- SIMILAR PRODUCTS LIST -->
+
+        <?php if(!empty($similer_products)){?>
         <div class="kalles-section tp_se_cdt">
-            <div class="related product-extra mt__60 lazyload">
+            <div class="related product-extra mt__20 lazyload">
                 <div class="container">
-                    <div class="wrap_title des_title_1">
-                        <h3 class="section-title tc pr flex fl_center al_center fs__24 title_1">
-                            <span class="mr__10 ml__10">You may also like</span>
+                    <div class="wrap_title  des_title_2">
+                        <h3 class="section-title tc pr flex fl_center al_center fs__24 title_2">
+                            <span class="mr__10 ml__10">
+                                Similar Products
+                            </span>
                         </h3>
-                        <span class="dn tt_divider"><span></span><i
-                                class="dn clprfalse title_1 la-gem"></i><span></span></span><span
-                            class="section-subtitle db tc sub-title"></span>
+                        <span class="dn tt_divider">
+                            <span>
+                            </span>
+                            <i class="dn clprfalse title_2 la-gem">
+                            </i>
+                            <span>
+                            </span>
+                        </span>
+                        <span class="section-subtitle db tc sub-title">
+                            Top sale in this week
+                        </span>
                     </div>
                     <div class="products nt_products_holder nt_slider row row_pr_1 cdt_des_1 round_cd_false nt_cover ratio_nt position_8 space_30 prev_next_0 btn_owl_1 dot_owl_1 dot_color_1 btn_vi_1 is-draggable"
                         data-flickity='{"imagesLoaded": 0,"adaptiveHeight": 0, "contain": 1, "groupCells": "100%", "dragThreshold" : 5, "cellAlign": "left","wrapAround": true,"prevNextButtons": false,"percentPosition": 1,"pageDots": false, "autoPlay" : 0, "pauseAutoPlayOnHover" : true, "rightToLeft": false }'>
+                        <?php foreach($similer_products as $row){
+                            $product_id         = $row['product_id'];
+                            $product_name       = $row['product_name'];
+                            $short_code         = $row['short_code'];
+                            $net_price          = $row['net_price'];
+                            $mrp_price          = $row['mrp_price'];
+                            $cover_img          = $row['cover_img'];
+                            $discount           = $row['discount'];
+                            $variants           = $row['variants'];
+                            $imgurl             = base_url().PRODUCT_IMAGE_PATH.$product_id.'/'.$cover_img;
+                            $detailurl          = base_url('product-detail/').$short_code;                            
+                        ?>
                         <div
-                            class="col-lg-2 col-md-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
+                            class="col-lg-2 col-md-3 pr_animated col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
                             <div class="product-inner pr">
                                 <div class="product-image pr oh lazyload">
+                                    <!-- <span class="tc nt_labels pa pe_none cw"><span
+                                            class="onsale nt_label"><span>-40%</span></span></span> -->
                                     <a class="d-block" href="product-detail-layout-01.html">
                                         <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-11.jpg"></div>
+                                            data-bgset="<?php echo $imgurl; ?>"></div>
                                     </a>
                                     <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
                                         <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-10.jpg"></div>
+                                            data-bgset="<?php echo $imgurl; ?>"></div>
                                     </div>
                                     <div class="nt_add_w ts__03 pa ">
-                                        <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
-                                                class="tt_txt">Add to Wishlist</span><i
-                                                class="facl facl-heart-o"></i></a>
+                                        <a href="javascript:void(0)" class="wishlistadd cb chp ttip_nt tooltip_right"
+                                            data-pid="<?php echo $product_id; ?>"
+                                            onclick="additemToWishlost(<?php echo $product_id; ?>)">
+                                            <span class="tt_txt">Add to Wishlist</span>
+                                            <i class="facl facl-heart-o"></i>
+                                        </a>
                                     </div>
-                                    <div class="hover_button op__0 tc pa flex column ts__03">
-                                        <a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#"><span class="tt_txt">Quick view</span><i
-                                                class="iccl iccl-eye"></i><span>Quick view</span></a>
-                                        <a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js__qs cb chp ttip_nt tooltip_top_left"><span
-                                                class="tt_txt">Quick Shop</span><i
-                                                class="iccl iccl-cart"></i><span>Quick Shop</span></a>
-                                    </div>
+                                    <?php if(!empty($variants)){?>
                                     <div class="product-attr pa ts__03 cw op__0 tc">
-                                        <p class="truncate mg__0 w__100">S, M, L</p>
+                                        <?php foreach($variants as $key=>$val){?>
+                                        <p class="truncate mg__0 w__100 fs__10"><?php echo $val; ?></p>
+                                        <?php } ?>
                                     </div>
+                                    <?php } ?>
                                 </div>
                                 <div class="product-info mt__15">
-                                    <h3 class="product-title pr fs__14 mg__0 fwm">
-                                        <a class="cd chp" href="product-detail-layout-01.html">Ridley High Waist</a>
+                                    <h3 class="product-title truncate pr fs__14 mg__0 fwm">
+                                        <a class="cd chp"
+                                            href="<?php echo $detailurl; ?>"><?php echo $product_name; ?></a>
                                     </h3>
-                                    <span class="price dib mb__5">$36.00</span>
+                                    <span class="price dib mb__5">
+                                        <i
+                                            class="fa fa-inr cr"></i><ins><?php echo moneyFormatIndia_ui($net_price);?></ins>
+                                        <i
+                                            class="fa fa-inr"></i><del><?php echo moneyFormatIndia_ui($mrp_price);?></del>
+                                    </span>
                                 </div>
                             </div>
                         </div>
-                        <div
-                            class="col-lg-2 col-md-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
-                            <div class="product-inner pr">
-                                <div class="product-image pr oh lazyload">
-                                    <span class="tc nt_labels pa pe_none cw"><span
-                                            class="onsale nt_label"><span>-40%</span></span></span>
-                                    <a class="d-block" href="product-detail-layout-01.html">
-                                        <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-15.jpg"></div>
-                                    </a>
-                                    <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-                                        <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-16.jpg"></div>
-                                    </div>
-                                    <div class="nt_add_w ts__03 pa ">
-                                        <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
-                                                class="tt_txt">Add to Wishlist</span><i
-                                                class="facl facl-heart-o"></i></a>
-                                    </div>
-                                    <div class="hover_button op__0 tc pa flex column ts__03">
-                                        <a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#"><span class="tt_txt">Quick view</span><i
-                                                class="iccl iccl-eye"></i><span>Quick view</span></a>
-                                        <a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js__qs cb chp ttip_nt tooltip_top_left"><span
-                                                class="tt_txt">Quick Shop</span><i
-                                                class="iccl iccl-cart"></i><span>Quick Shop</span></a>
-                                    </div>
-                                    <div class="product-attr pa ts__03 cw op__0 tc">
-                                        <p class="truncate mg__0 w__100">S, M</p>
-                                    </div>
-                                </div>
-                                <div class="product-info mt__15">
-                                    <h3 class="product-title pr fs__14 mg__0 fwm">
-                                        <a class="cd chp" href="product-detail-layout-01.html">Skin Sweatpans</a>
-                                    </h3>
-                                    <span class="price dib mb__5"><del>$75.00</del><ins>$45.00</ins></span>
-                                    <div class="swatch__list_js swatch__list lh__1 nt_swatches_on_grid">
-                                        <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-s-50.jpg"
-                                            class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right js__pink"><span
-                                                class="tt_txt">Pink</span><span
-                                                class="swatch__value bg_color_pink lazyload"></span></span>
-                                        <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-s-51.jpg"
-                                            class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right js__cyan"><span
-                                                class="tt_txt">Cyan</span><span
-                                                class="swatch__value bg_color_cyan lazyload"></span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="col-lg-2 col-md-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
-                            <div class="product-inner pr">
-                                <div class="product-image pr oh lazyload">
-                                    <a class="d-block" href="product-detail-layout-01.html">
-                                        <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-21.jpg"></div>
-                                    </a>
-                                    <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-                                        <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-22.jpg"></div>
-                                    </div>
-                                    <div class="nt_add_w ts__03 pa ">
-                                        <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
-                                                class="tt_txt">Add to Wishlist</span><i
-                                                class="facl facl-heart-o"></i></a>
-                                    </div>
-                                    <div class="hover_button op__0 tc pa flex column ts__03">
-                                        <a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#"><span class="tt_txt">Quick view</span><i
-                                                class="iccl iccl-eye"></i><span>Quick view</span></a>
-                                        <a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js_addtc cb chp ttip_nt tooltip_top_left"><span
-                                                class="tt_txt">Add to cart</span><i class="iccl iccl-cart"></i><span>Add
-                                                to cart</span></a>
-                                    </div>
-                                </div>
-                                <div class="product-info mt__15">
-                                    <h3 class="product-title pr fs__14 mg__0 fwm">
-                                        <a class="cd chp" href="product-detail-layout-01.html">Black mountain hat</a>
-                                    </h3>
-                                    <span class="price dib mb__5">$50.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="col-lg-2 col-md-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
-                            <div class="product-inner pr">
-                                <div class="product-image pr oh lazyload">
-                                    <a class="d-block" href="product-detail-layout-01.html">
-                                        <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-15.jpg"></div>
-                                    </a>
-                                    <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-                                        <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-16.jpg"></div>
-                                    </div>
-                                    <div class="nt_add_w ts__03 pa ">
-                                        <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
-                                                class="tt_txt">Add to Wishlist</span><i
-                                                class="facl facl-heart-o"></i></a>
-                                    </div>
-                                    <div class="hover_button op__0 tc pa flex column ts__03">
-                                        <a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#"><span class="tt_txt">Quick view</span><i
-                                                class="iccl iccl-eye"></i><span>Quick view</span></a>
-                                        <a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js__qs cb chp ttip_nt tooltip_top_left"><span
-                                                class="tt_txt">Quick Shop</span><i
-                                                class="iccl iccl-cart"></i><span>Quick Shop</span></a>
-                                    </div>
-                                </div>
-                                <div class="product-info mt__15">
-                                    <h3 class="product-title pr fs__14 mg__0 fwm">
-                                        <a class="cd chp" href="product-detail-layout-01.html">Men pants</a>
-                                    </h3>
-                                    <span class="price dib mb__5">$49.00 – $56.00</span>
-                                    <div class="swatch__list_js swatch__list lh__1 nt_swatches_on_grid">
-                                        <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-15.jpg"
-                                            class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right lazyload"><span
-                                                class="tt_txt">Blue</span><span
-                                                class="swatch__value bg_color_blue"></span></span>
-                                        <span data-bgset="<?php echo UI_ASSETS ?>images/products/pr-16.jpg"
-                                            class="nt_swatch_on_bg swatch__list--item pr ttip_nt tooltip_top_right lazyload"><span
-                                                class="tt_txt">Black</span><span
-                                                class="swatch__value bg_color_black"></span></span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="col-lg-2 col-md-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
-                            <div class="product-inner pr">
-                                <div class="product-image pr oh lazyload">
-                                    <a class="d-block" href="product-detail-layout-01.html">
-                                        <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-11.jpg"></div>
-                                    </a>
-                                    <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-                                        <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-10.jpg"></div>
-                                    </div>
-                                    <div class="nt_add_w ts__03 pa ">
-                                        <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
-                                                class="tt_txt">Add to Wishlist</span><i
-                                                class="facl facl-heart-o"></i></a>
-                                    </div>
-                                    <div class="hover_button op__0 tc pa flex column ts__03">
-                                        <a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#"><span class="tt_txt">Quick view</span><i
-                                                class="iccl iccl-eye"></i><span>Quick view</span></a>
-                                        <a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js_addtc cb chp ttip_nt tooltip_top_left"><span
-                                                class="tt_txt">Add to cart</span><i class="iccl iccl-cart"></i><span>Add
-                                                to cart</span></a>
-                                    </div>
-                                </div>
-                                <div class="product-info mt__15">
-                                    <h3 class="product-title pr fs__14 mg__0 fwm">
-                                        <a class="cd chp" href="product-detail-layout-01.html">Cream women pants</a>
-                                    </h3>
-                                    <span class="price dib mb__5">$35.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="col-lg-2 col-md-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
-                            <div class="product-inner pr">
-                                <div class="product-image pr oh lazyload">
-                                    <a class="d-block" href="product-detail-layout-01.html">
-                                        <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-29.jpg"></div>
-                                    </a>
-                                    <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-                                        <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-30.jpg"></div>
-                                    </div>
-                                    <div class="nt_add_w ts__03 pa ">
-                                        <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
-                                                class="tt_txt">Add to Wishlist</span><i
-                                                class="facl facl-heart-o"></i></a>
-                                    </div>
-                                    <div class="hover_button op__0 tc pa flex column ts__03">
-                                        <a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#"><span class="tt_txt">Quick view</span><i
-                                                class="iccl iccl-eye"></i><span>Quick view</span></a>
-                                        <a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js_addtc cb chp ttip_nt tooltip_top_left"><span
-                                                class="tt_txt">Add to cart</span><i class="iccl iccl-cart"></i><span>Add
-                                                to cart</span></a>
-                                    </div>
-                                </div>
-                                <div class="product-info mt__15">
-                                    <h3 class="product-title pr fs__14 mg__0 fwm">
-                                        <a class="cd chp" href="product-detail-layout-01.html">Sunny Life</a>
-                                    </h3>
-                                    <span class="price dib mb__5">$68.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="col-lg-2 col-md-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
-                            <div class="product-inner pr">
-                                <div class="product-image pr oh lazyload">
-                                    <a class="d-block" href="product-detail-layout-01.html">
-                                        <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-29.jpg"></div>
-                                    </a>
-                                    <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-                                        <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-30.jpg"></div>
-                                    </div>
-                                    <div class="nt_add_w ts__03 pa ">
-                                        <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
-                                                class="tt_txt">Add to Wishlist</span><i
-                                                class="facl facl-heart-o"></i></a>
-                                    </div>
-                                    <div class="hover_button op__0 tc pa flex column ts__03">
-                                        <a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#"><span class="tt_txt">Quick view</span><i
-                                                class="iccl iccl-eye"></i><span>Quick view</span></a>
-                                        <a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js_addtc cb chp ttip_nt tooltip_top_left"><span
-                                                class="tt_txt">Add to cart</span><i class="iccl iccl-cart"></i><span>Add
-                                                to cart</span></a>
-                                    </div>
-                                </div>
-                                <div class="product-info mt__15">
-                                    <h3 class="product-title pr fs__14 mg__0 fwm">
-                                        <a class="cd chp" href="product-detail-layout-01.html">Sunny Life</a>
-                                    </h3>
-                                    <span class="price dib mb__5">$68.00</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                            class="col-lg-2 col-md-3 pr_animated col-md-3 col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
-                            <div class="product-inner pr">
-                                <div class="product-image pr oh lazyload">
-                                    <a class="d-block" href="product-detail-layout-01.html">
-                                        <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-29.jpg"></div>
-                                    </a>
-                                    <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
-                                        <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
-                                            data-bgset="<?php echo UI_ASSETS ?>images/products/pr-30.jpg"></div>
-                                    </div>
-                                    <div class="nt_add_w ts__03 pa ">
-                                        <a href="#" class="wishlistadd cb chp ttip_nt tooltip_right"><span
-                                                class="tt_txt">Add to Wishlist</span><i
-                                                class="facl facl-heart-o"></i></a>
-                                    </div>
-                                    <div class="hover_button op__0 tc pa flex column ts__03">
-                                        <a class="pr nt_add_qv js_add_qv cd br__40 pl__25 pr__25 bgw tc dib ttip_nt tooltip_top_left"
-                                            href="#"><span class="tt_txt">Quick view</span><i
-                                                class="iccl iccl-eye"></i><span>Quick view</span></a>
-                                        <a href="#"
-                                            class="pr pr_atc cd br__40 bgw tc dib js_addtc cb chp ttip_nt tooltip_top_left"><span
-                                                class="tt_txt">Add to cart</span><i class="iccl iccl-cart"></i><span>Add
-                                                to cart</span></a>
-                                    </div>
-                                </div>
-                                <div class="product-info mt__15">
-                                    <h3 class="product-title pr fs__14 mg__0 fwm">
-                                        <a class="cd chp" href="product-detail-layout-01.html">Sunny Life</a>
-                                    </h3>
-                                    <span class="price dib mb__5">$68.00</span>
-                                </div>
-                            </div>
-                        </div>
+                        <?php  } ?>
                     </div>
                 </div>
             </div>
         </div>
+        <?php  } ?>
+
+        <!-- SIMILAR PRODUCTS LIST -->
+
+        <!-- RECENT VIEWED PRODUCTS LIST -->
+
+        <?php if(!empty($recent_product_list)){?>
+        <div class="kalles-section tp_se_cdt" id="wrap_des_pr">
+            <div class="related product-extra mt__60 lazyload">
+                <div class="container py-5">
+                    <div class="wrap_title  des_title_2">
+                        <h3 class="section-title tc pr flex fl_center al_center fs__24 title_2">
+                            <span class="mr__10 ml__10">
+                                Recenlty Viewed
+                            </span>
+                        </h3>
+                        <span class="dn tt_divider">
+                            <span>
+                            </span>
+                            <i class="dn clprfalse title_2 la-gem">
+                            </i>
+                            <span>
+                            </span>
+                        </span>
+                        <span class="section-subtitle db tc sub-title">
+                            Top sale in this week
+                        </span>
+                    </div>
+                    <div class="products nt_products_holder nt_slider row row_pr_1 cdt_des_1 round_cd_false nt_cover ratio_nt position_8 space_30 prev_next_0 btn_owl_1 dot_owl_1 dot_color_1 btn_vi_1 is-draggable"
+                        data-flickity='{"imagesLoaded": 0,"adaptiveHeight": 0, "contain": 1, "groupCells": "100%", "dragThreshold" : 5, "cellAlign": "left","wrapAround": true,"prevNextButtons": false,"percentPosition": 1,"pageDots": false, "autoPlay" : 0, "pauseAutoPlayOnHover" : true, "rightToLeft": false }'>
+                        <?php foreach($recent_product_list as $row){
+                            $product_id         = $row['product_id'];
+                            $product_name       = $row['product_name'];
+                            $short_code         = $row['short_code'];
+                            $net_price          = $row['net_price'];
+                            $mrp_price          = $row['mrp_price'];
+                            $cover_img          = $row['cover_img'];
+                            $discount           = $row['discount'];
+                            //$variants           = $row['variants'];
+                            $imgurl             = base_url().PRODUCT_IMAGE_PATH.$product_id.'/'.$cover_img;
+                            $detailurl          = base_url('product-detail/').$short_code;                            
+                        ?>
+                        <div
+                            class="col-lg-2 col-md-3 pr_animated col-6 mt__30 pr_grid_item product nt_pr desgin__1 done">
+                            <div class="product-inner pr">
+                                <div class="product-image pr oh lazyload">
+                                    <!-- <span class="tc nt_labels pa pe_none cw"><span
+                                            class="onsale nt_label"><span>-40%</span></span></span> -->
+                                    <a class="d-block" href="product-detail-layout-01.html">
+                                        <div class="pr_lazy_img main-img nt_img_ratio nt_bg_lz lazyload padding-top__127_571"
+                                            data-bgset="<?php echo $imgurl; ?>"></div>
+                                    </a>
+                                    <div class="hover_img pa pe_none t__0 l__0 r__0 b__0 op__0">
+                                        <div class="pr_lazy_img back-img pa nt_bg_lz lazyload padding-top__127_571"
+                                            data-bgset="<?php echo $imgurl; ?>"></div>
+                                    </div>
+                                    <div class="nt_add_w ts__03 pa ">
+                                        <a href="javascript:void(0)" class="wishlistadd cb chp ttip_nt tooltip_right"
+                                            data-pid="<?php echo $product_id; ?>"
+                                            onclick="additemToWishlost(<?php echo $product_id; ?>)">
+                                            <span class="tt_txt">Add to Wishlist</span>
+                                            <i class="facl facl-heart-o"></i>
+                                        </a>
+                                    </div>
+                                    <!-- <?php if(!empty($variants)){?>                                    
+                                    <div class="product-attr pa ts__03 cw op__0 tc">
+                                        <?php foreach($variants as $key=>$val){?>
+                                            <p class="truncate mg__0 w__100 fs__10"><?php echo $val; ?></p>
+                                        <?php } ?>
+                                    </div>
+                                    <?php } ?> -->
+                                </div>
+                                <div class="product-info mt__15">
+                                    <h3 class="product-title truncate pr fs__14 mg__0 fwm">
+                                        <a class="cd chp"
+                                            href="<?php echo $detailurl; ?>"><?php echo $product_name; ?></a>
+                                    </h3>
+                                    <span class="price dib mb__5">
+                                        <i
+                                            class="fa fa-inr cr"></i><ins><?php echo moneyFormatIndia_ui($net_price);?></ins>
+                                        <i
+                                            class="fa fa-inr"></i><del><?php echo moneyFormatIndia_ui($mrp_price);?></del>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <?php  } ?>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <?php  } ?>
+
+        <!-- RECENT VIEWED PRODUCTS LIST -->
+
     </div>
 </div>

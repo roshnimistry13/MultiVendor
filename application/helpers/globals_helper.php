@@ -33,7 +33,130 @@ require_once('Common/totp.class.php');
 
 /*sanitizeRequest();*/
 
+if(!function_exists('sendEMail')){
+	function sendEMail($Head , $to, $subject , $body,$useTemplate = true){
+		if($to=='' || is_null($to))
+		//throwErrr('Please enter valid email!!',104);
+		$mail = new PHPMailer(true); // the true param means it will throw exceptions on errors, which we need to catch
+		if(in_array($Head ,['DNHPDCL : Consumer Acknowledgement','DNHPDCL : PDApplication','DNHPDCL : ContractorApplication','DNHPDCL : DGSetApplication','DNHPDCL : PowerApplication'])){
 
+			$from     = OEMAIL_ID;//"jagdish1230@gmail.com";
+			$password = OEMAIL_PASSWORD;
+		}
+		else{
+
+			$from     = EMAIL_ID;//"jagdish1230@gmail.com";
+			$password = EMAIL_PASSWORD;
+		}
+
+		if((DEBUGGING || session('isDev'))){
+			$to = [];
+			if(!is_null(session("devEmailId")) &&
+				!startsWith(session("devEmailId"),"ed-"))
+			$to[] = session("devEmailId");
+			$to[] = "hktest47@gmail.com";
+			$to[] = "hksofttronix@yahoo.com";
+			$to[] = HKEMAIL;
+		}
+		try{
+			//$mail->SMTPDebug = 0;
+			$mail->SMTPDebug = EMAIL_SMTPDEBUG;
+			if(DEBUGGING) $mail->Debugoutput = 'echo';
+			else $mail->Debugoutput = 'error_log ';
+			$mail->isSMTP();
+			$mail->SMTPAuth = true;
+			$mail->Host = EMAIL_HOST;
+			$mail->Username = $from;//EMAIL_ID;        // GMAIL username
+			$mail->Password = $password;
+			$mail->SMTPSecure = EMAIL_SMTPSECURE;
+			$mail->Port = EMAIL_PORT;
+			$mail->IsHTML(true);
+			$mail->CharSet = "utf-8";
+			/*
+			$mail->SMTPOptions = array(
+			'ssl' => array(
+			'verify_peer' => false,
+			'verify_peer_name' => false,
+			'allow_self_signed' => true
+			)
+			);
+			*/
+			if(!(isset($Head) && $Head != '')){
+				$Head = '';
+			}
+			if(!(isset($from) && $from != '')){
+				$from = '';
+			}
+			$mail->SetFrom($from, $Head);
+			$mail->Subject = "<NO-Reply> $subject";//'PHPMailer Test Subject via mail(), advanced';
+			$i = 0;
+			if(is_array($to) && (!empty($to))){
+				foreach($to as $value){
+					$mailto = strtolower(trim($value));
+					if($i == 0)
+					$mail->AddAddress($mailto, '');
+					else
+					$mail->AddCC($mailto);
+					$i++;
+				}
+			}
+			else{
+				$mailto = strtolower(trim($to));
+				$mail->AddAddress($mailto, '');
+			}
+			if((!is_null($cc_to))){
+				if(is_array($cc_to)){
+					foreach($cc_to as $i){
+						$i = strtolower($i);
+						$mail->AddCC($i);
+					}
+				}
+				else
+				if($cc_to != ''){
+					$cc_to = strtolower($cc_to);
+					$mail->AddCC($cc_to);
+				}
+			}
+
+			//if (startsWith($Head, "DNHPDCL") && !startsWith($_SERVER['HTTP_HOST'] , 'localhost'))
+			//$mail->AddBCC("ed - jetech - dd@nic.in");
+			$mail->AddBCC($from);
+
+			if(isset($replyto) || $replyto != ''){
+				$mail->AddReplyTo($replyto, $name_replyto);
+			}
+			else{
+				//$mail->AddReplyTo('', '');
+			}
+			if($useTemplate)
+			$body = PopulateBody($body);
+
+			$mail->MsgHTML($body);//"This is a Test");
+			if(!(isset($attr) && ($attr != ''))){
+				$attr = NULL;
+			}
+			else{
+				foreach($attr as $i){
+					$mail->AddAttachment($i);
+				}
+			}
+			
+			return $mail->Send();
+		}
+		catch(phpmailerException $e){
+			logThis($e->errorMessage(),now(),'EmailFailure');
+			//return $e->errorMessage(); //Pretty error messages from PHPMailer
+			return false;
+		}
+		catch(Exception $e){
+			logThis($e->errorMessage(),now(),'EmailFailure');
+			//return $e->getMessage(); //Boring error messages from anything else!
+			return false;
+		}
+
+	}
+
+}
 
 function utf8ize($d){
 	if(is_array($d)){

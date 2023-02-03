@@ -594,3 +594,4 @@ function viewProductRrviews(product_id,product_name){
 	$('.product-name').text(product_name);
 	$('#product_review_modal').modal('show');
 }
+

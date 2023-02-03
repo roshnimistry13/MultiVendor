@@ -3,7 +3,6 @@
 
 
 #Begin*****************************************************************************************************
-<<<<<<< HEAD
 #Time : 17-01-2023 00:38:33 #Timeend
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/shop?category=men #ReferrerEnd
@@ -12,21 +11,10 @@
 #Operation : UPDATE #Operationend
 #Message: 
 UPDATE product_details SET `view_count` = 30 WHERE 1=1  and product_id = '5';
-=======
-#Time : 17-01-2023 23:09:44 #Timeend
-#IP : ::1 #IPend
-#Referrer : http://localhost/EthnicWear/shop #ReferrerEnd
-#Current URL: http://localhost/EthnicWear/product-detail/black-grey-hand-block-print-legacy-pure-cotton-sustainable-top-with-mirror-work-contrast-print-s-bla #CurrentURLEnd
-#Request : [] #Requestend
-#Operation : UPDATE #Operationend
-#Message: 
-UPDATE product_details SET `view_count` = 48 WHERE 1=1  and product_id = '115';
->>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612
 #End*******************************************************************************************************
 
 
 #Begin*****************************************************************************************************
-<<<<<<< HEAD
 #Time : 17-01-2023 00:59:32 #Timeend
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/shop?category=men #ReferrerEnd
@@ -1267,12 +1255,6 @@ UPDATE product_details SET `view_count` = 38 WHERE 1=1  and product_id = '2';
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/shop #ReferrerEnd
 #Current URL: http://localhost/MultiVendor/product-detail/boys-yellow-typography-printed-t-shirt-7y-8y-vne98q7y-132 #CurrentURLEnd
-=======
-#Time : 17-01-2023 23:10:33 #Timeend
-#IP : ::1 #IPend
-#Referrer : http://localhost/EthnicWear/shop #ReferrerEnd
-#Current URL: http://localhost/EthnicWear/product-detail/maroon-gold-ethnic-motifs-zari-silk-blend-banarasi-saree-red-vnky8c75-132 #CurrentURLEnd
->>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612
 #Request : [] #Requestend
 #Operation : UPDATE #Operationend
 #Message: 
@@ -1281,7 +1263,6 @@ UPDATE product_details SET `view_count` = 1 WHERE 1=1  and product_id = '132';
 
 
 #Begin*****************************************************************************************************
-<<<<<<< HEAD
 #Time : 17-01-2023 22:57:41 #Timeend
 #IP : ::1 #IPend
 #Referrer : http://localhost/MultiVendor/shop #ReferrerEnd
@@ -1530,15 +1511,5 @@ UPDATE product_details SET `view_count` = 9 WHERE 1=1  and product_id = '121';
 #Operation : UPDATE #Operationend
 #Message: 
 UPDATE product_details SET `view_count` = 10 WHERE 1=1  and product_id = '121';
-=======
-#Time : 17-01-2023 23:16:22 #Timeend
-#IP : ::1 #IPend
-#Referrer : http://localhost/EthnicWear/shop #ReferrerEnd
-#Current URL: http://localhost/EthnicWear/product-detail/yellow-zari-pure-silk-banarasi-saree-yellow-vnky8c75-134 #CurrentURLEnd
-#Request : [] #Requestend
-#Operation : UPDATE #Operationend
-#Message: 
-UPDATE product_details SET `view_count` = 1 WHERE 1=1  and product_id = '134';
->>>>>>> 9795ab0e2e476bfd69c12a09ab4182d7fa5c4612
 #End*******************************************************************************************************
 

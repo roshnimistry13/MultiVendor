@@ -598,16 +598,6 @@ class Master_m extends CI_Model{
 		return $query->result_array();
 	}
 
-	/*** FETCH CART ITEM DETAIL SET IN COOKIES*/
-	public function getCookieItemDetail($product_id){
-		$this->db->select('p.*,ca.return_or_replace,ca.return_replace_validity,v.name as vendor_name');
-		$this->db->from('product_details p');
-		$this->db->join('category ca','ca.category_id = p.category_id');
-		$this->db->join('vendor v','v.vendor_id = p.vendor_id');
-		$this->db->where('p.product_id',$product_id);
-		$query = $this->db->get()->result_array();
-		return $query;
-	}
 	/*** generate New Order number */
 	public function getLatestOrderNumber(){
 		$this->db->select('max(order_id) as orderid');
@@ -855,8 +845,7 @@ class Master_m extends CI_Model{
 			$query = $this->db->query($query1 . ' UNION ALL ' . $query2 .' '. $sort_by );
 		}		  
 		
-		$result = $query->result_array();
-		// echo $this->db->last_query();die;	
+		$result = $query->result_array();	
 		
 		return $result;
 	}
@@ -939,15 +928,13 @@ class Master_m extends CI_Model{
 						$whr['attributes_id'] 	= $attr;
 						$attr_res 				= $this->where('attributes',$whr);
 						$attr_name 				= $attr_res[0]['attributes_name'];
-						$attr_code 				= $attr_res[0]['attribute_code']; 
 						// $attr_arr[] 			= $attr_name;	
 						
 						$attr_arr[$attr_name]['element_id'] 		= $element_id;
 						$attr_arr[$attr_name]['attr_id'] 			= $attr;				
-						$attr_arr[$attr_name]['attr_code'] 			= $attr_code;				
 						$attr_arr[$attr_name]['p_id'][] 			= $product_id;
 						$attr_arr[$attr_name]['enable'] 			= 'enable'; 
-						$attr_arr[$attr_name]['is_selected'] 		= 'active';															
+						$attr_arr[$attr_name]['is_selected'] 		= 'is-selected';															
 					}					
 				}
 				
@@ -958,23 +945,6 @@ class Master_m extends CI_Model{
 		return $elements;
 	}
 
-	/**** GET ELEMENT ATTRIBUTE OF SINGLE PRODUCT IN JSON STRING FORMATE*/
-	public function getElememtAttributeForSingleProduct($product_id){
-		$this->db->select('pea.element_id,pea.attributes_id');
-		$this->db->from('product_elements_attributes pea');
-		$this->db->where('pea.product_id', $product_id);
-		$query		= $this->db->get()->result_array();
-		$eleattr 	= array();
-		if(!empty($query)){
-			foreach($query as $row){
-				$element_id 			= $row['element_id'];
-				$attributes_id 			= $row['attributes_id'];
-				$eleattr[$element_id] 	= $attributes_id;
-			}
-		}
-		return json_encode($eleattr,true);
-	}
-	
 	public function getProductVariants($product_id){
 
 		$this->db->select('pea.element_id,pea.attributes_id,pe.element_name,pe.element_id');
@@ -1233,16 +1203,16 @@ class Master_m extends CI_Model{
 		return $query;
 	}
 	
-	// /*** FETCH CART ITEM DETAIL SET IN COOKIES*/
-	// public function getCookieItemDetail($product_id){
-	// 	$this->db->select('p.*,ca.return_or_replace,ca.return_replace_validity,v.name as vendor_name');
-	// 	$this->db->from('product_details p');
-	// 	$this->db->join('category ca','ca.category_id = p.category_id');
-	// 	$this->db->join('vendor v','v.vendor_id = p.vendor_id');
-	// 	$this->db->where('p.product_id',$product_id);
-	// 	$query = $this->db->get()->result_array();
-	// 	return $query;
-	// }
+	/*** FETCH CART ITEM DETAIL SET IN COOKIES*/
+	public function getCookieItemDetail($product_id){
+		$this->db->select('p.*,ca.return_or_replace,ca.return_replace_validity,v.name as vendor_name');
+		$this->db->from('product_details p');
+		$this->db->join('category ca','ca.category_id = p.category_id');
+		$this->db->join('vendor v','v.vendor_id = p.vendor_id');
+		$this->db->where('p.product_id',$product_id);
+		$query = $this->db->get()->result_array();
+		return $query;
+	}
 
 	/*** UI : PLACE ORDER */
 	public function addOrder($customer_id){
@@ -2037,7 +2007,6 @@ class Master_m extends CI_Model{
 		if($category_id != "" || $category_id != null){
 			$this->db->select('product_id');
 			$this->db->from('product_details');
-			$this->db->where("is_active",1);
 			$this->db->group_start();
 			$this->db->where("category_id", $category_id);
    			$this->db->or_where("child_category", $category_id);
@@ -2107,7 +2076,6 @@ class Master_m extends CI_Model{
 		$txt_phone_no 		= $this->input->post('txt_phone_no');
 		$product_id 		= $this->input->post('txt_product_id');
 		$order_id 			= $this->input->post('txt_order_id');
-		$request_type 		= $this->input->post('request_type');
 
 		$cond['order_id'] 		= $order_id;
 		$cond['product_id'] 	= $product_id;
@@ -2129,7 +2097,7 @@ class Master_m extends CI_Model{
 			$bank_dtail['account_name'] = $txt_account_name;
 			$bank_dtail['phone_no'] 	= $txt_phone_no;
 
-			$insertdata['request_type'] 		= $request_type;
+			$insertdata['request_type'] 		= "return";
 			$insertdata['customer_id'] 			= $customer_id;
 			$insertdata['order_id']				= $order_id;
 			$insertdata['order_no']				= $order_no;
@@ -2169,7 +2137,6 @@ class Master_m extends CI_Model{
 		$txtcoment 			= $this->input->post('txtcoment');
 		$product_id 		= $this->input->post('txt_product_id');
 		$order_id 			= $this->input->post('txt_order_id');
-		$request_type 		= $this->input->post('request_type');
 
 		$cond['order_id'] 		= $order_id;
 		$cond['product_id'] 	= $product_id;
@@ -2184,7 +2151,7 @@ class Master_m extends CI_Model{
 			$order_date 			= $res[0]['order_date'];
 			$shipping_address 		= $res[0]['shipping_address'];
 
-			$insertdata['request_type'] 		= $request_type;
+			$insertdata['request_type'] 		= "replace";
 			$insertdata['customer_id'] 			= $customer_id;
 			$insertdata['order_id']				= $order_id;
 			$insertdata['order_no']				= $order_no;
@@ -3184,22 +3151,22 @@ class Master_m extends CI_Model{
 		return true;
 	}
 
-	// /**** GET ELEMENT ATTRIBUTE OF SINGLE PRODUCT IN JSON STRING FORMATE*/
-	// public function getElememtAttributeForSingleProduct($product_id){
-	// 	$this->db->select('pea.element_id,pea.attributes_id');
-	// 	$this->db->from('product_elements_attributes pea');
-	// 	$this->db->where('pea.product_id', $product_id);
-	// 	$query		= $this->db->get()->result_array();
-	// 	$eleattr 	= array();
-	// 	if(!empty($query)){
-	// 		foreach($query as $row){
-	// 			$element_id 			= $row['element_id'];
-	// 			$attributes_id 			= $row['attributes_id'];
-	// 			$eleattr[$element_id] 	= $attributes_id;
-	// 		}
-	// 	}
-	// 	return json_encode($eleattr,true);
-	// }
+	/**** GET ELEMENT ATTRIBUTE OF SINGLE PRODUCT IN JSON STRING FORMATE*/
+	public function getElememtAttributeForSingleProduct($product_id){
+		$this->db->select('pea.element_id,pea.attributes_id');
+		$this->db->from('product_elements_attributes pea');
+		$this->db->where('pea.product_id', $product_id);
+		$query		= $this->db->get()->result_array();
+		$eleattr 	= array();
+		if(!empty($query)){
+			foreach($query as $row){
+				$element_id 			= $row['element_id'];
+				$attributes_id 			= $row['attributes_id'];
+				$eleattr[$element_id] 	= $attributes_id;
+			}
+		}
+		return json_encode($eleattr,true);
+	}
 
 	public function getvariantproductBYeleattrApi($data)
 	{
