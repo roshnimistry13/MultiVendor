@@ -1,0 +1,1 @@
+"2023-01-31 00:27:44am "," update "," UPDATE product_details SET `view_count` = 36 WHERE 1=1  and product_id = '129' "," ::1 "," URL: http://localhost/MultiVendor/product-detail/boys-pack-of-3-mickey-mouse-donald-duck-goofy-printed-t-shirts-4y-5y-vnky8c75-129 "," R: http://localhost/MultiVendor/shop"

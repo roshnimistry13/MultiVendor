@@ -1674,16 +1674,7 @@ class Master_m extends CI_Model{
 												DOB734-346593
 											</span>
 										</td>
-									</tr>
-									<tr>
-										<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:15px;"
-											align="right">
-											Invoice Details:
-											<span style="font-weight:300; font-size:11px;">
-												DOB734-346593
-											</span>
-										</td>
-									</tr>
+									</tr>									
 									<tr>
 										<td style="font-family:Verdana, Geneva, sans-serif; font-weight:600; font-size:15px;"
 											align="right">
